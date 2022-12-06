@@ -12,7 +12,6 @@ export * from "./components/controls/time-slider";
 export * from "./components/controls/switch";
 export * from "./components/controls/radio-buttons";
 export * from "./components/controls/select";
-export * from "./components/controls/scrolling-select";
 export * from "./components/controls/checkbox-with-image";
 
 export * from "./components/containers/labeled-container";
@@ -20,10 +19,6 @@ export * from "./components/containers/labeled-container";
 export * from "./components/table/table";
 
 export * from "./components/bar-graph/bar-graph";
-
-export * from "./drag-and-drop/dnd-context-with-click-to-drag";
-export * from "./drag-and-drop/draggable";
-export * from "./drag-and-drop/hooks";
 
 export * from "./hooks/use-model-state";
 export * from "./hooks/use-model-table";
