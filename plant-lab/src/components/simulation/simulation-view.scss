@@ -1,0 +1,120 @@
+@import "common/src/vars.scss";
+
+.simulationView {
+  position: relative;
+  box-sizing: border-box;
+  width: 480px;
+  height: 265px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 2px solid $bluePrimary;
+  background-color: #fff;
+
+  .dot {
+    position: absolute;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: $bluePrimary;
+    border-radius: 10px;
+  }
+
+  .terrariumBackGround{
+    position: absolute;
+    top: 0px;
+    width:100%;
+    background-color:#D5C7E0;
+    height:61%;
+    z-index:0;
+  }
+  .terrariumBackTable{
+    position: absolute;
+    bottom: 0px;
+    height:39%;
+    width:100%;
+    background-color: #c48787;
+    z-index:0;
+  }
+
+  .terrarium{
+    position: absolute;
+    right: 56px;
+    bottom: 15px;
+    width: 366px;
+    height: 238px;
+
+    .terrariumBack{
+      background-image: url("../../assets/terrarium-back.png");
+      position: absolute;
+      width: 366px;
+      height: 238px;
+      z-index: 1;
+    }
+    //plant roots have z index 2
+    .terrariumWater{
+      background-image: url("../../assets/terrarium-water.png");
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 366px;
+      height: 238px;
+      z-index: 3;
+    }
+    .terrariumSoilDry{
+      background-image: url("../../assets/terrarium-soil-dry.png");
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 366px;
+      height: 238px;
+      z-index: 3;
+    }
+    .terrariumSoilWet{
+      background-image: url("../../assets/terrarium-soil-wet.png");
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 366px;
+      height: 238px;
+      z-index: 3;
+    }
+    //plant top has z-index 4
+    .co2Label{
+      background-color: white;
+      position: absolute;
+      left: 25px;
+      top: 50px;
+      height:23px;
+      width:100px;
+      z-index: 5;
+      border-radius: 20px;
+      border: 2px solid $bluePrimary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .co2LabelText{
+        font-weight: 500;
+        font-size: 14px;
+        color: $bluePrimary;
+      }
+    }
+    .terrariumFrontGlass{
+      background-image: url("../../assets/terrarium-front-glass.png");
+      position: absolute;
+      right: 0px;
+      bottom: 0px;
+      width: 366px;
+      height: 238px;
+      z-index: 6;
+    }
+    .lightLayer{
+      background-image: url("../../assets/light.png");
+      position: absolute;
+      right: -56px;
+      top: -8px;
+      width: 480px;
+      height: 265px;
+      z-index: 7;
+    }
+  }
+}

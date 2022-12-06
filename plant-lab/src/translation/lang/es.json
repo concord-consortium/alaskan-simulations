@@ -1,0 +1,30 @@
+{
+  "SIMULATION.TITLE": "Laboratorio de plantas",
+  "SIMULATION.TIME": "Tiempo: %{days} días",
+  "TABLE_HEADER.CHANGEINMASS": "Cantidad de materia",
+  "TABLE_HEADER.STARTING_CONDITIONS": "Condiciones iniciales",
+  "TABLE_HEADER.SOIL": "Suelo",
+  "TABLE_HEADER.WATER": "Agua",
+  "TABLE_HEADER.PLANTS": "Plantas",
+  "TABLE_HEADER_KEY.KEY": "Clave:",
+  "TABLE_HEADER_KEY.INCREASE": "Aumentar",
+  "TABLE_HEADER_KEY.DECREASE": "Disminuir",
+  "TABLE_ENTRY.YES": "sí",
+  "TABLE_ENTRY.NO": "no",
+
+  "LABEL.NO_CHANGE": "sin cambios",
+
+  "SETUP_HEADER_TITLE1": "Cantidad de ",
+  "SETUP_HEADER_TITLE2": " en el aire",
+
+  "CO2_AMOUNT.NONE": "nada",
+  "CO2_AMOUNT.NO": "no hay",
+  "CO2_AMOUNT.LOW": "bajo",
+  "CO2_AMOUNT.NORMAL": "normal",
+
+  "TERRARIUM": "Terrario",
+  "SETUP_TERRARIUM": "Preparar el terrario",
+  "GRAPH.Y_AXIS": "Cambio de materia",
+  "GRAPH.TITLE": "Cambio en la materia después de",
+  "GRAPH.TITLE.DAYS": "días"
+}

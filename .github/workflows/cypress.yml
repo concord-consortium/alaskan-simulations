@@ -1,0 +1,79 @@
+name: Cypress Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch on which to run the tests
+        default: main
+        required: true
+      sim:
+        description: Sim to test - all, erosion
+        default: starter
+        required: true
+
+jobs:
+  test-sim:
+    name: Cypress Tests for single sim
+    if: github.event.inputs.sim != 'all'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Dependencies
+        run: npm install
+        with:
+          sim-folder: ${{ github.event.inputs.sim }}
+      - name: Build
+        run: npm run build
+        with:
+          sim-folder: ${{ github.event.inputs.sim }}
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v4
+        with:
+          install: false
+          start: npm start
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 300
+          working-directory: ${{ github.event.inputs.sim }}
+        env:
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  test-all:
+    name: Cypress Tests for All Sims
+    if: github.event.inputs.sim == 'all'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - SIM_FOLDER: "erosion"
+            RECORD_KEY: "EROSION_RECORD_KEY"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install Dependencies
+        run: npm install
+        with:
+          sim-folder: ${{ matrix.SIM_FOLDER }}
+      - name: Build
+        run: npm run build
+        with:
+          sim-folder: ${{ matrix.SIM_FOLDER }}
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v4
+        with:
+          install: false
+          start: yarn start
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 300
+          working-directory: ${{ matrix.SIM_FOLDER }}
+          # only record the results to dashboard.cypress.io if RECORD_KEY is set
+          record: ${{ !!secrets[matrix.RECORD_KEY] }}
+          # upload videos for failing specs
+          config: video=true,videoUploadOnPasses=false
+        env:
+          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets[matrix.RECORD_KEY] }}

@@ -1,0 +1,114 @@
+@import "../../vars.scss";
+
+.checkboxWithImage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+
+  &:hover:not(.disabled) {
+    .bottomContainer .buttonContainer .innerButton {
+      .checkmarkOn, .checkmarkOff {
+        opacity: 0.5;
+        &.purple {
+          :global(.checked){
+            fill: $purpleAccent !important;
+          }
+        }
+      }
+      .checkmarkOff {
+        display: block;
+      }
+      border: 2px solid rgba($purpleAccent, 0.5);
+    }
+    //Image - when we hover we show urlImageOn(wrapped by urlImageOnHover)
+    //and remove urlImageOff(wrapped by urlImageRemoveHover)
+    .imageContainer .urlImageOnHover {
+      display: block;
+    }
+    .imageContainer .urlImageRemoveHover {
+      display: none;
+    }
+  }
+
+  .label {
+    text-align:center;
+    color: $purpleAccent !important;
+    font-family: $fontFamilyRoboto;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+
+    &.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+  }
+
+  .imageContainer {
+    .urlImageOnHover {
+      display: none;
+    }
+
+    .urlImageRemoveHover {
+      display: block;
+    }
+
+    &.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+  }
+
+  .bottomContainer {
+    display: flex;
+    justify-content: center;
+
+    .buttonContainer {
+      cursor: pointer;
+      color: $purpleAccent;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .innerButton {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 23px;
+        height: 23px;
+        background-color: #fff;
+        border-radius: 5px;
+        border: 2px solid $purpleAccent;
+
+        .checkmarkOn {
+          display: block;
+
+          &.purple {
+            :global(.checked){
+              fill: $purpleAccent !important;
+            }
+          }
+        }
+
+        .checkmarkOff {
+          display: none;
+        }
+      }
+    }
+  }
+}

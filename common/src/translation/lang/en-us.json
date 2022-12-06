@@ -1,0 +1,19 @@
+{
+  "TABLE.TITLE": "Trials: Data",
+  "TABLE.DELETE_TRIAL": "Delete trial",
+  "TABLE.CLEAR": "Clear table",
+  "TABLE.TWO_ROWS_ALERT": "You can select only two rows",
+  "BUTTON.NEW": "New",
+  "BUTTON.TRIAL": "Trial",
+  "BUTTON.PLAY": "Play",
+  "CREDITS.HEADER": "Credits",
+  "CREDITS.TITLE": "Full Option Science System",
+  "CREDITS.DEVELOPED_AT": "Developed at:",
+  "CREDITS.PUBLISHED_BY": "Published and Distributed by:",
+  "CREDITS.DEVELOPED_BY": "Developed in partnership with:",
+  "CREDITS.THE_LAWRENCE_HALL_OF_SCIENCE": "The Lawrence Hall of Science",
+  "CREDITS.DELTA_EDUCATION": "Delta Education",
+  "CREDITS.SCHOOL_SPECIALTY": "School Specialty",
+  "CREDITS.THE_CONCORD_CONSORTIUM": "The Concord Consortium",
+  "INSTRUCTIONS.HEADER": "Activity Instructions"
+}

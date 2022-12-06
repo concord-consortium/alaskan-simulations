@@ -1,0 +1,59 @@
+@import "common/src/vars.scss";
+
+.scrollingSelect {
+  display: flex;
+  box-sizing: border-box;
+  color: $purpleAccent;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  height: 40px;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  .selector {
+    background-color: white;
+    border: 3px solid $purpleAccent;
+    width: 35px;
+    cursor: pointer;
+
+    &.left {
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+    }
+    &.right {
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+    }
+
+    svg {
+      transform: scale(0.9);
+      margin-top: -3px;
+      margin-left: -3px;
+    }
+
+    &:hover {
+      background-color: $purpleTint25;
+    }
+
+    &:active {
+      background-color: $purpleAccent;
+
+      path {
+        fill: white;
+      }
+    }
+  }
+
+  .value {
+    background-color: white;
+    min-width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid $purpleAccent;
+  }
+}

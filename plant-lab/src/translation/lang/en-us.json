@@ -1,0 +1,30 @@
+{
+  "SIMULATION.TITLE": "Plant Lab",
+  "SIMULATION.TIME": "Time: %{days} days",
+  "TABLE_HEADER.CHANGEINMASS": "Amount of Matter",
+  "TABLE_HEADER.STARTING_CONDITIONS": "Starting Conditions",
+  "TABLE_HEADER.SOIL": "Soil",
+  "TABLE_HEADER.WATER": "Water",
+  "TABLE_HEADER.PLANTS": "Plants",
+  "TABLE_HEADER_KEY.KEY": "Key:",
+  "TABLE_HEADER_KEY.INCREASE": "Increase",
+  "TABLE_HEADER_KEY.DECREASE": "Decrease",
+  "TABLE_ENTRY.YES": "yes",
+  "TABLE_ENTRY.NO": "no",
+
+  "LABEL.NO_CHANGE": "no change",
+
+  "SETUP_HEADER_TITLE1": "Amount of ",
+  "SETUP_HEADER_TITLE2": " in the Air",
+
+  "CO2_AMOUNT.NONE": "none",
+  "CO2_AMOUNT.NO": "no",
+  "CO2_AMOUNT.LOW": "low",
+  "CO2_AMOUNT.NORMAL": "normal",
+
+  "TERRARIUM": "Terrarium",
+  "SETUP_TERRARIUM": "Set up terrarium",
+  "GRAPH.Y_AXIS": "Matter Change",
+  "GRAPH.TITLE": "Change in Matter after",
+  "GRAPH.TITLE.DAYS": "Days"
+}

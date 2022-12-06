@@ -1,0 +1,15 @@
+coverage
+dist
+node_modules
+npm-error.log
+.DS_Store
+lerna-debug.log
+
+# Editors
+.idea
+
+# Cypress failed tests
+cypress/screenshots
+
+# temp files
+temp/
