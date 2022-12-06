@@ -1,0 +1,133 @@
+@import "../common/vars.scss";
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  .simulationContainer {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 50%;
+    height: 100%;
+
+    .controls {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 7px 0;
+      margin-top: 5px;
+
+      .group {
+        margin-left: 10px;
+        white-space: nowrap;
+        & > * + * {
+          margin-left: 16px;
+        }
+      }
+
+      .grow {
+        margin-right:10px;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+      }
+
+      .timeSliderContainer {
+        width: 250px;
+      }
+    }
+  }
+
+  .tableContainer {
+    box-sizing: border-box;
+    width: 480px;
+    height: 325px;
+    margin-left:10px;
+    margin-top: 10px;
+    border-radius: 0 0 $frameBorderRadius 0;
+    .table-header{
+      position: relative;
+      background-color: green;
+    }
+
+    .key {
+      background-color: $lightBlueTint25;
+      border-radius: 10px;
+      height: 34px;
+      display: flex;
+      gap: 10px;
+      font-weight: normal;
+      font-size: 14px;
+      padding: 0 10px;
+
+      .keyTitleContainer{
+        display: flex;
+        align-items: center;
+      }
+      .upArrowContainer{
+        display: flex;
+        align-items: center;
+
+        .upArrowImg{
+          margin-left: -3px;
+        }
+        .upArrowTitle{
+          color: black;
+          margin-left: 3px;
+        }
+      }
+      .downArrowContainer{
+        display: flex;
+        align-items: center;
+
+        .downArrowTitle{
+          color: black;
+          margin-left: 3px;
+        }
+      }
+    }
+
+    //Cell Arrows
+    .cellDownArrow1{
+      background-image: url("../assets/arrow-decrease@2x.png");
+      width: 32px;
+      height: 52px;
+      transform: scale(0.5);
+    }
+    .cellDownArrowHalf{
+      background-image: url("../assets/arrow-decrease-partial@2x.png");
+      width: 32px;
+      height: 52px;
+      transform: scale(0.5);
+
+    }
+    .cellUpArrow1{
+      background-image: url("../assets/arrow-increase@2x.png");
+      width: 32px;
+      height: 52px;
+      transform: scale(0.5);
+    }
+    .cellUpArrowHalf{
+      background-image: url("../assets/arrow-increase-partial@2x.png");
+      width: 32px;
+      height: 52px;
+      transform: scale(0.5);
+    }
+    .flexContainer {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .barGraphContainer{
+    display: flex;
+    .marginBlock{
+      width: 10px;
+      height: 180px;
+    }
+  }
+
+  .barGraphScaleArrow{
+    height: 18px;
+  }
+}
