@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./components/app";
-import { setDefaultLanguage, setLanguageFiles  } from "./translation/translate";
+import { App } from "./interactive/app";
+import { setDefaultLanguage, setLanguageFiles  } from "./app/translation/translate";
 import { config } from "./config";
-import enUS from "./translation/lang/en-us.json";
-import es from "./translation/lang/es.json";
+import enUS from "./app/translation/lang/en-us.json";
+import es from "./app/translation/lang/es.json";
 
 import "./index.scss";
 

@@ -6,7 +6,11 @@ import { t } from "../translation/translate";
 describe("App component", () => {
   it("renders simulation frame and title", () => {
     render(
-      <App />
+      <App
+        interactiveState={null}
+        authoredState={null}
+        setInteractiveState={null}
+      />
     );
     expect(screen.getByTestId("simulation-frame")).toBeInTheDocument();
     expect(screen.getByTestId("simulation-frame")).toHaveTextContent(t("SIMULATION.TITLE"));

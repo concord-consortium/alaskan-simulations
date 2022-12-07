@@ -1,3 +1,6 @@
+export interface IAuthoredState {}
+export interface IInteractiveState {}
+
 export enum Container {
   Glass = "CONTAINER.GLASS",
   Mesh = "CONTAINER.MESH"

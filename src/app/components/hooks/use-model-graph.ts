@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { GraphDatasetStyle, IBarGraphProps } from "../components/bar-graph/bar-graph";
-import { SelectedRows, SelectedRowStyleName } from "../components/table/table";
+import { GraphDatasetStyle, IBarGraphProps } from "../bar-graph/bar-graph";
+import { SelectedRows, SelectedRowStyleName } from "../table/table";
 import { IUseModelStateResult } from "./use-model-state";
 
 export interface IUseModelGraphOptions<IModelInputState, IModelOutputState> {

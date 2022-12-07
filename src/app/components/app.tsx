@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { Column } from "react-table";
-import { useModelState } from "../hooks/use-model-state";
-import { useSimulationRunner } from "../hooks/use-simulation-runner";
-import { useModelTable } from "../hooks/use-model-table";
-import { useModelGraph } from "../hooks/use-model-graph";
+import { useModelState } from "./hooks/use-model-state";
+import { useSimulationRunner } from "./hooks/use-simulation-runner";
+import { useModelTable } from "./hooks/use-model-table";
+import { useModelGraph } from "./hooks/use-model-graph";
 import { BarGraph } from "./bar-graph/bar-graph";
 import { t, getDefaultLanguage } from "../translation/translate";
 import { noToNoneCO2Amount, SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount } from "../types";
-import { Model } from "../model";
+import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState } from "../../types";
+import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { GraphTitle } from "./graph-title";
 import UpArrow from "../assets/arrow-increase.png";
@@ -23,6 +23,7 @@ import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
+import { UpdateFunc } from "@concord-consortium/lara-interactive-api";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -45,7 +46,13 @@ const columnsMeta: IColumnMeta[] = [
   { numeric: false },
 ];
 
-export const App: React.FC = () => {
+interface IAppProps {
+  interactiveState: IInteractiveState|null;
+  setInteractiveState:((stateOrUpdateFunc: IInteractiveState | UpdateFunc<IInteractiveState> | null) => void)|null;
+  authoredState: IAuthoredState|null;
+}
+
+export const App = (props: IAppProps) => {
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
