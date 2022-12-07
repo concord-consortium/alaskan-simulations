@@ -1,4 +1,4 @@
-import { t } from "./common";
+import { t } from "./translation/translate";
 import { CO2Amount, IModelInputState, IPlantChange } from "./types";
 
 const DOUBLE_DASH = "--";

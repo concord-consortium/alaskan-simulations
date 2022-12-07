@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { Dialog } from "./dialog";
-import { t } from "../..";
+import { t } from "../../translation/translate";
 
 import css from "./credits.scss";
 

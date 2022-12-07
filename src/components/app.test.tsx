@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { App } from "./app";
-import { t } from "../common";
+import { t } from "../translation/translate";
 
 describe("App component", () => {
   it("renders simulation frame and title", () => {

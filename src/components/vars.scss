@@ -1,9 +1,33 @@
-// If TS file needs to have an access to a CSS variable, it can be exported:
-// $plot-width: 200px;
-// :export {
-//   plotWidth: $plot-width;
-// }
-// Then, it can be accessed in the TS file:
-// import vars from "./vars.scss"
-// (...)
-// setButtonWidth(vars.plotWidth);
+$bluePrimary: #005f99;
+$bluePrimaryTint50: #7fafcc;
+$blueAccent: #01ace4;
+$lightBlueAccent: #70cfef;
+$lightBlueTint10: #f0fafd;
+$lightBlueTint18: #e5f6fc;
+$lightBlueTint25: #dbf3fb;
+$lightBlueTint50: #7fafcc;
+$gray5: #f2f2f2;
+$purpleTint: #e0d3e8;
+$purpleTint10: #f8f6fa;
+$purpleTint25: #f0e9f4;
+$purpleTint50: #e0d3e8;
+$purpleAccent: #4e2c82;
+$orangeAccent: #eb6d00;
+$orangeTint50: #f5b67f;
+$greenAccent: #00a39e;
+$greenTint50: #7fd1ce;
+$darkGreenAccent: #004d4b;
+$darkGreenTint50: #7fa6a5;
+
+
+$black: #000;
+$white: #fff;
+
+$frameBorderRadius: 15px;
+$focusOutline: 4px solid $lightBlueAccent;
+
+$fontFamilyRoboto: 'Roboto', sans-serif;
+$fontFamilyRobotoCondensed: 'Roboto Condensed', sans-serif;
+
+$cellHorizontalPadding: 7px;
+$cellVerticalPadding: 5px;

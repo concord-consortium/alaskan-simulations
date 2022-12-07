@@ -4,7 +4,7 @@ import clsx from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 
 import { Dialog } from "./dialog";
-import { t } from "../..";
+import { t } from "../../translation/translate";
 import Logo from "../../assets/logo.svg";
 import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";

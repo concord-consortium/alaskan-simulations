@@ -1,5 +1,5 @@
 import React from "react";
-import {t} from "../common";
+import {t} from "../translation/translate";
 import css from "./graph-title.scss";
 
 interface IProps {

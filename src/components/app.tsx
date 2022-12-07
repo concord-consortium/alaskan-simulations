@@ -1,9 +1,11 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { Column } from "react-table";
-import {
-  SimulationFrame, NewRunButton, t, PlayButton, Table, IColumnMeta, useModelTable,
-  useSimulationRunner, useModelState, TimeSlider, useModelGraph, BarGraph, getDefaultLanguage
-} from "../common";
+import { useModelState } from "../hooks/use-model-state";
+import { useSimulationRunner } from "../hooks/use-simulation-runner";
+import { useModelTable } from "../hooks/use-model-table";
+import { useModelGraph } from "../hooks/use-model-graph";
+import { BarGraph } from "./bar-graph/bar-graph";
+import { t, getDefaultLanguage } from "../translation/translate";
 import { noToNoneCO2Amount, SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount } from "../types";
 import { Model } from "../model";
@@ -16,6 +18,11 @@ import { linearMap } from "../utils/sim-utils";
 
 import css from "./app.scss";
 import clsx from "clsx";
+import { IColumnMeta, Table } from "./table/table";
+import { SimulationFrame } from "./simulation-frame/simulation-frame";
+import { NewRunButton } from "./controls/new-run-button";
+import { PlayButton } from "./controls/play-button";
+import { TimeSlider } from "./controls/time-slider";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;

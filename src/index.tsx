@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./components/app";
-import { setDefaultLanguage, setLanguageFiles  } from "./common";
+import { setDefaultLanguage, setLanguageFiles  } from "./translation/translate";
 import { config } from "./config";
 import enUS from "./translation/lang/en-us.json";
 import es from "./translation/lang/es.json";

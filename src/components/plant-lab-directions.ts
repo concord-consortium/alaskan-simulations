@@ -1,12 +1,12 @@
 
 
-import PlayButton from "../common/assets/snapshots-directions/instructions-play-button@3x.png";
-import EnglishNewTrialButton from "../common/assets/snapshots-directions/instructions-new-trial-button@3x.png";
-import SpanishNewTrialButton from "../common/assets/snapshots-directions/instructions-new-trial-button-es@3x.png";
-import BarChartButton from "../common/assets/snapshots-directions/instructions-bar-chart-button@3x.png";
-import GreenBarChartButton from "../common/assets/snapshots-directions/instructions-bar-chart-button-green@3x.png";
-import OrangeBarChartButton from "../common/assets/snapshots-directions/instructions-bar-chart-button-orange@3x.png";
-import { getDefaultLanguage } from "../common";
+import PlayButton from "../assets/snapshots-directions/instructions-play-button@3x.png";
+import EnglishNewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
+import SpanishNewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button-es@3x.png";
+import BarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button@3x.png";
+import GreenBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-green@3x.png";
+import OrangeBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-orange@3x.png";
+import { getDefaultLanguage } from "../translation/translate";
 
 const englishMarkdown = `
 # Running a trial

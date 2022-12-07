@@ -1,6 +1,6 @@
 import React, { useEffect, KeyboardEvent, useRef, useMemo } from "react";
 import { useTable, useSortBy, Row, Column } from "react-table";
-import { t } from "../..";
+import { t } from "../../translation/translate";
 import clsx from "clsx";
 import DeleteIcon from "../../assets/delete-icon.svg";
 import BarChartIcon from "../../assets/bar-chart-icon.svg";

@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
-import { LabeledContainer, t, RadioButtons, getDefaultLanguage} from "../common";
+import { t, getDefaultLanguage} from "../translation/translate";
 import { CO2Amount, IModelInputState} from "../types";
-import {CheckboxWithImage} from "../common/components/controls/checkbox-with-image";
+import {CheckboxWithImage} from "../components/controls/checkbox-with-image";
 import soilOff from "../assets/soil.png";
 import soilOn from "../assets/soil-with-highlight.png";
 import waterOff from "../assets/water.png";
@@ -10,6 +10,8 @@ import clsx from "clsx";
 
 
 import css from "./options-view.scss";
+import { LabeledContainer } from "./containers/labeled-container";
+import { RadioButtons } from "./controls/radio-buttons";
 
 interface IProps {
   inputState: IModelInputState,

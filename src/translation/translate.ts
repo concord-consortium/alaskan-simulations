@@ -85,7 +85,7 @@ interface ITranslateOptions {
   vars?: Record<string, string>;
 }
 
-export function translate (key: string, options?: ITranslateOptions) {
+export function t (key: string, options?: ITranslateOptions) {
   const lang = options?.lang || defaultLang;
   const vars = options?.vars || {};
   const count = options?.count || 1;

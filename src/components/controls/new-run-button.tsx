@@ -1,5 +1,5 @@
 import React from "react";
-import { t } from "../..";
+import { t } from "../../translation/translate";
 import { Button } from "./button";
 import AddIcon from "../../assets/add-icon.svg";
 
