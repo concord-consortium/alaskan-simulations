@@ -168,7 +168,10 @@ module.exports = (env, argv) => {
         filename: 'index-top.html',
         template: 'src/index.html',
         favicon: 'src/public/favicon.ico',
-        publicPath: DEPLOY_PATH
+        publicPath: DEPLOY_PATH,
+        templateParameters: {
+          language: 'en'
+        },
       })] : []),
       new CleanWebpackPlugin(),
     ]
