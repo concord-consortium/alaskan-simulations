@@ -39,4 +39,4 @@ jobs:
           # be used. Instead the `|` turns the following lines into a string
           # Change this to `master` or `main` before merging
           topBranches: |
-            ["main"]
+            ["support-top-leve-index"]
