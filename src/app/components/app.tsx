@@ -23,7 +23,6 @@ import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
-import { UpdateFunc } from "@concord-consortium/lara-interactive-api";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -48,7 +47,7 @@ const columnsMeta: IColumnMeta[] = [
 
 interface IAppProps {
   interactiveState: IInteractiveState|null;
-  setInteractiveState:((stateOrUpdateFunc: IInteractiveState | UpdateFunc<IInteractiveState> | null) => void)|null;
+  setInteractiveState: ((stateOrUpdateFunc: IInteractiveState | ((prevState: IInteractiveState | null) => IInteractiveState) | null) => void)|null;
   authoredState: IAuthoredState|null;
 }
 

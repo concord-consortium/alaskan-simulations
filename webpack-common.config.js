@@ -17,7 +17,7 @@ const DEPLOY_PATH = process.env.DEPLOY_PATH;
 // build-info.json is generated in the root build step but not in the individual sim build steps
 // so it might not exist if the sim build command is used and in that case don't add a zip extension
 let zipExtension = '';
-const buildInfoPath = path.resolve(__dirname, '..', 'dist', "build-info.json");
+const buildInfoPath = path.resolve(__dirname, '.', 'dist', "build-info.json");
 if (fs.existsSync(buildInfoPath)) {
   const buildInfo = require(buildInfoPath);
   if (buildInfo.zipExtension) {
@@ -28,7 +28,7 @@ if (fs.existsSync(buildInfoPath)) {
 module.exports = (env, argv, simulationDirname, customizations) => {
   const devMode = argv.mode !== 'production';
   const simName = path.basename(simulationDirname);
-  const simPath = path.resolve(simulationDirname, '..', 'dist', simName);
+  const simPath = path.resolve(simulationDirname, '.', 'dist', simName);
 
   const common = {
     context: simulationDirname, // to automatically find tsconfig.json
