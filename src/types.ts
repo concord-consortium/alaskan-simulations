@@ -1,5 +1,16 @@
-export interface IAuthoredState {}
-export interface IInteractiveState {}
+export interface IAuthoredState extends IModelInputState {}
+
+export interface IModelRun {
+  inputState: IModelInputState;
+  outputStateSnapshots: IModelOutputState[];
+  isFinished: boolean;
+}
+
+export interface IInteractiveState {
+  inputState: IModelInputState,
+  outputState: IModelOutputState,
+  modelRuns: IModelRun[],
+}
 
 export enum Container {
   Glass = "CONTAINER.GLASS",
@@ -39,3 +50,9 @@ export interface IRowData {
   co2Change: number | string; // for now
   plantChange: IPlantChange; // for now
 }
+
+export const defaultAuthoredState: IAuthoredState = {
+  soil: false,
+  water: false,
+  co2amount: CO2Amount.No,
+};

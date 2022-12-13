@@ -1,13 +1,18 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Column } from "react-table";
-import { useModelState } from "./hooks/use-model-state";
+import { IModelRun, useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
 import { useModelGraph } from "./hooks/use-model-graph";
 import { BarGraph } from "./bar-graph/bar-graph";
+import { IColumnMeta, Table } from "./table/table";
+import { SimulationFrame } from "./simulation-frame/simulation-frame";
+import { NewRunButton } from "./controls/new-run-button";
+import { PlayButton } from "./controls/play-button";
+import { TimeSlider } from "./controls/time-slider";
 import { t, getDefaultLanguage } from "../translation/translate";
 import { noToNoneCO2Amount, SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultAuthoredState } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { GraphTitle } from "./graph-title";
@@ -18,11 +23,6 @@ import { linearMap } from "../utils/sim-utils";
 
 import css from "./app.scss";
 import clsx from "clsx";
-import { IColumnMeta, Table } from "./table/table";
-import { SimulationFrame } from "./simulation-frame/simulation-frame";
-import { NewRunButton } from "./controls/new-run-button";
-import { PlayButton } from "./controls/play-button";
-import { TimeSlider } from "./controls/time-slider";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -47,11 +47,12 @@ const columnsMeta: IColumnMeta[] = [
 
 interface IAppProps {
   interactiveState: IInteractiveState|null;
-  setInteractiveState: ((stateOrUpdateFunc: IInteractiveState | ((prevState: IInteractiveState | null) => IInteractiveState) | null) => void)|null;
+  setInteractiveState: ((stateOrUpdateFunc: IInteractiveState | ((prevState: IInteractiveState | null) => IInteractiveState) | null) => void);
   authoredState: IAuthoredState|null;
 }
 
 export const App = (props: IAppProps) => {
+  const {interactiveState, setInteractiveState, authoredState} = props;
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
@@ -188,12 +189,8 @@ export const App = (props: IAppProps) => {
   const lang = getDefaultLanguage();
 
   const modelState = useModelState<IModelInputState, IModelOutputState>(useMemo(() => ({
-    initialInputState: {
-      soil: false,
-      water: false,
-      co2amount: CO2Amount.No,
-    },
-    initialOutputState: {
+    initialInputState: interactiveState?.inputState || defaultAuthoredState,
+    initialOutputState: interactiveState?.outputState || {
       time: 0,
       soilChange: "--",
       waterMassChange: "--",
@@ -202,15 +199,27 @@ export const App = (props: IAppProps) => {
         change: 0,
         leavesChange: 0
       }
-    }
+    },
+    initialModelRuns: interactiveState?.modelRuns || [],
   }), []));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun
+    setActiveOutputSnapshotIdx, addModelRun, modelRuns
   } = modelState;
+
+  useEffect(() => {
+  }, [interactiveState])
+
+  useEffect(() => {
+    setInteractiveState({
+       inputState: {...inputState},
+       outputState: {...outputState},
+       modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run}})]
+    });
+  }, [inputState, outputState, modelRuns]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
