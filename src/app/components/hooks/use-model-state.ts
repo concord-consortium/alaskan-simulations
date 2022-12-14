@@ -97,11 +97,12 @@ export const useModelState = <IModelInputState, IModelOutputState>(
         // Don't let client update finished run.
         return oldState;
       }
-      const newState = [...oldState];
+      const newState = [...oldState.map((run) => { return {...run.inputState, ...run}})];
       newState[activeRunIdx].inputState = {...newState[activeRunIdx].inputState, ...update};
       return newState;
     });
   }, [activeRunIdx]);
+
 
   const setOutputState = useCallback((update: Partial<IModelOutputState>) => {
     setCurrentOutputState(oldState => ({...oldState, ...update}));
@@ -109,7 +110,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
 
   const snapshotOutputState = useCallback((outputState: IModelOutputState) => {
     setModelRuns(oldState => {
-      const newState = [...oldState];
+      const newState = [...oldState.map((run) => { return {...run.outputStateSnapshots, ...run}})];
       newState[activeRunIdx].outputStateSnapshots = [
         ...newState[activeRunIdx].outputStateSnapshots, outputState
       ];
@@ -198,6 +199,6 @@ export const useModelState = <IModelInputState, IModelOutputState>(
     modelRuns,
     addModelRun,
     removeModelRun,
-    removeAllModelRuns,
+    removeAllModelRuns
   };
 };

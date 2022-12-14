@@ -1,3 +1,5 @@
+import { IRuntimeInteractiveMetadata } from "@concord-consortium/lara-interactive-api";
+
 export interface IAuthoredState extends IModelInputState {}
 
 export interface IModelRun {
@@ -6,7 +8,7 @@ export interface IModelRun {
   isFinished: boolean;
 }
 
-export interface IInteractiveState {
+export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   inputState: IModelInputState,
   outputState: IModelOutputState,
   modelRuns: IModelRun[],

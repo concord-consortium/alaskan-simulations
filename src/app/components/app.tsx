@@ -53,6 +53,22 @@ interface IAppProps {
 
 export const App = (props: IAppProps) => {
   const {interactiveState, setInteractiveState, authoredState} = props;
+
+  const defaultInitialState = {
+    initialInputState: defaultAuthoredState,
+    initialOutputState: {
+      time: 0,
+      soilChange: "--",
+      waterMassChange: "--",
+      co2Change: "--",
+      plantChange: {
+        change: 0,
+        leavesChange: 0
+      }
+    },
+    initialModelRuns: [],
+  }
+
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
@@ -189,19 +205,10 @@ export const App = (props: IAppProps) => {
   const lang = getDefaultLanguage();
 
   const modelState = useModelState<IModelInputState, IModelOutputState>(useMemo(() => ({
-    initialInputState: interactiveState?.inputState || defaultAuthoredState,
-    initialOutputState: interactiveState?.outputState || {
-      time: 0,
-      soilChange: "--",
-      waterMassChange: "--",
-      co2Change: "--",
-      plantChange: {
-        change: 0,
-        leavesChange: 0
-      }
-    },
-    initialModelRuns: interactiveState?.modelRuns || [],
-  }), []));
+    initialInputState: interactiveState?.inputState || defaultInitialState.initialInputState,
+    initialOutputState: interactiveState?.outputState || defaultInitialState.initialOutputState,
+    initialModelRuns: interactiveState?.modelRuns || defaultInitialState.initialModelRuns,
+  }), [interactiveState]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
@@ -211,13 +218,14 @@ export const App = (props: IAppProps) => {
   } = modelState;
 
   useEffect(() => {
-  }, [interactiveState])
-
-  useEffect(() => {
-    setInteractiveState({
-       inputState: {...inputState},
-       outputState: {...outputState},
-       modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run}})]
+    setInteractiveState((prevState) => {
+        return {
+          answerType: "interactive_state",
+          ...prevState,
+          inputState: {...inputState},
+          outputState: {...outputState},
+          modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run}})]
+      }
     });
   }, [inputState, outputState, modelRuns]);
 
