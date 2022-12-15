@@ -67,7 +67,7 @@ export const App = (props: IAppProps) => {
       }
     },
     initialModelRuns: [],
-  }
+  };
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -224,8 +224,8 @@ export const App = (props: IAppProps) => {
           ...prevState,
           inputState: {...inputState},
           outputState: {...outputState},
-          modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run}})]
-      }
+          modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run};})]
+      };
     });
   }, [inputState, outputState, modelRuns]);
 
