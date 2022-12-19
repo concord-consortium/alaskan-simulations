@@ -34,9 +34,8 @@ export enum WaterAmount {
 
 export enum CO2Amount {
   None = "CO2_AMOUNT.NONE",
-  No = "CO2_AMOUNT.NO",
-  Low = "CO2_AMOUNT.LOW",
-  Normal = "CO2_AMOUNT.NORMAL"
+  Some = "CO2_AMOUNT.SOME",
+  Full = "CO2_AMOUNT.FULL"
 }
 
 export interface IPlantChange {
@@ -69,5 +68,5 @@ export interface IRowData {
 export const defaultAuthoredState: IAuthoredState = {
   light: LightAmount.Some,
   water: WaterAmount.Some,
-  co2amount: CO2Amount.No,
+  co2amount: CO2Amount.None,
 };

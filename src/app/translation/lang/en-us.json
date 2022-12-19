@@ -43,9 +43,8 @@
   "WATER_AMOUNT.FULL": "full",
 
   "CO2_AMOUNT.NONE": "none",
-  "CO2_AMOUNT.NO": "no",
-  "CO2_AMOUNT.LOW": "low",
-  "CO2_AMOUNT.NORMAL": "normal",
+  "CO2_AMOUNT.SOME": "some",
+  "CO2_AMOUNT.FULL": "full",
 
   "TERRARIUM": "Terrarium",
   "SETUP_TERRARIUM": "Controls",

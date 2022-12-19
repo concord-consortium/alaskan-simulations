@@ -1,5 +1,5 @@
 import { t } from "../translation/translate";
-import { CO2Amount, IModelInputState, IPlantChange } from "../../types";
+import { CO2Amount, IModelInputState, IPlantChange, LightAmount, WaterAmount } from "../../types";
 
 const DOUBLE_DASH = "--";
 
@@ -36,33 +36,33 @@ export class Model {
   }
 
   private getLightChange(inputs: IModelInputState, index: number) {
-    if (!inputs.light) {
+    if (inputs.light === LightAmount.None) {
       return DOUBLE_DASH;
     }
     return this.getZeroOrNoChange(index);
   }
 
   private getMassWaterChange(inputs: IModelInputState, index: number) {
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return DOUBLE_DASH;
     }
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return this.getZeroOrNoChange(index);
     }
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return this.getSlowChange(index);
     }
     return this.getFastChange(index);
   }
 
   private getCO2Change(inputs: IModelInputState, index: number) {
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return DOUBLE_DASH;
     }
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return this.getZeroOrNoChange(index);
     }
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return this.getSlowChange(index);
     }
     return this.getFastChange(index);
@@ -71,7 +71,7 @@ export class Model {
   private getPlantChange(inputs: IModelInputState, index: number) {
     const zeroOrNoChange = this.getZeroOrNoChange(index);
 
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return [
         {change: zeroOrNoChange, leavesChange: 5},
         {change: zeroOrNoChange, leavesChange: 5},
@@ -84,7 +84,7 @@ export class Model {
       ][index];
     }
 
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return [
         {change: zeroOrNoChange, leavesChange: 0},
         {change: zeroOrNoChange, leavesChange: 0},
@@ -97,7 +97,7 @@ export class Model {
       ][index];
     }
 
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return [
         {change: zeroOrNoChange, leavesChange: 5},
         {change: zeroOrNoChange, leavesChange: 5},

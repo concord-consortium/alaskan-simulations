@@ -12,9 +12,9 @@ interface IProps {
 }
 
 export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, isRunning}) => {
-  const co2None = (co2Amount === CO2Amount.No);
-  const co2Low = (co2Amount === CO2Amount.Low);
-  const co2Normal = (co2Amount === CO2Amount.Normal);
+  const co2None = (co2Amount === CO2Amount.None);
+  const co2Low = (co2Amount === CO2Amount.Some);
+  const co2Normal = (co2Amount === CO2Amount.Full);
   let plantClass = "";
   let rootClass = "";
 

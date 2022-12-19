@@ -50,7 +50,7 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
           />
           <InputSlider
             type={"CO2"}
-            labels={["CO2_AMOUNT.NO", "CO2_AMOUNT.LOW", "CO2_AMOUNT.NORMAL"]}
+            labels={["CO2_AMOUNT.NONE", "CO2_AMOUNT.SOME", "CO2_AMOUNT.FULL"]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}
