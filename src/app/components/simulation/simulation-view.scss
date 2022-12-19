@@ -38,7 +38,7 @@
 
   .terrarium{
     position: absolute;
-    right: 56px;
+    margin: 0 auto;
     bottom: 15px;
     width: 366px;
     height: 238px;
@@ -110,7 +110,7 @@
     .lightLayer{
       background-image: url("../../assets/light.png");
       position: absolute;
-      right: -56px;
+      // right: -56px;
       top: -8px;
       width: 480px;
       height: 265px;
