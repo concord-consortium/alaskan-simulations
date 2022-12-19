@@ -232,8 +232,8 @@ export const App = (props: IAppProps) => {
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
-                          <div>{t("TABLE_HEADER.LIGHT")}: {yesOrNo(!!runInputState.light)} </div>
-                          <div>{t("TABLE_HEADER.WATER")}: {yesOrNo(!!runInputState.water)} </div>
+                          <div>{t("TABLE_HEADER.LIGHT")}: {t(runInputState.light)} </div>
+                          <div>{t("TABLE_HEADER.WATER")}: {t(runInputState.water)} </div>
                           <div> <span>CO<sub>2</sub></span>: {t(noToNoneCO2Amount(runInputState.co2amount))}</div>
                        </div> ,
     lightChange: (runOutputState.time === 0) ? (runInputState.light) ? 0: "-- " : runOutputState.lightChange,
@@ -241,8 +241,6 @@ export const App = (props: IAppProps) => {
     co2Change: (runOutputState.time === 0) ? (runInputState.co2amount !== CO2Amount.No) ? 0: "-- " : runOutputState.co2Change,
     plantChange: runOutputState.plantChange
   }), []);
-
-  const yesOrNo = (value: boolean) => value ? t("TABLE_ENTRY.YES") : t("TABLE_ENTRY.NO");
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
