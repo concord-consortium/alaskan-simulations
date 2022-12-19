@@ -19,7 +19,7 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")} style="blue">
       <div className={css.terrariumBackGround}/>
-      <div className={css.terrariumBackTable}/>
+      {/* <div className={css.terrariumBackTable}/>
       <div className={css.terrarium}>
         <div className={css.terrariumBack}/>
         {
@@ -29,10 +29,10 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         </div>
         }
         <div className={css.terrariumFrontGlass}/>
-        <div className={clsx({[css.terrariumWater]: input.water, [css.terrariumSoilDry]: input.soil, [css.terrariumSoilWet]: input.soil && input.water})}/>
+        <div className={clsx({[css.terrariumWater]: input.water, [css.terrariumSoilDry]: input.light, [css.terrariumSoilWet]: input.light && input.water})}/>
         <div className={css.lightLayer}/>
       </div>
-      <AnimationView soil={input.soil}  water={input.water} co2Amount={input.co2amount} time={output.time} isRunning={isRunning}/>
+      <AnimationView light={input.light}  water={input.water} co2Amount={input.co2amount} time={output.time} isRunning={isRunning}/> */}
 
     </LabeledContainer>
   );

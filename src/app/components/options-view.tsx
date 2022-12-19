@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import { t, getDefaultLanguage} from "../translation/translate";
-import { CO2Amount, IModelInputState} from "../../types";
+import { CO2Amount, IModelInputState, LightAmount, WaterAmount} from "../../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { RadioButtons } from "./controls/radio-buttons";
 import {CheckboxWithImage} from "./controls/checkbox-with-image";
@@ -29,7 +29,7 @@ const CO2AmountView = ({label, reverse}: {label: string, reverse: boolean}) => {
     children.reverse();
   }
   return (
-    <div className={css.co2TextLabel}>
+    <div className={css.optionTextLabel}>
       {children}
     </div>
   );
@@ -37,13 +37,14 @@ const CO2AmountView = ({label, reverse}: {label: string, reverse: boolean}) => {
 
 export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled}) => {
 
-  const handleSoilChange = useCallback(() => {
-    setInputState({soil: !inputState.soil});
-  }, [setInputState, inputState]);
 
-  const handleWaterChange = useCallback(() => {
-    setInputState({water: !inputState.water});
-  }, [setInputState, inputState]);
+  const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+    setInputState({light: value as LightAmount});
+  }, [setInputState]);
+
+  const handleWaterAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
+    setInputState({water: value as WaterAmount});
+  }, [setInputState]);
 
   const handleCO2AmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({co2amount: value as CO2Amount});
@@ -54,38 +55,80 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
   return (
     <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")} style="violet">
       <div>
-        <div className={css.soilAndWaterContainer}>
-          <div>
-            <CheckboxWithImage
-              label={t("TABLE_HEADER.SOIL")}
-              color={"purple"}
-              urlImageOn={soilOn}
-              urlImageOff={soilOff}
-              checked={inputState.soil}
-              disabled={disabled}
-              onClick={handleSoilChange}
-            />
+
+      <div className={css.optionsContainer}>
+          <div className={clsx(css.optionTitle, { [css.disabled]: disabled})}>
+            <span>Light</span>
           </div>
-          <div>
-            <CheckboxWithImage
-              label={t("TABLE_HEADER.WATER")}
-              color={"purple"}
-              urlImageOn={waterOn}
-              urlImageOff={waterOff}
-              checked={inputState.water}
+          <div className={css.optionsRadioButtons}>
+            <RadioButtons
+              value={inputState.light}
+              label={""}
+              name="cover"
+              onChange={handleLightAmountChange}
+              options={[
+                {
+                  value: LightAmount.None,
+                  label: t("LIGHT_AMOUNT.NONE"),
+                  labelPlacement: "top",
+                },
+                {
+                  value: LightAmount.Some,
+                  label: t("LIGHT_AMOUNT.SOME"),
+                  labelPlacement: "top",
+                },
+                {
+                  value: LightAmount.Full,
+                  label: t("LIGHT_AMOUNT.FULL"),
+                  labelPlacement: "top",
+                }
+              ]}
+              row={true}
               disabled={disabled}
-              onClick={handleWaterChange}
+              color="purple"
+              outlineText={true}
             />
           </div>
         </div>
 
-        <div className={css.dividerLine}/>
+        <div className={css.waterOptionsContainer}>
+          <div className={clsx(css.waterOptionsTitle, { [css.disabled]: disabled})}>
+            <span>Water</span>
+          </div>
+          <div className={css.co2OptionsRadioButtons}>
+            <RadioButtons
+              value={inputState.water}
+              label={""}
+              name="cover"
+              onChange={handleWaterAmountChange}
+              options={[
+                {
+                  value: WaterAmount.None,
+                  label: t("WATER_AMOUNT.NONE"),
+                  labelPlacement: "top",
+                },
+                {
+                  value: WaterAmount.Some,
+                  label: t("WATER_AMOUNT.SOME"),
+                  labelPlacement: "top",
+                },
+                {
+                  value: WaterAmount.Full,
+                  label: t("WATER_AMOUNT.FULL"),
+                  labelPlacement: "top",
+                }
+              ]}
+              row={true}
+              disabled={disabled}
+              color="purple"
+              outlineText={true}
+            />
+          </div>
+        </div>
 
         <div className={css.co2OptionsContainer}>
           <div className={clsx(css.co2OptionsTitle, { [css.disabled]: disabled})}>
-            {t("SETUP_HEADER_TITLE1")}
             <span>CO<sub>2</sub></span>
-            {t("SETUP_HEADER_TITLE2")}
           </div>
           <div className={css.co2OptionsRadioButtons}>
             <RadioButtons
@@ -96,17 +139,17 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
               options={[
                 {
                   value: CO2Amount.No,
-                  label: <CO2AmountView label="CO2_AMOUNT.NO" reverse={false} />,
+                  label: t("CO2_AMOUNT.NONE"),
                   labelPlacement: "top",
                 },
                 {
                   value: CO2Amount.Low,
-                  label: <CO2AmountView label="CO2_AMOUNT.LOW" reverse={lang === "es"} />,
+                  label: t("CO2_AMOUNT.LOW"),
                   labelPlacement: "top",
                 },
                 {
                   value: CO2Amount.Normal,
-                  label: <CO2AmountView label="CO2_AMOUNT.NORMAL" reverse={lang === "es"} />,
+                  label: t("CO2_AMOUNT.NORMAL"),
                   labelPlacement: "top",
                 }
               ]}

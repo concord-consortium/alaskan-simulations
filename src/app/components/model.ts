@@ -5,7 +5,7 @@ const DOUBLE_DASH = "--";
 
 export class Model {
   public time = 0;
-  public soilChange: number | string;
+  public lightChange: number | string;
   public waterMassChange: number | string;
   public co2Change: number | string;
   public plantChange: IPlantChange = {
@@ -16,7 +16,7 @@ export class Model {
 
   constructor(inputs: IModelInputState) {
     this.inputs = inputs;
-    this.soilChange = this.getSoilChange(inputs, 0);
+    this.lightChange = this.getLightChange(inputs, 0);
     this.waterMassChange = this.getMassWaterChange(inputs, 0);
     this.co2Change = this.getCO2Change(inputs, 0);
     this.plantChange = this.getPlantChange(inputs, 0);
@@ -29,14 +29,14 @@ export class Model {
 
   public changeProperties(){
     const index = Math.floor(this.time * 8);
-    this.soilChange = this.getSoilChange(this.inputs, index);
+    this.lightChange = this.getLightChange(this.inputs, index);
     this.waterMassChange = this.getMassWaterChange(this.inputs, index);
     this.co2Change = this.getCO2Change(this.inputs, index);
     this.plantChange = this.getPlantChange(this.inputs, index);
   }
 
-  private getSoilChange(inputs: IModelInputState, index: number) {
-    if (!inputs.soil) {
+  private getLightChange(inputs: IModelInputState, index: number) {
+    if (!inputs.light) {
       return DOUBLE_DASH;
     }
     return this.getZeroOrNoChange(index);
