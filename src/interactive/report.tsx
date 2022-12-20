@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IReportInitInteractive } from "@concord-consortium/lara-interactive-api";
+import { IReportInitInteractive, setInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { IInteractiveState, IAuthoredState } from "../types";
 import { App } from "../app/components/app";
 
@@ -14,7 +14,7 @@ export const ReportComponent: React.FC<Props> = ({initMessage}) => {
       <App
         interactiveState={interactiveState}
         authoredState={authoredState}
-        setInteractiveState={() => console.log("hello")}
+        setInteractiveState={setInteractiveState}
         readOnly={true}
       />
     </div>
