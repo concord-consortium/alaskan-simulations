@@ -49,10 +49,11 @@ interface IAppProps {
   interactiveState: IInteractiveState|null;
   setInteractiveState: ((stateOrUpdateFunc: IInteractiveState | ((prevState: IInteractiveState | null) => IInteractiveState) | null) => void);
   authoredState: IAuthoredState|null;
+  readOnly?: boolean;
 }
 
 export const App = (props: IAppProps) => {
-  const {interactiveState, setInteractiveState, authoredState} = props;
+  const {interactiveState, setInteractiveState, authoredState, readOnly} = props;
 
   const defaultInitialState = {
     initialInputState: defaultAuthoredState,
@@ -346,8 +347,8 @@ export const App = (props: IAppProps) => {
           />
           <div className={css.controls}>
             <div className={css.group}>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isFinished} />
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished} />
+              <NewRunButton onClick={handleAddModelRun} disabled={!isFinished || readOnly} />
+              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
             </div>
             <div className={css.grow}>
               <div className={css.timeSliderContainer}>
@@ -356,7 +357,7 @@ export const App = (props: IAppProps) => {
                   time={outputState.time}
                   snapshotsCount={snapshotsCount}
                   onChange={setActiveOutputSnapshotIdx}
-                  disabled={!isFinished}
+                  disabled={!isFinished || readOnly}
                 />
               </div>
             </div>
@@ -364,7 +365,7 @@ export const App = (props: IAppProps) => {
           <OptionsView
             inputState={inputState}
             setInputState={setInputState}
-            disabled={uiDisabled}
+            disabled={uiDisabled || !!readOnly}
           />
         </div>
         <div>
@@ -373,7 +374,7 @@ export const App = (props: IAppProps) => {
               {...tableProps}
               columns={columns}
               columnsMeta={columnsMeta}
-              disabled={isRunning}
+              disabled={isRunning || !!readOnly}
               customHeader={(
                 <div className={clsx(css.key, css[lang])}>
                   <div className={css.keyTitleContainer}>
