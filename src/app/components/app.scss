@@ -6,15 +6,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
+
   .optionsContainer {
     height: 545px;
     width: 100px;
-    padding: 10px;
-
   }
+
   .simulationContainer {
     box-sizing: border-box;
-    padding: 10px;
     width: 395px;
     height: 545px;
 
@@ -47,49 +47,57 @@
     }
   }
 
-  .tableContainer {
-    box-sizing: border-box;
-    width: 480px;
-    height: 325px;
-    border-radius: 0 0 $frameBorderRadius 0;
-    .table-header{
-      position: relative;
-      background-color: green;
-    }
+  .tableGraphsColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 545px;
 
-    .key {
-      background-color: $lightBlueTint25;
-      border-radius: 10px;
-      height: 34px;
-      display: flex;
-      gap: 10px;
-      font-weight: normal;
-      font-size: 14px;
-      padding: 0 10px;
-
-      .keyTitleContainer{
-        display: flex;
-        align-items: center;
+    .tableContainer {
+      box-sizing: border-box;
+      width: 480px;
+      height: 280px;
+      border: 1px solid $font-color;
+      border-radius: 20px;
+      .table-header{
+        position: relative;
+        background-color: green;
       }
-      .upArrowContainer{
-        display: flex;
-        align-items: center;
 
-        .upArrowImg{
-          margin-left: -3px;
-        }
-        .upArrowTitle{
-          color: black;
-          margin-left: 3px;
-        }
-      }
-      .downArrowContainer{
+      .key {
+        background-color: $lightBlueTint25;
+        border-radius: 10px;
+        height: 34px;
         display: flex;
-        align-items: center;
+        gap: 10px;
+        font-weight: normal;
+        font-size: 14px;
+        padding: 0 10px;
 
-        .downArrowTitle{
-          color: black;
-          margin-left: 3px;
+        .keyTitleContainer{
+          display: flex;
+          align-items: center;
+        }
+        .upArrowContainer{
+          display: flex;
+          align-items: center;
+
+          .upArrowImg{
+            margin-left: -3px;
+          }
+          .upArrowTitle{
+            color: black;
+            margin-left: 3px;
+          }
+        }
+        .downArrowContainer{
+          display: flex;
+          align-items: center;
+
+          .downArrowTitle{
+            color: black;
+            margin-left: 3px;
+          }
         }
       }
     }
@@ -128,10 +136,7 @@
 
   .barGraphContainer{
     display: flex;
-    .marginBlock{
-      width: 10px;
-      height: 180px;
-    }
+    height: 245px;
   }
 
   .barGraphScaleArrow{

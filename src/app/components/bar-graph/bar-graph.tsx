@@ -50,6 +50,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
 
   return (
     <div className={css.barGraph}>
+      <div className={css.header}>Graphs</div>
       <div className={css.title}>{ title }</div>
 
       <div className={css.mainRow}>

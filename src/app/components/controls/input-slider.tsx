@@ -29,20 +29,18 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
   };
 
   return (
-    <div className={`${disabled ? css.disabled : ""}`}>
-      <div className={css.input}>
-        <div className={css.type}>{type === "CO2" ? <span>CO<sub>2</sub></span> : type}</div>
-        <div className={css.control}>
-          <div className={css.left}>
-            <input type="range" id={type} min="0" max="2" value={valToNum(value)} onChange={(e) => handleChange(e)} className={css.slider} step="1" list={`${type}-values`}></input>
-          </div>
-          <div className={css.right}>
-            <datalist className={css.labels} id={`${type}-values`}>
-              <option value="2" label={titleCase(t(labels[2]))}></option>
-              <option value="1" label={titleCase(t(labels[1]))}></option>
-              <option value="0" label={titleCase(t(labels[0]))}></option>
-            </datalist>
-          </div>
+    <div className={css.input}>
+      <div className={css.type}>{type === "CO2" ? <span>CO<sub>2</sub></span> : type}</div>
+      <div className={css.control}>
+        <div className={css.left}>
+          <input type="range" id={type} min="0" max="2" value={valToNum(value)} onChange={(e) => handleChange(e)} className={css.slider} step="1" list={`${type}-values`}></input>
+        </div>
+        <div className={css.right}>
+          <datalist className={css.labels} id={`${type}-values`}>
+            <option value="2" label={titleCase(t(labels[2]))}></option>
+            <option value="1" label={titleCase(t(labels[1]))}></option>
+            <option value="0" label={titleCase(t(labels[0]))}></option>
+          </datalist>
         </div>
       </div>
     </div>

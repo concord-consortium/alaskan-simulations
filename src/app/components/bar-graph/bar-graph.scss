@@ -8,12 +8,21 @@ $graphAreaHeight: 97px;
   width: 480px;
   box-sizing: border-box;
   background-color: #fff;
-  border: 2px solid $bluePrimary;
-  border-radius: 0 0 5px 5px;
-  padding: $containerPadding;
-  margin-top: 5px;
+  border: 1px solid $font-color;
+  border-radius: 20px;
   color: black;
   font-family: $fontFamilyNunito;
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: $medium-yellow;
+    height: 40px;
+    align-items: center;
+    font-weight: 800;
+    border-radius: 20px 20px 0px 0px;
+  }
 
   .title {
     font-weight: bold;
@@ -30,6 +39,7 @@ $graphAreaHeight: 97px;
     justify-content: space-between;
     margin-top: 10px;
     margin-right: 8px;
+    padding: 5px;
   }
 
   .xAxisLabel, .yAxisLabel {

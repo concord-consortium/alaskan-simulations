@@ -9,87 +9,14 @@
   font-size: 16px;
   font-weight: bold;
 
-  > div {
+  .optionsContainer {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    justify-content: space-around;
-
-    .optionsContainer {
-      width: 100%;
-      height: 160px;
-      display: flex;
-      flex-direction: column;
-
-      .optionsTitle{
-        color: $purpleAccent;
-        font-family: $fontFamilyNunito !important;
-        font-weight: bold;
-        font-size: 16px;
-        text-align: center;
-
-        &.disabled{
-          opacity: 30%;
-        }
-      }
-
-      .optionsRadioButtons{
-        .optionTextLabel{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: $purpleAccent;
-          font-family: $fontFamilyNunito;
-          line-height: 1.2;
-          margin-top: 3px;
-          margin-bottom: -3px;
-
-          &:hover {
-            text-shadow: -2px 2px 0 white,
-                          2px 2px 0 white,
-                          2px -2px 0 white,
-                          -2px -2px 0 white;
-          }
-        }
-    }
-
-    .co2OptionsContainer {
-      width: 100%;
-      height: 160px;
-
-      .co2OptionsTitle{
-        color: $purpleAccent;
-        font-family: $fontFamilyNunito !important;
-        font-weight: bold;
-        font-size: 16px;
-        text-align: center;
-
-        &.disabled{
-          opacity: 30%;
-        }
-      }
-
-      .optionsRadioButtons{
-        .co2TextLabel{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: $purpleAccent;
-          font-family: $fontFamilyNunito;
-          line-height: 1.2;
-          margin-top: 3px;
-          margin-bottom: -3px;
-
-          &:hover {
-            text-shadow: -2px 2px 0 white,
-                          2px 2px 0 white,
-                          2px -2px 0 white,
-                          -2px -2px 0 white;
-          }
-        }
-      }
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
 
       :global(.MuiFormControl-root) {
         display: flex;
@@ -114,5 +41,3 @@
     }
 
   }
-  }
-}
