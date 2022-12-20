@@ -11,7 +11,7 @@ import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t, getDefaultLanguage } from "../translation/translate";
-import { noToNoneCO2Amount, SimulationView } from "./simulation/simulation-view";
+import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultAuthoredState } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
@@ -59,7 +59,7 @@ export const App = (props: IAppProps) => {
     initialInputState: defaultAuthoredState,
     initialOutputState: {
       time: 0,
-      soilChange: "--",
+      lightChange: "--",
       waterMassChange: "--",
       co2Change: "--",
       plantChange: {
@@ -82,8 +82,8 @@ export const App = (props: IAppProps) => {
 
     },
     {
-      Header: t("TABLE_HEADER.SOIL"),
-      accessor: "soilChange" as const,
+      Header: t("TABLE_HEADER.LIGHT"),
+      accessor: "lightChange" as const,
       width: 100,
       Cell: ({ value }: { value: number }) => numberToJSX(value)
     },
@@ -232,17 +232,15 @@ export const App = (props: IAppProps) => {
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
-                          <div>{t("TABLE_HEADER.SOIL")}: {yesOrNo(runInputState.soil)} </div>
-                          <div>{t("TABLE_HEADER.WATER")}: {yesOrNo(runInputState.water)} </div>
-                          <div> <span>CO<sub>2</sub></span>: {t(noToNoneCO2Amount(runInputState.co2amount))}</div>
+                          <div>{t("TABLE_HEADER.LIGHT")}: {t(runInputState.light)} </div>
+                          <div>{t("TABLE_HEADER.WATER")}: {t(runInputState.water)} </div>
+                          <div> <span>CO<sub>2</sub></span>: {t(runInputState.co2amount)}</div>
                        </div> ,
-    soilChange: (runOutputState.time === 0) ? (runInputState.soil) ? 0: "-- " : runOutputState.soilChange,
+    lightChange: (runOutputState.time === 0) ? (runInputState.light) ? 0: "-- " : runOutputState.lightChange,
     waterMassChange: (runOutputState.time === 0) ? (runInputState.water) ? 0: "-- " : runOutputState.waterMassChange,
-    co2Change: (runOutputState.time === 0) ? (runInputState.co2amount !== CO2Amount.No) ? 0: "-- " : runOutputState.co2Change,
+    co2Change: (runOutputState.time === 0) ? (runInputState.co2amount !== CO2Amount.None) ? 0: "-- " : runOutputState.co2Change,
     plantChange: runOutputState.plantChange
   }), []);
-
-  const yesOrNo = (value: boolean) => value ? t("TABLE_ENTRY.YES") : t("TABLE_ENTRY.NO");
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
@@ -252,7 +250,7 @@ export const App = (props: IAppProps) => {
     outputStateToDataPoint: useCallback((output: IModelOutputState) =>
       ({
         waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
-        soil: typeof output.soilChange === "string" ? 0 : output.soilChange,
+        light: typeof output.lightChange === "string" ? 0 : output.lightChange,
         co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
         plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change,
       })
@@ -270,7 +268,7 @@ export const App = (props: IAppProps) => {
 
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
-      soilChange: model.soilChange,
+      lightChange: model.lightChange,
       waterMassChange: model.waterMassChange,
       co2Change: model.co2Change,
       plantChange: model.plantChange,
@@ -338,6 +336,13 @@ export const App = (props: IAppProps) => {
       directions={plantLabDirections()} // ReactNode is also allowed if more complex content is needed.
     >
       <div className={css.content}>
+        <div className={css.optionsContainer}>
+          <OptionsView
+              inputState={inputState}
+              setInputState={setInputState}
+              disabled={uiDisabled || !!readOnly}
+          />
+        </div>
         <div className={css.simulationContainer}>
           <SimulationView
             input={inputState}
@@ -362,11 +367,6 @@ export const App = (props: IAppProps) => {
               </div>
             </div>
           </div>
-          <OptionsView
-            inputState={inputState}
-            setInputState={setInputState}
-            disabled={uiDisabled || !!readOnly}
-          />
         </div>
         <div>
           <div className={css.tableContainer}>
@@ -404,7 +404,7 @@ export const App = (props: IAppProps) => {
               yAxisLabelHeight={lang === "es" ? 107 : undefined}
               xTicks={ // Note that xTick `val` should match keys of the object returned in `outputStateToDataPoint`.
                 [
-                  {val: "soil", label: <p key={`BGSoil`} style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.SOIL")} </p>},
+                  {val: "light", label: <p key={`BGSoil`} style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.LIGHT")} </p>},
                   {val: "waterMassChange", label: <p key={`BGWater`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.WATER")} </p> },
                   {val: "co2Change", label: <div key={`BGCO2`} style={{fontWeight: 800, marginTop:"-10px"}}> <span key={`BGCO2Span`}>CO<sub>2</sub></span> </div>,},
                   {val: "plantChange", label: <p key={`BGPlants`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.PLANTS")} </p>},

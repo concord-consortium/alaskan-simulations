@@ -1,11 +1,11 @@
 import { t } from "../translation/translate";
-import { CO2Amount, IModelInputState, IPlantChange } from "../../types";
+import { CO2Amount, IModelInputState, IPlantChange, LightAmount, WaterAmount } from "../../types";
 
 const DOUBLE_DASH = "--";
 
 export class Model {
   public time = 0;
-  public soilChange: number | string;
+  public lightChange: number | string;
   public waterMassChange: number | string;
   public co2Change: number | string;
   public plantChange: IPlantChange = {
@@ -16,7 +16,7 @@ export class Model {
 
   constructor(inputs: IModelInputState) {
     this.inputs = inputs;
-    this.soilChange = this.getSoilChange(inputs, 0);
+    this.lightChange = this.getLightChange(inputs, 0);
     this.waterMassChange = this.getMassWaterChange(inputs, 0);
     this.co2Change = this.getCO2Change(inputs, 0);
     this.plantChange = this.getPlantChange(inputs, 0);
@@ -29,40 +29,40 @@ export class Model {
 
   public changeProperties(){
     const index = Math.floor(this.time * 8);
-    this.soilChange = this.getSoilChange(this.inputs, index);
+    this.lightChange = this.getLightChange(this.inputs, index);
     this.waterMassChange = this.getMassWaterChange(this.inputs, index);
     this.co2Change = this.getCO2Change(this.inputs, index);
     this.plantChange = this.getPlantChange(this.inputs, index);
   }
 
-  private getSoilChange(inputs: IModelInputState, index: number) {
-    if (!inputs.soil) {
+  private getLightChange(inputs: IModelInputState, index: number) {
+    if (inputs.light === LightAmount.None) {
       return DOUBLE_DASH;
     }
     return this.getZeroOrNoChange(index);
   }
 
   private getMassWaterChange(inputs: IModelInputState, index: number) {
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return DOUBLE_DASH;
     }
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return this.getZeroOrNoChange(index);
     }
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return this.getSlowChange(index);
     }
     return this.getFastChange(index);
   }
 
   private getCO2Change(inputs: IModelInputState, index: number) {
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return DOUBLE_DASH;
     }
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return this.getZeroOrNoChange(index);
     }
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return this.getSlowChange(index);
     }
     return this.getFastChange(index);
@@ -71,7 +71,7 @@ export class Model {
   private getPlantChange(inputs: IModelInputState, index: number) {
     const zeroOrNoChange = this.getZeroOrNoChange(index);
 
-    if (!inputs.water) {
+    if (inputs.water === WaterAmount.None) {
       return [
         {change: zeroOrNoChange, leavesChange: 5},
         {change: zeroOrNoChange, leavesChange: 5},
@@ -84,7 +84,7 @@ export class Model {
       ][index];
     }
 
-    if (inputs.co2amount === CO2Amount.No) {
+    if (inputs.co2amount === CO2Amount.None) {
       return [
         {change: zeroOrNoChange, leavesChange: 0},
         {change: zeroOrNoChange, leavesChange: 0},
@@ -97,7 +97,7 @@ export class Model {
       ][index];
     }
 
-    if (inputs.co2amount === CO2Amount.Low) {
+    if (inputs.co2amount === CO2Amount.Some) {
       return [
         {change: zeroOrNoChange, leavesChange: 5},
         {change: zeroOrNoChange, leavesChange: 5},

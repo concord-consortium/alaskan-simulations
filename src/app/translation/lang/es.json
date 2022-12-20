@@ -20,7 +20,7 @@
   "SIMULATION.TIME": "Tiempo: %{days} días",
   "TABLE_HEADER.CHANGEINMASS": "Cantidad de materia",
   "TABLE_HEADER.STARTING_CONDITIONS": "Condiciones iniciales",
-  "TABLE_HEADER.SOIL": "Suelo",
+  "TABLE_HEADER.LIGHTL": "Luz",
   "TABLE_HEADER.WATER": "Agua",
   "TABLE_HEADER.PLANTS": "Plantas",
   "TABLE_HEADER_KEY.KEY": "Clave:",
@@ -35,9 +35,8 @@
   "SETUP_HEADER_TITLE2": " en el aire",
 
   "CO2_AMOUNT.NONE": "nada",
-  "CO2_AMOUNT.NO": "no hay",
-  "CO2_AMOUNT.LOW": "bajo",
-  "CO2_AMOUNT.NORMAL": "normal",
+  "CO2_AMOUNT.SOME": "bajo",
+  "CO2_AMOUNT.FULL": "normal",
 
   "TERRARIUM": "Terrario",
   "SETUP_TERRARIUM": "Preparar el terrario",
