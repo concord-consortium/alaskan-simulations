@@ -97,7 +97,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
         // Don't let client update finished run.
         return oldState;
       }
-      const newState = [...oldState.map((run) => { return {...run};})];
+      const newState = [...oldState];
       newState[activeRunIdx].inputState = {...newState[activeRunIdx].inputState, ...update};
       return newState;
     });
@@ -110,7 +110,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
 
   const snapshotOutputState = useCallback((outputState: IModelOutputState) => {
     setModelRuns(oldState => {
-      const newState = [...oldState.map((run) => { return {...run};})];
+      const newState = [...oldState];
       newState[activeRunIdx].outputStateSnapshots = [
         ...newState[activeRunIdx].outputStateSnapshots, outputState
       ];

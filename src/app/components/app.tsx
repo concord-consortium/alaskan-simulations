@@ -224,7 +224,7 @@ export const App = (props: IAppProps) => {
           ...prevState,
           inputState: {...inputState},
           outputState: {...outputState},
-          modelRuns: [...modelRuns.map((run) => {return {...run.inputState, ...run};})]
+          modelRuns: [...modelRuns.map((run) => {return {...run};})]
       };
     });
   }, [inputState, outputState, modelRuns]);
