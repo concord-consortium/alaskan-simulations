@@ -28,6 +28,7 @@
       .group {
         margin-left: 10px;
         white-space: nowrap;
+        font-family: $fontFamilyNunito;
         & > * + * {
           margin-left: 16px;
         }

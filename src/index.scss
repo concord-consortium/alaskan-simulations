@@ -1,12 +1,14 @@
+@import "./app/components/vars.scss";
+
 html, body {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: $fontFamilyNunito;
   font-size: 16px;
   font-weight: normal;
   user-select: none;
-  color: #333333;
+  color: $font-color;
 }

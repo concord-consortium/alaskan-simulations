@@ -5,7 +5,9 @@ import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instruc
 
 import { Dialog } from "./dialog";
 import { t } from "../../translation/translate";
-import Logo from "../../assets/logo.svg";
+import Logo from "../../assets/concord.png";
+import HeaderTitle from "../../assets/HeaderTitle.png";
+
 import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";
 
@@ -35,8 +37,8 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children 
   return (
     <div className={css.simulationFrame} data-testid="simulation-frame">
       <div id={simulationFrameHeaderId} className={css.header}>
-        <div className={css.logo}><Logo /></div>
-        <div className={css.title}>{title}</div>
+        <div><img className={css.logo} src={Logo}/></div>
+        <div><img className={css.title} src={HeaderTitle}/></div>
         <div className={css.buttons}>
           <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{t("CREDITS.HEADER")}</button>
           <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}><DirectionsButton /></button>

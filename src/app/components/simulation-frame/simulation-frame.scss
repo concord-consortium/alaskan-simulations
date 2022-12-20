@@ -1,7 +1,7 @@
 @import "../vars.scss";
 
-$headerHeight: 35px;
-$headerTextColor: #ffffff;
+$headerHeight: 60px;
+$headerTextColor: #333333;
 
 .simulationFrame {
   width: 100%;
@@ -22,30 +22,25 @@ $headerTextColor: #ffffff;
   }
 
   .header {
+    box-sizing: border-box;
     height: $headerHeight;
     color: $headerTextColor;
-    background-color: $bluePrimary;
+    background-color: $header-bg;
     border-radius: 0 0 0 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    padding: 5px;
 
     .logo {
-      padding: 0 12px;
-
-      svg {
-        height: 27px;
-        margin-top: 4px;
-      }
+      height: 30px;
     }
 
     .title {
-      font-size: 22px;
-      font-weight: bold;
+      height: 50px;
     }
 
     .buttons {
-      margin-left: auto;
       margin-right: 12px;
       display: flex;
       align-items: center;
@@ -57,7 +52,6 @@ $headerTextColor: #ffffff;
         padding: 0;
         font-weight: bold;
         font-size: 14px;
-        color: white;
         display: flex;
         align-items: center;
       }
@@ -66,7 +60,7 @@ $headerTextColor: #ffffff;
       }
       button.active {
         svg :global(.background) {
-          fill: white;
+          fill: #333333;
         }
         svg :global(.questionMark) {
           fill: $bluePrimary;

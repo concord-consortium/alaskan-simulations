@@ -13,12 +13,14 @@ $graphAreaHeight: 97px;
   padding: $containerPadding;
   margin-top: 5px;
   color: black;
+  font-family: $fontFamilyNunito;
 
   .title {
     font-weight: bold;
     font-size: 16px;
     color: $bluePrimary;
     text-align: center;
+    font-family: $fontFamilyNunito;
   }
 
   .mainRow {
