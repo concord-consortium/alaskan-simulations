@@ -14,6 +14,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -30,7 +31,8 @@ describe("useModelState", () => {
   it("lets client initialize outputState using a function", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
-      initialOutputState: (inputState) => ({ bar: inputState.foo + 1 })
+      initialOutputState: (inputState) => ({ bar: inputState.foo + 1 }),
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -44,6 +46,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -61,6 +64,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -79,6 +83,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -95,6 +100,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -120,6 +126,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -148,6 +155,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -226,6 +234,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -264,6 +273,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -295,6 +305,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -333,6 +344,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: { bar: 1 },
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 
@@ -367,6 +379,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState<ITestInputState, ITestOutputState>({
       initialInputState: { foo: 0 },
       initialOutputState: (inputState) => ({ bar: inputState.foo + Math.random() }),
+      initialModelRuns: []
     });
     const { result } = renderHook(HookWrapper);
 

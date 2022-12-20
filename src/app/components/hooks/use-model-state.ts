@@ -20,6 +20,7 @@ export interface IModelRun<IModelInputState, IModelOutputState> {
 export interface IUseModelStateOptions<IModelInputState, IModelOutputState> {
   initialInputState: IModelInputState;
   initialOutputState: OutputInitializer<IModelInputState, IModelOutputState>;
+  initialModelRuns: IModelRun<IModelInputState, IModelOutputState>[];
 }
 
 export interface IUseModelStateResult<IModelInputState, IModelOutputState> {
@@ -62,7 +63,7 @@ export interface IUseModelStateResult<IModelInputState, IModelOutputState> {
 export const useModelState = <IModelInputState, IModelOutputState>(
   options: IUseModelStateOptions<IModelInputState, IModelOutputState>
 ): IUseModelStateResult<IModelInputState, IModelOutputState> => {
-  const { initialInputState, initialOutputState } = options;
+  const { initialInputState, initialOutputState, initialModelRuns } = options;
 
   const initialOutputStateObject = useMemo(() =>
     isFunction(initialOutputState) ? initialOutputState(initialInputState) : initialOutputState
@@ -74,7 +75,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
     isFinished: false
   }), [initialInputState, initialOutputStateObject]);
 
-  const [modelRuns, setModelRuns] = useState<IModelRun<IModelInputState, IModelOutputState>[]>([getNewModelRun()]);
+  const [modelRuns, setModelRuns] = useState<IModelRun<IModelInputState, IModelOutputState>[]>(initialModelRuns.length > 0 ? initialModelRuns : [getNewModelRun()]);
   // currentOutputState is an optimization. It'd be possible to update outputState directly in the modelRuns
   // array, but this would mean that this whole array is updated 60 times per second when simulation is running.
   // This might not work great with table and graph rendering and it might generally slow down simulations.
@@ -86,6 +87,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
   // When activeOutputSnapshotIdx is null, it means that currentOutputState is being used instead of snapshot
   // (when simulation is still running).
   const [activeOutputSnapshotIdx, setActiveOutputSnapshotIdx] = useState<number | null>(null);
+
 
   const setInputState = useCallback((update: Partial<IModelInputState>) => {
     // setInputState is operating directly on the modelRuns array. Input state is not updated frequently
@@ -100,6 +102,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
       return newState;
     });
   }, [activeRunIdx]);
+
 
   const setOutputState = useCallback((update: Partial<IModelOutputState>) => {
     setCurrentOutputState(oldState => ({...oldState, ...update}));
@@ -196,6 +199,6 @@ export const useModelState = <IModelInputState, IModelOutputState>(
     modelRuns,
     addModelRun,
     removeModelRun,
-    removeAllModelRuns,
+    removeAllModelRuns
   };
 };

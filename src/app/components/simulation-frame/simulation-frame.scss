@@ -4,9 +4,8 @@ $headerHeight: 35px;
 $headerTextColor: #ffffff;
 
 .simulationFrame {
-  width: 1000px;
-  height: 562px;
-  border-radius: $frameBorderRadius;
+  width: 100%;
+  height: 635px;
   background-color: $lightBlueTint10;
 
   *:focus-visible {
@@ -26,7 +25,7 @@ $headerTextColor: #ffffff;
     height: $headerHeight;
     color: $headerTextColor;
     background-color: $bluePrimary;
-    border-radius: $frameBorderRadius $frameBorderRadius 0 0;
+    border-radius: 0 0 0 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;

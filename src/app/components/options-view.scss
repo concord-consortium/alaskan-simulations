@@ -1,39 +1,63 @@
 @import "./vars.scss";
 
 .optionsView {
-  height: 128px;
-  width: 480px;
-
+  height: 100%;
+  width: 100%;
   display: flex;
-  margin-top: 15px;
+  flex-direction: column;
   font-family: $fontFamilyRoboto;
   font-size: 16px;
   font-weight: bold;
 
   > div {
+    height: 100%;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    justify-content: space-between;
-    height: 100px;
+    justify-content: space-around;
 
-    .soilAndWaterContainer {
+    .optionsContainer {
       width: 100%;
+      height: 160px;
       display: flex;
-      gap: 10px;
+      flex-direction: column;
 
-      > div {
-        width: 100px;
+      .optionsTitle{
+        color: $purpleAccent;
+        font-family: $fontFamilyRoboto !important;
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+
+        &.disabled{
+          opacity: 30%;
+        }
       }
-    }
 
-    .dividerLine{
-      background-color: $purpleAccent;
-      width: 1px;
+      .optionsRadioButtons{
+        .optionTextLabel{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: $purpleAccent;
+          font-family: Roboto;
+          line-height: 1.2;
+          margin-top: 3px;
+          margin-bottom: -3px;
+
+          &:hover {
+            text-shadow: -2px 2px 0 white,
+                          2px 2px 0 white,
+                          2px -2px 0 white,
+                          -2px -2px 0 white;
+          }
+        }
     }
 
     .co2OptionsContainer {
       width: 100%;
-      margin-left: 10px;
+      height: 160px;
 
       .co2OptionsTitle{
         color: $purpleAccent;
@@ -47,12 +71,11 @@
         }
       }
 
-      .co2OptionsRadioButtons{
+      .optionsRadioButtons{
         .co2TextLabel{
           display: flex;
           flex-direction: column;
           align-items: center;
-          height: 40px;
           color: $purpleAccent;
           font-family: Roboto;
           line-height: 1.2;
@@ -91,5 +114,5 @@
     }
 
   }
-
+  }
 }
