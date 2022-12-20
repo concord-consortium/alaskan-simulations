@@ -1,18 +1,22 @@
 import * as React from "react";
-import { IReportInitInteractive } from "@concord-consortium/lara-interactive-api";
+import { IReportInitInteractive, setInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { IInteractiveState, IAuthoredState } from "../types";
+import { App } from "../app/components/app";
+
 interface Props {
   initMessage: IReportInitInteractive<IInteractiveState, IAuthoredState>;
 }
 
 export const ReportComponent: React.FC<Props> = ({initMessage}) => {
-  const { interactiveState} = initMessage;
+  const { interactiveState, authoredState} = initMessage;
   return (
-    <div className="padded">
-      <fieldset>
-        <legend>Report Init Message</legend>
-        <div className="padded monospace pre">{JSON.stringify(initMessage, null, 2)}</div>
-      </fieldset>
+    <div className="report">
+      <App
+        interactiveState={interactiveState}
+        authoredState={authoredState}
+        setInteractiveState={setInteractiveState}
+        readOnly={true}
+      />
     </div>
   );
 };
