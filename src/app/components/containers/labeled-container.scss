@@ -4,53 +4,22 @@ $topMargin: 13px;
 
 .labeledContainer {
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  position: relative;
-  border-radius: 5px;
-  padding: $topMargin 0 0 0;
-  margin-top: $topMargin;
-
-  &.violet {
-    background-color: $purpleTint;
-    .label {
-      background-color: $purpleAccent;
-    }
-  }
-
-  &.blue {
-    background-color: white;
-    border: 2px solid $bluePrimary;
-    .label {
-      background-color: $bluePrimary;
-    }
-  }
+  border-radius: 20px;
+  background-color: $panel-bg;
+  border: 1px solid $font-color;
 
   .label {
-    position: absolute;
-    top: -15px;
-    left: -5px;
     box-sizing: border-box;
-    padding: 0 12px;
-    height: 28px;
-    border-radius: 14px;
-    color: white;
+    padding: 5px;
+    color: $font-color;
+    width: 100%;
+    font-weight: 800;
     font-size: 16px;
-    font-weight: bold;
+    border-radius: 20px 20px 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index:1;
-
-    &.centerLabel {
-      left: initial;
-    }
-
-    &.white {
-      color: $bluePrimary;
-      border: 2px solid $bluePrimary;
-      background-color: white;
-    }
+    background-color: $dark-yellow;
+    height: 50px;
   }
 }

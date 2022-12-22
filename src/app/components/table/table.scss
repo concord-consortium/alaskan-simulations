@@ -44,15 +44,15 @@ $tableBorderWidth: 2px;
   height: 100%;
   box-sizing: border-box;
   background-color: #fff;
-  border: 2px solid $bluePrimary;
-  border-radius: 5px 5px 0 0;
+  border-radius: 20px;
   padding: $containerPadding;
   table-layout: fixed;
   overflow: hidden;
 
   .header {
-    color: $bluePrimary;
+    color: $font-color;
     height: $headerHeight;
+    background-color: $medium-yellow;
     font-size: 16px;
     font-weight: bold;
     padding: $cellVerticalPadding $cellHorizontalPadding;
@@ -61,6 +61,7 @@ $tableBorderWidth: 2px;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    font-weight: 800;
 
     button.noWrap {
       white-space: nowrap;
@@ -81,7 +82,7 @@ $tableBorderWidth: 2px;
       border: 3px solid $bluePrimary;
       border-radius: 10px;
       height: 34px;
-      background-color: transparent;
+      background-color: $lightBlueTint25;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -133,6 +134,7 @@ $tableBorderWidth: 2px;
     // When div becomes scrollable in Y axis, it clips its X axis overflow. Padding + negative margin seem to fix that.
     padding-left: $activeRowLeftBorderWidth;
     margin-left: -$activeRowLeftBorderWidth;
+    margin-top: 2px;
 
     tr {
       &:nth-child(even) {

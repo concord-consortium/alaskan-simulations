@@ -23,6 +23,7 @@
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 6px;
+    font-family: $fontFamilyNunito;
   }
 
   .innerButton {
@@ -36,6 +37,8 @@
     background-color: #fff;
     border-radius: 10px;
     border: 3px solid $bluePrimary;
+    font-family: $fontFamilyNunito;
+
 
     &.withInnerLabel {
       width: auto;
@@ -50,6 +53,8 @@
 
       .innerLabel {
         margin-top: initial !important;
+        font-family: $fontFamilyNunito;
+
       }
 
       .icon {
@@ -66,6 +71,7 @@
     .innerLabel {
       font-size: 20px;
       font-weight: 500; // medium
+      font-family: $fontFamilyNunito;
     }
 
     &.withIcon {

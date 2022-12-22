@@ -368,7 +368,7 @@ export const App = (props: IAppProps) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={css.tableGraphsColumn}>
           <div className={css.tableContainer}>
             <Table<IRowData>
               {...tableProps}

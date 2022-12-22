@@ -1,11 +1,18 @@
 
+@import "..//vars.scss";
+
 .input {
+  width: calc(100% - 4px);
+  height: 160px;
   .type {
-    font-weight:600;
+    width: 100%;
+    font-weight:700;
     display: flex;
-    // align-items: center;
+    align-self: center;
+    align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: $medium-yellow;
+    height: 30px;
   }
   .control {
     display: flex;
@@ -24,10 +31,10 @@
         appearance: none;
         width: 80px;
         height: 15px;
-        background-color: blue;
+        background-color: $bright-green;
         transform: rotate(-90deg);
         border-radius: 10px;
-        border: 2px solid lightblue;
+        border: 1px solid $font-color;
         -webkit-transition: .2s;
         display: flex;
         align-items: center;
@@ -38,8 +45,11 @@
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background: lightyellow;
+        border: 1px solid $panel-bg;
+        background-color: $light-green;
+        outline: 1px solid $dark-green;
         cursor: pointer;
+        box-shadow: 0 0px 4px 3px rgba(0, 0, 0, 0.2);
       }
     }
     .right {
