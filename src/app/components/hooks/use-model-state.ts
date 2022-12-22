@@ -97,7 +97,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
         // Don't let client update finished run.
         return oldState;
       }
-      const newState = [...oldState];
+      const newState = [...oldState.map((run) => { return {...run};})];
       newState[activeRunIdx].inputState = {...newState[activeRunIdx].inputState, ...update};
       return newState;
     });
@@ -178,7 +178,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
 
   const markRunFinished = useCallback(() => {
     setModelRuns(oldState => {
-      const newState = [...oldState];
+      const newState = [...oldState.map((run) => { return {...run};})];
       newState[activeRunIdx].isFinished = true;
       return newState;
     });
