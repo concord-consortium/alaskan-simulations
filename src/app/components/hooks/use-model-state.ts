@@ -98,7 +98,10 @@ export const useModelState = <IModelInputState, IModelOutputState>(
         return oldState;
       }
       const newState = [...oldState];
-      newState[activeRunIdx].inputState = {...newState[activeRunIdx].inputState, ...update};
+      newState[activeRunIdx] = {
+        ...newState[activeRunIdx],
+        inputState: {...newState[activeRunIdx].inputState, ...update}
+      };
       return newState;
     });
   }, [activeRunIdx]);
@@ -178,7 +181,7 @@ export const useModelState = <IModelInputState, IModelOutputState>(
 
   const markRunFinished = useCallback(() => {
     setModelRuns(oldState => {
-      const newState = [...oldState];
+      const newState = [...oldState.map((run) => { return {...run};})];
       newState[activeRunIdx].isFinished = true;
       return newState;
     });
