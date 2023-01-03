@@ -97,8 +97,11 @@ export const useModelState = <IModelInputState, IModelOutputState>(
         // Don't let client update finished run.
         return oldState;
       }
-      const newState = [...oldState.map((run) => { return {...run};})];
-      newState[activeRunIdx].inputState = {...newState[activeRunIdx].inputState, ...update};
+      const newState = [...oldState];
+      newState[activeRunIdx] = {
+        ...newState[activeRunIdx],
+        inputState: {...newState[activeRunIdx].inputState, ...update}
+      };
       return newState;
     });
   }, [activeRunIdx]);
