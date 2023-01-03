@@ -3,6 +3,8 @@ import { IReportInitInteractive, setInteractiveState } from "@concord-consortium
 import { IInteractiveState, IAuthoredState } from "../types";
 import { App } from "../app/components/app";
 
+import css from "./report.scss";
+
 interface Props {
   initMessage: IReportInitInteractive<IInteractiveState, IAuthoredState>;
 }
@@ -10,7 +12,7 @@ interface Props {
 export const ReportComponent: React.FC<Props> = ({initMessage}) => {
   const { interactiveState, authoredState} = initMessage;
   return (
-    <div className="report">
+    <div className={css.report}>
       <App
         interactiveState={interactiveState}
         authoredState={authoredState}
