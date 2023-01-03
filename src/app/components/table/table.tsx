@@ -87,7 +87,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
 
           const buttonClasses = {
             [css.barChartButton]: true,
-            [css.disabled]: selectionDisabled,
+            [css.disabled]: selectionDisabled || disabled,
             [css.canBeSelected1]: !selectedRows?.[Number(row.id)] && availableStyles[0] === "selected1",
             [css.canBeSelected2]: !selectedRows?.[Number(row.id)] && availableStyles[0] === "selected2",
             [css.selected1]: selectedRows?.[Number(row.id)] === "selected1",
@@ -97,7 +97,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
             <div className={css.selectRowCheckbox}>
               <div className={css.container}>
                 {/* Keep real input element for accessibility and keyboard navigation */}
-                <input type="checkbox" checked={isSelected} onChange={onChange} onClick={onClick} disabled={selectionDisabled} />
+                <input type="checkbox" checked={isSelected} onChange={onChange} onClick={onClick} disabled={selectionDisabled || disabled} />
                 {/* barChartButtonBackground covers input but passes through all the pointer events */}
                 <div className={css.barChartButtonBackground} />
                 <div className={clsx(buttonClasses)}>
@@ -196,8 +196,8 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
                     <th
                       key={keyTh}
                       {...restColumn}
-                      className={clsx({ [css.numeric]: meta.numeric, [css.sortable]: !column.disableSortBy, [css.sorted]: column.isSorted, [css.headerGroupTitleBorder]: headerGroupTitle && idx !== 0 && idx !== 1, [css.headerGroupTitleNoBorder]: headerGroupTitle && (idx === 0 || idx === 1)})}
-                      style={{...style, width: column.width, textAlign: (centerHeader) ? "center": "left"}}
+                      className={clsx({ [css.numeric]: meta.numeric, [css.sortable]: !column.disableSortBy && !disabled, [css.sorted]: column.isSorted, [css.headerGroupTitleBorder]: headerGroupTitle && idx !== 0 && idx !== 1, [css.headerGroupTitleNoBorder]: headerGroupTitle && (idx === 0 || idx === 1)})}
+                      style={{...style, cursor: (!column.disableSortBy && !disabled) ? "default" : "pointer", width: column.width, textAlign: (centerHeader) ? "center": "left"}}
                       >{column.render("Header")}
                     </th>
                   );

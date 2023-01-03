@@ -2,6 +2,7 @@ import React from "react";
 
 import css from "./input-slider.scss";
 import { t } from "../../translation/translate";
+import clsx from "clsx";
 
 interface IProps {
   type: string;
@@ -33,7 +34,7 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
       <div className={css.type}>{type === "CO2" ? <span>CO<sub>2</sub></span> : type}</div>
       <div className={css.control}>
         <div className={css.left}>
-          <input type="range" id={type} min="0" max="2" value={valToNum(value)} onChange={(e) => handleChange(e)} className={css.slider} step="1" list={`${type}-values`}></input>
+          <input type="range" id={type} min="0" max="2" value={valToNum(value)} onChange={(e) => handleChange(e)} disabled={disabled} className={clsx(css.slider, {[css.disabled]: disabled})} step="1" list={`${type}-values`}></input>
         </div>
         <div className={css.right}>
           <datalist className={css.labels} id={`${type}-values`}>

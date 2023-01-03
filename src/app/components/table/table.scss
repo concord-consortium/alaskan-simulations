@@ -269,7 +269,7 @@ $tableBorderWidth: 2px;
         }
       }
 
-      &:hover .barChartButton.canBeSelected1 {
+      &:hover .barChartButton.canBeSelected1:not(.disabled) {
         background-color: $orangeTint50;
         border-color: $orangeTint50;
       }

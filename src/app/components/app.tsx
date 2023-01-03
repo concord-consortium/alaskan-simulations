@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Column } from "react-table";
-import { IModelRun, useModelState } from "./hooks/use-model-state";
+import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
 import { useModelGraph } from "./hooks/use-model-graph";
@@ -20,6 +20,7 @@ import UpArrow from "../assets/arrow-increase.png";
 import DownArrow from "../assets/arrow-decrease.png";
 import { plantLabDirections} from "./plant-lab-directions";
 import { linearMap } from "../utils/sim-utils";
+import _ from "lodash";
 
 import css from "./app.scss";
 import clsx from "clsx";
@@ -220,12 +221,12 @@ export const App = (props: IAppProps) => {
 
   useEffect(() => {
     setInteractiveState((prevState) => {
-        return {
-          answerType: "interactive_state",
-          ...prevState,
-          inputState: {...inputState},
-          outputState: {...outputState},
-          modelRuns: [...modelRuns.map((run) => {return {...run};})]
+      return {
+        answerType: "interactive_state",
+        ...prevState,
+        inputState: {...inputState},
+        outputState: {...outputState},
+        modelRuns: [...modelRuns.map((run) => {return {...run};})]
       };
     });
   }, [inputState, outputState, modelRuns]);
