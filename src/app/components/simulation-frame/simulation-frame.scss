@@ -36,12 +36,22 @@ $headerTextColor: #333333;
       height: 30px;
     }
 
-    .title {
-      height: 50px;
+    .titleContainer {
+      margin: 0 auto;
+      .title {
+        height: 50px;
+      }
+    }
+
+    .left {
+      margin-left: 12px;
+    }
+
+    .right {
+      margin-right: 12px;
     }
 
     .buttons {
-      margin-right: 12px;
       display: flex;
       align-items: center;
 
@@ -51,25 +61,25 @@ $headerTextColor: #333333;
         background-color: transparent;
         padding: 0;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 16px;
         display: flex;
         align-items: center;
       }
-      button + button {
+      img + button {
         margin-left: 6px;
       }
       button.active {
         svg :global(.background) {
-          fill: #333333;
+          fill: $dark-yellow;
         }
         svg :global(.questionMark) {
           fill: $bluePrimary;
         }
       }
       button:not(.active):hover {
-        color: $lightBlueAccent;
+        color: $blueAccent;
         svg :global(.outline), svg :global(.questionMark)  {
-          fill: $lightBlueAccent;
+          fill: $blueAccent;
         }
       }
     }

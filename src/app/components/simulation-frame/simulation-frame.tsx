@@ -37,10 +37,12 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children 
   return (
     <div className={css.simulationFrame} data-testid="simulation-frame">
       <div id={simulationFrameHeaderId} className={css.header}>
-        <div><img className={css.logo} src={Logo}/></div>
-        <div><img className={css.title} src={HeaderTitle}/></div>
-        <div className={css.buttons}>
+        <div className={clsx(css.buttons, css.left)}>
+          <img className={css.logo} src={Logo}/>
           <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{t("CREDITS.HEADER")}</button>
+        </div>
+        <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
+        <div className={clsx(css.buttons, css.right)}>
           <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}><DirectionsButton /></button>
         </div>
       </div>
