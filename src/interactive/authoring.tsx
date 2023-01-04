@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IAuthoringInitInteractive, useAuthoredState } from "@concord-consortium/lara-interactive-api";
+import { IAuthoringInitInteractive } from "@concord-consortium/lara-interactive-api";
 import { IAuthoredState } from "../types";
 
 interface Props {

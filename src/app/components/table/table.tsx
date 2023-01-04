@@ -111,7 +111,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
       },
       ...columns
     ]
-  , [columns, isGraphSelectionDisabled, onSelectedRowsChange, selectedRows]);
+  , [columns, isGraphSelectionDisabled, onSelectedRowsChange, selectedRows, disabled]);
 
   const {
     getTableProps,

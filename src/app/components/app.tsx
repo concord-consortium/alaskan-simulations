@@ -209,7 +209,7 @@ export const App = (props: IAppProps) => {
     initialInputState: interactiveState?.inputState || defaultInitialState.initialInputState,
     initialOutputState: interactiveState?.outputState || defaultInitialState.initialOutputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.initialModelRuns,
-  }), [interactiveState]));
+  }), [interactiveState, defaultInitialState]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
@@ -230,7 +230,7 @@ export const App = (props: IAppProps) => {
         };
       });
     }
-  }, [inputState, outputState, modelRuns]);
+  }, [inputState, outputState, modelRuns, readOnly]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>

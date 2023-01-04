@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import { t, getDefaultLanguage} from "../translation/translate";
+import { t } from "../translation/translate";
 import { CO2Amount, IModelInputState, LightAmount, WaterAmount} from "../../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
