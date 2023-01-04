@@ -20,7 +20,6 @@ import UpArrow from "../assets/arrow-increase.png";
 import DownArrow from "../assets/arrow-decrease.png";
 import { plantLabDirections} from "./plant-lab-directions";
 import { linearMap } from "../utils/sim-utils";
-import _ from "lodash";
 
 import css from "./app.scss";
 import clsx from "clsx";
