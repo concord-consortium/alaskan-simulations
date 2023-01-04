@@ -220,15 +220,17 @@ export const App = (props: IAppProps) => {
   } = modelState;
 
   useEffect(() => {
-    setInteractiveState((prevState) => {
-      return {
-        answerType: "interactive_state",
-        ...prevState,
-        inputState: {...inputState},
-        outputState: {...outputState},
-        modelRuns: [...modelRuns.map((run) => {return {...run};})]
-      };
-    });
+    if (!readOnly) {
+      setInteractiveState((prevState) => {
+        return {
+          answerType: "interactive_state",
+          ...prevState,
+          inputState: {...inputState},
+          outputState: {...outputState},
+          modelRuns: [...modelRuns.map((run) => {return {...run};})]
+        };
+      });
+    }
   }, [inputState, outputState, modelRuns]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
