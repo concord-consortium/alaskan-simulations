@@ -55,7 +55,7 @@ interface IAppProps {
 export const App = (props: IAppProps) => {
   const {interactiveState, setInteractiveState, readOnly} = props;
 
-  const defaultInitialState = {
+  const defaultInitialState = useMemo(() => ({
     initialInputState: defaultAuthoredState,
     initialOutputState: {
       time: 0,
@@ -68,7 +68,7 @@ export const App = (props: IAppProps) => {
       }
     },
     initialModelRuns: [],
-  };
+  }), []);
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -209,7 +209,7 @@ export const App = (props: IAppProps) => {
     initialInputState: interactiveState?.inputState || defaultInitialState.initialInputState,
     initialOutputState: interactiveState?.outputState || defaultInitialState.initialOutputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.initialModelRuns,
-  }), [interactiveState, defaultInitialState]));
+  }), [interactiveState, defaultInitialState.initialInputState, defaultInitialState.initialOutputState, defaultInitialState.initialModelRuns]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
