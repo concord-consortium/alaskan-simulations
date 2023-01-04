@@ -29,8 +29,6 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
     setInputState({co2amount: value as CO2Amount});
   }, [setInputState]);
 
-  const lang = getDefaultLanguage();
-
   return (
     <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")} style="violet">
       <div className={css.optionsContainer}>

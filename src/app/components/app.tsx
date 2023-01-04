@@ -53,7 +53,7 @@ interface IAppProps {
 }
 
 export const App = (props: IAppProps) => {
-  const {interactiveState, setInteractiveState, authoredState, readOnly} = props;
+  const {interactiveState, setInteractiveState, readOnly} = props;
 
   const defaultInitialState = {
     initialInputState: defaultAuthoredState,

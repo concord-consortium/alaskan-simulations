@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IAuthoringInitInteractive, useAuthoredState } from "@concord-consortium/lara-interactive-api";
-import { defaultAuthoredState, IAuthoredState } from "../types";
+import { IAuthoredState } from "../types";
 
 interface Props {
   initMessage: IAuthoringInitInteractive<IAuthoredState>;
@@ -8,7 +8,7 @@ interface Props {
 
 
 export const AuthoringComponent: React.FC<Props> = ({initMessage}) => {
-  const { authoredState, setAuthoredState } = useAuthoredState<IAuthoredState>();
+  // const { authoredState, setAuthoredState } = useAuthoredState<IAuthoredState>();
 
   return (
     <div className="padded">

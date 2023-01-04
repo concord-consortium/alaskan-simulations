@@ -12,7 +12,7 @@ interface IProps {
 }
 
 export const LabeledContainer:  React.FC<IProps> = (props) => {
-  const { label, style, labelStyle, className, centerLabel, children } = props;
+  const { label, style, className, centerLabel, children } = props;
   return (
     <div className={clsx(css.labeledContainer, css[style], className)}>
       <div className={clsx(css.label, {[css.centerLabel]: centerLabel})}>{ label }</div>
