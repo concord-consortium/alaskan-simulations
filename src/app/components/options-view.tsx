@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import { t, getDefaultLanguage} from "../translation/translate";
+import { t } from "../translation/translate";
 import { CO2Amount, IModelInputState, LightAmount, WaterAmount} from "../../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
@@ -28,8 +28,6 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
   const handleCO2AmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({co2amount: value as CO2Amount});
   }, [setInputState]);
-
-  const lang = getDefaultLanguage();
 
   return (
     <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")} style="violet">

@@ -42,6 +42,7 @@
   "WATER_AMOUNT.SOME": "some",
   "WATER_AMOUNT.FULL": "full",
 
+  "CO2_AMOUNT.NO": "none",
   "CO2_AMOUNT.NONE": "none",
   "CO2_AMOUNT.SOME": "some",
   "CO2_AMOUNT.FULL": "full",

@@ -114,9 +114,10 @@ export const useModelState = <IModelInputState, IModelOutputState>(
   const snapshotOutputState = useCallback((outputState: IModelOutputState) => {
     setModelRuns(oldState => {
       const newState = [...oldState];
-      newState[activeRunIdx].outputStateSnapshots = [
-        ...newState[activeRunIdx].outputStateSnapshots, outputState
-      ];
+      newState[activeRunIdx] = {
+        ...newState[activeRunIdx],
+        outputStateSnapshots: [...newState[activeRunIdx].outputStateSnapshots, outputState]
+      };
       return newState;
     });
   }, [activeRunIdx]);

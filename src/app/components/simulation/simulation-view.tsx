@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { t } from "../../translation/translate";
 import React from "react";
-import { CO2Amount, IModelInputState, IModelOutputState } from "../../../types";
+import { IModelInputState, IModelOutputState } from "../../../types";
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";

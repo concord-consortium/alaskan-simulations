@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Column } from "react-table";
-import { IModelRun, useModelState } from "./hooks/use-model-state";
+import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
 import { useModelGraph } from "./hooks/use-model-graph";
@@ -53,9 +53,9 @@ interface IAppProps {
 }
 
 export const App = (props: IAppProps) => {
-  const {interactiveState, setInteractiveState, authoredState, readOnly} = props;
+  const {interactiveState, setInteractiveState, readOnly} = props;
 
-  const defaultInitialState = {
+  const defaultInitialState = useMemo(() => ({
     initialInputState: defaultAuthoredState,
     initialOutputState: {
       time: 0,
@@ -68,7 +68,7 @@ export const App = (props: IAppProps) => {
       }
     },
     initialModelRuns: [],
-  };
+  }), []);
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -209,7 +209,7 @@ export const App = (props: IAppProps) => {
     initialInputState: interactiveState?.inputState || defaultInitialState.initialInputState,
     initialOutputState: interactiveState?.outputState || defaultInitialState.initialOutputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.initialModelRuns,
-  }), [interactiveState]));
+  }), [interactiveState, defaultInitialState.initialInputState, defaultInitialState.initialOutputState, defaultInitialState.initialModelRuns]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
@@ -219,16 +219,18 @@ export const App = (props: IAppProps) => {
   } = modelState;
 
   useEffect(() => {
-    setInteractiveState((prevState) => {
+    if (!readOnly) {
+      setInteractiveState((prevState) => {
         return {
           answerType: "interactive_state",
           ...prevState,
           inputState: {...inputState},
           outputState: {...outputState},
           modelRuns: [...modelRuns.map((run) => {return {...run};})]
-      };
-    });
-  }, [inputState, outputState, modelRuns]);
+        };
+      });
+    }
+  }, [inputState, outputState, modelRuns, readOnly, setInteractiveState]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
