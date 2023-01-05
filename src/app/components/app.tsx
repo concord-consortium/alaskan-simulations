@@ -230,7 +230,7 @@ export const App = (props: IAppProps) => {
         };
       });
     }
-  }, [inputState, outputState, modelRuns, readOnly]);
+  }, [inputState, outputState, modelRuns, readOnly, setInteractiveState]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
