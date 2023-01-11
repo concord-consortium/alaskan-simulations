@@ -1,17 +1,12 @@
 import { IRuntimeInteractiveMetadata } from "@concord-consortium/lara-interactive-api";
+import { IModelRun } from "./app/components/hooks/use-model-state";
 
 export interface IAuthoredState extends IModelInputState {}
-
-export interface IModelRun {
-  inputState: IModelInputState;
-  outputStateSnapshots: IModelOutputState[];
-  isFinished: boolean;
-}
-
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {
-  inputState: IModelInputState,
-  outputState: IModelOutputState,
-  modelRuns: IModelRun[],
+  inputState?: IModelInputState | undefined,
+  outputState?: IModelOutputState,
+  modelRuns?: IModelRun<IModelInputState, IModelOutputState>[] | undefined,
+  activeRun?: number
 }
 
 export enum Container {
@@ -70,3 +65,18 @@ export const defaultAuthoredState: IAuthoredState = {
   water: WaterAmount.Some,
   co2amount: CO2Amount.None,
 };
+
+export const defaultInitialState: Partial<IInteractiveState> = {
+    inputState: defaultAuthoredState,
+    outputState: {
+      time: 0,
+      lightChange: "--",
+      waterMassChange: "--",
+      co2Change: "--",
+      plantChange: {
+        change: 0,
+        leavesChange: 0
+      }
+    },
+    modelRuns: [],
+}

@@ -1,4 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
+import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
+import { defaultInitialState, IInteractiveState } from "../../../types";
+import { IModelInputState, IModelOutputState } from "../../../types";
+
 
 // initialOutputState can be either an object or a function of initialInputState which returns an object.
 export type OutputInitializerFunction<IModelInputState, T> = (inputState: IModelInputState) => T;
@@ -60,7 +64,7 @@ export interface IUseModelStateResult<IModelInputState, IModelOutputState> {
  * Output snapshots are used to let user go back and forth between states of the model after the simulation is finished.
  * Various helpers are provided to make it easier to work with these states.
  */
-export const useModelState = <IModelInputState, IModelOutputState>(
+export const useModelState = (
   options: IUseModelStateOptions<IModelInputState, IModelOutputState>
 ): IUseModelStateResult<IModelInputState, IModelOutputState> => {
   const { initialInputState, initialOutputState, initialModelRuns } = options;
@@ -70,8 +74,8 @@ export const useModelState = <IModelInputState, IModelOutputState>(
   , [initialInputState, initialOutputState]);
 
   const getNewModelRun = useCallback(() => ({
-    inputState: initialInputState,
-    outputStateSnapshots: [initialOutputStateObject],
+    inputState: defaultInitialState.inputState!,
+    outputStateSnapshots: [defaultInitialState.outputState!],
     isFinished: false
   }), [initialInputState, initialOutputStateObject]);
 
@@ -87,37 +91,60 @@ export const useModelState = <IModelInputState, IModelOutputState>(
   // When activeOutputSnapshotIdx is null, it means that currentOutputState is being used instead of snapshot
   // (when simulation is still running).
   const [activeOutputSnapshotIdx, setActiveOutputSnapshotIdx] = useState<number | null>(null);
-
+  const { setInteractiveState } = useInteractiveState<IInteractiveState>();
 
   const setInputState = useCallback((update: Partial<IModelInputState>) => {
     // setInputState is operating directly on the modelRuns array. Input state is not updated frequently
     // compared to the output state, so this seems fine.
+
     setModelRuns(oldState => {
       if (oldState[activeRunIdx].isFinished) {
         // Don't let client update finished run.
         return oldState;
       }
       const newState = [...oldState];
+
       newState[activeRunIdx] = {
         ...newState[activeRunIdx],
         inputState: {...newState[activeRunIdx].inputState, ...update}
       };
+
+      setInteractiveState({
+        answerType: "interactive_state",
+        inputState: {...newState[activeRunIdx].inputState},
+        outputState: currentOutputState,
+        modelRuns: newState
+      });
+
       return newState;
     });
   }, [activeRunIdx]);
 
 
   const setOutputState = useCallback((update: Partial<IModelOutputState>) => {
-    setCurrentOutputState(oldState => ({...oldState, ...update}));
-  }, []);
+    console.log("update", update);
+
+    setCurrentOutputState(oldState => {
+      setInteractiveState((prevState) => {return {answerType: "interactive_state", ...prevState, outputState: {...oldState, ...update}}});
+      return {...oldState, ...update};
+  })}, []);
 
   const snapshotOutputState = useCallback((outputState: IModelOutputState) => {
     setModelRuns(oldState => {
       const newState = [...oldState];
+
       newState[activeRunIdx] = {
         ...newState[activeRunIdx],
         outputStateSnapshots: [...newState[activeRunIdx].outputStateSnapshots, outputState]
       };
+
+      setInteractiveState({
+        answerType: "interactive_state",
+        inputState: {...newState[activeRunIdx].inputState},
+        outputState: currentOutputState,
+        modelRuns: newState
+      });
+
       return newState;
     });
   }, [activeRunIdx]);
@@ -125,16 +152,48 @@ export const useModelState = <IModelInputState, IModelOutputState>(
   const addModelRun = useCallback(() => {
     setCurrentOutputState(initialOutputStateObject);
     setActiveOutputSnapshotIdx(null);
-    setModelRuns(oldState => [...oldState, getNewModelRun()]);
+
+    setModelRuns(oldState => {
+      const newState = [...oldState, getNewModelRun()];
+      setInteractiveState({
+        answerType: "interactive_state",
+        inputState: {...newState[activeRunIdx].inputState},
+        outputState: currentOutputState,
+        modelRuns: newState
+      });
+
+      return newState;
+      }
+    );
+
     setActiveRunIdx(modelRuns.length);
   }, [getNewModelRun, initialOutputStateObject, modelRuns.length]);
 
   // This will remove all existing runs and and create a new one.
   const removeAllModelRuns = useCallback(() => {
-    setCurrentOutputState(initialOutputStateObject);
+    setCurrentOutputState(() => {
+      setInteractiveState((prevState) => {
+       return {
+        answerType: "interactive_state",
+        ...prevState,
+        outputState: initialOutputStateObject}
+      });
+      return initialOutputStateObject;
+    });
+
     setActiveRunIdx(0);
     setActiveOutputSnapshotIdx(null);
-    setModelRuns([getNewModelRun()]);
+
+    setModelRuns(() => {
+      setInteractiveState((prevState) => {
+        return {
+         answerType: "interactive_state",
+         ...prevState,
+         modelRuns: [getNewModelRun()]
+        };
+      });
+      return [getNewModelRun()];
+    });
   }, [getNewModelRun, initialOutputStateObject]);
 
   const removeModelRun = useCallback(() => {
@@ -142,14 +201,35 @@ export const useModelState = <IModelInputState, IModelOutputState>(
       const newActiveRunIdx = activeRunIdx > 0 ? activeRunIdx - 1 : activeRunIdx + 1;
       const newActiveRun = modelRuns[newActiveRunIdx];
       const snapshots = newActiveRun.outputStateSnapshots;
-      setCurrentOutputState(snapshots[snapshots.length - 1]);
+
+      setCurrentOutputState(() => {
+        setInteractiveState((prevState) => {
+          return {
+           answerType: "interactive_state",
+           ...prevState,
+           outputState: snapshots[snapshots.length - 1]
+          }
+         });
+        return snapshots[snapshots.length - 1];
+      });
+
       setActiveOutputSnapshotIdx(newActiveRun.isFinished ? snapshots.length - 1 : null);
+
       if (activeRunIdx > 0) {
         setActiveRunIdx(activeRunIdx - 1);
       }
       setModelRuns(oldState => {
         const newState = [...oldState];
         newState.splice(activeRunIdx, 1);
+
+        setInteractiveState((prevState) => {
+          return {
+           answerType: "interactive_state",
+           ...prevState,
+           modelRuns: newState
+          }
+         });
+
         return newState;
       });
     } else {
@@ -166,7 +246,18 @@ export const useModelState = <IModelInputState, IModelOutputState>(
     setActiveRunIdx(idx);
     const run = modelRuns[idx];
     const snapshots = run.outputStateSnapshots;
-    setCurrentOutputState(snapshots[snapshots.length - 1]);
+
+    setCurrentOutputState(() => {
+      setInteractiveState((prevState) => {
+        return {
+         answerType: "interactive_state",
+         ...prevState,
+         outputState: snapshots[snapshots.length - 1]
+        }
+       });
+      return snapshots[snapshots.length - 1]
+    });
+
     setActiveOutputSnapshotIdx(run.isFinished ? snapshots.length - 1 : null);
   }, [modelRuns]);
 
@@ -176,14 +267,32 @@ export const useModelState = <IModelInputState, IModelOutputState>(
       console.warn(`Trying to set active output snapshot index to ${idx}, but it's out of range.`);
       return;
     }
-    setCurrentOutputState(snapshots[idx]);
+
+    setCurrentOutputState(() => {
+      setInteractiveState((prevProps) => {
+        return {
+          answerType: "interactive_state",
+          ...prevProps,
+          outputState: snapshots[idx]
+        }
+      });
+      return snapshots[idx];
+    });
     setActiveOutputSnapshotIdx(idx);
   }, [activeRunIdx, modelRuns]);
 
   const markRunFinished = useCallback(() => {
-    setModelRuns(oldState => {
+    setModelRuns((oldState)=> {
       const newState = [...oldState.map((run) => { return {...run};})];
       newState[activeRunIdx].isFinished = true;
+
+      setInteractiveState({
+        answerType: "interactive_state",
+        inputState: {...newState[activeRunIdx].inputState},
+        outputState: currentOutputState,
+        modelRuns: newState
+      });
+
       return newState;
     });
   }, [activeRunIdx]);
