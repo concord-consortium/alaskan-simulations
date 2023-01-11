@@ -12,7 +12,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t, getDefaultLanguage } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultAuthoredState, defaultInitialState } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultInitialState } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { GraphTitle } from "./graph-title";
@@ -193,7 +193,7 @@ export const App = (props: IAppProps) => {
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState!,
     initialOutputState: interactiveState?.outputState || defaultInitialState.outputState!,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns!,
-  }), [interactiveState, defaultInitialState.inputState, defaultInitialState.outputState, defaultInitialState.modelRuns]));
+  }), [interactiveState]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 

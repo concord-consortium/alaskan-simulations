@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const RuntimeComponent: React.FC<Props> = ({initMessage}) => {
-  const interactiveState = initMessage.interactiveState;;
+  const interactiveState = initMessage.interactiveState;
   const { authoredState } = initMessage;
 
   return (

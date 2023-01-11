@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
-import { defaultInitialState, IInteractiveState } from "../../../types";
-import { IModelInputState, IModelOutputState } from "../../../types";
-
+import { defaultInitialState, IInteractiveState, IModelInputState, IModelOutputState } from "../../../types";
 
 // initialOutputState can be either an object or a function of initialInputState which returns an object.
 export type OutputInitializerFunction<IModelInputState, T> = (inputState: IModelInputState) => T;
@@ -77,7 +75,7 @@ export const useModelState = (
     inputState: defaultInitialState.inputState!,
     outputStateSnapshots: [defaultInitialState.outputState!],
     isFinished: false
-  }), [initialInputState, initialOutputStateObject]);
+  }), []);
 
   const [modelRuns, setModelRuns] = useState<IModelRun<IModelInputState, IModelOutputState>[]>(initialModelRuns.length > 0 ? initialModelRuns : [getNewModelRun()]);
   // currentOutputState is an optimization. It'd be possible to update outputState directly in the modelRuns
@@ -92,6 +90,16 @@ export const useModelState = (
   // (when simulation is still running).
   const [activeOutputSnapshotIdx, setActiveOutputSnapshotIdx] = useState<number | null>(null);
   const { setInteractiveState } = useInteractiveState<IInteractiveState>();
+
+  const saveInteractiveState = useCallback((updates: any) => {
+    setInteractiveState((prevState) => {
+      return {
+        answerType: "interactive_state",
+        ...prevState,
+        ...updates
+      };
+    });
+  }, [setInteractiveState]);
 
   const setInputState = useCallback((update: Partial<IModelInputState>) => {
     // setInputState is operating directly on the modelRuns array. Input state is not updated frequently
@@ -109,25 +117,17 @@ export const useModelState = (
         inputState: {...newState[activeRunIdx].inputState, ...update}
       };
 
-      setInteractiveState({
-        answerType: "interactive_state",
-        inputState: {...newState[activeRunIdx].inputState},
-        outputState: currentOutputState,
-        modelRuns: newState
-      });
-
+      saveInteractiveState({inputState: {...newState[activeRunIdx].inputState}, modelRuns: newState});
       return newState;
     });
-  }, [activeRunIdx]);
-
+  }, [activeRunIdx, saveInteractiveState]);
 
   const setOutputState = useCallback((update: Partial<IModelOutputState>) => {
-    console.log("update", update);
-
     setCurrentOutputState(oldState => {
-      setInteractiveState((prevState) => {return {answerType: "interactive_state", ...prevState, outputState: {...oldState, ...update}}});
+      saveInteractiveState({outputState: {...oldState, ...update}});
       return {...oldState, ...update};
-  })}, []);
+    });
+  }, [saveInteractiveState]);
 
   const snapshotOutputState = useCallback((outputState: IModelOutputState) => {
     setModelRuns(oldState => {
@@ -138,16 +138,15 @@ export const useModelState = (
         outputStateSnapshots: [...newState[activeRunIdx].outputStateSnapshots, outputState]
       };
 
-      setInteractiveState({
-        answerType: "interactive_state",
+      saveInteractiveState({
         inputState: {...newState[activeRunIdx].inputState},
-        outputState: currentOutputState,
+        outputState,
         modelRuns: newState
       });
 
       return newState;
     });
-  }, [activeRunIdx]);
+  }, [activeRunIdx, saveInteractiveState]);
 
   const addModelRun = useCallback(() => {
     setCurrentOutputState(initialOutputStateObject);
@@ -155,29 +154,22 @@ export const useModelState = (
 
     setModelRuns(oldState => {
       const newState = [...oldState, getNewModelRun()];
-      setInteractiveState({
-        answerType: "interactive_state",
-        inputState: {...newState[activeRunIdx].inputState},
-        outputState: currentOutputState,
+      saveInteractiveState({
+        inputState: initialInputState,
+        outputState: initialOutputStateObject,
         modelRuns: newState
       });
-
       return newState;
       }
     );
 
     setActiveRunIdx(modelRuns.length);
-  }, [getNewModelRun, initialOutputStateObject, modelRuns.length]);
+  }, [getNewModelRun, initialInputState, initialOutputStateObject, modelRuns.length, saveInteractiveState]);
 
   // This will remove all existing runs and and create a new one.
   const removeAllModelRuns = useCallback(() => {
     setCurrentOutputState(() => {
-      setInteractiveState((prevState) => {
-       return {
-        answerType: "interactive_state",
-        ...prevState,
-        outputState: initialOutputStateObject}
-      });
+      saveInteractiveState({outputState: initialOutputStateObject});
       return initialOutputStateObject;
     });
 
@@ -185,16 +177,10 @@ export const useModelState = (
     setActiveOutputSnapshotIdx(null);
 
     setModelRuns(() => {
-      setInteractiveState((prevState) => {
-        return {
-         answerType: "interactive_state",
-         ...prevState,
-         modelRuns: [getNewModelRun()]
-        };
-      });
+      saveInteractiveState({modelRuns: [getNewModelRun()]});
       return [getNewModelRun()];
     });
-  }, [getNewModelRun, initialOutputStateObject]);
+  }, [getNewModelRun, initialOutputStateObject, saveInteractiveState]);
 
   const removeModelRun = useCallback(() => {
     if (modelRuns.length > 1) {
@@ -203,13 +189,7 @@ export const useModelState = (
       const snapshots = newActiveRun.outputStateSnapshots;
 
       setCurrentOutputState(() => {
-        setInteractiveState((prevState) => {
-          return {
-           answerType: "interactive_state",
-           ...prevState,
-           outputState: snapshots[snapshots.length - 1]
-          }
-         });
+        saveInteractiveState({outputState: snapshots[snapshots.length - 1]});
         return snapshots[snapshots.length - 1];
       });
 
@@ -218,25 +198,18 @@ export const useModelState = (
       if (activeRunIdx > 0) {
         setActiveRunIdx(activeRunIdx - 1);
       }
+
       setModelRuns(oldState => {
         const newState = [...oldState];
         newState.splice(activeRunIdx, 1);
-
-        setInteractiveState((prevState) => {
-          return {
-           answerType: "interactive_state",
-           ...prevState,
-           modelRuns: newState
-          }
-         });
-
+        saveInteractiveState({modelRuns: newState});
         return newState;
       });
     } else {
       // When there's only one run left, it's going to be removed and a new, fresh one will be created.
       removeAllModelRuns();
     }
-  }, [activeRunIdx, modelRuns, removeAllModelRuns]);
+  }, [activeRunIdx, modelRuns, removeAllModelRuns, saveInteractiveState]);
 
   const handleSetActiveRunIdx = useCallback((idx: number) => {
     if (!modelRuns[idx]) {
@@ -248,46 +221,35 @@ export const useModelState = (
     const snapshots = run.outputStateSnapshots;
 
     setCurrentOutputState(() => {
-      setInteractiveState((prevState) => {
-        return {
-         answerType: "interactive_state",
-         ...prevState,
-         outputState: snapshots[snapshots.length - 1]
-        }
-       });
-      return snapshots[snapshots.length - 1]
+      saveInteractiveState({outputState: snapshots[snapshots.length - 1]});
+      return snapshots[snapshots.length - 1];
     });
 
     setActiveOutputSnapshotIdx(run.isFinished ? snapshots.length - 1 : null);
-  }, [modelRuns]);
+  }, [modelRuns, saveInteractiveState]);
 
   const handleSetActiveOutputSnapshotIdx = useCallback((idx: number) => {
     const snapshots = modelRuns[activeRunIdx].outputStateSnapshots;
+
     if (!snapshots[idx]) {
       console.warn(`Trying to set active output snapshot index to ${idx}, but it's out of range.`);
       return;
     }
 
     setCurrentOutputState(() => {
-      setInteractiveState((prevProps) => {
-        return {
-          answerType: "interactive_state",
-          ...prevProps,
-          outputState: snapshots[idx]
-        }
-      });
+      saveInteractiveState({outputState: snapshots[idx]});
       return snapshots[idx];
     });
+
     setActiveOutputSnapshotIdx(idx);
-  }, [activeRunIdx, modelRuns]);
+  }, [activeRunIdx, modelRuns, saveInteractiveState]);
 
   const markRunFinished = useCallback(() => {
     setModelRuns((oldState)=> {
       const newState = [...oldState.map((run) => { return {...run};})];
       newState[activeRunIdx].isFinished = true;
 
-      setInteractiveState({
-        answerType: "interactive_state",
+      saveInteractiveState({
         inputState: {...newState[activeRunIdx].inputState},
         outputState: currentOutputState,
         modelRuns: newState
@@ -295,7 +257,7 @@ export const useModelState = (
 
       return newState;
     });
-  }, [activeRunIdx]);
+  }, [activeRunIdx, saveInteractiveState, currentOutputState]);
 
   return {
     activeRunIdx,
