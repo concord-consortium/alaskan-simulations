@@ -72,8 +72,8 @@ export const useModelState = (
   , [initialInputState, initialOutputState]);
 
   const getNewModelRun = useCallback(() => ({
-    inputState: defaultInitialState.inputState!,
-    outputStateSnapshots: [defaultInitialState.outputState!],
+    inputState: defaultInitialState.inputState,
+    outputStateSnapshots: [defaultInitialState.outputState],
     isFinished: false
   }), []);
 

@@ -3,10 +3,9 @@ import { IModelRun } from "./app/components/hooks/use-model-state";
 
 export interface IAuthoredState extends IModelInputState {}
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {
-  inputState?: IModelInputState | undefined,
-  outputState?: IModelOutputState,
-  modelRuns?: IModelRun<IModelInputState, IModelOutputState>[] | undefined,
-  activeRun?: number
+  inputState: IModelInputState ,
+  outputState: IModelOutputState,
+  modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
 }
 
 export enum Container {
@@ -66,7 +65,8 @@ export const defaultAuthoredState: IAuthoredState = {
   co2amount: CO2Amount.None,
 };
 
-export const defaultInitialState: Partial<IInteractiveState> = {
+export const defaultInitialState: IInteractiveState = {
+    answerType: "interactive_state",
     inputState: defaultAuthoredState,
     outputState: {
       time: 0,

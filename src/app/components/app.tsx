@@ -190,9 +190,9 @@ export const App = (props: IAppProps) => {
   const lang = getDefaultLanguage();
 
   const modelState = useModelState(useMemo(() => ({
-    initialInputState: interactiveState?.inputState || defaultInitialState.inputState!,
-    initialOutputState: interactiveState?.outputState || defaultInitialState.outputState!,
-    initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns!,
+    initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
+    initialOutputState: interactiveState?.outputState || defaultInitialState.outputState,
+    initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns,
   }), [interactiveState]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
