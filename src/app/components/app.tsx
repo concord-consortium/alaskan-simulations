@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Column } from "react-table";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
@@ -12,7 +12,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t, getDefaultLanguage } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultAuthoredState } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultInitialState } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { GraphTitle } from "./graph-title";
@@ -47,28 +47,12 @@ const columnsMeta: IColumnMeta[] = [
 
 interface IAppProps {
   interactiveState: IInteractiveState|null;
-  setInteractiveState: ((stateOrUpdateFunc: IInteractiveState | ((prevState: IInteractiveState | null) => IInteractiveState) | null) => void);
   authoredState: IAuthoredState|null;
   readOnly?: boolean;
 }
 
 export const App = (props: IAppProps) => {
-  const {interactiveState, setInteractiveState, readOnly} = props;
-
-  const defaultInitialState = useMemo(() => ({
-    initialInputState: defaultAuthoredState,
-    initialOutputState: {
-      time: 0,
-      lightChange: "--",
-      waterMassChange: "--",
-      co2Change: "--",
-      plantChange: {
-        change: 0,
-        leavesChange: 0
-      }
-    },
-    initialModelRuns: [],
-  }), []);
+  const {interactiveState, readOnly} = props;
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -205,32 +189,18 @@ export const App = (props: IAppProps) => {
 
   const lang = getDefaultLanguage();
 
-  const modelState = useModelState<IModelInputState, IModelOutputState>(useMemo(() => ({
-    initialInputState: interactiveState?.inputState || defaultInitialState.initialInputState,
-    initialOutputState: interactiveState?.outputState || defaultInitialState.initialOutputState,
-    initialModelRuns: interactiveState?.modelRuns || defaultInitialState.initialModelRuns,
-  }), [interactiveState, defaultInitialState.initialInputState, defaultInitialState.initialOutputState, defaultInitialState.initialModelRuns]));
+  const modelState = useModelState(useMemo(() => ({
+    initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
+    initialOutputState: interactiveState?.outputState || defaultInitialState.outputState,
+    initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns,
+  }), [interactiveState]));
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, modelRuns
+    setActiveOutputSnapshotIdx, addModelRun
   } = modelState;
-
-  useEffect(() => {
-    if (!readOnly) {
-      setInteractiveState((prevState) => {
-        return {
-          answerType: "interactive_state",
-          ...prevState,
-          inputState: {...inputState},
-          outputState: {...outputState},
-          modelRuns: [...modelRuns.map((run) => {return {...run};})]
-        };
-      });
-    }
-  }, [inputState, outputState, modelRuns, readOnly, setInteractiveState]);
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     startingConditions:<div>
