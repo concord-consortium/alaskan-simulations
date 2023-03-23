@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import { t } from "../translation/translate";
-import { CO2Amount, IModelInputState, LightAmount, WaterAmount} from "../../types";
+import { IModelInputState, InputAmount } from "../../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
 
@@ -18,15 +18,15 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
 
 
   const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setInputState({light: value as LightAmount});
+    setInputState({light: value as InputAmount});
   }, [setInputState]);
 
   const handleWaterAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setInputState({water: value as WaterAmount});
+    setInputState({water: value as InputAmount});
   }, [setInputState]);
 
   const handleCO2AmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setInputState({co2amount: value as CO2Amount});
+    setInputState({co2amount: value as InputAmount});
   }, [setInputState]);
 
   return (
@@ -34,21 +34,21 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
       <div className={css.optionsContainer}>
           <InputSlider
             type={"Light"}
-            labels={["LIGHT_AMOUNT.NONE", "LIGHT_AMOUNT.SOME", "LIGHT_AMOUNT.FULL"]}
+            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"Water"}
-            labels={["WATER_AMOUNT.NONE", "WATER_AMOUNT.SOME", "WATER_AMOUNT.FULL"]}
+            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"CO2"}
-            labels={["CO2_AMOUNT.NONE", "CO2_AMOUNT.SOME", "CO2_AMOUNT.FULL"]}
+            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}

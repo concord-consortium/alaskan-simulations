@@ -26,18 +26,16 @@
   "SETUP_HEADER_TITLE1": "Amount of ",
   "SETUP_HEADER_TITLE2": " in the Air",
 
-  "LIGHT_AMOUNT.NONE": "none",
-  "LIGHT_AMOUNT.SOME": "some",
-  "LIGHT_AMOUNT.FULL": "full",
+  "AMOUNT.NONE": "none",
+  "AMOUNT.SOME": "some",
+  "AMOUNT.FULL": "full",
 
-  "WATER_AMOUNT.NONE": "none",
-  "WATER_AMOUNT.SOME": "some",
-  "WATER_AMOUNT.FULL": "full",
+  "AMOUNT.NO": "no",
 
-  "CO2_AMOUNT.NO": "none",
-  "CO2_AMOUNT.NONE": "none",
-  "CO2_AMOUNT.SOME": "some",
-  "CO2_AMOUNT.FULL": "full",
+  "OUTPUT.LOW": "Low",
+  "OUTPUT.MEDIUM": "Medium",
+  "OUTPUT.HIGH": "High",
+
 
   "TERRARIUM": "Terrarium",
   "SETUP_TERRARIUM": "Controls",

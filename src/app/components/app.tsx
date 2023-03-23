@@ -12,14 +12,16 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t, getDefaultLanguage } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IPlantChange, CO2Amount, IInteractiveState, IAuthoredState, defaultInitialState } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
-import { GraphTitle } from "./graph-title";
 import UpArrow from "../assets/arrow-increase.png";
 import DownArrow from "../assets/arrow-decrease.png";
 import { plantLabDirections} from "./plant-lab-directions";
-import { linearMap } from "../utils/sim-utils";
+
+import None from "../assets/input-none.png";
+import Some from "../assets/input-some.png";
+import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
 import clsx from "clsx";
@@ -57,135 +59,33 @@ export const App = (props: IAppProps) => {
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
-
     {
-      // Header: t("TABLE_HEADER.STARTING_CONDITIONS"),
-      Header: "", //this is to demonstrate the row height shrinks to 10
-      accessor: "startingConditions" as const,
+      Header: "Light", //this is to demonstrate the row height shrinks to 10
+      accessor: "light" as const,
       width: 130,
 
     },
     {
-      Header: t("TABLE_HEADER.LIGHT"),
-      accessor: "lightChange" as const,
+      Header: "Water",
+      accessor: "water" as const,
       width: 100,
-      Cell: ({ value }: { value: number }) => numberToJSX(value)
-    },
-    {
-      Header: t("TABLE_HEADER.WATER"),
-      accessor: "waterMassChange" as const,
-      width: 100,
-      Cell: ({ value }: { value: number | string }) => numberToJSX(value),
     },
     {
       Header: <div style={{marginBottom:"-3px"}}><span>CO<sub>2</sub></span></div>,
-      accessor: "co2Change" as const,
+      accessor: "co2" as const,
       width: 100,
-      Cell: ({ value }: { value: number }) => numberToJSX(value)
     },
     {
-      Header: t("TABLE_HEADER.PLANTS"),
-      accessor: "plantChange" as const,
+      Header: "Sugar Used",
+      accessor: "sugarUsed" as const,
       width: 100,
-      Cell: ({ value }: { value: IPlantChange }) => numberToJSX(value.change),
-      sortType: (rowA, rowB, columnId) => {
-        const a = rowA.values[columnId].change;
-        const b = rowB.values[columnId].change;
-        return a-b;
-      },
-
+    },
+    {
+      Header: "Sugar Produced",
+      accessor: "sugarProduced" as const,
+      width: 100,
     },
   ], []);
-
-  function numberToJSX(value: number | string){
-      switch (value){
-        case -2:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellDownArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellDownArrow1} style={{marginLeft:"-8px"}}/>
-            </div>
-          );
-          break;
-        case -1.5:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellDownArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellDownArrowHalf} style={{marginLeft:"-8px"}}/>
-            </div>
-          );
-          break;
-        case -1:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellDownArrow1}/>
-            </div>
-          );
-          break;
-        case -0.5:
-
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellDownArrowHalf}/>
-            </div>
-          );
-          break;
-
-        case 0.5:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrowHalf}/>
-            </div>
-          );
-          break;
-        case 1:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrow1}/>
-            </div>
-          );
-          break;
-        case 1.5:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellUpArrowHalf} style={{marginLeft:"-8px"}}/>
-            </div>
-          );
-          break;
-        case 2:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginLeft:"-8px"}}/>
-            </div>
-          );
-          break;
-        case 3:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px", marginLeft:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginLeft: "-8px"}}/>
-            </div>
-          );
-          break;
-        case 4:
-          return (
-            <div className={css.flexContainer}>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px", marginLeft:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginRight:"-8px", marginLeft:"-8px"}}/>
-              <div className={css.cellUpArrow1} style={{marginLeft: "-8px"}}/>
-            </div>
-          );
-          break;
-
-        default: //for 0 and --
-          return <span> {value} </span>;
-          break;
-      }
-  }
 
   const lang = getDefaultLanguage();
 
@@ -202,32 +102,38 @@ export const App = (props: IAppProps) => {
     setActiveOutputSnapshotIdx, addModelRun
   } = modelState;
 
+  const getPng = (inputLevel: string) => {
+    if (inputLevel === InputAmount.None) {
+      return <img src={None}/>
+    } else if (inputLevel === InputAmount.Some) {
+      return <img src={Some}/>
+    } else {
+      return <img src={Full}/>
+    }
+  }
+
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
-    startingConditions:<div>
-                          <div>{t("TABLE_HEADER.LIGHT")}: {t(runInputState.light)} </div>
-                          <div>{t("TABLE_HEADER.WATER")}: {t(runInputState.water)} </div>
-                          <div> <span>CO<sub>2</sub></span>: {t(runInputState.co2amount)}</div>
-                       </div> ,
-    lightChange: (runOutputState.time === 0) ? (runInputState.light) ? 0: "-- " : runOutputState.lightChange,
-    waterMassChange: (runOutputState.time === 0) ? (runInputState.water) ? 0: "-- " : runOutputState.waterMassChange,
-    co2Change: (runOutputState.time === 0) ? (runInputState.co2amount !== CO2Amount.None) ? 0: "-- " : runOutputState.co2Change,
-    plantChange: runOutputState.plantChange
+    light: getPng(runInputState.light),
+    water: getPng(runInputState.water),
+    co2: getPng(runInputState.co2amount),
+    sugarUsed: runOutputState.sugarUsed as OutputAmount,
+    sugarCreated: runOutputState.sugarCreated as OutputAmount
   }), []);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
-    modelState,
-    selectedRuns: tableProps.selectedRows || {},
-    outputStateToDataPoint: useCallback((output: IModelOutputState) =>
-      ({
-        waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
-        light: typeof output.lightChange === "string" ? 0 : output.lightChange,
-        co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
-        plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change,
-      })
-    , [])
-  });
+  // const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
+  //   modelState,
+  //   selectedRuns: tableProps.selectedRows || {},
+  //   outputStateToDataPoint: useCallback((output: IModelOutputState) =>
+  //     ({
+  //       waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
+  //       light: typeof output.lightChange === "string" ? 0 : output.lightChange,
+  //       co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
+  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change,
+  //     })
+  //   , [])
+  // });
 
   const uiDisabled = isRunning || isFinished;
 
@@ -240,10 +146,8 @@ export const App = (props: IAppProps) => {
 
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
-      lightChange: model.lightChange,
-      waterMassChange: model.waterMassChange,
-      co2Change: model.co2Change,
-      plantChange: model.plantChange,
+      sugarUsed: model.sugarUsed as OutputAmount,
+      sugarCreated: model.sugarCreated as OutputAmount
     });
 
     const simulationStep = (realTimeDiff: number) => {
@@ -283,24 +187,6 @@ export const App = (props: IAppProps) => {
       focusTargetAfterNewRun.current?.focus();
     }, 150);
   };
-
-  //CSS Styles for HeaderGroupTitle
-  const emptyCellStyle: React.CSSProperties = {
-    height: "10px",
-  };
-  const startingConditionsStyle: React.CSSProperties = {
-    height:"10px",
-    textAlign:"left"
-  };
-  const changeInMassStyle: React.CSSProperties = {
-    height: "10px",
-    textAlign:"center"
-  };
-  const customStyles = [emptyCellStyle, startingConditionsStyle, changeInMassStyle];
-  //used for rounding the activeXTick
-  const expectedPrecision = 1000;
-  const roundedTime = Math.round(outputState.time * expectedPrecision) / expectedPrecision;
-
 
   return (
     <SimulationFrame
@@ -347,29 +233,13 @@ export const App = (props: IAppProps) => {
               columns={columns}
               columnsMeta={columnsMeta}
               disabled={isRunning || !!readOnly}
-              customHeader={(
-                <div className={clsx(css.key, css[lang])}>
-                  <div className={css.keyTitleContainer}>
-                    <p className={css.keyTitle}> {t("TABLE_HEADER_KEY.KEY")} </p>
-                  </div>
-                  <div className={css.upArrowContainer}>
-                    <img src={UpArrow} className={css.upArrowImg}/>
-                    <p className={css.upArrowTitle}> {t("TABLE_HEADER_KEY.INCREASE")} </p>
-                  </div>
-                  <div className={css.downArrowContainer}>
-                    <img src={DownArrow} className={css.downArrowImg}/>
-                    <p className={css.downArrowTitle}> {t("TABLE_HEADER_KEY.DECREASE")} </p>
-                  </div>
-                </div>
-              )}
-              headerGroupTitle={customStyles}
               centerHeader={true}
               noWrapDeleteButton={true}
             />
           </div>
           <div className={css.barGraphContainer}>
             <div className={css.marginBlock}/>
-            <BarGraph
+            {/* <BarGraph
               {...graphProps} // `data` and `barStyles` at this point
               title= {<GraphTitle days={`${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`}/>}
               yAxisLabel={t("GRAPH.Y_AXIS")}
@@ -435,7 +305,7 @@ export const App = (props: IAppProps) => {
               // Y=0 is in the middle of the graph.
               centeredZero={true}
               minorLinesHalfThick={true}
-            />
+            /> */}
           </div>
 
         </div>

@@ -1,20 +1,20 @@
 import React from "react";
 import clsx from "clsx";
-import { CO2Amount, LightAmount, WaterAmount } from "../../../types";
+import { InputAmount } from "../../../types";
 import css from "./animation-view.scss";
 
 interface IProps {
-  light: LightAmount;
-  water: WaterAmount;
-  co2Amount: CO2Amount;
+  light: InputAmount;
+  water: InputAmount;
+  co2Amount: InputAmount;
   time: number;
   isRunning: boolean;
 }
 
 export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, isRunning}) => {
-  const co2None = (co2Amount === CO2Amount.None);
-  const co2Low = (co2Amount === CO2Amount.Some);
-  const co2Normal = (co2Amount === CO2Amount.Full);
+  const co2None = (co2Amount === InputAmount.None);
+  const co2Low = (co2Amount === InputAmount.Some);
+  const co2Normal = (co2Amount === InputAmount.Full);
   let plantClass = "";
   let rootClass = "";
 
