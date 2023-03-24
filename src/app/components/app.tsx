@@ -62,33 +62,30 @@ export const App = (props: IAppProps) => {
     {
       Header: "Trial",
       accessor: "trial" as const,
-      width: 100
+      width: 60
     },
     {
       Header: "Light",
       accessor: "light" as const,
-      width: 100,
-
+      width: 75,
     },
     {
       Header: "Water",
       accessor: "water" as const,
-      width: 100,
+      width: 75,
     },
     {
       Header: <div style={{marginBottom:"-3px"}}><span>CO<sub>2</sub></span></div>,
       accessor: "co2" as const,
-      width: 100,
+      width: 75,
     },
     {
       Header: "Sugar Used",
       accessor: "sugarUsed" as const,
-      width: 100,
     },
     {
       Header: "Sugar Produced",
       accessor: "sugarProduced" as const,
-      width: 100,
     },
   ], []);
 

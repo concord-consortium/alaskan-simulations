@@ -1,6 +1,6 @@
 @import "../vars.scss";
 
-$headerHeight: 52px;
+$headerHeight: 30px;
 $rowMinHeight: 40px;
 $containerPadding: 1px;
 $activeRowLeftBorderWidth: 8px;
@@ -50,7 +50,6 @@ $tableBorderWidth: 2px;
 
   .header {
     color: $font-color;
-    height: $headerHeight;
     background-color: $dark-yellow;
     font-size: 16px;
     font-weight: bold;
@@ -58,9 +57,13 @@ $tableBorderWidth: 2px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 10px;
     font-weight: 800;
+    height: 45px;
+
+    .title {
+      margin: 7px 75px 6px 185px;
+    }
 
     button.noWrap {
       white-space: nowrap;
@@ -154,6 +157,17 @@ $tableBorderWidth: 2px;
       }
     }
 
+    .headerRow {
+      th {
+      &:nth-child(1) {
+        border-left: 2px solid white;
+      }
+      &:nth-child(6) {
+        border-right: 2px solid white;
+      }
+      }
+    }
+
     th, td {
       box-sizing: border-box;
       height: $rowMinHeight;
@@ -177,24 +191,13 @@ $tableBorderWidth: 2px;
     }
 
     th {
-      background-color: $lightBlueTint25;
+      background-color: $medium-yellow;
       border-right: 2px solid #fff;
-      text-align: left;
-      vertical-align: bottom;
+      border-bottom: 2px solid white;
       padding-bottom: 2px;
 
       &.numeric {
         text-align: right;
-      }
-
-      &.sortable:hover {
-        cursor: pointer;
-        background-color: $bluePrimaryTint50;
-      }
-
-      &.sortable.sorted {
-        color: #fff;
-        background-color: $bluePrimary;
       }
 
       &.headerGroupTitleBorder{
