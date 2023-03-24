@@ -1,40 +1,28 @@
 @import "../vars.scss";
 
-$headerHeight: 30px;
+$headerHeight: 45px;
 $rowMinHeight: 40px;
 $containerPadding: 1px;
-$activeRowLeftBorderWidth: 8px;
+$activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 
 @mixin activeRow($opacity) {
-  td:not(.graphSelection) {
-    // The first cell with the graph selection button should not be highlighted.
-    background-color: rgba(112, 207, 239, 0.18 * $opacity);
-  }
   td {
-    $borderWidth: 3px;
-    $borderColor: rgba($bluePrimary, $opacity);
-
+    $borderWidth: 2px;
+    $borderColor: rgba($bright-blue, $opacity);
     z-index: 1000;
     border-top: $borderWidth solid $borderColor;
     border-bottom: $borderWidth solid $borderColor;
     padding-top: $cellVerticalPadding - $borderWidth;
     padding-bottom: $cellVerticalPadding - $borderWidth;
     &:first-child {
-      // Border that is outside the cell is composed of border (that never can be outside cell) and box shadow.
-      // $insideBorder decides how much of the border is within the cell and how much overflows out.
-      $insideBorder: 1px;
+      $insideBorder: 2px;
       border-left: $insideBorder solid $borderColor;
-      box-shadow: -$activeRowLeftBorderWidth + $insideBorder 0 0 $borderColor;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-      &:not(.graphSelection) {
-        padding-left: $cellHorizontalPadding - $insideBorder;
-      }
+      padding-left: 2px;
     }
     &:last-child {
-      border-right: 3px solid $borderColor;
-      padding-right: $cellHorizontalPadding - 3px;
+      border-right: 2px solid $borderColor;
+      padding-right: 2px;
     }
   }
 }
@@ -59,7 +47,7 @@ $tableBorderWidth: 2px;
     align-items: center;
     gap: 10px;
     font-weight: 800;
-    height: 45px;
+    height: $headerHeight;
 
     .title {
       margin: 7px 75px 6px 185px;
@@ -213,11 +201,8 @@ $tableBorderWidth: 2px;
 
     td {
       border-right: 1px solid #949494;
-
-      &.numeric {
-        text-align: right;
-      }
     }
+
   }
 
   &:not(.disabled) tr {
