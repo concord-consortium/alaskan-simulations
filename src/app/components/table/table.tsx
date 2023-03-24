@@ -190,13 +190,11 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
                 {
                   headerGroup.headers.map((column, idx) => {
                   const { key: keyTh, style, ...restColumn } = column.getHeaderProps(column.getSortByToggleProps());
-                  const meta = columnsMeta[idx];
-                  return (idx===1 && headerGroupTitle) ? null :
-                  (
+                  return (
                     <th
                       key={keyTh}
                       {...restColumn}
-                      className={clsx({ [css.numeric]: meta.numeric, [css.sortable]: !column.disableSortBy && !disabled, [css.sorted]: column.isSorted, [css.headerGroupTitleBorder]: headerGroupTitle && idx !== 0 && idx !== 1, [css.headerGroupTitleNoBorder]: headerGroupTitle && (idx === 0 || idx === 1)})}
+                      className={clsx({[css.sortable]: !column.disableSortBy && !disabled, [css.sorted]: column.isSorted, [css.headerGroupTitleBorder]: headerGroupTitle && idx !== 0 && idx !== 1, [css.headerGroupTitleNoBorder]: headerGroupTitle && (idx === 0 || idx === 1)})}
                       style={{...style, cursor: (!column.disableSortBy && !disabled) ? "default" : "pointer", width: column.width, textAlign: (centerHeader) ? "center": "left"}}
                       >{column.render("Header")}
                     </th>
@@ -208,7 +206,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
           })}
         </thead>
         <tbody {...getTableBodyProps}>
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             const rowId = Number(row.id);
             const onClick = () => {
@@ -236,18 +234,16 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
                 {row.cells.map((cell, idx) => {
                   const { key: keyTd, ...restCellProps } = cell.getCellProps();
                   const meta = columnsMeta[idx];
+                  if (idx === 0) {
+                    console.log("cell", cell);
+                  }
                   return (
                     <td
                       key={keyTd}
                       {...restCellProps}
-                      className={clsx({
-                        [css.numeric]: meta.numeric,
-                        [css.graphSelection]: meta.graphSelection,
-                        [css.noPadding]: meta.noPadding,
-                      })}
-                      style={{width: cell.column.width, textAlign: (centerHeader && idx !== 1) ? "center": "left"}} //Do not center Starting Conditions
+                      style={{width: cell.column.width, textAlign: "center"}} //Do not center Starting Conditions
                     >
-                    {cell.render("Cell")}
+                    {idx === 0 ? index + 1 : cell.render("Cell")}
                     </td>
                   );
                 })}

@@ -39,7 +39,7 @@ const maxDays = 14;
 const maxDaysScale = 2; //this helps us show 28 as max days instead of 14
 
 const columnsMeta: IColumnMeta[] = [
-  { graphSelection: true },
+  { numeric: false },
   { numeric: false },
   { numeric: false },
   { numeric: false },
@@ -60,9 +60,14 @@ export const App = (props: IAppProps) => {
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
     {
-      Header: "Light", //this is to demonstrate the row height shrinks to 10
+      Header: "Trial",
+      accessor: "trial" as const,
+      width: 100
+    },
+    {
+      Header: "Light",
       accessor: "light" as const,
-      width: 130,
+      width: 100,
 
     },
     {
