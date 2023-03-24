@@ -106,13 +106,13 @@ export const App = (props: IAppProps) => {
 
   const getPng = (inputLevel: string) => {
     if (inputLevel === InputAmount.None) {
-      return <img src={None}/>
+      return <img src={None}/>;
     } else if (inputLevel === InputAmount.Some) {
-      return <img src={Some}/>
+      return <img src={Some}/>;
     } else {
-      return <img src={Full}/>
+      return <img src={Full}/>;
     }
-  }
+  };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     light: getPng(runInputState.light),
