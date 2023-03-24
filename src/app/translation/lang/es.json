@@ -26,18 +26,15 @@
   "SETUP_HEADER_TITLE1": "Cantidad de ",
   "SETUP_HEADER_TITLE2": " en el aire",
 
-  "LIGHT_AMOUNT.NONE": "nada",
-  "LIGHT_AMOUNT.SOME": "some",
-  "LIGHT_AMOUNT.FULL": "full",
+  "AMOUNT.NONE": "nada",
+  "AMOUNT.SOME": "some",
+  "AMOUNT.FULL": "full",
 
-  "WATER_AMOUNT.NONE": "nada",
-  "WATER_AMOUNT.SOME": "some",
-  "WATER_AMOUNT.FULL": "full",
+  "AMOUNT.NO": "nada",
 
-  "CO2_AMOUNT.NO": "nada",
-  "CO2_AMOUNT.NONE": "nada",
-  "CO2_AMOUNT.SOME": "bajo",
-  "CO2_AMOUNT.FULL": "normal",
+  "OUTPUT.LOW": "Low",
+  "OUTPUT.MEDIUM": "Medium",
+  "OUTPUT.HIGH": "High",
 
   "TERRARIUM": "Terrario",
   "SETUP_TERRARIUM": "Preparar el terrario",

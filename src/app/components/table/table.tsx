@@ -50,68 +50,10 @@ const getAvailableStyles = (selectedRows?: SelectedRows): SelectedRowStyleName[]
 };
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
-  const { columns, columnsMeta, data, activeRow, onActiveRowChange, selectedRows, disabled, onSelectedRowsChange,
-    onRowDelete, onClearTable, customHeader, headerGroupTitle, centerHeader, noWrapDeleteButton, maxWidthDeleteButton } = props;
+  const { columns, data, activeRow, onActiveRowChange, selectedRows, disabled, onSelectedRowsChange,
+    onRowDelete, onClearTable, centerHeader, noWrapDeleteButton, maxWidthDeleteButton } = props;
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
-
-  const isGraphSelectionDisabled = !columnsMeta.find(c => c.graphSelection);
-
-  const finalColumns = useMemo(() =>
-    isGraphSelectionDisabled ?
-    columns :
-    [
-      {
-        accessor: "__graph_selection__" as const,
-        disableSortBy: true,
-        Cell: ({ row }: { row: Row }) => {
-          const availableStyles = getAvailableStyles(selectedRows);
-          const isSelected = !!selectedRows[Number(row.id)];
-          const selectionDisabled = !selectedRows?.[Number(row.id)] && availableStyles.length === 0;
-
-          const onChange = () => {
-            const newSelectedRows = { ...selectedRows };
-            if (isSelected) {
-              // Unselect
-              delete newSelectedRows[Number(row.id)];
-            } else if (availableStyles.length > 0) {
-              // Assign available selection style.
-              newSelectedRows[Number(row.id)] = availableStyles.shift() as SelectedRowStyleName;
-            }
-            onSelectedRowsChange(newSelectedRows);
-          };
-          const onClick = (e: React.MouseEvent) => {
-            // Stop propagation of click event to prevent row selection.
-            e.stopPropagation();
-          };
-
-          const buttonClasses = {
-            [css.barChartButton]: true,
-            [css.disabled]: selectionDisabled || disabled,
-            [css.canBeSelected1]: !selectedRows?.[Number(row.id)] && availableStyles[0] === "selected1",
-            [css.canBeSelected2]: !selectedRows?.[Number(row.id)] && availableStyles[0] === "selected2",
-            [css.selected1]: selectedRows?.[Number(row.id)] === "selected1",
-            [css.selected2]: selectedRows?.[Number(row.id)] === "selected2",
-          };
-          return (
-            <div className={css.selectRowCheckbox}>
-              <div className={css.container}>
-                {/* Keep real input element for accessibility and keyboard navigation */}
-                <input type="checkbox" checked={isSelected} onChange={onChange} onClick={onClick} disabled={selectionDisabled || disabled} />
-                {/* barChartButtonBackground covers input but passes through all the pointer events */}
-                <div className={css.barChartButtonBackground} />
-                <div className={clsx(buttonClasses)}>
-                  <BarChartIcon />
-                </div>
-              </div>
-            </div>
-          );
-        },
-        width: 40
-      },
-      ...columns
-    ]
-  , [columns, isGraphSelectionDisabled, onSelectedRowsChange, selectedRows, disabled]);
 
   const {
     getTableProps,
@@ -120,7 +62,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     rows,
     prepareRow
   } = useTable({
-    columns: finalColumns,
+    columns,
     data,
     autoResetSortBy: false,
   }, useSortBy);
@@ -170,33 +112,23 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
   return (
     <div className={clsx(css.tableContainer, { [css.disabled]: disabled })}>
       <div className={css.header}>
-        <span>{ t("TABLE.TITLE") }</span>
-        { customHeader }
+        <span className={css.title}>{ t("TABLE.TITLE") }</span>
         <button className={clsx({[css.noWrap]: noWrapDeleteButton})} style={deleteButtonStyle} onClick={handleRowDelete} disabled={disabled}><DeleteIcon />{ t("TABLE.DELETE_TRIAL") }</button>
         { clearTableButtonAvailable && <button onClick={handleClearTable} disabled={disabled}>{ t("TABLE.CLEAR") }</button> }
       </div>
       <table className={css.table} {...getTableProps()}>
         <thead>
-          {
-            headerGroupTitle &&
-            <tr key={"top-header"}>
-              <th style={headerGroupTitle[0]}/><th style={headerGroupTitle[1]} rowSpan={2}>{t("TABLE_HEADER.STARTING_CONDITIONS")}</th><th style={headerGroupTitle[2]} colSpan={4}>{t("TABLE_HEADER.CHANGEINMASS")}</th>
-            </tr>
-          }
           {headerGroups.map((headerGroup, index) => {
             const { key: keyTr, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
             return (
-              <tr key={keyTr} {...restHeaderGroupProps}>
+              <tr className={css.headerRow} key={keyTr} {...restHeaderGroupProps}>
                 {
                   headerGroup.headers.map((column, idx) => {
                   const { key: keyTh, style, ...restColumn } = column.getHeaderProps(column.getSortByToggleProps());
-                  const meta = columnsMeta[idx];
-                  return (idx===1 && headerGroupTitle) ? null :
-                  (
+                  return (
                     <th
                       key={keyTh}
                       {...restColumn}
-                      className={clsx({ [css.numeric]: meta.numeric, [css.sortable]: !column.disableSortBy && !disabled, [css.sorted]: column.isSorted, [css.headerGroupTitleBorder]: headerGroupTitle && idx !== 0 && idx !== 1, [css.headerGroupTitleNoBorder]: headerGroupTitle && (idx === 0 || idx === 1)})}
                       style={{...style, cursor: (!column.disableSortBy && !disabled) ? "default" : "pointer", width: column.width, textAlign: (centerHeader) ? "center": "left"}}
                       >{column.render("Header")}
                     </th>
@@ -208,7 +140,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
           })}
         </thead>
         <tbody {...getTableBodyProps}>
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             const rowId = Number(row.id);
             const onClick = () => {
@@ -235,19 +167,16 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
               >
                 {row.cells.map((cell, idx) => {
                   const { key: keyTd, ...restCellProps } = cell.getCellProps();
-                  const meta = columnsMeta[idx];
+                  if (idx === 0) {
+                    console.log("cell", cell);
+                  }
                   return (
                     <td
                       key={keyTd}
                       {...restCellProps}
-                      className={clsx({
-                        [css.numeric]: meta.numeric,
-                        [css.graphSelection]: meta.graphSelection,
-                        [css.noPadding]: meta.noPadding,
-                      })}
-                      style={{width: cell.column.width, textAlign: (centerHeader && idx !== 1) ? "center": "left"}} //Do not center Starting Conditions
+                      style={{width: cell.column.width, textAlign: "center"}} //Do not center Starting Conditions
                     >
-                    {cell.render("Cell")}
+                    {idx === 0 ? index + 1 : cell.render("Cell")}
                     </td>
                   );
                 })}

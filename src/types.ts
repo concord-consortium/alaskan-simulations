@@ -13,56 +13,41 @@ export enum Container {
   Mesh = "CONTAINER.MESH"
 }
 
-export enum LightAmount {
-  None = "LIGHT_AMOUNT.NONE",
-  Some = "LIGHT_AMOUNT.SOME",
-  Full = "LIGHT_AMOUNT.FULL"
+export enum InputAmount {
+  None = "AMOUNT.NONE",
+  Some = "AMOUNT.SOME",
+  Full = "AMOUNT.FULL"
 }
-
-
-export enum WaterAmount {
-  None = "WATER_AMOUNT.NONE",
-  Some = "WATER_AMOUNT.SOME",
-  Full = "WATER_AMOUNT.FULL"
-}
-
-export enum CO2Amount {
-  None = "CO2_AMOUNT.NONE",
-  Some = "CO2_AMOUNT.SOME",
-  Full = "CO2_AMOUNT.FULL"
-}
-
-export interface IPlantChange {
-  change: number|string;
-  leavesChange: number;
+export enum OutputAmount {
+  Low = "OUTPUT.LOW",
+  Medium = "OUTPUT.MEDIUM",
+  High = "OUTPUT.HIGH",
 }
 
 export interface IModelInputState {
-  light: LightAmount;
-  water: WaterAmount;
-  co2amount: CO2Amount;
+  light: InputAmount;
+  water: InputAmount;
+  co2amount: InputAmount;
 }
 
 export interface IModelOutputState {
   time: number;
-  lightChange: number | string;
-  waterMassChange: number | string;
-  co2Change: number | string;
-  plantChange: IPlantChange;
+  sugarUsed: OutputAmount|null;
+  sugarCreated: OutputAmount|null;
 }
 
 export interface IRowData {
-  startingConditions: JSX.Element;
-  lightChange: number | string; // for now
-  waterMassChange: number | string; // for now
-  co2Change: number | string; // for now
-  plantChange: IPlantChange; // for now
+  light: JSX.Element;
+  water: JSX.Element;
+  co2: JSX.Element;
+  sugarUsed: number | string;
+  sugarCreated: number|string;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
-  light: LightAmount.Some,
-  water: WaterAmount.Some,
-  co2amount: CO2Amount.None,
+  light: InputAmount.Some,
+  water: InputAmount.Some,
+  co2amount: InputAmount.None,
 };
 
 export const defaultInitialState: IInteractiveState = {
@@ -70,13 +55,8 @@ export const defaultInitialState: IInteractiveState = {
     inputState: defaultAuthoredState,
     outputState: {
       time: 0,
-      lightChange: "--",
-      waterMassChange: "--",
-      co2Change: "--",
-      plantChange: {
-        change: 0,
-        leavesChange: 0
-      }
+      sugarUsed: null,
+      sugarCreated: null
     },
     modelRuns: [],
 };
