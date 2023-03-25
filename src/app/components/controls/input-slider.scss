@@ -33,14 +33,24 @@
         width: 105px;
         height: 20px;
         box-sizing: border-box;
-        background-color: $bright-green;
+        background: #cccccc;
         transform: rotate(-90deg);
         border-radius: 10px;
         border: 1px solid $font-color;
-        -webkit-transition: .2s;
-        transition: .2s;
         display: flex;
         align-items: center;
+        &.full {
+          background-color: $bright-green;
+        }
+        &.some {
+          background: linear-gradient(
+          to right,
+          $bright-green 0%,
+          $bright-green 50%,
+          #ccc 50%,
+          #ccc 100%
+          );
+        }
       }
       .slider::-webkit-slider-thumb {
         -webkit-appearance: none;

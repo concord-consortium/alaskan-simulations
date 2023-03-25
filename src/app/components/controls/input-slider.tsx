@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { t } from "../../translation/translate";
 
 import css from "./input-slider.scss";
+import { InputAmount } from "../../../types";
 
 interface IProps {
   type: string;
@@ -13,6 +14,14 @@ interface IProps {
 }
 
 export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels }) => {
+  const getClass = () => {
+    if (value === InputAmount.Full) {
+      return css.full;
+    } else if (value === InputAmount.Some) {
+      return css.some;
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e, numToVal(Number(e.currentTarget.value)));
   };
@@ -29,18 +38,27 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
     return `${str[0].toUpperCase() + str.slice(1)}`;
   };
 
-  console.log("value", value);
-
   return (
     <div className={css.input}>
       <div className={css.type}>{type === "CO2" ? <span>CO<sub>2</sub></span> : type}</div>
       <div className={css.control}>
         <div className={css.left}>
-          <input type="range" id={type} min="0" max="2" value={valToNum(value)} onChange={(e) => handleChange(e)} disabled={disabled} className={clsx(css.slider, {[css.disabled]: disabled})} step="1" list={`${type}-values`}></input>
+          <input
+            type="range"
+            id={type}
+            min="0"
+            max="2"
+            value={valToNum(value)}
+            onChange={(e) => handleChange(e)}
+            disabled={disabled}
+            className={clsx(css.slider, getClass(), {[css.disabled]: disabled})}
+            step="1"
+            list={`${type}-values`}
+          />
         </div>
         <div className={css.right}>
           <datalist className={css.labels} id={`${type}-values`}>
-            {labels.map((label, idx) => {
+            {labels.map((label) => {
               return (
                 <option className={clsx({[css.active]: value === label})} value={valToNum(value)} label={titleCase(t(label))}></option>
               )
