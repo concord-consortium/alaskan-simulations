@@ -58,10 +58,10 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
         </div>
         <div className={css.right}>
           <datalist className={css.labels} id={`${type}-values`}>
-            {labels.map((label) => {
+            {labels.map((label, i) => {
               return (
-                <option className={clsx({[css.active]: value === label})} value={valToNum(value)} label={titleCase(t(label))}></option>
-              )
+                <option key={label + i} className={clsx({[css.active]: value === label})} value={valToNum(value)} label={titleCase(t(label))}/>
+              );
             })}
           </datalist>
         </div>

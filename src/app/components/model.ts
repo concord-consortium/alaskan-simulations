@@ -1,7 +1,4 @@
-import { t } from "../translation/translate";
-import { IModelInputState, InputAmount } from "../../types";
-
-const DOUBLE_DASH = "--";
+import { IModelInputState } from "../../types";
 
 export class Model {
   public time = 0;
