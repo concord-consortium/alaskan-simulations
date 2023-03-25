@@ -34,21 +34,21 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
       <div className={css.optionsContainer}>
           <InputSlider
             type={"Light"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"Water"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"CO2"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}

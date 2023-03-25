@@ -1,8 +1,8 @@
 import React from "react";
+import clsx from "clsx";
+import { t } from "../../translation/translate";
 
 import css from "./input-slider.scss";
-import { t } from "../../translation/translate";
-import clsx from "clsx";
 
 interface IProps {
   type: string;
@@ -18,16 +18,18 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
   };
 
   const numToVal = (num: number) => {
-    return num === 0 ? labels[0] : num === 1 ? labels[1] : labels[2];
+    return num === 0 ? labels[2] : num === 1 ? labels[1] : labels[0];
   };
 
   const valToNum= (val: string) => {
-    return val === labels[0] ? 0 : val === labels[1] ? 1 : 2;
+    return val === labels[2] ? 0 : val === labels[1] ? 1 : 2;
   };
 
   const titleCase = (str: string) => {
     return `${str[0].toUpperCase() + str.slice(1)}`;
   };
+
+  console.log("value", value);
 
   return (
     <div className={css.input}>
@@ -38,9 +40,11 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
         </div>
         <div className={css.right}>
           <datalist className={css.labels} id={`${type}-values`}>
-            <option value="2" label={titleCase(t(labels[2]))}></option>
-            <option value="1" label={titleCase(t(labels[1]))}></option>
-            <option value="0" label={titleCase(t(labels[0]))}></option>
+            {labels.map((label, idx) => {
+              return (
+                <option className={clsx({[css.active]: value === label})} value={valToNum(value)} label={titleCase(t(label))}></option>
+              )
+            })}
           </datalist>
         </div>
       </div>
