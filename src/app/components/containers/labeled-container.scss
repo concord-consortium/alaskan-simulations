@@ -7,6 +7,7 @@ $topMargin: 13px;
   border-radius: 20px;
   background-color: $panel-bg;
   border: 1px solid $font-color;
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.5);
 
   .label {
     box-sizing: border-box;

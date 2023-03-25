@@ -29,7 +29,7 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
   }, [setInputState]);
 
   return (
-    <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")} style="violet">
+    <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")}>
       <div className={css.optionsContainer}>
           <InputSlider
             type={"Light"}

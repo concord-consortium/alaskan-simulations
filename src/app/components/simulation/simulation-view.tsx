@@ -16,7 +16,7 @@ interface IProps {
 
 export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished}) => {
   return (
-    <LabeledContainer className={css.simulationView} label={t("TERRARIUM")} style="blue">
+    <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
       <div className={css.terrariumBackGround}/>
       <div className={css.terrariumBackTable}/>
       <div className={css.terrarium}>
