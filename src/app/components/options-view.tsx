@@ -16,7 +16,6 @@ interface IProps {
 
 export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled}) => {
 
-
   const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({light: value as InputAmount});
   }, [setInputState]);

@@ -52,6 +52,9 @@
           );
         }
       }
+      .slider:disabled::-webkit-slider-thumb {
+        cursor: default;
+      }
       .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;

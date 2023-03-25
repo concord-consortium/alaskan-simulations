@@ -10,7 +10,7 @@ interface IProps {
   value: string;
   labels: string[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
-  disabled?: boolean;
+  disabled: boolean;
 }
 
 export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels }) => {
