@@ -27,9 +27,10 @@ export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
   const data = useMemo(() =>
     // Table should display the most recent output state snapshot unless activeOutputSnapshotIdx is defined.
     modelState.modelRuns.map((run) => {
-      const {activeOutputSnapshotIdx} = modelState;
-      const index = activeOutputSnapshotIdx || activeOutputSnapshotIdx === 0 ? activeOutputSnapshotIdx : run.outputStateSnapshots.length - 1;
-      return modelRunToRow(run.inputState, run.outputStateSnapshots[index])
+      const index = modelState.activeOutputSnapshotIdx || modelState.activeOutputSnapshotIdx === 0 ?
+        modelState.activeOutputSnapshotIdx :
+        run.outputStateSnapshots.length - 1;
+      return modelRunToRow(run.inputState, run.outputStateSnapshots[index]);
     }
   ), [modelState.modelRuns, modelRunToRow, modelState.activeOutputSnapshotIdx]);
 

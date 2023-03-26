@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-hooks";
-import { defaultAuthoredState, InputAmount, OutputAmount } from "../../../types";
+import { defaultAuthoredState, InputAmount } from "../../../types";
 import { useModelState } from "./use-model-state";
 
 const testState = {

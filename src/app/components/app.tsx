@@ -116,7 +116,7 @@ export const App = (props: IAppProps) => {
     } else {
       return OutputAmount.High;
     }
-  }
+  };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     light: getPng(runInputState.light),
