@@ -79,7 +79,7 @@ export const App = (props: IAppProps) => {
     },
     {
       Header: "Sugar Produced",
-      accessor: "sugarProduced" as const,
+      accessor: "sugarCreated" as const,
     },
   ], []);
 
@@ -106,12 +106,24 @@ export const App = (props: IAppProps) => {
     }
   };
 
+  const convertNumberToText = (amount: number) => {
+    if (amount < 1) {
+      return OutputAmount.None;
+    } else if (amount >= 1 && amount <= 3.9) {
+      return OutputAmount.Low;
+    } else if (amount >= 4 && amount <= 7.9) {
+      return OutputAmount.Medium;
+    } else {
+      return OutputAmount.High;
+    }
+  }
+
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
     light: getPng(runInputState.light),
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
-    sugarUsed: runOutputState.sugarUsed as OutputAmount,
-    sugarCreated: runOutputState.sugarCreated as OutputAmount
+    sugarUsed: t(convertNumberToText(runOutputState.sugarUsed)),
+    sugarCreated: t(convertNumberToText(runOutputState.sugarCreated))
   }), []);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
@@ -124,7 +136,7 @@ export const App = (props: IAppProps) => {
   //       waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
   //       light: typeof output.lightChange === "string" ? 0 : output.lightChange,
   //       co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
-  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change,
+  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change, pxp
   //     })
   //   , [])
   // });
@@ -140,8 +152,8 @@ export const App = (props: IAppProps) => {
 
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
-      sugarUsed: model.sugarUsed as OutputAmount,
-      sugarCreated: model.sugarCreated as OutputAmount
+      sugarUsed: model.sugarUsed,
+      sugarCreated: model.sugarCreated
     });
 
     const simulationStep = (realTimeDiff: number) => {

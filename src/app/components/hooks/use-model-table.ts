@@ -25,9 +25,13 @@ export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
 
   // useMemo is recommended by react-table docs.
   const data = useMemo(() =>
-    // Table should always display the most recent output state snapshot.
-    modelState.modelRuns.map(run => modelRunToRow(run.inputState, run.outputStateSnapshots[run.outputStateSnapshots.length - 1])
-  ), [modelState.modelRuns, modelRunToRow]);
+    // Table should display the most recent output state snapshot unless activeOutputSnapshotIdx is defined.
+    modelState.modelRuns.map((run) => {
+      const {activeOutputSnapshotIdx} = modelState;
+      const index = activeOutputSnapshotIdx || activeOutputSnapshotIdx === 0 ? activeOutputSnapshotIdx : run.outputStateSnapshots.length - 1;
+      return modelRunToRow(run.inputState, run.outputStateSnapshots[index])
+    }
+  ), [modelState.modelRuns, modelRunToRow, modelState.activeOutputSnapshotIdx]);
 
   const tableProps = {
     data,

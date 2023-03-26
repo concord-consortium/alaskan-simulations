@@ -6,8 +6,8 @@ const testState = {
   inputState: defaultAuthoredState,
   outputState: {
     time: 0,
-    sugarUsed: null,
-    sugarCreated: null
+    sugarUsed: 0,
+    sugarCreated: 0
   },
   modelRuns: [],
 };
@@ -26,14 +26,14 @@ const noLight = {
 
 const newOutput1 = {
   time: 0,
-  sugarCreated: OutputAmount.Low,
-  sugarUsed: null
+  sugarCreated: 0,
+  sugarUsed: 0
 };
 
 const newOutput2 = {
   time: 0,
-  sugarCreated: OutputAmount.High,
-  sugarUsed: null
+  sugarCreated: 4,
+  sugarUsed: 0
 };
 
 describe("useModelState", () => {
@@ -84,7 +84,7 @@ describe("useModelState", () => {
 
     expect(result.current.outputState).toEqual(testState.outputState);
     act(() => {
-      result.current.setOutputState({sugarCreated: OutputAmount.Low});
+      result.current.setOutputState({sugarCreated: 0});
     });
     expect(result.current.outputState).toEqual(newOutput1);
     expect(result.current.modelRuns).toEqual([
@@ -147,7 +147,7 @@ describe("useModelState", () => {
     const { result } = renderHook(HookWrapper);
 
     act(() => {
-      result.current.setOutputState({sugarCreated: OutputAmount.Low});
+      result.current.setOutputState({sugarCreated: 0});
     });
     expect(result.current.activeRunIdx).toBe(0);
     expect(result.current.outputState).toEqual(newOutput1);
@@ -182,7 +182,7 @@ describe("useModelState", () => {
       result.current.setInputState({light: InputAmount.Full});
     });
     act(() => {
-      result.current.setOutputState({sugarCreated: OutputAmount.Low});
+      result.current.setOutputState({sugarCreated: 0});
     });
     expect(result.current.activeRunIdx).toBe(1);
     expect(result.current.outputState).toEqual(newOutput1);
@@ -215,7 +215,7 @@ describe("useModelState", () => {
       result.current.setActiveRunIdx(0);
     });
     act(() => {
-      result.current.setOutputState({sugarCreated: OutputAmount.High});
+      result.current.setOutputState({sugarCreated: 4});
     });
     expect(result.current.activeRunIdx).toBe(0);
     expect(result.current.outputState).toEqual(newOutput2);
