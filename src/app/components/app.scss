@@ -5,12 +5,16 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-right: 15px;
 
   .optionsContainer {
+    box-sizing: border-box;
     height: 545px;
-    width: 100px;
+    width: 105px;
   }
 
   .simulationContainer {
@@ -101,32 +105,6 @@
       }
     }
 
-    //Cell Arrows
-    .cellDownArrow1{
-      background-image: url("../assets/arrow-decrease@2x.png");
-      width: 32px;
-      height: 52px;
-      transform: scale(0.5);
-    }
-    .cellDownArrowHalf{
-      background-image: url("../assets/arrow-decrease-partial@2x.png");
-      width: 32px;
-      height: 52px;
-      transform: scale(0.5);
-
-    }
-    .cellUpArrow1{
-      background-image: url("../assets/arrow-increase@2x.png");
-      width: 32px;
-      height: 52px;
-      transform: scale(0.5);
-    }
-    .cellUpArrowHalf{
-      background-image: url("../assets/arrow-increase-partial@2x.png");
-      width: 32px;
-      height: 52px;
-      transform: scale(0.5);
-    }
     .flexContainer {
       display: flex;
       justify-content: center;

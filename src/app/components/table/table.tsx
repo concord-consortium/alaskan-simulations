@@ -1,9 +1,8 @@
-import React, { useEffect, KeyboardEvent, useRef, useMemo } from "react";
-import { useTable, useSortBy, Row, Column } from "react-table";
+import React, { useEffect, KeyboardEvent, useRef } from "react";
+import { useTable, useSortBy, Column } from "react-table";
 import { t } from "../../translation/translate";
 import clsx from "clsx";
 import DeleteIcon from "../../assets/delete-icon.svg";
-import BarChartIcon from "../../assets/bar-chart-icon.svg";
 
 import css from "./table.scss";
 
@@ -38,16 +37,6 @@ export interface ITableProps<Data> {
 
 // Clear table button is disabled for now, but there was a request to make it easy to re-enable it later.
 const clearTableButtonAvailable = false;
-
-const objectValues = (obj: any) => Object.keys(obj).map(key => obj[key]);
-
-const getAvailableStyles = (selectedRows?: SelectedRows): SelectedRowStyleName[] => {
-  if (!selectedRows) {
-    return selectedRowStyleNames.slice();
-  }
-  const usedStyles: SelectedRowStyleName[] = objectValues(selectedRows);
-  return selectedRowStyleNames.filter(s => !usedStyles.includes(s));
-};
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
   const { columns, data, activeRow, onActiveRowChange, selectedRows, disabled, onSelectedRowsChange,
@@ -167,9 +156,6 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
               >
                 {row.cells.map((cell, idx) => {
                   const { key: keyTd, ...restCellProps } = cell.getCellProps();
-                  if (idx === 0) {
-                    console.log("cell", cell);
-                  }
                   return (
                     <td
                       key={keyTd}

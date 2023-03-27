@@ -3,28 +3,22 @@ import { Column } from "react-table";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
-import { useModelGraph } from "./hooks/use-model-graph";
-import { BarGraph } from "./bar-graph/bar-graph";
 import { IColumnMeta, Table } from "./table/table";
 import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
-import { t, getDefaultLanguage } from "../translation/translate";
+import { t } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
-import UpArrow from "../assets/arrow-increase.png";
-import DownArrow from "../assets/arrow-decrease.png";
 import { plantLabDirections} from "./plant-lab-directions";
-
 import None from "../assets/input-none.png";
 import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
-import clsx from "clsx";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -88,8 +82,6 @@ export const App = (props: IAppProps) => {
       accessor: "sugarProduced" as const,
     },
   ], []);
-
-  const lang = getDefaultLanguage();
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,

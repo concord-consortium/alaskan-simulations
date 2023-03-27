@@ -16,7 +16,6 @@ interface IProps {
 
 export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled}) => {
 
-
   const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({light: value as InputAmount});
   }, [setInputState]);
@@ -30,25 +29,25 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
   }, [setInputState]);
 
   return (
-    <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")} style="violet">
+    <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")}>
       <div className={css.optionsContainer}>
           <InputSlider
             type={"Light"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"Water"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
           />
           <InputSlider
             type={"CO2"}
-            labels={[InputAmount.None, InputAmount.Some, InputAmount.Full]}
+            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}
