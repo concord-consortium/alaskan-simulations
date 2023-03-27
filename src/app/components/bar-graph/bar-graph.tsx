@@ -17,6 +17,7 @@ export interface IYTick {
 
 export interface IBarGraphProps {
   title: string | JSX.Element;
+  header: string;
   yAxisLabel: string;
   yMin: number;
   yMax: number;
@@ -35,7 +36,7 @@ export interface IBarGraphProps {
 }
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
-  const { title, yAxisLabel, xAxisLabel, yTicks, xTicks, data, barStyles, activeXTick, onSetActiveXTick,
+  const { title, header, yAxisLabel, xAxisLabel, yTicks, xTicks, data, barStyles, activeXTick, onSetActiveXTick,
     centeredZero, timeBased, yMin, yMax, yGridStep, minorLinesHalfThick, yAxisLabelHeight } = props;
 
     console.log("data", data);
@@ -52,7 +53,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
 
   return (
     <div className={css.barGraph}>
-      <div className={css.header}>Graphs</div>
+      <div className={css.header}>{header}</div>
       <div className={css.title}>{ title }</div>
 
       <div className={css.mainRow}>
@@ -91,13 +92,9 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
           <div className={css.graphArea}>
             <div className={css.yLines}>
             {
-              yLines.map((line, idx) => {
-                if (idx === 0) {
-                  return (
-                    <div key={line} className={clsx(css.yLine, {[css.zero]: line === 0, [css.yLineMinor]: idx % 2 === 1 && minorLinesHalfThick })} style={{ height: `${100 / (yLines.length - 1)}%` }}/>
-                  );
-                }
-              })
+              yLines.map((line, idx) => (
+                <div key={line} className={clsx(css.yLine, {[css.zero]: line === 0, [css.yLineMinor]: idx % 2 === 1 && minorLinesHalfThick })} style={{ height: `${100 / (yLines.length - 1)}%` }}/>
+              ))
             }
             </div>
 

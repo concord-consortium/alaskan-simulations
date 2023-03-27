@@ -97,7 +97,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun
+    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx
   } = modelState;
 
   const getPng = (inputLevel: string) => {
@@ -135,13 +135,10 @@ export const App = (props: IAppProps) => {
   const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
     modelState,
     selectedRuns: tableProps.selectedRows || {},
-    outputStateToDataPoint: useCallback((output: IModelOutputState) =>
-      ({
-       sugarUsed: output.sugarUsed,
-       sugarCreated: output.sugarCreated
-      })
-    , [])
+    outputStateToDataPoint: useCallback((output: IModelOutputState) => output.sugarUsed, [])
   });
+
+  console.log("graphProps", graphProps);
 
   const uiDisabled = isRunning || isFinished;
 
@@ -194,6 +191,18 @@ export const App = (props: IAppProps) => {
     setTimeout(() => {
       focusTargetAfterNewRun.current?.focus();
     }, 150);
+  };
+
+  const getActiveX = () => {
+    if (isFinished && activeOutputSnapshotIdx === 0) {
+      return 1;
+    } else if (isFinished && activeOutputSnapshotIdx) {
+      return activeOutputSnapshotIdx! * 4;
+    } else if (isFinished) {
+      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
+    } else {
+      return undefined;
+    }
   };
 
   return (
@@ -249,16 +258,16 @@ export const App = (props: IAppProps) => {
             <div className={css.marginBlock}/>
             <BarGraph
               {...graphProps} // `data` and `barStyles` at this point
+              header={`Trial ${activeRunIdx + 1} Graphs`}
               title={"Graph Title"}
               yAxisLabel={"Amount"}
               xAxisLabel={"Time (days)"}
               yMin={0}
               yMax={10}
-              yGridStep={1}
+              yGridStep={2}
               yTicks={[]}
               xTicks={[1, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}))}
-              activeXTick={undefined}
-              // onSetActiveXTick={isFinished ? (xTick) => setActiveOutputSnapshotIdx(Number(xTick) / 10) : undefined}
+              activeXTick={getActiveX()}
               timeBased={true}
             />
           </div>
