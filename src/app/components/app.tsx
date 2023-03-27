@@ -76,10 +76,12 @@ export const App = (props: IAppProps) => {
     {
       Header: "Sugar Used",
       accessor: "sugarUsed" as const,
+      width: 150
     },
     {
       Header: "Sugar Produced",
       accessor: "sugarCreated" as const,
+      width: 155
     },
   ], []);
 
