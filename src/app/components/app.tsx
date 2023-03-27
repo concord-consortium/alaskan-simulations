@@ -20,7 +20,7 @@ import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
 import { useModelGraph } from "./hooks/use-model-graph";
-import { BarGraph } from "./bar-graph/bar-graph";
+import { BarGraph, IBarGraphProps } from "./bar-graph/bar-graph";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -132,13 +132,29 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
+  const getActiveX = () => {
+    if (isFinished && activeOutputSnapshotIdx === 0) {
+      return 1;
+    } else if (isFinished && activeOutputSnapshotIdx) {
+      return activeOutputSnapshotIdx! * 4;
+    } else if (isFinished) {
+      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
+    } else {
+      return undefined;
+    }
+  };
+
+  let graph1Props = useModelGraph<IModelInputState, IModelOutputState>({
     modelState,
     selectedRuns: tableProps.selectedRows || {},
     outputStateToDataPoint: useCallback((output: IModelOutputState) => output.sugarUsed, [])
-  });
+  }).graphProps;
 
-  console.log("graphProps", graphProps);
+  const graph2Props = useModelGraph<IModelInputState, IModelOutputState>({
+    modelState,
+    selectedRuns: tableProps.selectedRows || {},
+    outputStateToDataPoint: useCallback((output: IModelOutputState) => output.sugarCreated, [])
+  }).graphProps;
 
   const uiDisabled = isRunning || isFinished;
 
@@ -193,18 +209,6 @@ export const App = (props: IAppProps) => {
     }, 150);
   };
 
-  const getActiveX = () => {
-    if (isFinished && activeOutputSnapshotIdx === 0) {
-      return 1;
-    } else if (isFinished && activeOutputSnapshotIdx) {
-      return activeOutputSnapshotIdx! * 4;
-    } else if (isFinished) {
-      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
-    } else {
-      return undefined;
-    }
-  };
-
   return (
     <SimulationFrame
       title={t("SIMULATION.TITLE")}
@@ -254,24 +258,23 @@ export const App = (props: IAppProps) => {
               noWrapDeleteButton={true}
             />
           </div>
-          <div className={css.barGraphContainer}>
-            <div className={css.marginBlock}/>
-            <BarGraph
-              {...graphProps} // `data` and `barStyles` at this point
-              header={`Trial ${activeRunIdx + 1} Graphs`}
-              title={"Graph Title"}
-              yAxisLabel={"Amount"}
-              xAxisLabel={"Time (days)"}
-              yMin={0}
-              yMax={10}
-              yGridStep={2}
-              yTicks={[]}
-              xTicks={[1, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}))}
-              activeXTick={getActiveX()}
-              timeBased={true}
-            />
+          <div className={css.barGraphs}>
+            <div className={css.header}>{`Trial ${activeRunIdx + 1} Graphs`}</div>
+            <div className={css.body}>
+              <div className={css.graphsContainer}>
+                <BarGraph
+                  {...graph1Props} // `data` and `barStyles` at this point
+                  title={"Sugar Used"}
+                  activeXTick={getActiveX()}
+                />
+                <BarGraph
+                  {...graph2Props}
+                  title={"Sugar Produced"}
+                  activeXTick={getActiveX()}
+                />
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
     </SimulationFrame>

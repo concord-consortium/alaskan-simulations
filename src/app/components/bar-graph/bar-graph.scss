@@ -2,34 +2,24 @@
 
 $barGraphHeight: 177px;
 $containerPadding: 4px;
-$graphAreaHeight: 97px;
+$graphAreaHeight: 103px;
 
 .barGraph {
-  width: 480px;
+  width: 238px;
   box-sizing: border-box;
-  background-color: #fff;
-  border: 1px solid $font-color;
-  border-radius: 20px;
-  color: black;
-  font-family: $fontFamilyNunito;
-
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: $dark-yellow;
-    height: 40px;
-    align-items: center;
-    font-weight: 800;
-    border-radius: 20px 20px 0px 0px;
-  }
 
   .title {
     font-weight: bold;
     font-size: 16px;
-    color: $bluePrimary;
+    color: $font-color;
+    background-color: $medium-yellow;
+    width: 235.5px;
+    height: 30px;
     text-align: center;
     font-family: $fontFamilyNunito;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .mainRow {
@@ -82,7 +72,7 @@ $graphAreaHeight: 97px;
   }
 
   .graphAreaContainer {
-    flex: 1000; // take as much space as possible
+    width: 190px;
     position: relative;
 
     .activeXTickContainer {
@@ -162,7 +152,6 @@ $graphAreaHeight: 97px;
 
         .barGroup {
           height: 100%;
-          width: 30px; //original, this gets changed in Plant-Lab
           display: flex;
           align-items: flex-end;
 
