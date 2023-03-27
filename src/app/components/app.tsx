@@ -19,6 +19,8 @@ import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
+import { useModelGraph } from "./hooks/use-model-graph";
+import { BarGraph } from "./bar-graph/bar-graph";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -130,18 +132,16 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  // const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
-  //   modelState,
-  //   selectedRuns: tableProps.selectedRows || {},
-  //   outputStateToDataPoint: useCallback((output: IModelOutputState) =>
-  //     ({
-  //       waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
-  //       light: typeof output.lightChange === "string" ? 0 : output.lightChange,
-  //       co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
-  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change, pxp
-  //     })
-  //   , [])
-  // });
+  const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
+    modelState,
+    selectedRuns: tableProps.selectedRows || {},
+    outputStateToDataPoint: useCallback((output: IModelOutputState) =>
+      ({
+       sugarUsed: output.sugarUsed,
+       sugarCreated: output.sugarCreated
+      })
+    , [])
+  });
 
   const uiDisabled = isRunning || isFinished;
 
@@ -247,73 +247,20 @@ export const App = (props: IAppProps) => {
           </div>
           <div className={css.barGraphContainer}>
             <div className={css.marginBlock}/>
-            {/* <BarGraph
+            <BarGraph
               {...graphProps} // `data` and `barStyles` at this point
-              title= {<GraphTitle days={`${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`}/>}
-              yAxisLabel={t("GRAPH.Y_AXIS")}
-              yAxisLabelHeight={lang === "es" ? 107 : undefined}
-              xTicks={ // Note that xTick `val` should match keys of the object returned in `outputStateToDataPoint`.
-                [
-                  {val: "light", label: <p key={`BGSoil`} style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.LIGHT")} </p>},
-                  {val: "waterMassChange", label: <p key={`BGWater`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.WATER")} </p> },
-                  {val: "co2Change", label: <div key={`BGCO2`} style={{fontWeight: 800, marginTop:"-10px"}}> <span key={`BGCO2Span`}>CO<sub>2</sub></span> </div>,},
-                  {val: "plantChange", label: <p key={`BGPlants`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.PLANTS")} </p>},
-                ]
-              }
-              yMin={-4}
-              yMax={4}
+              title={"Graph Title"}
+              yAxisLabel={"Amount"}
+              xAxisLabel={"Time (days)"}
+              yMin={0}
+              yMax={10}
               yGridStep={1}
-              yTicks={
-                [
-                  {
-                    val: -4,
-                    label:
-                      <>
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: -2,
-                    label:
-                      <>
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: 0,
-                    label: 0
-                  },
-                  {
-                    val: 2,
-                    label:
-                      <>
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: 4,
-                    label:
-                      <>
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  }
-                ]
-              }
-              activeXTick = {isRunning ? Math.floor(roundedTime * maxDays / 2) : Math.round((linearMap(0, 1, 0, 7, roundedTime)))}
-              // X xis uses property names instead of time .
-              timeBased={false}
-              // Y=0 is in the middle of the graph.
-              centeredZero={true}
-              minorLinesHalfThick={true}
-            /> */}
+              yTicks={[]}
+              xTicks={[1, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}))}
+              activeXTick={undefined}
+              // onSetActiveXTick={isFinished ? (xTick) => setActiveOutputSnapshotIdx(Number(xTick) / 10) : undefined}
+              timeBased={true}
+            />
           </div>
 
         </div>

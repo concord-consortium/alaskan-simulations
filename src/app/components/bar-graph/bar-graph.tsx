@@ -38,6 +38,8 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
   const { title, yAxisLabel, xAxisLabel, yTicks, xTicks, data, barStyles, activeXTick, onSetActiveXTick,
     centeredZero, timeBased, yMin, yMax, yGridStep, minorLinesHalfThick, yAxisLabelHeight } = props;
 
+    console.log("data", data);
+
   // Length of all the datasets should be the same, so use length of the first one.
   const dataLength = data[0]?.length || 0;
 
@@ -89,9 +91,13 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
           <div className={css.graphArea}>
             <div className={css.yLines}>
             {
-              yLines.map((line, idx) => (
-                <div key={line} className={clsx(css.yLine, {[css.zero]: line === 0, [css.yLineMinor]: idx % 2 === 1 && minorLinesHalfThick })} style={{ height: `${100 / (yLines.length - 1)}%` }}/>
-              ))
+              yLines.map((line, idx) => {
+                if (idx === 0) {
+                  return (
+                    <div key={line} className={clsx(css.yLine, {[css.zero]: line === 0, [css.yLineMinor]: idx % 2 === 1 && minorLinesHalfThick })} style={{ height: `${100 / (yLines.length - 1)}%` }}/>
+                  );
+                }
+              })
             }
             </div>
 
