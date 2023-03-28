@@ -17,9 +17,9 @@ export interface IYTick {
 
 export interface IBarGraphProps {
   title: string | JSX.Element;
-  data: (number | Record<string, number>)[][];
-  barStyles: GraphDatasetStyle[];
+  data: number[];
   activeXTick?: string | number;
+  className: string;
 }
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
@@ -31,10 +31,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
   const yTicks: IYTick[] = [];
   const xTicks: IXTick[] = [1, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}));
 
-  const { title, data, barStyles, activeXTick } = props;
-
-  // Length of all the datasets should be the same, so use length of the first one.
-  const dataLength = data[0]?.length || 0;
+  const { title, data, activeXTick, className } = props;
 
   const yRange = yMax - yMin;
 
@@ -69,11 +66,11 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
           <div className={css.activeXTickContainer}>
             {
               // Active X tick is highlighted only if there's some data to show.
-              dataLength > 0 && activeXTick !== undefined && xTicks.map((tick, tickIdx) => (
+              data.length > 0 && activeXTick !== undefined && xTicks.map((tick, tickIdx) => (
                 <div
                   key={tickIdx}
                   className={clsx(css.xTickHighlight, {[css.active]: tick.val === activeXTick })}
-                  style={{ width: `${100 / xTicks.length}%` }}
+                  style={{ width: "22px"}}
                 />
               ))
             }
@@ -89,27 +86,15 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
 
             <div className={css.data}>
               {
-                xTicks.map((tickValue, tickIdx) => (
-                  <div key={tickIdx} className={css.barGroup} style={{width: "30px"}}>
-                    {
-                      data.map((dataset, datasetIdx) => {
-                        let value = dataset[tickIdx];
-                        if (typeof value === "object") {
-                          value = value[tickValue.val as string];
-                        }
-                        const width = `${(100 / data.length) - 10}%`;
-                        const height = `${100 * Math.abs(value) / yRange}%`;
-
-                        return (
-                          // Don't render bars with height 0, as their border would be visible.
-                          value !== undefined && value !== 0
-                            ? <div key={datasetIdx} className={clsx(css[barStyles[datasetIdx]], {[css.negative]: value < 0})} style={{ width, height }} />
-                            : null
-                        );
-                      })
-                    }
-                  </div>
-                ))
+                xTicks.map((tickValue, tickIdx) => {
+                  let value = data[tickIdx] ? data[tickIdx] : 0;
+                  const height = `${100 * Math.abs(Number(value)) / yRange}%`;
+                  return (
+                    <div key={tickIdx} className={clsx(css.barGroup)} style={{width: "30px"}}>
+                      <div key={tickIdx} className={css[className]} style={{ height }} />
+                    </div>
+                  );
+                })
               }
             </div>
           </div>
@@ -118,7 +103,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
             xTicks.map((tick) => (
               <div
                 key={tick.val}
-                className={clsx(css.xTick, { [css.active]: dataLength > 0 && tick.val === activeXTick })}
+                className={clsx(css.xTick, { [css.active]: data.length > 0 && tick.val === activeXTick })}
                 style={{ width: `${100 / xTicks.length}%`}}
               >
                 { tick.label }

@@ -13,14 +13,13 @@ import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
+import { BarGraph } from "./bar-graph/bar-graph";
 import { plantLabDirections} from "./plant-lab-directions";
 import None from "../assets/input-none.png";
 import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
-import { useModelGraph } from "./hooks/use-model-graph";
-import { BarGraph, IBarGraphProps } from "./bar-graph/bar-graph";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -132,6 +131,13 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
+  const getGraphData = (dataType: "sugarUsed" | "sugarCreated") => {
+    return useMemo(() => modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((outputState) => outputState[dataType]), [modelState.modelRuns, modelState.activeRunIdx]);
+  }
+
+  const sugarUsedData = getGraphData("sugarUsed");
+  const sugarCreatedData = getGraphData("sugarCreated");
+
   const getActiveX = () => {
     if (isFinished && activeOutputSnapshotIdx === 0) {
       return 1;
@@ -143,18 +149,6 @@ export const App = (props: IAppProps) => {
       return undefined;
     }
   };
-
-  let graph1Props = useModelGraph<IModelInputState, IModelOutputState>({
-    modelState,
-    selectedRuns: tableProps.selectedRows || {},
-    outputStateToDataPoint: useCallback((output: IModelOutputState) => output.sugarUsed, [])
-  }).graphProps;
-
-  const graph2Props = useModelGraph<IModelInputState, IModelOutputState>({
-    modelState,
-    selectedRuns: tableProps.selectedRows || {},
-    outputStateToDataPoint: useCallback((output: IModelOutputState) => output.sugarCreated, [])
-  }).graphProps;
 
   const uiDisabled = isRunning || isFinished;
 
@@ -190,9 +184,6 @@ export const App = (props: IAppProps) => {
         markRunFinished();
       }
     };
-
-    // select the graph button for the active row
-    tableProps.onSelectedRowsChange({[tableProps.activeRow]: "selected1"});
 
     startSimulation(simulationStep);
   };
@@ -263,14 +254,16 @@ export const App = (props: IAppProps) => {
             <div className={css.body}>
               <div className={css.graphsContainer}>
                 <BarGraph
-                  {...graph1Props} // `data` and `barStyles` at this point
+                  data={sugarUsedData}
                   title={"Sugar Used"}
                   activeXTick={getActiveX()}
+                  className={"sugarUsed"}
                 />
                 <BarGraph
-                  {...graph2Props}
+                  data={sugarCreatedData}
                   title={"Sugar Produced"}
                   activeXTick={getActiveX()}
+                  className="sugarCreated"
                 />
               </div>
             </div>

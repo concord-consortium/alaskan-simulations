@@ -155,23 +155,24 @@ $graphAreaHeight: 103px;
           display: flex;
           align-items: flex-end;
 
+          .sugarUsed {
+              box-sizing: border-box;
+              background-color: $bright-red;
+          }
+
+          .sugarCreated {
+              box-sizing: border-box;
+              background-color: $bright-blue;
+          }
+
           div {
             // 1px shift to line up border with Y lines.
             transform: translate(0, 1px);
+            width: 20px;
           }
           div.negative {
             // Shift the whole bar down.
             transform: translate(0, calc(100% + 1px));
-          }
-
-          .data1 {
-            box-sizing: border-box;
-            background-color: $orangeAccent;
-          }
-          .data2 {
-            box-sizing: border-box;
-            background-color: $greenAccent;
-            border: 2px solid #004d4b;
           }
         }
       }
