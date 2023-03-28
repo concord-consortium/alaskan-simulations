@@ -26,9 +26,9 @@
   "SETUP_HEADER_TITLE1": "Amount of ",
   "SETUP_HEADER_TITLE2": " in the Air",
 
-  "AMOUNT.NONE": "none",
-  "AMOUNT.SOME": "some",
-  "AMOUNT.FULL": "full",
+  "AMOUNT.NONE": "None",
+  "AMOUNT.SOME": "Some",
+  "AMOUNT.FULL": "Full",
 
   "AMOUNT.NO": "no",
 

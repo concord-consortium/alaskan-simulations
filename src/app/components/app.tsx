@@ -120,13 +120,13 @@ export const App = (props: IAppProps) => {
    }
   };
 
-  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
+  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
     light: getPng(runInputState.light),
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
-    sugarUsed: t(convertNumberToText(runOutputState.sugarUsed)),
-    sugarCreated: t(convertNumberToText(runOutputState.sugarCreated))
-  }), []);
+    sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
+    sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
+  }), [isRunning]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
