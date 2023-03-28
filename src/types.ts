@@ -18,7 +18,16 @@ export enum InputAmount {
   Some = "AMOUNT.SOME",
   Full = "AMOUNT.FULL"
 }
+
+export enum OutputAmountValue {
+  None = 0,
+  Low = 1,
+  Medium = 4,
+  High = 8
+}
+
 export enum OutputAmount {
+  None = "AMOUNT.NONE",
   Low = "OUTPUT.LOW",
   Medium = "OUTPUT.MEDIUM",
   High = "OUTPUT.HIGH",
@@ -32,8 +41,8 @@ export interface IModelInputState {
 
 export interface IModelOutputState {
   time: number;
-  sugarUsed: OutputAmount|null;
-  sugarCreated: OutputAmount|null;
+  sugarUsed: number;
+  sugarCreated: number;
 }
 
 export interface IRowData {
@@ -55,8 +64,8 @@ export const defaultInitialState: IInteractiveState = {
     inputState: defaultAuthoredState,
     outputState: {
       time: 0,
-      sugarUsed: null,
-      sugarCreated: null
+      sugarUsed: 0,
+      sugarCreated: 0
     },
     modelRuns: [],
 };

@@ -10,7 +10,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { plantLabDirections} from "./plant-lab-directions";
@@ -76,10 +76,12 @@ export const App = (props: IAppProps) => {
     {
       Header: "Sugar Used",
       accessor: "sugarUsed" as const,
+      width: 150
     },
     {
       Header: "Sugar Produced",
-      accessor: "sugarProduced" as const,
+      accessor: "sugarCreated" as const,
+      width: 155
     },
   ], []);
 
@@ -106,13 +108,25 @@ export const App = (props: IAppProps) => {
     }
   };
 
-  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
+  const convertNumberToText = (amount: number) => {
+    if (amount < OutputAmountValue.Low) {
+      return OutputAmount.None;
+    } else if (amount < OutputAmountValue.Medium) {
+      return OutputAmount.Low;
+    } else if (amount < OutputAmountValue.High) {
+      return OutputAmount.Medium;
+    } else  {
+      return OutputAmount.High;
+   }
+  };
+
+  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
     light: getPng(runInputState.light),
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
-    sugarUsed: runOutputState.sugarUsed as OutputAmount,
-    sugarCreated: runOutputState.sugarCreated as OutputAmount
-  }), []);
+    sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
+    sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
+  }), [isRunning]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
@@ -124,7 +138,7 @@ export const App = (props: IAppProps) => {
   //       waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
   //       light: typeof output.lightChange === "string" ? 0 : output.lightChange,
   //       co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
-  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change,
+  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change, pxp
   //     })
   //   , [])
   // });
@@ -140,8 +154,8 @@ export const App = (props: IAppProps) => {
 
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
-      sugarUsed: model.sugarUsed as OutputAmount,
-      sugarCreated: model.sugarCreated as OutputAmount
+      sugarUsed: model.sugarUsed,
+      sugarCreated: model.sugarCreated
     });
 
     const simulationStep = (realTimeDiff: number) => {
