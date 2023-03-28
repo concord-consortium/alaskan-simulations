@@ -70,7 +70,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
                 <div
                   key={tickIdx}
                   className={clsx(css.xTickHighlight, {[css.active]: tick.val === activeXTick })}
-                  style={{ width: "22px"}}
+                  style={{ width: "24px"}}
                 />
               ))
             }

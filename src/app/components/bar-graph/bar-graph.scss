@@ -78,35 +78,24 @@ $graphAreaHeight: 103px;
     .activeXTickContainer {
       position: absolute;
       top: 0;
-      left: 0;
+      left: 2px;
       display: flex;
       flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
+      align-items: center;
+      justify-content: space-evenly;
+      width: calc(100% - 2px);
       height: $graphAreaHeight;
 
       .xTickHighlight {
         opacity: 0;
         box-sizing: border-box;
         height: 100%;
-        border: 1.5px solid $bluePrimary;
+        border: 1.5px solid $dark-yellow;
         border-bottom: none;
-
-        &.clickable {
-          cursor: pointer;
-          &:hover {
-            opacity: 1;
-            background-color: rgba($lightBlueAccent, 0.25);
-          }
-        }
 
         &.active {
           opacity: 1;
-          background-color: rgba($lightBlueAccent, 0.5);
-          &:hover {
-            background-color: rgba($lightBlueAccent, 0.5);
-          }
+          background-color: rgba($dark-yellow, 0.2);
         }
       }
     }
@@ -154,6 +143,7 @@ $graphAreaHeight: 103px;
           height: 100%;
           display: flex;
           align-items: flex-end;
+          justify-content: center;
 
           .sugarUsed {
               box-sizing: border-box;
