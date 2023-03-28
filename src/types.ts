@@ -19,6 +19,13 @@ export enum InputAmount {
   Full = "AMOUNT.FULL"
 }
 
+export enum OutputAmountValue {
+  None = 0,
+  Low = 1,
+  Medium = 4,
+  High = 8
+}
+
 export enum OutputAmount {
   None = "AMOUNT.NONE",
   Low = "OUTPUT.LOW",

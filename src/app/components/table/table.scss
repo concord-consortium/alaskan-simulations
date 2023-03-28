@@ -130,18 +130,13 @@ $tableBorderWidth: 2px;
     tr {
       &:nth-child(even) {
         background: $gray5;
-        .barChartButtonBackground {
-          background: $gray5;
-        }
       }
       &:nth-child(odd) {
         background: #fff;
-        .barChartButtonBackground {
-          background: #fff;
-        }
       }
 
       &.activeRow {
+        background: rgba(43, 114, 227, 0.1);
         @include activeRow(1);
       }
     }
@@ -211,90 +206,6 @@ $tableBorderWidth: 2px;
 
     &:hover {
       @include activeRow(0.5);
-    }
-  }
-
-  .selectRowCheckbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .container {
-      position: relative;
-
-      .barChartButton {
-        box-sizing: border-box;
-        width: 30px;
-        height: 30px;
-        border-radius: 30px;
-        border: 3px solid $bluePrimary;
-        background-color: $white;
-        position: relative;
-        z-index: 1;
-        pointer-events: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &.selected1 {
-          background-color: $orangeAccent;
-          border-color: $orangeAccent;
-          svg path {
-            fill: $white;
-          }
-        }
-        &.selected2 {
-          background-color: $greenAccent;
-          border-color: $darkGreenAccent;
-          border-width: 2px;
-          svg path {
-            fill: $white;
-          }
-        }
-
-        &.disabled {
-          opacity: 0.35;
-          pointer-events: none;
-        }
-      }
-
-      &:hover .barChartButton.canBeSelected1:not(.disabled) {
-        background-color: $orangeTint50;
-        border-color: $orangeTint50;
-      }
-      &:hover .barChartButton.canBeSelected2 {
-        background-color: $greenTint50;
-        border-color: $darkGreenTint50;
-        border-width: 2px;
-      }
-      &:hover .barChartButton.selected1 {
-        background-color: $orangeTint50;
-        border-color: $orangeTint50;
-      }
-      &:hover .barChartButton.selected2 {
-        background-color: $greenTint50;
-        border-color: $darkGreenTint50;
-      }
-
-      .barChartButtonBackground {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 30px;
-        height: 30px;
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      input {
-        position: absolute;
-        top: -3px;
-        left: -5px;
-        width: 32px;
-        height: 30px;
-        z-index: 0;
-        cursor: pointer;
-      }
     }
   }
 }

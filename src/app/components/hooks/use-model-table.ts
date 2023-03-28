@@ -4,7 +4,7 @@ import { IUseModelStateResult } from "./use-model-state";
 
 export interface IUseModelTableOptions<IModelInputState, IModelOutputState, IRowData> {
   modelState: IUseModelStateResult<IModelInputState, IModelOutputState>;
-  modelRunToRow: (inputState: IModelInputState, outputState: IModelOutputState) => IRowData;
+  modelRunToRow: (inputState: IModelInputState, outputState: IModelOutputState, isFinished: boolean) => IRowData;
 }
 
 export interface IUseModelTableResult<IRowData> {
@@ -24,13 +24,13 @@ export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
   // useMemo is recommended by react-table docs.
   const data = useMemo(() =>
     // Table should display the most recent output state snapshot unless activeOutputSnapshotIdx is defined.
-    modelState.modelRuns.map((run) => {
-      const index = modelState.activeOutputSnapshotIdx || modelState.activeOutputSnapshotIdx === 0 ?
+    modelState.modelRuns.map((run, idx) => {
+      const index = idx === modelState.activeRunIdx && (modelState.activeOutputSnapshotIdx || modelState.activeOutputSnapshotIdx === 0)?
         modelState.activeOutputSnapshotIdx :
         run.outputStateSnapshots.length - 1;
-      return modelRunToRow(run.inputState, run.outputStateSnapshots[index]);
+      return modelRunToRow(run.inputState, run.outputStateSnapshots[index], run.isFinished);
     }
-  ), [modelState.modelRuns, modelRunToRow, modelState.activeOutputSnapshotIdx]);
+  ), [modelState.modelRuns, modelRunToRow, modelState.activeOutputSnapshotIdx, modelState.activeRunIdx]);
 
   const tableProps = {
     data,
