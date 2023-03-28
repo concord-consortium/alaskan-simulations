@@ -1,5 +1,5 @@
 import { IModelInputState, InputAmount } from "../../types";
-import _ from "lodash";
+import equal from "deep-equal";
 
 interface ICaseData {
   inputs: IModelInputState,
@@ -121,7 +121,7 @@ export class Model {
     const noCo2 = co2amount === InputAmount.None;
 
     const compareFunc = (c: ICaseData) => {
-      return c.inputs2 ? (_.isEqual(c.inputs, inputs) || _.isEqual(c.inputs2, inputs)) : _.isEqual(c.inputs, inputs);
+      return c.inputs2 ? (equal(c.inputs, inputs) || equal(c.inputs2, inputs)) : equal(c.inputs, inputs);
     };
 
     if (water === InputAmount.None || index === 0) {
@@ -134,7 +134,7 @@ export class Model {
       return 0;
     }
 
-    const amount = _.find(casesWithUniqueValues, compareFunc)![type][index];
+    const amount = casesWithUniqueValues.find(compareFunc)![type][index];
     return amount;
   }
 }

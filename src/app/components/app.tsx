@@ -10,7 +10,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { t } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { plantLabDirections} from "./plant-lab-directions";
@@ -109,15 +109,15 @@ export const App = (props: IAppProps) => {
   };
 
   const convertNumberToText = (amount: number) => {
-    if (amount < 1) {
+    if (amount < OutputAmountValue.Low) {
       return OutputAmount.None;
-    } else if (amount >= 1 && amount <= 3.9) {
+    } else if (amount < OutputAmountValue.Medium) {
       return OutputAmount.Low;
-    } else if (amount >= 4 && amount <= 7.9) {
+    } else if (amount < OutputAmountValue.High) {
       return OutputAmount.Medium;
-    } else {
+    } else  {
       return OutputAmount.High;
-    }
+   }
   };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState): IRowData => ({
