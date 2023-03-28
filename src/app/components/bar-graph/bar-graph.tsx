@@ -23,11 +23,11 @@ export interface IBarGraphProps {
 }
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
-  const yAxisLabel: string = "Amount";
-  const xAxisLabel: string = "Time (days)";
-  const yMin: number = 0;
-  const yMax: number = 10;
-  const yGridStep: number = 2;
+  const yAxisLabel = "Amount";
+  const xAxisLabel = "Time (days)";
+  const yMin = 0;
+  const yMax = 10;
+  const yGridStep = 2;
   const yTicks: IYTick[] = [];
   const xTicks: IXTick[] = [1, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}));
 
@@ -78,7 +78,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
           <div className={css.graphArea}>
             <div className={css.yLines}>
             {
-              yLines.map((line, idx) => (
+              yLines.map((line) => (
                 <div key={line} className={clsx(css.yLine, {[css.zero]: line === 0})} style={{ height: `${100 / (yLines.length - 1)}%` }}/>
               ))
             }
@@ -87,7 +87,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
             <div className={css.data}>
               {
                 xTicks.map((tickValue, tickIdx) => {
-                  let value = data[tickIdx] ? data[tickIdx] : 0;
+                  const value = data[tickIdx] ? data[tickIdx] : 0;
                   const height = `${100 * Math.abs(Number(value)) / yRange}%`;
                   return (
                     <div key={tickIdx} className={clsx(css.barGroup)} style={{width: "30px"}}>

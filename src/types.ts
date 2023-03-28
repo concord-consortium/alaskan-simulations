@@ -35,7 +35,7 @@ export interface IModelInputState {
 export interface IModelOutputState {
   time: number;
   sugarUsed: number;
-  sugarCreated: number;
+  sugarProduced: number;
 }
 
 export interface IRowData {
@@ -43,7 +43,7 @@ export interface IRowData {
   water: JSX.Element;
   co2: JSX.Element;
   sugarUsed: number | string;
-  sugarCreated: number|string;
+  sugarProduced: number|string;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
@@ -58,7 +58,7 @@ export const defaultInitialState: IInteractiveState = {
     outputState: {
       time: 0,
       sugarUsed: 0,
-      sugarCreated: 0
+      sugarProduced: 0
     },
     modelRuns: [],
 };

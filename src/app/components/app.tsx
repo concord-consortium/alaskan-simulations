@@ -81,7 +81,7 @@ export const App = (props: IAppProps) => {
     },
     {
       Header: "Sugar Produced",
-      accessor: "sugarCreated" as const,
+      accessor: "sugarProduced" as const,
       width: 155
     },
   ], []);
@@ -126,23 +126,23 @@ export const App = (props: IAppProps) => {
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
     sugarUsed: t(convertNumberToText(runOutputState.sugarUsed)),
-    sugarCreated: t(convertNumberToText(runOutputState.sugarCreated))
+    sugarProduced: t(convertNumberToText(runOutputState.sugarProduced))
   }), []);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (dataType: "sugarUsed" | "sugarCreated") => {
-    return useMemo(() => modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((outputState) => outputState[dataType]), [modelState.modelRuns, modelState.activeRunIdx]);
-  }
+  const getGraphData = (dataType: "sugarUsed" | "sugarProduced") => {
+    return modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((snapshot) => snapshot[dataType]);
+  };
 
   const sugarUsedData = getGraphData("sugarUsed");
-  const sugarCreatedData = getGraphData("sugarCreated");
+  const sugarCreatedData = getGraphData("sugarProduced");
 
   const getActiveX = () => {
     if (isFinished && activeOutputSnapshotIdx === 0) {
       return 1;
     } else if (isFinished && activeOutputSnapshotIdx) {
-      return activeOutputSnapshotIdx! * 4;
+      return activeOutputSnapshotIdx * 4;
     } else if (isFinished) {
       return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
     } else {
@@ -162,7 +162,7 @@ export const App = (props: IAppProps) => {
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
       sugarUsed: model.sugarUsed,
-      sugarCreated: model.sugarCreated
+      sugarProduced: model.sugarProduced
     });
 
     const simulationStep = (realTimeDiff: number) => {
@@ -263,7 +263,7 @@ export const App = (props: IAppProps) => {
                   data={sugarCreatedData}
                   title={"Sugar Produced"}
                   activeXTick={getActiveX()}
-                  className="sugarCreated"
+                  className="sugarProduced"
                 />
               </div>
             </div>
