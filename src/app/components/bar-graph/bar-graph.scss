@@ -2,34 +2,24 @@
 
 $barGraphHeight: 177px;
 $containerPadding: 4px;
-$graphAreaHeight: 97px;
+$graphAreaHeight: 103px;
 
 .barGraph {
-  width: 480px;
+  width: 238px;
   box-sizing: border-box;
-  background-color: #fff;
-  border: 1px solid $font-color;
-  border-radius: 20px;
-  color: black;
-  font-family: $fontFamilyNunito;
-
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: $dark-yellow;
-    height: 40px;
-    align-items: center;
-    font-weight: 800;
-    border-radius: 20px 20px 0px 0px;
-  }
 
   .title {
     font-weight: bold;
     font-size: 16px;
-    color: $bluePrimary;
+    color: $font-color;
+    background-color: $medium-yellow;
+    width: 235.5px;
+    height: 30px;
     text-align: center;
     font-family: $fontFamilyNunito;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .mainRow {
@@ -82,41 +72,30 @@ $graphAreaHeight: 97px;
   }
 
   .graphAreaContainer {
-    flex: 1000; // take as much space as possible
+    width: 190px;
     position: relative;
 
     .activeXTickContainer {
       position: absolute;
       top: 0;
-      left: 0;
+      left: 2px;
       display: flex;
       flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
+      align-items: center;
+      justify-content: space-evenly;
+      width: calc(100% - 2px);
       height: $graphAreaHeight;
 
       .xTickHighlight {
         opacity: 0;
         box-sizing: border-box;
         height: 100%;
-        border: 1.5px solid $bluePrimary;
+        border: 1.5px solid $dark-yellow;
         border-bottom: none;
-
-        &.clickable {
-          cursor: pointer;
-          &:hover {
-            opacity: 1;
-            background-color: rgba($lightBlueAccent, 0.25);
-          }
-        }
 
         &.active {
           opacity: 1;
-          background-color: rgba($lightBlueAccent, 0.5);
-          &:hover {
-            background-color: rgba($lightBlueAccent, 0.5);
-          }
+          background-color: rgba($dark-yellow, 0.2);
         }
       }
     }
@@ -162,27 +141,28 @@ $graphAreaHeight: 97px;
 
         .barGroup {
           height: 100%;
-          width: 30px; //original, this gets changed in Plant-Lab
           display: flex;
           align-items: flex-end;
+          justify-content: center;
+
+          .sugarUsed {
+              box-sizing: border-box;
+              background-color: $bright-red;
+          }
+
+          .sugarProduced {
+              box-sizing: border-box;
+              background-color: $bright-blue;
+          }
 
           div {
             // 1px shift to line up border with Y lines.
             transform: translate(0, 1px);
+            width: 20px;
           }
           div.negative {
             // Shift the whole bar down.
             transform: translate(0, calc(100% + 1px));
-          }
-
-          .data1 {
-            box-sizing: border-box;
-            background-color: $orangeAccent;
-          }
-          .data2 {
-            box-sizing: border-box;
-            background-color: $greenAccent;
-            border: 2px solid #004d4b;
           }
         }
       }

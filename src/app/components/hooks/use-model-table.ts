@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { ITableProps, SelectedRows } from "../table/table";
+import { useMemo } from "react";
+import { ITableProps } from "../table/table";
 import { IUseModelStateResult } from "./use-model-state";
 
 export interface IUseModelTableOptions<IModelInputState, IModelOutputState, IRowData> {
@@ -21,8 +21,6 @@ export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
 ): IUseModelTableResult<IRowData> => {
   const { modelState, modelRunToRow } = options;
 
-  const [selectedRows, setSelectedRows] = useState<SelectedRows>({});
-
   // useMemo is recommended by react-table docs.
   const data = useMemo(() =>
     // Table should display the most recent output state snapshot unless activeOutputSnapshotIdx is defined.
@@ -40,8 +38,6 @@ export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
     onActiveRowChange: modelState.setActiveRunIdx,
     onRowDelete: modelState.removeModelRun,
     onClearTable: modelState.removeAllModelRuns,
-    selectedRows,
-    onSelectedRowsChange: setSelectedRows,
   };
 
   return {

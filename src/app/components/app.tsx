@@ -13,6 +13,7 @@ import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
+import { BarGraph } from "./bar-graph/bar-graph";
 import { plantLabDirections} from "./plant-lab-directions";
 import None from "../assets/input-none.png";
 import Some from "../assets/input-some.png";
@@ -80,7 +81,7 @@ export const App = (props: IAppProps) => {
     },
     {
       Header: "Sugar Produced",
-      accessor: "sugarCreated" as const,
+      accessor: "sugarProduced" as const,
       width: 155
     },
   ], []);
@@ -95,7 +96,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun
+    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx
   } = modelState;
 
   const getPng = (inputLevel: string) => {
@@ -125,23 +126,29 @@ export const App = (props: IAppProps) => {
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
     sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
-    sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
+    sugarProduced: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarProduced))
   }), [isRunning]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  // const { graphProps } = useModelGraph<IModelInputState, IModelOutputState>({
-  //   modelState,
-  //   selectedRuns: tableProps.selectedRows || {},
-  //   outputStateToDataPoint: useCallback((output: IModelOutputState) =>
-  //     ({
-  //       waterMassChange: typeof output.waterMassChange === "string" ? 0 : output.waterMassChange,
-  //       light: typeof output.lightChange === "string" ? 0 : output.lightChange,
-  //       co2Change: typeof output.co2Change === "string" ? 0 : output.co2Change,
-  //       plantChange: typeof output.plantChange.change === "string" ? 0 : output.plantChange.change, pxp
-  //     })
-  //   , [])
-  // });
+  const getGraphData = (dataType: "sugarUsed" | "sugarProduced") => {
+    return modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((snapshot) => snapshot[dataType]);
+  };
+
+  const sugarUsedData = getGraphData("sugarUsed");
+  const sugarCreatedData = getGraphData("sugarProduced");
+
+  const getActiveX = () => {
+    if (isFinished && activeOutputSnapshotIdx === 0) {
+      return 1;
+    } else if (isFinished && activeOutputSnapshotIdx) {
+      return activeOutputSnapshotIdx * 4;
+    } else if (isFinished) {
+      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
+    } else {
+      return undefined;
+    }
+  };
 
   const uiDisabled = isRunning || isFinished;
 
@@ -155,7 +162,7 @@ export const App = (props: IAppProps) => {
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
       sugarUsed: model.sugarUsed,
-      sugarCreated: model.sugarCreated
+      sugarProduced: model.sugarProduced
     });
 
     const simulationStep = (realTimeDiff: number) => {
@@ -177,9 +184,6 @@ export const App = (props: IAppProps) => {
         markRunFinished();
       }
     };
-
-    // select the graph button for the active row
-    tableProps.onSelectedRowsChange({[tableProps.activeRow]: "selected1"});
 
     startSimulation(simulationStep);
   };
@@ -245,77 +249,25 @@ export const App = (props: IAppProps) => {
               noWrapDeleteButton={true}
             />
           </div>
-          <div className={css.barGraphContainer}>
-            <div className={css.marginBlock}/>
-            {/* <BarGraph
-              {...graphProps} // `data` and `barStyles` at this point
-              title= {<GraphTitle days={`${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`}/>}
-              yAxisLabel={t("GRAPH.Y_AXIS")}
-              yAxisLabelHeight={lang === "es" ? 107 : undefined}
-              xTicks={ // Note that xTick `val` should match keys of the object returned in `outputStateToDataPoint`.
-                [
-                  {val: "light", label: <p key={`BGSoil`} style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.LIGHT")} </p>},
-                  {val: "waterMassChange", label: <p key={`BGWater`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.WATER")} </p> },
-                  {val: "co2Change", label: <div key={`BGCO2`} style={{fontWeight: 800, marginTop:"-10px"}}> <span key={`BGCO2Span`}>CO<sub>2</sub></span> </div>,},
-                  {val: "plantChange", label: <p key={`BGPlants`}style={{fontWeight: 800, marginTop:"0px"}}> {t("TABLE_HEADER.PLANTS")} </p>},
-                ]
-              }
-              yMin={-4}
-              yMax={4}
-              yGridStep={1}
-              yTicks={
-                [
-                  {
-                    val: -4,
-                    label:
-                      <>
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: -2,
-                    label:
-                      <>
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                        <img src={DownArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: 0,
-                    label: 0
-                  },
-                  {
-                    val: 2,
-                    label:
-                      <>
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  },
-                  {
-                    val: 4,
-                    label:
-                      <>
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                        <img src={UpArrow} className={css.barGraphScaleArrow} />
-                      </>
-                  }
-                ]
-              }
-              activeXTick = {isRunning ? Math.floor(roundedTime * maxDays / 2) : Math.round((linearMap(0, 1, 0, 7, roundedTime)))}
-              // X xis uses property names instead of time .
-              timeBased={false}
-              // Y=0 is in the middle of the graph.
-              centeredZero={true}
-              minorLinesHalfThick={true}
-            /> */}
+          <div className={css.barGraphs}>
+            <div className={css.header}>{`Trial ${activeRunIdx + 1} Graphs`}</div>
+            <div className={css.body}>
+              <div className={css.graphsContainer}>
+                <BarGraph
+                  data={sugarUsedData}
+                  title={"Sugar Used"}
+                  activeXTick={getActiveX()}
+                  className={"sugarUsed"}
+                />
+                <BarGraph
+                  data={sugarCreatedData}
+                  title={"Sugar Produced"}
+                  activeXTick={getActiveX()}
+                  className="sugarProduced"
+                />
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
     </SimulationFrame>

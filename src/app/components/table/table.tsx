@@ -12,11 +12,6 @@ export interface IColumnMeta {
   noPadding?: boolean;
 }
 
-export const selectedRowStyleNames = ["selected1", "selected2"] as const;
-export type SelectedRowStyleName = typeof selectedRowStyleNames[number];
-
-export type SelectedRows = Record<number, SelectedRowStyleName>;
-
 export interface ITableProps<Data> {
   data: Data[];
   columns: Column[];
@@ -26,8 +21,6 @@ export interface ITableProps<Data> {
   activeRow: number;
   disabled: boolean;
   onActiveRowChange: (activeRowId: number) => void;
-  selectedRows: SelectedRows;
-  onSelectedRowsChange: (selectedRows: SelectedRows) => void;
   customHeader?: JSX.Element;
   headerGroupTitle?: React.CSSProperties[];
   centerHeader?: boolean; //used in Plant-Lab, header title and contents are centered
@@ -39,7 +32,7 @@ export interface ITableProps<Data> {
 const clearTableButtonAvailable = false;
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
-  const { columns, data, activeRow, onActiveRowChange, selectedRows, disabled, onSelectedRowsChange,
+  const { columns, data, activeRow, onActiveRowChange, disabled,
     onRowDelete, onClearTable, centerHeader, noWrapDeleteButton, maxWidthDeleteButton } = props;
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
@@ -71,19 +64,6 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     if (disabled) {
       return;
     }
-    const newSelectedRows: SelectedRows = {};
-    const oldSelectedRows = selectedRows || {};
-    // Update selected rows.
-    Object.keys(oldSelectedRows).forEach(idString => {
-      const id = Number(idString);
-      if (id > activeRow) {
-        newSelectedRows[id - 1] = oldSelectedRows[id];
-      }
-      if (id < activeRow) {
-        newSelectedRows[id] = oldSelectedRows[id];
-      }
-    });
-    onSelectedRowsChange?.(newSelectedRows);
     onRowDelete();
   };
 
@@ -92,7 +72,6 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
       return;
     }
     onActiveRowChange?.(0);
-    onSelectedRowsChange?.({});
     onClearTable();
   };
 
