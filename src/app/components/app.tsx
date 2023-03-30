@@ -85,8 +85,8 @@ export const App = (props: IAppProps) => {
       disableSortBy: true
     },
     {
-      Header: "Sugar Produced",
-      accessor: "sugarProduced" as const,
+      Header: "Sugar Created",
+      accessor: "sugarCreated" as const,
       width: 155,
       disableSortBy: true
     },
@@ -132,17 +132,17 @@ export const App = (props: IAppProps) => {
     water: getPng(runInputState.water),
     co2: getPng(runInputState.co2amount),
     sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
-    sugarProduced: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarProduced))
+    sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
   }), [isRunning]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (dataType: "sugarUsed" | "sugarProduced") => {
+  const getGraphData = (dataType: "sugarUsed" | "sugarCreated") => {
     return modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((snapshot) => snapshot[dataType]);
   };
 
   const sugarUsedData = getGraphData("sugarUsed");
-  const sugarCreatedData = getGraphData("sugarProduced");
+  const sugarCreatedData = getGraphData("sugarCreated");
 
   const getActiveX = () => {
     if (isFinished && activeOutputSnapshotIdx === 0) {
@@ -168,7 +168,7 @@ export const App = (props: IAppProps) => {
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
       sugarUsed: model.sugarUsed,
-      sugarProduced: model.sugarProduced
+      sugarCreated: model.sugarCreated
     });
 
     const simulationStep = (realTimeDiff: number) => {
@@ -267,9 +267,9 @@ export const App = (props: IAppProps) => {
                 />
                 <BarGraph
                   data={sugarCreatedData}
-                  title={"Sugar Produced"}
+                  title={"Sugar Created"}
                   activeXTick={getActiveX()}
-                  className="sugarProduced"
+                  className="sugarCreated"
                 />
               </div>
             </div>
