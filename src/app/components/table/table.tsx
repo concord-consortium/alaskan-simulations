@@ -97,7 +97,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
                     <th
                       key={keyTh}
                       {...restColumn}
-                      style={{...style, cursor: (!column.disableSortBy && !disabled) ? "default" : "pointer", width: column.width, textAlign: (centerHeader) ? "center": "left"}}
+                      style={{...style, cursor: (column.disableSortBy || disabled) ? "default" : "pointer", width: column.width, textAlign: (centerHeader) ? "center": "left"}}
                       >{column.render("Header")}
                     </th>
                   );

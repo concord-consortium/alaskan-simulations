@@ -57,32 +57,38 @@ export const App = (props: IAppProps) => {
     {
       Header: "Trial",
       accessor: "trial" as const,
-      width: 60
+      width: 60,
+      disableSortBy: true
     },
     {
       Header: "Light",
       accessor: "light" as const,
       width: 75,
+      disableSortBy: true
     },
     {
       Header: "Water",
       accessor: "water" as const,
       width: 75,
+      disableSortBy: true
     },
     {
       Header: <div style={{marginBottom:"-3px"}}><span>CO<sub>2</sub></span></div>,
       accessor: "co2" as const,
       width: 75,
+      disableSortBy: true
     },
     {
       Header: "Sugar Used",
       accessor: "sugarUsed" as const,
-      width: 150
+      width: 150,
+      disableSortBy: true
     },
     {
       Header: "Sugar Produced",
       accessor: "sugarProduced" as const,
-      width: 155
+      width: 155,
+      disableSortBy: true
     },
   ], []);
 
