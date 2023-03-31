@@ -56,10 +56,6 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     }
   }, [data, activeRow, onActiveRowChange]);
 
-  useEffect(() => {
-    activeRowRef.current?.scrollIntoView?.({ behavior: "smooth", block: "center" });
-  }, [activeRow]);
-
   const handleRowDelete = () => {
     if (disabled) {
       return;

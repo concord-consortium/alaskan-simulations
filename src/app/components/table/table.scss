@@ -210,7 +210,7 @@ $tableBorderWidth: 2px;
 
     &:hover {
       @include activeRow(.5, 0px 0px 0px 0px, 0px 0px 0px 0px);
-      &:last-child {
+      &:last-child(:not(:nth-child(-n + 4))) {
         @include activeRow(.5, 0px 0px 0px 20px, 0px 0px 20px 0px);
       }
     }
