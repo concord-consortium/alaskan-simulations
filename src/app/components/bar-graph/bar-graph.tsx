@@ -24,7 +24,7 @@ export interface IBarGraphProps {
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
   const yAxisLabel = "Amount";
-  const xAxisLabel = "Time (days)";
+  const xAxisLabel = "Time (Days)";
   const yMin = 0;
   const yMax = 10;
   const yGridStep = 2;
