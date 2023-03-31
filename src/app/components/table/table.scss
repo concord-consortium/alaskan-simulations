@@ -138,10 +138,8 @@ $tableBorderWidth: 2px;
 
       &.activeRow {
         background: rgba(43, 114, 227, 0.1);
-        &:nth-child(-n+5) {
-          @include activeRow(1, 0px 0px 0px 0px, 0px 0px 0px 0px);
-        }
-        &:last-child {
+        @include activeRow(1, 0px 0px 0px 0px, 0px 0px 0px 0px);
+        &:last-child:not(:nth-child(-n+4)) {
           @include activeRow(1, 0px 0px 0px 20px, 0px 0px 20px 0px);
         }
       }
