@@ -118,18 +118,43 @@ export class Model {
     const {water, light, co2amount} = inputs;
     const isSugarUsed = type === "sugarUsed";
     const noLight = light === InputAmount.None;
+    const someLight = light === InputAmount.Some;
+    const fullLight = light ===  InputAmount.Full;
     const noCo2 = co2amount === InputAmount.None;
+    const fullWater = water === InputAmount.Full;
+    const someWater = water === InputAmount.Some;
 
     const compareFunc = (c: ICaseData) => {
       return c.inputs2 ? (equal(c.inputs, inputs) || equal(c.inputs2, inputs)) : equal(c.inputs, inputs);
     };
 
     if (water === InputAmount.None || index === 0) {
+      // Cases 7, 8, 9, 16, 17, 18, 25, 26, 27
       return 0;
     } else if (isSugarUsed && noLight) {
-      return index === 1 ? water === InputAmount.Full ? 1.5 : 1 : 0;
+      if (index === 1) {
+        // Case 19
+        if (fullWater && noCo2) return 1.5;
+        // Case 22
+        else if (someWater && noCo2) return 1.7;
+        // Cases 1, 4, 10, 13
+        else return 1;
+      } else {
+        return 0;
+      }
     } else if (isSugarUsed && noCo2) {
-      return index === 1 ? 1.7 : 0;
+      if (index === 1) {
+        // Case 21
+        if (fullLight && (fullWater)) return 1.7;
+        // Case 23
+        if (someLight && someWater) return 1.7;
+        // Case 24
+        if (fullLight && someWater) return 1.7;
+        // Case 20
+        else return 1.5;
+      } else {
+        return 0;
+      }
     } else if (!isSugarUsed && (noLight || noCo2)) {
       return 0;
     }
