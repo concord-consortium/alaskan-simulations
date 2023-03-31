@@ -48,6 +48,7 @@ export interface IUseModelStateResult<IModelInputState, IModelOutputState> {
   removeModelRun: () => void;
   removeAllModelRuns: () => void;
   markRunFinished: () => void;
+  isLastRunFinished: boolean;
 }
 
 /*
@@ -274,6 +275,7 @@ export const useModelState = (
     modelRuns,
     addModelRun,
     removeModelRun,
-    removeAllModelRuns
+    removeAllModelRuns,
+    isLastRunFinished: modelRuns[modelRuns.length - 1].isFinished
   };
 };
