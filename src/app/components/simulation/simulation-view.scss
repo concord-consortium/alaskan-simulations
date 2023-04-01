@@ -18,6 +18,15 @@
     border-radius: 10px;
   }
 
+  .ruler {
+    z-index: 2;
+    background-image: url("../../assets/terrarium/Ruler-Centimeter.svg");
+    width: 394px;
+    height: 469px;
+    position: absolute;
+    top: 0;
+  }
+
   .terrariumBackGround{
     position: absolute;
     top: 0px;
@@ -41,35 +50,45 @@
       height: 496px;
       z-index: 1;
     }
-    // //plant roots have z index 2
-    // .terrariumWater{
-    //   background-image: url("../../assets/terrarium-water.png");
-    //   position: absolute;
-    //   right: 0px;
-    //   bottom: 0px;
-    //   width: 366px;
-    //   height: 238px;
-    //   z-index: 3;
-    // }
-    // .terrariumSoilDry{
-    //   background-image: url("../../assets/terrarium-soil-dry.png");
-    //   position: absolute;
-    //   right: 0px;
-    //   bottom: 0px;
-    //   width: 366px;
-    //   height: 238px;
-    //   z-index: 3;
-    // }
-    // .terrariumSoilWet{
-    //   background-image: url("../../assets/terrarium-soil-wet.png");
-    //   position: absolute;
-    //   right: 0px;
-    //   bottom: 0px;
-    //   width: 366px;
-    //   height: 238px;
-    //   z-index: 3;
-    // }
-    // //plant top has z-index 4
+
+    .soil {
+      position: absolute;
+      top: 0;
+      width: 394px;
+      height: 469px;
+      z-index: 2;
+      &.Full {
+        background-image: url("../../assets/terrarium/Soil-Water-High.svg");
+      }
+      &.Some {
+        background-image: url("../../assets/terrarium/Soil-Water-Low.svg");
+
+      }
+      &.None {
+        background-image: url("../../assets/terrarium/Soil-Water-None.svg");
+      }
+    }
+
+    .light {
+      position: absolute;
+      top: 0;
+      width: 394px;
+      height: 469px;
+      z-index: 2;
+      &.Full {
+        background-image: url("../../assets/terrarium/Light-High.svg");
+      }
+      &.Some {
+        background-image: url("../../assets/terrarium/Light-Low.svg");
+
+      }
+      &.None {
+        background-image: url("../../assets/terrarium/Light-None.svg");
+      }
+    }
+
+
+    //plant top has z-index 4
     // .co2Label{
     //   background-color: white;
     //   position: absolute;
@@ -83,29 +102,25 @@
     //   display: flex;
     //   align-items: center;
     //   justify-content: center;
-    //   .co2LabelText{
-    //     font-weight: 500;
-    //     font-size: 14px;
-    //     color: $bluePrimary;
+    //     .co2LabelText{
+    //       font-weight: 500;
+    //       font-size: 14px;
+    //       color: $bluePrimary;
+    //     }
     //   }
-    // }
-    // .terrariumFrontGlass{
-    //   background-image: url("../../assets/terrarium-front-glass.png");
-    //   position: absolute;
-    //   right: 0px;
-    //   bottom: 0px;
-    //   width: 366px;
-    //   height: 238px;
-    //   z-index: 6;
-    // }
-    // .lightLayer{
-    //   background-image: url("../../assets/light.png");
-    //   position: absolute;
-    //   // right: -56px;
-    //   top: -8px;
-    //   width: 480px;
-    //   height: 265px;
-    //   z-index: 7;
-    // }
+
+    .terrariumFront{
+      position: absolute;
+      top: 0;
+      width: 394px;
+      height: 469px;
+      z-index: 6;
+      &.Full, &.Some {
+        background-image: url("../../assets/terrarium/Terrarium-Front-Mesh.svg");
+      }
+      &.None {
+        background-image: url("../../assets/terrarium/Terrarium-Front-Glass.svg");
+      }
+    }
   }
 }

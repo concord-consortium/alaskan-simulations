@@ -15,10 +15,11 @@ interface IProps {
 
 
 export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished}) => {
+  const {water, light, co2amount} = input;
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
       <div className={css.terrariumBackGround}/>
-      <div className={css.terrariumBackTable}/>
+      <div className={css.ruler}/>
       <div className={css.terrarium}>
         <div className={css.terrariumBack}/>
         {
@@ -28,10 +29,11 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         </div>
         }
         <div className={css.terrariumFrontGlass}/>
-        <div className={clsx({[css.terrariumWater]: input.water, [css.terrariumSoilDry]: input.light, [css.terrariumSoilWet]: input.light && input.water})}/>
-        {/* <div className={css.lightLayer}/> */}
+        <div className={clsx(css.soil, css[t(water)])}/>
+        <div className={clsx(css.light, css[t(light)])}/>
+        <div className={clsx(css.terrariumFront, css[t(co2amount)])}></div>
       </div>
-      <AnimationView light={input.light}  water={input.water} co2Amount={input.co2amount} time={output.time} isRunning={isRunning}/>
+      <AnimationView light={light}  water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning}/>
 
     </LabeledContainer>
   );
