@@ -57,14 +57,14 @@
       width: 394px;
       height: 469px;
       z-index: 2;
-      &.Full {
+      &.full {
         background-image: url("../../assets/terrarium/Soil-Water-High.svg");
       }
-      &.Some {
+      &.some {
         background-image: url("../../assets/terrarium/Soil-Water-Low.svg");
 
       }
-      &.None {
+      &.none {
         background-image: url("../../assets/terrarium/Soil-Water-None.svg");
       }
     }
@@ -75,15 +75,15 @@
       width: 394px;
       height: 469px;
       z-index: 2;
-      &.Full {
+      &.full {
         background-image: url("../../assets/terrarium/Light-High.svg");
       }
-      &.Some {
+      &.some {
         background-image: url("../../assets/terrarium/Light-Low.svg");
 
       }
-      &.None {
-        background-image: url("../../assets/terrarium/Light-None.svg");
+      &.none {
+        background-image: url("../../assets/terrarium/Light-none.svg");
       }
     }
 
@@ -115,10 +115,10 @@
       width: 394px;
       height: 469px;
       z-index: 6;
-      &.Full, &.Some {
+      &.full, &.some {
         background-image: url("../../assets/terrarium/Terrarium-Front-Mesh.svg");
       }
-      &.None {
+      &.none {
         background-image: url("../../assets/terrarium/Terrarium-Front-Glass.svg");
       }
     }

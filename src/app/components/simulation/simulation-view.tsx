@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { t } from "../../translation/translate";
 import React from "react";
-import { IModelInputState, IModelOutputState } from "../../../types";
+import { IModelInputState, IModelOutputState, InputAmount } from "../../../types";
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";
@@ -16,6 +16,11 @@ interface IProps {
 
 export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished}) => {
   const {water, light, co2amount} = input;
+
+  const getClass = (inputAmount: InputAmount) => {
+    return inputAmount === InputAmount.Full ? css.full : inputAmount === InputAmount.Some ? css.some : css.none;
+  }
+
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
       <div className={css.terrariumBackGround}/>
@@ -29,9 +34,9 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         </div>
         }
         <div className={css.terrariumFrontGlass}/>
-        <div className={clsx(css.soil, css[t(water)])}/>
-        <div className={clsx(css.light, css[t(light)])}/>
-        <div className={clsx(css.terrariumFront, css[t(co2amount)])}></div>
+        <div className={clsx(css.soil, getClass(water))}/>
+        <div className={clsx(css.light,  getClass(light))}/>
+        <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
       </div>
       <AnimationView light={light}  water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning}/>
 
