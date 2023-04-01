@@ -19,7 +19,7 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
 
   const getClass = (inputAmount: InputAmount) => {
     return inputAmount === InputAmount.Full ? css.full : inputAmount === InputAmount.Some ? css.some : css.none;
-  }
+  };
 
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
