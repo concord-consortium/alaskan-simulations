@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 394 469">
+  <defs>
+    <linearGradient id="linear-gradient" x1="237.83208" y1="482.17111" x2="104.26081" y2="322.98706" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d1d1b"/>
+      <stop offset=".02964" stop-color="#1d1d1b"/>
+      <stop offset=".60188" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="104.26081" y1="322.98706" x2="237.83208" y2="482.17111" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d1d1b"/>
+      <stop offset=".02964" stop-color="#1d1d1b"/>
+      <stop offset=".2876" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="23.955" y1="418.96891" x2="47.99927" y2="352.90783" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".02964" stop-color="#fff"/>
+      <stop offset=".6649" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="368.15353" y1="398.38163" x2="241.02456" y2="49.09766" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d1d1b"/>
+      <stop offset=".02964" stop-color="#1d1d1b"/>
+      <stop offset=".43051" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="-58.29895" y1="312.96118" x2="148.29444" y2="139.60874" xlink:href="#linear-gradient-4"/>
+    <linearGradient id="linear-gradient-6" x1="226.59878" y1="17.32303" x2="119.39788" y2="391.17697" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset=".02964" stop-color="#000"/>
+      <stop offset=".43051" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Terrarium">
+    <g id="Terrarium_Back" data-name="Terrarium Back">
+      <g id="rectangle">
+        <rect width="394" height="469" fill="none"/>
+      </g>
+      <g id="Back_and_Side_Base" data-name="Back and Side Base">
+        <path id="Base_outline_back" data-name="Base outline back" d="m18.54546,417l32.45453-63h244l32.45453,63h2.24982l-32.92639-63.91595c-.34296-.66571-1.02911-1.08405-1.77795-1.08405H50.99999c-.74884,0-1.435.41833-1.77795,1.08405l-32.92639,63.91595h2.24982Z" fill="#515151"/>
+        <polygon id="Base_B" data-name="Base B" points="312.99999 417 292.99999 371 52.99999 371 32.99999 417 312.99999 417" fill="#494949"/>
+        <rect id="Base_back" data-name="Base back" x="53" y="356" width="240" height="15" fill="#606060"/>
+        <polygon id="Base_back_top" data-name="Base back top" points="293 356 53 356 51 354 295 354 293 356" fill="#a0a0a0"/>
+        <g id="Glass_bottom" data-name="Glass bottom">
+          <polygon id="Glass_bottom_3" data-name="Glass bottom 3" points="315.49999 417 292.99999 366 52.99999 366 30.49999 417 315.49999 417" fill="#d2f9ff" opacity=".4"/>
+          <polygon id="Glass_bottom_2" data-name="Glass bottom 2" points="315.49999 417 292.99999 366 52.99999 366 30.49999 417 315.49999 417" fill="url(#linear-gradient)" opacity=".5"/>
+          <polygon id="Glass_bottom_1" data-name="Glass bottom 1" points="315.49999 417 292.99999 366 52.99999 366 30.49999 417 315.49999 417" fill="url(#linear-gradient-2)" opacity=".3"/>
+        </g>
+        <polygon id="Base_R" data-name="Base R" points="322.99999 417 292.99999 356 292.99999 371 312.99999 417 322.99999 417" fill="#606060"/>
+        <polygon id="Base_R_top" data-name="Base R top" points="327.45451 417 294.99999 354 292.99999 356 322.99999 417 327.45451 417" fill="#a0a0a0"/>
+        <polygon id="Base_L" data-name="Base L" points="52.99999 371 52.99999 356 22.99999 417 32.99999 417 52.99999 371" fill="#3f3f3f"/>
+        <polygon id="Base_L_top" data-name="Base L top" points="22.99999 417 52.99999 356 50.99999 354 18.54546 417 22.99999 417" fill="#a0a0a0"/>
+        <polygon id="Base_L_top_HI" data-name="Base L top HI" points="22.99999 417 52.99999 356 50.99999 354 18.54546 417 22.99999 417" fill="url(#linear-gradient-3)" opacity=".2"/>
+      </g>
+      <g id="Right_Wall" data-name="Right Wall">
+        <polygon points="315.49999 417 292.99999 366 287.99999 366 309.74999 417 315.49999 417" fill="#217e8e" opacity=".2"/>
+        <rect id="R_back" data-name="R back" x="288" y="32" width="5" height="334" fill="#409cb2" opacity=".2"/>
+        <polygon points="322.99999 417 322.99999 70 292.99999 32 292.99999 366 315.49999 417 322.99999 417" fill="#d2f9ff" opacity=".2"/>
+        <polygon points="316.99999 417 316.99999 70 287.99999 32 287.99999 366 309.74999 417 316.99999 417" fill="#d2f9ff" opacity=".3"/>
+        <polygon points="316.99999 417 316.99999 70 287.99999 32 287.99999 366 309.74999 417 316.99999 417" fill="url(#linear-gradient-4)" opacity=".1"/>
+        <rect x="316.99999" y="70" width="6" height="347" fill="#6bc5dd" opacity=".5"/>
+        <rect x="316.99999" y="70" width="6" height="347" fill="#6bc5dd" opacity=".5"/>
+        <polygon id="R_top" data-name="R top" points="288 32 293 32 323 70 317 70 288 32" fill="#6bc5dd" opacity=".5"/>
+      </g>
+      <g id="Left_Wall" data-name="Left Wall">
+        <polygon points="36.24999 417 57.99999 366 52.99999 366 30.49999 417 36.24999 417" fill="#217e8e" opacity=".2"/>
+        <rect id="L_back" data-name="L back" x="53" y="32" width="5" height="334" fill="#409cb2" opacity=".2"/>
+        <polygon points="30.49999 417 52.99999 366 52.99999 32 22.99999 70 22.99999 417 30.49999 417" fill="#d2f9ff" opacity=".2"/>
+        <polygon points="36.24999 417 57.99999 366 57.99999 32 28.99999 70 28.99999 417 36.24999 417" fill="#d2f9ff" opacity=".3"/>
+        <polygon id="L_inside_DARK" data-name="L inside DARK" points="36.24999 417 57.99999 366 57.99999 32 28.99999 70 28.99999 417 36.24999 417" fill="url(#linear-gradient-5)" opacity=".1"/>
+        <rect x="22.99999" y="70" width="6" height="347" fill="#6bc5dd" opacity=".5"/>
+        <rect id="L_front" data-name="L front" x="22.99999" y="70" width="6" height="347" fill="#6bc5dd" opacity=".5"/>
+        <polygon id="L_top" data-name="L top" points="58 32 53 32 23 70 29 70 58 32" fill="#6bc5dd" opacity=".5"/>
+      </g>
+      <g id="Back_Wall" data-name="Back Wall">
+        <rect id="B_back" data-name="B back" x="55.13538" y="35.75" width="235.7259" height="337" fill="#d2f9ff" opacity=".1"/>
+        <rect id="B_inside" data-name="B inside" x="58" y="32" width="230" height="334" fill="#d2f9ff" opacity=".1"/>
+        <rect id="B_inside_dark" data-name="B inside dark" x="55.13538" y="35.75" width="235.7259" height="337" fill="url(#linear-gradient-6)" opacity=".1"/>
+        <polygon id="B_top" data-name="B top" points="58 32 288 32 290.86126 35.75 55.13536 35.75 58 32" fill="#6bc5dd" opacity=".5"/>
+        <polygon id="Inside_LINES" data-name="Inside LINES" points="291.36156 36.40485 290.8618 35.74994 290.36156 35.74994 290.36156 372.24994 55.63548 372.24994 55.50023 35.74994 55.13817 35.74994 54.50053 36.58545 54.63542 372.64758 36.13707 415.99994 37.22453 415.99994 55.46587 373.24994 290.53124 373.24994 308.77495 415.99994 309.86241 415.99994 291.36156 372.64746 291.36156 36.40485" fill="#04758f"/>
+      </g>
+    </g>
+  </g>
+</svg>

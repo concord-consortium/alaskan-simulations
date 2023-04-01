@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 394 469">
+  <defs>
+    <linearGradient id="linear-gradient" x1="129.66987" y1="354.95002" x2="216.33013" y2="505.04998" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".02964" stop-color="#fff"/>
+      <stop offset=".6649" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="154.75147" y1="470.13743" x2="192.03193" y2="367.71021" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="17.00023" y1="419.99994" x2="329.00023" y2="419.99994" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cecece"/>
+      <stop offset="1" stop-color="#cecece" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="342.93473" y1="386.09218" x2="3.06524" y2="100.90782" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".62975" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="-10.12772" y1="137.77117" x2="356.12769" y2="349.22883" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".02964" stop-color="#fff"/>
+      <stop offset=".5988" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-6" x1="135.5" y1="128.95191" x2="219.02147" y2="-15.71152" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".02964" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-7" x1="190.54667" y1="112.20907" x2="147.0711" y2="-7.23908" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset=".02964" stop-color="#000"/>
+      <stop offset=".40081" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-8" x1="158.81778" y1="2.57004" x2="180.59045" y2="96.87784" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset=".02964" stop-color="#000"/>
+      <stop offset=".40081" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Terrarium">
+    <g id="Terrarium_Front_Glass_Top" data-name="Terrarium Front Glass Top">
+      <g id="rectangle">
+        <rect width="394" height="469" fill="none"/>
+      </g>
+      <g id="Front_Base" data-name="Front Base">
+        <path id="Base_outline_front" data-name="Base outline front" d="m329.70433,417h-2.24982l1.54547,3v20H16.99999v-20l1.54547-3h-2.24982l-1.07361,2.08405c-.14587.28333-.22205.59729-.22205.91595v20c0,1.10455.89545,2,2,2h312c1.10461,0,2-.89545,2-2v-20c0-.31866-.07611-.63263-.22205-.91595l-1.07361-2.08405Z" fill="#515151"/>
+        <rect id="Base_F_front" data-name="Base F front" x="17" y="420" width="312" height="20" fill="#666"/>
+        <rect id="Base_F_front_HI" data-name="Base F front HI" x="17" y="420" width="312" height="20" fill="url(#linear-gradient)" opacity=".2"/>
+        <polygon id="Base_F_top" data-name="Base F top" points="329 420 17 420 18.5455 417 327.4545 417 329 420" fill="#a0a0a0"/>
+        <polygon id="Base_F_top_HI" data-name="Base F top HI" points="329 420 17 420 18.5455 417 327.4545 417 329 420" fill="url(#linear-gradient-2)" opacity=".2"/>
+        <polygon id="Base_hi" data-name="Base hi" points="329.00023 420.62494 17.00023 420.62494 17.00023 420 17.32157 419.37494 328.68023 419.37494 329.00023 420 329.00023 420.62494" fill="url(#linear-gradient-3)"/>
+      </g>
+      <g id="Front_Wall" data-name="Front Wall">
+        <rect id="F_inside" data-name="F inside" x="32.43388" y="65.5" width="281.13293" height="351.5" fill="#d2f9ff" opacity=".02"/>
+        <polygon id="F_right_inside" data-name="F right inside" points="316.99999 417 316.99999 70 313.56682 65.5 313.56682 417 316.99999 417" fill="#409cb2" opacity=".2"/>
+        <polygon id="F_left_inside" data-name="F left inside" points="32.43388 417 32.43388 65.5 28.99999 70 28.99999 417 32.43388 417" fill="#409cb2" opacity=".2"/>
+        <rect id="F_front" data-name="F front" x="28.99999" y="70" width="288" height="347" fill="#d2f9ff" opacity=".1"/>
+        <rect id="F_front_right_hi" data-name="F front right hi" x="28.99999" y="70" width="288" height="347" fill="url(#linear-gradient-4)" opacity=".2"/>
+        <rect id="F_front_left_hi" data-name="F front left hi" x="28.99999" y="70" width="288" height="347" fill="url(#linear-gradient-5)" opacity=".2"/>
+        <polygon id="F_top" data-name="F top" points="32.43394 65.5 313.56684 65.5 317 70 29 70 32.43394 65.5" fill="#6bc5dd" opacity=".5"/>
+        <rect id="L_front_line_HI" data-name="L front line HI" x="23.00023" y="69.99994" width="1" height="347.00006" fill="#fff"/>
+        <rect id="Top_front_line_HI" data-name="Top front line HI" x="23.00023" y="70.49994" width="300" height="1" fill="#fff"/>
+        <rect id="R_front_line" data-name="R front line" x="316.50023" y="69.99994" width="1" height="347.00006" fill="#04758f"/>
+        <rect id="L_front_line" data-name="L front line" x="28.50023" y="69.99994" width="1" height="347.00006" fill="#04758f"/>
+        <rect id="top_front_line" data-name="top front line" x="23.00023" y="415.99994" width="300" height="1" fill="#515151"/>
+      </g>
+      <path id="Top_outer_edge" data-name="Top outer edge" d="m292.99999,32l30,38v-1.61383l-29.21509-37.0058c-.18964-.2403-.47888-.38037-.78491-.38037H52.99999c-.30603,0-.59521.14008-.78485.38037l-29.21515,37.00586v1.61377l30-38h240Z" fill="#7ab7cc"/>
+      <path id="Top_Inner_outline" data-name="Top Inner outline" d="m290.36699,36.75l21.17767,27.75H34.45531l21.17767-27.75h234.73401m.49481-1H55.13817l-22.70398,29.75h281.13159l-22.70398-29.75h0Z" fill="#7ab7cc"/>
+      <polygon id="Top_Inner_outline_HI" data-name="Top Inner outline HI" points="313.56578 65.5 314.82378 65.5 291.35655 34.75 55.90129 34.75 55.13817 35.75 290.8618 35.75 313.56578 65.5" fill="#fff" opacity=".7"/>
+      <g id="Top_Sealed_Glass" data-name="Top Sealed Glass">
+        <rect id="Top_right_corner" data-name="Top right corner" x="292.50023" y="26.99994" width="1" height="5" fill="#7ab7cc"/>
+        <rect id="Top_left_corner" data-name="Top left corner" x="52.50023" y="26.99994" width="1" height="5" fill="#7ab7cc"/>
+        <rect id="Top_back" data-name="Top back" x="53" y="27" width="240" height="5" fill="#409cb2" opacity=".4"/>
+        <polygon id="Top_right" data-name="Top right" points="293 32 293 27 323 64 323 70 293 32" fill="#409cb2" opacity=".3"/>
+        <polygon id="Top_left" data-name="Top left" points="53 32 53 27 23 64 23 70 53 32" fill="#409cb2" opacity=".3"/>
+        <rect id="Top_front" data-name="Top front" x="23" y="64" width="300" height="6" fill="#6bc5dd" opacity=".5"/>
+        <rect id="Top_front_line" data-name="Top front line" x="23.00023" y="69.49994" width="300" height="1" fill="#04758f"/>
+        <polygon id="Top" points="293 27 53 27 23 64 323 64 293 27" fill="#d2f9ff" opacity=".2"/>
+        <polygon id="Top_left_hi" data-name="Top left hi" points="293 27 53 27 23 64 323 64 293 27" fill="url(#linear-gradient-6)" opacity=".4"/>
+        <polygon id="Top_right_dark" data-name="Top right dark" points="293 27 53 27 23 64 323 64 293 27" fill="url(#linear-gradient-7)" opacity=".05"/>
+        <polygon id="Top_left_dark" data-name="Top left dark" points="293 27 53 27 23 64 323 64 293 27" fill="url(#linear-gradient-8)" opacity=".07"/>
+        <rect id="Top_front_line_top" data-name="Top front line top" x="23.00023" y="62.99994" width="300" height="1" fill="#04758f"/>
+        <polygon id="Top_HI" data-name="Top HI" points="323 64 24.25 64 54 27 53 27 23 64 22.99999 69.5 23.99999 69.5 23.99999 65 323 65 323 64" fill="#fff"/>
+      </g>
+      <path id="Outline_Sealed_Glass" data-name="Outline Sealed Glass" d="m22.99999,417V64l30-37h240l30,37v353h2V64c0-.45868-.15759-.90332-.44647-1.25964l-30-37c-.37976-.46832-.95056-.74036-1.55353-.74036H52.99999c-.60291,0-1.17377.27203-1.55347.74036l-30,37c-.28888.35632-.44653.80096-.44653,1.25964v353h2Z" fill="#04758f"/>
+    </g>
+  </g>
+</svg>
