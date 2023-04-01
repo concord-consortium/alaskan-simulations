@@ -89,25 +89,25 @@
 
 
     //plant top has z-index 4
-    // .co2Label{
-    //   background-color: white;
-    //   position: absolute;
-    //   left: 25px;
-    //   top: 50px;
-    //   height:23px;
-    //   width:100px;
-    //   z-index: 5;
-    //   border-radius: 20px;
-    //   border: 2px solid $bluePrimary;
-    //   display: flex;
-    //   align-items: center;
-    //   justify-content: center;
-    //     .co2LabelText{
-    //       font-weight: 500;
-    //       font-size: 14px;
-    //       color: $bluePrimary;
-    //     }
-    //   }
+    .co2Label{
+      background-color: white;
+      position: absolute;
+      left: 35px;
+      top: 100px;
+      height:23px;
+      width:100px;
+      z-index: 5;
+      border-radius: 20px;
+      border: 2px solid $bluePrimary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+        .co2LabelText{
+          font-weight: 500;
+          font-size: 14px;
+          color: $bluePrimary;
+        }
+      }
 
     .terrariumFront{
       position: absolute;
