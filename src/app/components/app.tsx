@@ -102,7 +102,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx
+    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
   } = modelState;
 
   const getPng = (inputLevel: string) => {
@@ -228,7 +228,7 @@ export const App = (props: IAppProps) => {
           />
           <div className={css.controls}>
             <div className={css.group}>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isFinished || readOnly} />
+              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
               <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
             </div>
             <div className={css.grow}>
