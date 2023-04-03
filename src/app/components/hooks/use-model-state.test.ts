@@ -7,7 +7,7 @@ const testState = {
   outputState: {
     time: 0,
     sugarUsed: OutputAmountValue.None,
-    sugarProduced: OutputAmountValue.None
+    sugarCreated: OutputAmountValue.None
   },
   modelRuns: [],
 };
@@ -26,13 +26,13 @@ const noLight = {
 
 const newOutput1 = {
   time: 0,
-  sugarProduced: OutputAmountValue.None,
+  sugarCreated: OutputAmountValue.None,
   sugarUsed: OutputAmountValue.None
 };
 
 const newOutput2 = {
   time: 0,
-  sugarProduced: OutputAmountValue.Medium,
+  sugarCreated: OutputAmountValue.Medium,
   sugarUsed: OutputAmountValue.None
 };
 
@@ -84,7 +84,7 @@ describe("useModelState", () => {
 
     expect(result.current.outputState).toEqual(testState.outputState);
     act(() => {
-      result.current.setOutputState({sugarProduced: OutputAmountValue.None});
+      result.current.setOutputState({sugarCreated: OutputAmountValue.None});
     });
     expect(result.current.outputState).toEqual(newOutput1);
     expect(result.current.modelRuns).toEqual([
@@ -147,7 +147,7 @@ describe("useModelState", () => {
     const { result } = renderHook(HookWrapper);
 
     act(() => {
-      result.current.setOutputState({sugarProduced: OutputAmountValue.None});
+      result.current.setOutputState({sugarCreated: OutputAmountValue.None});
     });
     expect(result.current.activeRunIdx).toBe(0);
     expect(result.current.outputState).toEqual(newOutput1);
@@ -182,7 +182,7 @@ describe("useModelState", () => {
       result.current.setInputState({light: InputAmount.Full});
     });
     act(() => {
-      result.current.setOutputState({sugarProduced: OutputAmountValue.None});
+      result.current.setOutputState({sugarCreated: OutputAmountValue.None});
     });
     expect(result.current.activeRunIdx).toBe(1);
     expect(result.current.outputState).toEqual(newOutput1);
@@ -215,7 +215,7 @@ describe("useModelState", () => {
       result.current.setActiveRunIdx(0);
     });
     act(() => {
-      result.current.setOutputState({sugarProduced: OutputAmountValue.Medium});
+      result.current.setOutputState({sugarCreated: OutputAmountValue.Medium});
     });
     expect(result.current.activeRunIdx).toBe(0);
     expect(result.current.outputState).toEqual(newOutput2);

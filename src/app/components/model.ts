@@ -5,7 +5,7 @@ interface ICaseData {
   inputs: IModelInputState,
   inputs2?: IModelInputState,
   sugarUsed: Array<number>,
-  sugarProduced: Array<number>
+  sugarCreated: Array<number>
 }
 
 // There are 27 cases total documented in the NAM/ANEP Plant Food-O-Meter spreadsheet.
@@ -26,7 +26,7 @@ const case2: ICaseData = {
     co2amount: InputAmount.Full,
   },
   sugarUsed: [0, 0.8, 0.9, 1, 1, 1, 1, 1],
-  sugarProduced: [0, 2.2, 2.3, 2.4, 2.5, 2.5, 2.5, 2.5]
+  sugarCreated: [0, 2.2, 2.3, 2.4, 2.5, 2.5, 2.5, 2.5]
 };
 
 const case3: ICaseData = {
@@ -36,7 +36,7 @@ const case3: ICaseData = {
     co2amount: InputAmount.Full,
   },
   sugarUsed: [0, 1.3, 1.8, 2.1, 2.4, 2.8, 3.4, 4],
-  sugarProduced: [0, 3, 4.8, 5, 5.8, 7, 7.8, 10]
+  sugarCreated: [0, 3, 4.8, 5, 5.8, 7, 7.8, 10]
 };
 
 const case5: ICaseData = {
@@ -46,7 +46,7 @@ const case5: ICaseData = {
     co2amount: InputAmount.Full,
   },
   sugarUsed: [0, 0.5, 0.6, 0.8, 0.9, 0.9, 0.9, 0.9],
-  sugarProduced: [0, 2, 2.1, 2.2, 2.3, 2.3, 2.3, 2.3]
+  sugarCreated: [0, 2, 2.1, 2.2, 2.3, 2.3, 2.3, 2.3]
 };
 
 const case11: ICaseData = {
@@ -56,7 +56,7 @@ const case11: ICaseData = {
     co2amount: InputAmount.Some,
   },
   sugarUsed: [0, 0.6, 0.7, 0.8, 0.8, 0.8, 0.8, 0.8],
-  sugarProduced: [0, 1.8, 1.9, 2, 2.1, 2.1, 2.1, 2.1]
+  sugarCreated: [0, 1.8, 1.9, 2, 2.1, 2.1, 2.1, 2.1]
 };
 
 const case12: ICaseData = {
@@ -66,7 +66,7 @@ const case12: ICaseData = {
     co2amount: InputAmount.Some,
   },
   sugarUsed: [0, 1, 1.8, 2, 2.3, 2.4, 2.4, 2.4],
-  sugarProduced: [0, 1.5, 2.4, 3, 4, 4.5, 4.5, 4.5]
+  sugarCreated: [0, 1.5, 2.4, 3, 4, 4.5, 4.5, 4.5]
 };
 
 const case14: ICaseData = {
@@ -76,7 +76,7 @@ const case14: ICaseData = {
     co2amount: InputAmount.Some,
   },
   sugarUsed: [0, 0.4, 0.5, 0.6, 0.7, 0.7, 0.7, 0.7],
-  sugarProduced: [0, 1, 1.3, 1.5, 1.6, 1.6, 1.6, 1.6]
+  sugarCreated: [0, 1, 1.3, 1.5, 1.6, 1.6, 1.6, 1.6]
 };
 
 const case15: ICaseData = {
@@ -86,7 +86,7 @@ const case15: ICaseData = {
     co2amount: InputAmount.Some,
   },
   sugarUsed: [0, 0.6, 0.7, 0.8, 0.9, 0.9, 0.9, 0.9],
-  sugarProduced: [0, 1.2, 1.5, 1.7, 1.9, 1.9, 1.9, 1.9]
+  sugarCreated: [0, 1.2, 1.5, 1.7, 1.9, 1.9, 1.9, 1.9]
 };
 
 const casesWithUniqueValues = [case2, case3, case5, case11, case12, case14, case15];
@@ -94,13 +94,13 @@ const casesWithUniqueValues = [case2, case3, case5, case11, case12, case14, case
 export class Model {
   public time = 0;
   public sugarUsed: number;
-  public sugarProduced: number;
+  public sugarCreated: number;
   private inputs: IModelInputState;
 
   constructor(inputs: IModelInputState) {
     this.inputs = inputs;
     this.sugarUsed = 0;
-    this.sugarProduced = 0;
+    this.sugarCreated = 0;
   }
 
   public step(dt: number) {
@@ -111,10 +111,10 @@ export class Model {
   public changeProperties(){
     const index = Math.floor(this.time * 8);
     this.sugarUsed = this.getOutputAmount(this.inputs, index, "sugarUsed");
-    this.sugarProduced = this.getOutputAmount(this.inputs, index, "sugarProduced");
+    this.sugarCreated = this.getOutputAmount(this.inputs, index, "sugarCreated");
   }
 
-  private getOutputAmount(inputs: IModelInputState, index: number, type: "sugarUsed" | "sugarProduced") {
+  private getOutputAmount(inputs: IModelInputState, index: number, type: "sugarUsed" | "sugarCreated") {
     const {water, light, co2amount} = inputs;
     const isSugarUsed = type === "sugarUsed";
     const noLight = light === InputAmount.None;
