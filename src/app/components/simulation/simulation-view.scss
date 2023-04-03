@@ -20,7 +20,7 @@
 
   .ruler {
     z-index: 2;
-    background-image: url("../../assets/terrarium/Ruler-Centimeter.svg");
+    background-image: url("../../assets/terrarium/ruler-centimeter.svg");
     width: 394px;
     height: 469px;
     position: absolute;
@@ -32,7 +32,7 @@
     top: 0px;
     height: 100%;
     width:100%;
-    background-image: url("../../assets/terrarium/Terrarium-Background.svg");
+    background-image: url("../../assets/terrarium/terrarium-background.svg");
     border-radius: 19px;
     z-index: 1;
   }
@@ -43,7 +43,7 @@
     margin: 0 auto;
 
     .terrariumBack{
-      background-image: url("../../assets/terrarium/Terrarium-Back.svg");
+      background-image: url("../../assets/terrarium/terrarium-back.svg");
       position: absolute;
       top: 0;
       width: 394px;
@@ -58,14 +58,14 @@
       height: 469px;
       z-index: 2;
       &.full {
-        background-image: url("../../assets/terrarium/Soil-Water-High.svg");
+        background-image: url("../../assets/terrarium/soil-water-high.svg");
       }
       &.some {
-        background-image: url("../../assets/terrarium/Soil-Water-Low.svg");
+        background-image: url("../../assets/terrarium/soil-water-low.svg");
 
       }
       &.none {
-        background-image: url("../../assets/terrarium/Soil-Water-None.svg");
+        background-image: url("../../assets/terrarium/soil-water-none.svg");
       }
     }
 
@@ -76,14 +76,14 @@
       height: 469px;
       z-index: 2;
       &.full {
-        background-image: url("../../assets/terrarium/Light-High.svg");
+        background-image: url("../../assets/terrarium/light-high.svg");
       }
       &.some {
-        background-image: url("../../assets/terrarium/Light-Low.svg");
+        background-image: url("../../assets/terrarium/light-low.svg");
 
       }
       &.none {
-        background-image: url("../../assets/terrarium/Light-none.svg");
+        background-image: url("../../assets/terrarium/light-none.svg");
       }
     }
 
@@ -116,10 +116,10 @@
       height: 469px;
       z-index: 6;
       &.full, &.some {
-        background-image: url("../../assets/terrarium/Terrarium-Front-Mesh.svg");
+        background-image: url("../../assets/terrarium/terrarium-front-mesh.svg");
       }
       &.none {
-        background-image: url("../../assets/terrarium/Terrarium-Front-Glass.svg");
+        background-image: url("../../assets/terrarium/terrarium-front-glass.svg");
       }
     }
   }
