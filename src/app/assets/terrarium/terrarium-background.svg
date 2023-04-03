@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394 469">
+  <g id="Terrarium_background" data-name="Terrarium background">
+    <g id="background">
+      <g id="rectangle">
+        <rect width="394" height="469" fill="none"/>
+      </g>
+      <g id="Wall">
+        <rect width="394" height="469" fill="#ca9acc"/>
+      </g>
+      <g id="Desk">
+        <rect y="359" width="394" height="110" fill="#e8c380"/>
+      </g>
+    </g>
+  </g>
+</svg>

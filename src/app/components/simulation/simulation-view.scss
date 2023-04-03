@@ -18,75 +18,82 @@
     border-radius: 10px;
   }
 
+  .ruler {
+    z-index: 2;
+    background-image: url("../../assets/terrarium/ruler-centimeter.svg");
+    width: 394px;
+    height: 469px;
+    position: absolute;
+    top: 0;
+  }
+
   .terrariumBackGround{
     position: absolute;
     top: 0px;
+    height: 100%;
     width:100%;
-    background-color:#D5C7E0;
-    height:100%;
-    z-index:0;
-    border-radius: 20px;
-
-  }
-  .terrariumBackTable{
-    position: absolute;
-    bottom: 0px;
-    height:39%;
-    width:100%;
-    background-color: #c48787;
-    z-index:0;
-    border-radius: 0px 0px 20px 20px;
-
+    background-image: url("../../assets/terrarium/terrarium-background.svg");
+    border-radius: 19px;
+    z-index: 1;
   }
 
   .terrarium{
     position: absolute;
+    top: 0;
     margin: 0 auto;
-    bottom: 15px;
-    width: 366px;
-    height: 238px;
 
     .terrariumBack{
-      background-image: url("../../assets/terrarium-back.png");
+      background-image: url("../../assets/terrarium/terrarium-back.svg");
       position: absolute;
-      width: 366px;
-      height: 238px;
+      top: 0;
+      width: 394px;
+      height: 496px;
       z-index: 1;
     }
-    //plant roots have z index 2
-    .terrariumWater{
-      background-image: url("../../assets/terrarium-water.png");
+
+    .soil {
       position: absolute;
-      right: 0px;
-      bottom: 0px;
-      width: 366px;
-      height: 238px;
-      z-index: 3;
+      top: 0;
+      width: 394px;
+      height: 469px;
+      z-index: 2;
+      &.full {
+        background-image: url("../../assets/terrarium/soil-water-high.svg");
+      }
+      &.some {
+        background-image: url("../../assets/terrarium/soil-water-low.svg");
+
+      }
+      &.none {
+        background-image: url("../../assets/terrarium/soil-water-none.svg");
+      }
     }
-    .terrariumSoilDry{
-      background-image: url("../../assets/terrarium-soil-dry.png");
+
+    .light {
       position: absolute;
-      right: 0px;
-      bottom: 0px;
-      width: 366px;
-      height: 238px;
-      z-index: 3;
+      top: 0;
+      width: 394px;
+      height: 469px;
+      z-index: 2;
+      &.full {
+        background-image: url("../../assets/terrarium/light-high.svg");
+      }
+      &.some {
+        background-image: url("../../assets/terrarium/light-low.svg");
+
+      }
+      &.none {
+        background-image: url("../../assets/terrarium/light-none.svg");
+      }
     }
-    .terrariumSoilWet{
-      background-image: url("../../assets/terrarium-soil-wet.png");
-      position: absolute;
-      right: 0px;
-      bottom: 0px;
-      width: 366px;
-      height: 238px;
-      z-index: 3;
-    }
+
+
     //plant top has z-index 4
     .co2Label{
       background-color: white;
       position: absolute;
-      left: 25px;
-      top: 50px;
+      left: 35px;
+      top: 100px;
       height:23px;
       width:100px;
       z-index: 5;
@@ -95,29 +102,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      .co2LabelText{
-        font-weight: 500;
-        font-size: 14px;
-        color: $bluePrimary;
+        .co2LabelText{
+          font-weight: 500;
+          font-size: 14px;
+          color: $bluePrimary;
+        }
       }
-    }
-    .terrariumFrontGlass{
-      background-image: url("../../assets/terrarium-front-glass.png");
+
+    .terrariumFront{
       position: absolute;
-      right: 0px;
-      bottom: 0px;
-      width: 366px;
-      height: 238px;
+      top: 0;
+      width: 394px;
+      height: 469px;
       z-index: 6;
-    }
-    .lightLayer{
-      background-image: url("../../assets/light.png");
-      position: absolute;
-      // right: -56px;
-      top: -8px;
-      width: 480px;
-      height: 265px;
-      z-index: 7;
+      &.full, &.some {
+        background-image: url("../../assets/terrarium/terrarium-front-mesh.svg");
+      }
+      &.none {
+        background-image: url("../../assets/terrarium/terrarium-front-glass.svg");
+      }
     }
   }
 }
