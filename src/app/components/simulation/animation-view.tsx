@@ -11,153 +11,136 @@ interface IProps {
   isRunning: boolean;
 }
 
-export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, isRunning}) => {
-  const co2None = (co2Amount === InputAmount.None);
-  const co2Low = (co2Amount === InputAmount.Some);
-  const co2Normal = (co2Amount === InputAmount.Full);
+export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time}) => {
+  const noLight = (light === InputAmount.None);
+  const someLight = (light === InputAmount.Some);
+  const fullLight = (light === InputAmount.Full);
+
+  const noWater = (water === InputAmount.None);
+  const someWater = (water === InputAmount.Some);
+  const fullWater = (water === InputAmount.Full);
+
+  const noCo2 = (co2Amount === InputAmount.None);
+  const someCo2 = (co2Amount === InputAmount.Some);
+  const fullCo2 = (co2Amount === InputAmount.Full);
+
   let plantClass = "";
-  let rootClass = "";
+
+  // Cases 7, 8, 9, 16, 17, 18, 25, 26, 27
+  const isNoGrowthCase = noWater;
+  // Cases 1, 4, 10
+  const isCase1OrSame = (noLight && fullWater && fullCo2) || (noLight && someWater && fullCo2) || (noLight && fullWater && someCo2);
+  // Cases 2, 6
+  const isCase2OrSame = (someLight && fullWater && fullCo2) || (fullLight && someWater && fullCo2);
+  // Cases 13, 19, 20, 21, 22, 23, 24
+  const isCase13OrSame = (noLight && someWater && someCo2) || noCo2;
+  // Cases 14, 15
+  const isCase14OrSame = (someWater && someLight && someCo2) || (fullLight && someWater && someCo2);
+
+  const isCase3 = fullLight && fullWater && fullCo2;
+  const isCase5 = someLight && someWater && fullCo2;
+  const isCase11 = someLight && fullWater && someCo2;
+  const isCase12 = fullLight && fullWater && someCo2;
 
   if (time >= 0 && time <= 0.142){ // Day 00
-    plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay00]: (water && co2Normal),
-      [css.lessGrowthLeavesDay00]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay00]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay00]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay00]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay00]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay00]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay00]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay00]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay00]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
-    });
+    plantClass = clsx(css.animationImage, css.day0);
   }
 
   if (time > 0.142 && time <= 0.285){ // Day 04
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay04]: (water && co2Normal),
-      [css.lessGrowthLeavesDay04]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay04]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay04]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay04]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay04]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay04]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay04]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay04]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay04]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day4]: isCase1OrSame || isCase5 || isCase13OrSame,
+      [css.case2day4]: isCase2OrSame || isCase11 || isCase14OrSame,
+      [css.case3day4]: isCase3 || isCase12
     });
   }
 
   if (time > 0.285 && time <= 0.428){ // Day 08
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay08]: (water && co2Normal),
-      [css.lessGrowthLeavesDay08]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay08]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay08]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay08]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay08]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay08]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay08]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay08]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay08]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day8]: isCase1OrSame,
+      [css.case2day8]: isCase2OrSame || isCase11 || isCase14OrSame,
+      [css.case3day8]: isCase3,
+      [css.case5day8]: isCase5,
+      [css.case12day8]: isCase12,
+      [css.case13day8]: isCase13OrSame
     });
   }
 
   if (time > 0.428 && time <= 0.571){ // Day 12
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay12]: (water && co2Normal),
-      [css.lessGrowthLeavesDay12]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay12]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay12]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay12]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay12]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay12]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay12]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay12]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay12]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day12]: isCase1OrSame,
+      [css.case2day12]: isCase2OrSame || isCase11,
+      [css.case3day12]: isCase3,
+      [css.case5day12]: isCase5,
+      [css.case12day12]: isCase12,
+      [css.case13day12]: isCase13OrSame,
+      [css.case14day12]: isCase14OrSame
     });
   }
 
   if (time > 0.571 && time <= 0.714){ // Day 16
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay16]: (water && co2Normal),
-      [css.lessGrowthLeavesDay16]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay16]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay16]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay16]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay16]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay16]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay16]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay16]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay16]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day16]: isCase1OrSame,
+      [css.case2day16]: isCase2OrSame || isCase11,
+      [css.case3day16]: isCase3,
+      [css.case5day16]: isCase5,
+      [css.case12day16]: isCase12,
+      [css.case13day12]: isCase13OrSame,
+      [css.case14day16]: isCase14OrSame
+
     });
   }
 
   if (time > 0.714 && time <= 0.857){ // Day 20
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay20]: (water && co2Normal),
-      [css.lessGrowthLeavesDay20]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay20]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay20]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay20]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay20]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay20]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay20]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay20]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay20]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day20]: isCase1OrSame,
+      [css.case2day20]: isCase2OrSame || isCase11,
+      [css.case3day20]: isCase3,
+      [css.case5day20]: isCase5,
+      [css.case12day20]: isCase12,
+      [css.case13day12]: isCase13OrSame,
+      [css.case14day20]: isCase14OrSame
+
     });
   }
 
   if (time > 0.857 && time <= 0.995){ // Day 24
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay24]: (water && co2Normal),
-      [css.lessGrowthLeavesDay24]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay24]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay24]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay24]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay24]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay24]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay24]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay24]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay24]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day24]: isCase1OrSame,
+      [css.case2day24]: isCase2OrSame,
+      [css.case3day24]: isCase3,
+      [css.case5day24]: isCase5,
+      [css.case2day28]: isCase11,
+      [css.case12day24]: isCase12,
+      [css.case13day12]: isCase13OrSame,
+      [css.case14day24]: isCase14OrSame
+
     });
   }
 
   if (time > 0.995 && time <= 1){ // Day 28
     plantClass = clsx(css.animationImage, {
-      [css.growthLeavesDay28]: (water && co2Normal),
-      [css.lessGrowthLeavesDay28]: (water && co2Low),
-      [css.noGrowthYellowLeavesDay28]: (water && co2None),
-      [css.noGrowthWiltedLeavesDay28]: (light && !water && (co2Normal || co2Low)),
-      [css.noGrowthWiltedAltLeavesDay28]: (!light && !water && (co2Normal || co2Low)),
-      [css.noGrowthYellowWiltedLeavesDay28]: (light && !water && co2None),
-      [css.noGrowthYellowWiltedAltLeavesDay28]: (!light && !water && co2None),
-    });
-    rootClass = clsx(css.animationImage, {
-      [css.growthRootsDay28]: (!light && water && co2Normal),
-      [css.lessGrowthRootsDay28]: (!light && water && co2Low),
-      [css.noGrowthAltRootsDay28]: (!light && co2None) || (!light && !water && co2Low) || (!light && !water && co2Normal),
+      [css.day0]: isNoGrowthCase,
+      [css.case1day24]: isCase1OrSame,
+      [css.case2day28]: isCase2OrSame,
+      [css.case3day28]: isCase3,
+      [css.case5day28]: isCase5,
+      [css.case11day28]: isCase11,
+      [css.case12day28]: isCase12,
+      [css.case13day12]: isCase13OrSame,
+      [css.case14day28]: isCase14OrSame
+
     });
   }
 
     return (
       <div className={css.viewContainer}>
         <div className={plantClass}/>
-        <div className={rootClass}/>
       </div>
     );
 };
