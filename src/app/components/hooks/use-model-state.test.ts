@@ -15,13 +15,13 @@ const testState = {
 const fullLight = {
   light: InputAmount.Full,
   water: InputAmount.Some,
-  co2amount: InputAmount.None,
+  co2amount: InputAmount.Some,
 };
 
 const noLight = {
   light: InputAmount.None,
   water: InputAmount.Some,
-  co2amount: InputAmount.None,
+  co2amount: InputAmount.Some,
 };
 
 const newOutput1 = {
