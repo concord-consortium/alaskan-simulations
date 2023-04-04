@@ -19,7 +19,7 @@
   }
 
   .ruler {
-    z-index: 2;
+    z-index: 4;
     background-image: url("../../assets/terrarium/ruler-centimeter.svg");
     width: 394px;
     height: 469px;
@@ -71,10 +71,10 @@
 
     .light {
       position: absolute;
-      top: 0;
-      width: 394px;
-      height: 469px;
+      width: 393px;
+      height: 468px;
       z-index: 2;
+      border-radius: 19px;
       &.full {
         background-image: url("../../assets/terrarium/light-high.svg");
       }
