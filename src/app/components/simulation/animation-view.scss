@@ -3,302 +3,70 @@
 .viewContainer{
   position: absolute;
   top:0px;
-  width: 366px;
-  height: 238px;
+  width: 394px;
+  height: 469px;
 }
 
 .animationImage {
-  width: 1098px;
-  height: 714px;
   position: absolute;
-  transform: scale(0.33);
-  right: -365px;
-  top: -40px;
   z-index: 4;
 }
 
 /* ================================[ DAY 00 ]=====================================*/
-.growthLeavesDay00 {
-  @include sprite($plant_frames__growth_leaves_day_00_3x);
-}
-.growthRootsDay00 {
-  @include sprite($plant_frames__growth_roots_day_00_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay00 {
-  @include sprite($plant_frames__less_growth_leaves_day_00_3x);
-}
-.lessGrowthRootsDay00 {
-  @include sprite($plant_frames__less_growth_roots_day_00_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay00 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_00_3x);
-}
-.noGrowthWiltedLeavesDay00 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_00_3x);
-}
-.noGrowthWiltedAltLeavesDay00 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_00_3x);
-}
-.noGrowthYellowWiltedLeavesDay00 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_00_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay00 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_00_3x);
-}
-.noGrowthAltRootsDay00 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_00_3x);
-  z-index: 2;
+.day0 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/plant-0.svg");
 }
 
 /* ================================[ DAY 04 ]=====================================*/
-.growthLeavesDay04{
-  @include sprite($plant_frames__growth_leaves_day_04_3x);
-}
-.growthRootsDay04{
-  @include sprite($plant_frames__growth_roots_day_04_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay04{
-  @include sprite($plant_frames__less_growth_leaves_day_04_3x);
-}
-.lessGrowthRootsDay04{
-  @include sprite($plant_frames__less_growth_roots_day_04_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay04{
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_04_3x);
-}
-.noGrowthWiltedLeavesDay04{
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_04_3x);
-}
-.noGrowthWiltedAltLeavesDay04{
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_04_3x);
-}
-.noGrowthYellowWiltedLeavesDay04{
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_04_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay04{
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_04_3x);
-}
-.noGrowthAltRootsDay04{
-  @include sprite($plant_frames__no_growth_alt_roots_day_04_3x);
-  z-index: 2;
+.case1day4 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-4.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 08 ]=====================================*/
-.growthLeavesDay08 {
-  @include sprite($plant_frames__growth_leaves_day_08_3x);
-}
-.growthRootsDay08 {
-  @include sprite($plant_frames__growth_roots_day_08_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay08 {
-  @include sprite($plant_frames__less_growth_leaves_day_08_3x);
-}
-.lessGrowthRootsDay08 {
-  @include sprite($plant_frames__less_growth_roots_day_08_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay08 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_08_3x);
-}
-.noGrowthWiltedLeavesDay08 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_08_3x);
-}
-.noGrowthWiltedAltLeavesDay08 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_08_3x);
-}
-.noGrowthYellowWiltedLeavesDay08 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_08_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay08 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_08_3x);
-}
-.noGrowthAltRootsDay08 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_08_3x);
-  z-index: 2;
+.case1day8 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-8.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 12 ]=====================================*/
-.growthLeavesDay12 {
-  @include sprite($plant_frames__growth_leaves_day_12_3x);
-}
-.growthRootsDay12 {
-  @include sprite($plant_frames__growth_roots_day_12_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay12 {
-  @include sprite($plant_frames__less_growth_leaves_day_12_3x);
-}
-.lessGrowthRootsDay12 {
-  @include sprite($plant_frames__less_growth_roots_day_12_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay12 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_12_3x);
-}
-.noGrowthWiltedLeavesDay12 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_12_3x);
-}
-.noGrowthWiltedAltLeavesDay12 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_12_3x);
-}
-.noGrowthYellowWiltedLeavesDay12 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_12_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay12 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_12_3x);
-}
-.noGrowthAltRootsDay12 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_12_3x);
-  z-index: 2;
+.case1day12 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-12.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 16 ]=====================================*/
-.growthLeavesDay16 {
-  @include sprite($plant_frames__growth_leaves_day_16_3x);
-}
-.growthRootsDay16 {
-  @include sprite($plant_frames__growth_roots_day_16_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay16 {
-  @include sprite($plant_frames__less_growth_leaves_day_16_3x);
-}
-.lessGrowthRootsDay16 {
-  @include sprite($plant_frames__less_growth_roots_day_16_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay16 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_16_3x);
-}
-.noGrowthWiltedLeavesDay16 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_16_3x);
-}
-.noGrowthWiltedAltLeavesDay16 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_16_3x);
-}
-.noGrowthYellowWiltedLeavesDay16 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_16_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay16 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_16_3x);
-}
-.noGrowthAltRootsDay16 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_16_3x);
-  z-index: 2;
+.case1day16 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-16.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 20 ]=====================================*/
-.growthLeavesDay20 {
-  @include sprite($plant_frames__growth_leaves_day_20_3x);
-}
-.growthRootsDay20 {
-  @include sprite($plant_frames__growth_roots_day_20_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay20 {
-  @include sprite($plant_frames__less_growth_leaves_day_20_3x);
-}
-.lessGrowthRootsDay20 {
-  @include sprite($plant_frames__less_growth_roots_day_20_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay20 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_20_3x);
-}
-.noGrowthWiltedLeavesDay20 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_20_3x);
-}
-.noGrowthWiltedAltLeavesDay20 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_20_3x);
-}
-.noGrowthYellowWiltedLeavesDay20 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_20_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay20 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_20_3x);
-}
-.noGrowthAltRootsDay20 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_20_3x);
-  z-index: 2;
+.case1day20 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-20.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 24 ]=====================================*/
-.growthLeavesDay24 {
-  @include sprite($plant_frames__growth_leaves_day_24_3x);
-}
-.growthRootsDay24 {
-  @include sprite($plant_frames__growth_roots_day_24_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay24 {
-  @include sprite($plant_frames__less_growth_leaves_day_24_3x);
-}
-.lessGrowthRootsDay24 {
-  @include sprite($plant_frames__less_growth_roots_day_24_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay24 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_24_3x);
-}
-.noGrowthWiltedLeavesDay24 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_24_3x);
-}
-.noGrowthWiltedAltLeavesDay24 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_24_3x);
-}
-.noGrowthYellowWiltedLeavesDay24 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_24_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay24 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_24_3x);
-}
-.noGrowthAltRootsDay24 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_24_3x);
-  z-index: 2;
+.case1day24 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-24.svg");
 }
 
-/* ===============================================================================*/
-/* ================================[ DAY 28 ]=====================================*/
-.growthLeavesDay28 {
-  @include sprite($plant_frames__growth_leaves_day_28_3x);
+.case1day28 {
+  width: 394px;
+  height: 469px;
+  z-index: 4;
+  background-image: url("../../assets/plant-frames-2/case-1/case-1-24.svg");
 }
-.growthRootsDay28 {
-  @include sprite($plant_frames__growth_roots_day_28_3x);
-  z-index: 2;
-}
-.lessGrowthLeavesDay28 {
-  @include sprite($plant_frames__less_growth_leaves_day_28_3x);
-}
-.lessGrowthRootsDay28 {
-  @include sprite($plant_frames__less_growth_roots_day_28_3x);
-  z-index: 2;
-}
-.noGrowthYellowLeavesDay28 {
-  @include sprite($plant_frames__no_growth_yellow_leaves_day_28_3x);
-}
-.noGrowthWiltedLeavesDay28 {
-  @include sprite($plant_frames__no_growth_wilted_leaves_day_28_3x);
-}
-.noGrowthWiltedAltLeavesDay28 {
-  @include sprite($plant_frames__no_growth_wilted_alt_leaves_day_28_3x);
-}
-.noGrowthYellowWiltedLeavesDay28 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_leaves_day_28_3x);
-}
-.noGrowthYellowWiltedAltLeavesDay28 {
-  @include sprite($plant_frames__no_growth_yellow_wilted_alt_leaves_day_28_3x);
-}
-.noGrowthAltRootsDay28 {
-  @include sprite($plant_frames__no_growth_alt_roots_day_28_3x);
-  z-index: 2;
-}
+
