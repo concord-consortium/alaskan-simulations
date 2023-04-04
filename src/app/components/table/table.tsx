@@ -36,6 +36,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     onRowDelete, onClearTable, centerHeader, noWrapDeleteButton, maxWidthDeleteButton } = props;
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
 
   const {
     getTableProps,
@@ -55,6 +56,16 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
       onActiveRowChange?.(activeRow - 1);
     }
   }, [data, activeRow, onActiveRowChange]);
+
+  useEffect(() => {
+    // only apply if # of rows is greater than 4, otherwise whole page scrolls
+    if (activeRow >= 4) {
+      tableRef.current?.scrollTo({
+        top:  activeRowRef.current?.getBoundingClientRect().x,
+        behavior: "smooth",
+      });
+    }
+  }, [activeRow]);
 
   const handleRowDelete = () => {
     if (disabled) {
@@ -80,7 +91,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
         <button className={clsx({[css.noWrap]: noWrapDeleteButton})} style={deleteButtonStyle} onClick={handleRowDelete} disabled={disabled}><DeleteIcon />{ t("TABLE.DELETE_TRIAL") }</button>
         { clearTableButtonAvailable && <button onClick={handleClearTable} disabled={disabled}>{ t("TABLE.CLEAR") }</button> }
       </div>
-      <table className={css.table} {...getTableProps()}>
+      <table ref={tableRef} className={css.table} {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup, index) => {
             const { key: keyTr, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
