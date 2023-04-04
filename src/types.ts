@@ -56,7 +56,7 @@ export interface IRowData {
 export const defaultAuthoredState: IAuthoredState = {
   light: InputAmount.Some,
   water: InputAmount.Some,
-  co2amount: InputAmount.None,
+  co2amount: InputAmount.Some,
 };
 
 export const defaultInitialState: IInteractiveState = {
