@@ -126,7 +126,7 @@ export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time})
   if (time > 0.995 && time <= 1){ // Day 28
     plantClass = clsx(css.animationImage, {
       [css.day0]: isNoGrowthCase,
-      [css.case1day28]: isCase1OrSame,
+      [css.case1day24]: isCase1OrSame,
       [css.case2day28]: isCase2OrSame,
       [css.case3day28]: isCase3,
       [css.case5day28]: isCase5,
