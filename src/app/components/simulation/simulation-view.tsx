@@ -27,18 +27,15 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
       <div className={css.ruler}/>
       <div className={css.terrarium}>
         <div className={css.terrariumBack}/>
-        {
-        ((!isRunning && !isFinished) || output.time === 0) &&
         <div className={css.co2Label}>
           <div className={css.co2LabelText}> <span>CO<sub>2</sub></span>: {t(input.co2amount)} </div>
         </div>
-        }
         <div className={css.terrariumFrontGlass}/>
         <div className={clsx(css.soil, getClass(water))}/>
         <div className={clsx(css.light,  getClass(light))}/>
         <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
       </div>
-      <AnimationView light={light}  water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning}/>
+      <AnimationView light={light} water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning}/>
 
     </LabeledContainer>
   );
