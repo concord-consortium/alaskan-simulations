@@ -136,7 +136,7 @@ $tableBorderWidth: 2px;
       }
 
       &.activeRow {
-        background: rgba(43, 114, 227, 0.1);
+        background-color: rgba(43, 114, 227, 0.1);
         @include activeRow(1);
       }
     }
@@ -205,8 +205,10 @@ $tableBorderWidth: 2px;
     cursor: pointer;
 
     &:hover {
+      &:not(.activeRow){
+        background-color: rgba(43, 114, 227, 0.05)!important;
+      }
       @include activeRow(.5);
-
     }
   }
 }
