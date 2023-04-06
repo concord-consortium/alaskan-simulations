@@ -10,29 +10,34 @@ interface IProps {
   offLabel?: string;
   onLabel?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  vertical?: boolean;
   disabled?: boolean;
 }
 
 export const Switch: React.FC<IProps> = (props) => {
-  const { label, offLabel, onLabel, ...restProps } = props;
+  const { label, offLabel, onLabel, vertical, ...restProps } = props;
   const { getInputProps, checked, disabled, focusVisible } = useSwitch(restProps);
+
+  console.log("checked", checked);
 
   const switchClasses = {
     [css.switch]: true,
     [css.disabled]: disabled,
     [css.focusVisible]: focusVisible,
+    [css.vertical]: vertical
   };
 
   const switchRootClasses = {
     [css.switchRoot]: true,
-    [css.checked]: checked
+    [css.checked]: checked,
+    [css.vertical]: vertical
   };
 
   return (
     <div className={clsx(switchClasses)}>
       <div className={css.label}>{ label }</div>
-      <div className={css.switchContainer}>
-        <span className={css.offLabel}>{ offLabel }</span>
+      <div className={clsx(css.switchContainer, {[css.vertical]: vertical})}>
+        <span className={clsx(css.offLabel, {[css.active]: !checked})}>{ offLabel }</span>
         <span className={clsx(switchRootClasses)}>
           <span className={css.thumb} />
           {/* input element is positioned on top of the thumb and rail, and it needs to match their dimensions.
@@ -40,7 +45,7 @@ export const Switch: React.FC<IProps> = (props) => {
               implementation. I believe it's done that way for accessibility reasons. */}
           <input {...getInputProps()} aria-label={label} />
         </span>
-        <span className={css.onLabel}>{ onLabel }</span>
+        <span className={clsx(css.onLabel, {[css.active]: checked})}>{ onLabel }</span>
       </div>
     </div>
   );

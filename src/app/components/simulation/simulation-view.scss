@@ -20,11 +20,16 @@
 
   .ruler {
     z-index: 4;
-    background-image: url("../../assets/terrarium/ruler-centimeter.svg");
     width: 394px;
     height: 469px;
     position: absolute;
     top: 0;
+    &.metric {
+      background-image: url("../../assets/terrarium/ruler-centimeter.svg");
+    }
+    &.imperial {
+      background-image: url("../../assets/terrarium/ruler-inch.svg");
+    }
   }
 
   .terrariumBackGround{
@@ -41,6 +46,13 @@
     position: absolute;
     top: 0;
     margin: 0 auto;
+
+    .toggleRuler {
+      position: absolute;
+      top: 345px;
+      left: 335px;
+      z-index: 10;
+    }
 
     .terrariumBack{
       background-image: url("../../assets/terrarium/terrarium-back.svg");
