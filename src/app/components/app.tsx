@@ -145,9 +145,7 @@ export const App = (props: IAppProps) => {
   const sugarCreatedData = getGraphData("sugarCreated");
 
   const getActiveX = () => {
-    if (isFinished && activeOutputSnapshotIdx === 0) {
-      return 1;
-    } else if (isFinished && activeOutputSnapshotIdx) {
+    if (isFinished && (activeOutputSnapshotIdx !== null)) {
       return activeOutputSnapshotIdx * 4;
     } else if (isFinished) {
       return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
