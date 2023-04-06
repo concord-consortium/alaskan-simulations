@@ -28,8 +28,10 @@
   height: 0px;
   border-top: 4px dashed $bright-blue;
   opacity: 0%;
+  transition: opacity 0s;
   &.visible {
     opacity: 100%;
+    transition: opacity .5s;
   }
 }
 
