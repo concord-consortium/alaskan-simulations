@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { t } from "../../translation/translate";
-import React from "react";
-import { IModelInputState, IModelOutputState, InputAmount } from "../../../types";
+import React, { useState } from "react";
+import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../../../types";
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";
@@ -11,20 +11,35 @@ interface IProps {
   output: IModelOutputState
   isRunning: boolean;
   isFinished: boolean;
+  readOnly?: boolean;
 }
 
 
-export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished}) => {
+export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished, readOnly}) => {
   const {water, light, co2amount} = input;
+  const [rulerType, setRulerType] = useState<RulerType>(RulerType.Metric);
+  const buttonDisabled = isRunning || readOnly;
+
+  const handleToggleRuler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setRulerType(e.currentTarget.value as RulerType);
+  };
 
   const getClass = (inputAmount: InputAmount) => {
     return inputAmount === InputAmount.Full ? css.full : inputAmount === InputAmount.Some ? css.some : css.none;
   };
 
+  const renderButton = (type: RulerType) => {
+    return (
+      <div className={clsx(css.buttonContainer, css[type], {[css.disabled]: buttonDisabled, [css.active]: rulerType === type})}>
+        <button disabled={buttonDisabled} onClick={handleToggleRuler} value={type}>{type}</button>
+      </div>
+    );
+  };
+
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
       <div className={css.terrariumBackGround}/>
-      <div className={css.ruler}/>
+      <div className={clsx(css.ruler, css[rulerType])}/>
       <div className={css.terrarium}>
         <div className={css.terrariumBack}/>
         <div className={css.co2Label}>
@@ -33,7 +48,11 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         <div className={css.terrariumFrontGlass}/>
         <div className={clsx(css.soil, getClass(water))}/>
         <div className={clsx(css.light,  getClass(light))}/>
-        <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
+        <div className={clsx(css.terrariumFront, getClass(co2amount))}/>
+        <div className={css.toggle}>
+          {renderButton(RulerType.Metric)}
+          {renderButton(RulerType.Imperial)}
+        </div>
       </div>
       <AnimationView light={light} water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning} isFinished={isFinished}/>
     </LabeledContainer>

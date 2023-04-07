@@ -3,9 +3,14 @@ import { IModelRun } from "./app/components/hooks/use-model-state";
 
 export interface IAuthoredState extends IModelInputState {}
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {
-  inputState: IModelInputState ,
+  inputState: IModelInputState,
   outputState: IModelOutputState,
   modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
+}
+
+export enum RulerType {
+  Metric = "cm",
+  Imperial = "in"
 }
 
 export enum Container {
@@ -67,5 +72,5 @@ export const defaultInitialState: IInteractiveState = {
       sugarUsed: 0,
       sugarCreated: 0
     },
-    modelRuns: [],
-};
+    modelRuns: []
+  };
