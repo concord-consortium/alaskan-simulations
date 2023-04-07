@@ -49,53 +49,50 @@ $topZIndex: 10;
     top: 0;
     margin: 0 auto;
 
-    .toggleRulerContainer {
+    .toggle {
       position: absolute;
       top: 345px;
       left: 338px;
       z-index: $topZIndex;
-      .toggle {
+      display: flex;
+      flex-direction: column;
+      height: 80px;
+      box-sizing: border-box;
+      border-radius: 20px;
+      background-color: $panel-bg;
+      border: 2px solid #7f6d00;
+      color: $bluePrimary;
+      .buttonContainer {
+        height: 50%;
+        padding-top: 2px;
+        padding-bottom: 4px;
         display: flex;
-        flex-direction: column;
-        height: 80px;
-        box-sizing: border-box;
-        border-radius: 20px;
-        background-color: $panel-bg;
-        border: 2px solid #7f6d00;
-        color: $bluePrimary;
-        .buttonContainer {
-          height: 50%;
-          padding-top: 2px;
-          padding-bottom: 4px;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          &.cm {
-            border-radius: 20px 20px 0px 0px;
-          }
-          &.in {
-            border-radius: 0px 0px 20px 20px;
-          }
-          &.active {
-            background-color: $medium-yellow;
-            button {
-              font-weight: bold;
-            }
-          }
-          &:hover:not(.active):not(.disabled) {
-            background-color: $light-yellow;
-
-          }
+        justify-content: center;
+        align-items: center;
+        &.cm {
+          border-radius: 20px 20px 0px 0px;
+        }
+        &.in {
+          border-radius: 0px 0px 20px 20px;
+        }
+        &.active {
+          background-color: $medium-yellow;
           button {
-            background-color: transparent;
-            border: 0px;
-            color: $font-color;
-            font-family: $fontFamilyNunito;
-            font-size: 16px;
-            &:hover:not(:disabled) {
-              cursor: pointer;
-            }
+            font-weight: bold;
+          }
+        }
+        &:hover:not(.active):not(.disabled) {
+          background-color: $light-yellow;
+
+        }
+        button {
+          background-color: transparent;
+          border: 0px;
+          color: $font-color;
+          font-family: $fontFamilyNunito;
+          font-size: 16px;
+          &:hover:not(:disabled) {
+            cursor: pointer;
           }
         }
       }

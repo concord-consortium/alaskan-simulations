@@ -48,12 +48,10 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         <div className={css.terrariumFrontGlass}/>
         <div className={clsx(css.soil, getClass(water))}/>
         <div className={clsx(css.light,  getClass(light))}/>
-        <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
-        <div className={css.toggleRulerContainer}>
-          <div className={css.toggle}>
-            {renderButton(RulerType.Metric)}
-            {renderButton(RulerType.Imperial)}
-          </div>
+        <div className={clsx(css.terrariumFront, getClass(co2amount))}/>
+        <div className={css.toggle}>
+          {renderButton(RulerType.Metric)}
+          {renderButton(RulerType.Imperial)}
         </div>
       </div>
       <AnimationView light={light} water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning} isFinished={isFinished}/>
