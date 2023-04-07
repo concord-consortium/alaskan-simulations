@@ -4,7 +4,7 @@ import clsx from "clsx";
 import css from "./button.scss";
 
 interface IProps {
-  label?: string;
+  label?: string|JSX.Element;
   innerLabel?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
@@ -24,7 +24,7 @@ export const Button = React.forwardRef<HTMLButtonElement, IProps>((props, ref) =
       tabIndex={0}
       className={`${css.buttonContainer} ${disabled ? css.disabled : ""}`}
       onClick={disabled ? undefined : onClick}
-      aria-label={label}
+      // aria-label={label}
       disabled={disabled}
     >
       { label && <div className={css.label}>{ label }</div> }

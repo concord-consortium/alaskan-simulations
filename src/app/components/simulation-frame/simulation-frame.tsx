@@ -4,7 +4,6 @@ import clsx from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 
 import { Dialog } from "./dialog";
-import { t } from "../../translation/translate";
 import Logo from "../../assets/concord.png";
 import HeaderTitle from "../../assets/HeaderTitle.png";
 
@@ -16,11 +15,12 @@ import css from "./simulation-frame.scss";
 interface IProps {
   title: string;
   directions: string | ReactNode;
+  t: (string: string) => string | JSX.Element
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ title, directions, children }) => {
+export const SimulationFrame: React.FC<IProps> = ({ title, t, directions, children }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 
@@ -49,7 +49,7 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children 
       <div className={css.content}>
         {children}
         {
-          showCredits && <Credits onClose={toggleCredits} />
+          showCredits && <Credits onClose={toggleCredits} t={t} />
         }
         {showDirections &&
           <Dialog

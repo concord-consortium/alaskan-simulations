@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import { t } from "../../translation/translate";
 
 import css from "./input-slider.scss";
 import { InputAmount } from "../../../types";
@@ -11,9 +10,10 @@ interface IProps {
   labels: string[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   disabled: boolean;
+  t: (string: string) => void;
 }
 
-export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels }) => {
+export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels, t }) => {
   const getClass = () => {
     if (value === InputAmount.Full) {
       return css.full;
@@ -60,7 +60,9 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
           <datalist className={css.labels} id={`${type}-values`}>
             {labels.map((label, i) => {
               return (
-                <option key={label + i} className={clsx({[css.active]: value === label})} value={valToNum(value)} label={titleCase(t(label))}/>
+                <div key={label + i} className={clsx({[css.active]: value === label})}>
+                  {t(label)}
+                </div>
               );
             })}
           </datalist>

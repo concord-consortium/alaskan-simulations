@@ -2,11 +2,9 @@
 
 import PlayButton from "../assets/snapshots-directions/instructions-play-button@3x.png";
 import EnglishNewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
-import SpanishNewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button-es@3x.png";
 import BarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button@3x.png";
 import GreenBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-green@3x.png";
 import OrangeBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-orange@3x.png";
-import { getDefaultLanguage } from "../translation/translate";
 
 const englishMarkdown = `
 # Running a trial
@@ -32,34 +30,6 @@ You can also select an entire row in the data table, then use the “Time” sli
 to rewatch that trial.
 `;
 
-const spanishMarkdown = `
-# Ejecutar una prueba
-
-Prepara el terrario. Seleccione si deseas agregar tierra, agua o ambos. Elige la Cantidad
-de CO<sub>2</sub> en el aire sellado en el terrario. Presiona “Reproducir” ![play button](${PlayButton})
-para ver qué tan bien crece la planta durante 28 días. Después de una prueba, puedes usar
-el control deslizante “Tiempo” para avanzar y retroceder en el tiempo para esa prueba.
-Toque “Nueva” ![new trial button](${SpanishNewTrialButton}) para iniciar una nueva prueba.
-
-# Análisis de pruebas: Datos
-
-Cuando hagas una prueba, esa prueba aparecerá en la tabla de datos con un icono anaranjado ![graph icon](${OrangeBarChartButton}),
-y los datos aparecerán anaranjados en la gráfica. Haz clic en el icono de gráfica ![graph icon button](${BarChartButton})
-para que una fila añada otra prueba a la gráfica de barras para comparar. Esa prueba aparecerá en color azul verdoso
-![graph icon button](${GreenBarChartButton}) en la gráfica.
-
-Cuando desee eliminar una prueba del gráfico de barras, busque el icono de color correspondiente
-en la tabla de datos. Toque el icono para eliminar esa prueba de la gráfica.
-
-También puedes seleccionar una fila de la tabla de datos y luego usar el indicador de “Tiempo”
-para volver a ver esa prueba.
-`;
-
 export const plantLabDirections = () => {
-  switch (getDefaultLanguage()) {
-    case "es":
-      return spanishMarkdown;
-    default:
-      return englishMarkdown;
-  }
+  return englishMarkdown;
 };

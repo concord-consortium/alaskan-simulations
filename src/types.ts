@@ -1,5 +1,6 @@
 import { IRuntimeInteractiveMetadata } from "@concord-consortium/lara-interactive-api";
 import { IModelRun } from "./app/components/hooks/use-model-state";
+import { translations } from "./app/translation/translations";
 
 export interface IAuthoredState extends IModelInputState {}
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {
@@ -54,8 +55,8 @@ export interface IRowData {
   light: JSX.Element;
   water: JSX.Element;
   co2: JSX.Element;
-  sugarUsed: number | string;
-  sugarCreated: number|string;
+  sugarUsed: string | JSX.Element;
+  sugarCreated: string | JSX.Element;
 }
 
 export const defaultAuthoredState: IAuthoredState = {

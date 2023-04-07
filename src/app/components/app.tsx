@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import { t } from "../translation/translate";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
@@ -20,6 +19,7 @@ import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
+import { translations } from "../translation/translations";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -49,7 +49,18 @@ interface IAppProps {
 }
 
 export const App = (props: IAppProps) => {
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
   const {interactiveState, readOnly} = props;
+
+  const t = (string: string) => {
+    if (readAloudMode && "mp3" in translations[string]) {
+      return (
+        <a href={translations[string].mp3}>{translations[string].string}</a>
+      )
+    } else {
+      return translations[string].string;
+    }
+  };
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -205,10 +216,15 @@ export const App = (props: IAppProps) => {
     }, 150);
   };
 
+  const getTimeSliderLabel = () => {
+    return (`Time: ${(maxDaysScale * maxDays * outputState.time).toFixed(0)} days`);
+  }
+
   return (
     <SimulationFrame
-      title={t("SIMULATION.TITLE")}
+      title={translations["SIMULATION.TITLE"].string}
       directions={plantLabDirections()} // ReactNode is also allowed if more complex content is needed.
+      t={t}
     >
       <div className={css.content}>
         <div className={css.optionsContainer}>
@@ -216,6 +232,7 @@ export const App = (props: IAppProps) => {
               inputState={inputState}
               setInputState={setInputState}
               disabled={uiDisabled || !!readOnly}
+              t={t}
           />
         </div>
         <div className={css.simulationContainer}>
@@ -225,16 +242,17 @@ export const App = (props: IAppProps) => {
             isRunning={isRunning}
             isFinished={isFinished}
             readOnly={readOnly}
+            t={t}
           />
           <div className={css.controls}>
             <div className={css.group}>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} t={t} />
+              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} t={t} />
             </div>
             <div className={css.grow}>
               <div className={css.timeSliderContainer}>
                 <TimeSlider
-                  label={t("SIMULATION.TIME", {vars: {days: `${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`}})}
+                  label={getTimeSliderLabel()}
                   time={outputState.time}
                   snapshotsCount={snapshotsCount}
                   onChange={setActiveOutputSnapshotIdx}
@@ -253,6 +271,7 @@ export const App = (props: IAppProps) => {
               disabled={isRunning || !!readOnly}
               centerHeader={true}
               noWrapDeleteButton={true}
+              t={t}
             />
           </div>
           <div className={css.barGraphs}>

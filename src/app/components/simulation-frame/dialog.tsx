@@ -8,7 +8,7 @@ import CloseButtonSvg from "../../assets/close-button.svg";
 import css from "./dialog.scss";
 
 interface IProps {
-  title: string;
+  title: string|JSX.Element;
   modal?: boolean;
   closeButtonLabel?: string;
   noMaxHeight?: boolean;
