@@ -94,7 +94,6 @@ export const useModelState = (
 
   const saveInteractiveState = useCallback((updates: any) => {
     setInteractiveState((prevState) => {
-      console.log("interactiveState", prevState);
       return {
         answerType: "interactive_state",
         ...prevState,

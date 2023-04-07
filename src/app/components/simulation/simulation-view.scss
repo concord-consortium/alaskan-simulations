@@ -1,5 +1,7 @@
 @import "../vars.scss";
 
+$topZIndex: 10;
+
 .simulationView {
   position: relative;
   box-sizing: border-box;
@@ -19,7 +21,7 @@
   }
 
   .ruler {
-    z-index: 4;
+    z-index: $topZIndex;
     width: 394px;
     height: 469px;
     position: absolute;
@@ -51,7 +53,7 @@
       position: absolute;
       top: 345px;
       left: 338px;
-      z-index: 10;
+      z-index: $topZIndex;
       .toggle {
         display: flex;
         flex-direction: column;
@@ -153,7 +155,7 @@
       top: 100px;
       height:23px;
       width:100px;
-      z-index: 10;
+      z-index: $topZIndex;
       border-radius: 20px;
       border: 2px solid $bluePrimary;
       display: flex;

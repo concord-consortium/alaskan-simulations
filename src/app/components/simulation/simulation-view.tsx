@@ -5,7 +5,6 @@ import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";
-import { Switch } from "../controls/switch";
 
 interface IProps {
   input: IModelInputState

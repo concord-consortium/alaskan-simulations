@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import { setInteractiveState } from "@concord-consortium/lara-interactive-api";
+import React, { useCallback, useMemo, useRef } from "react";
 import { t } from "../translation/translate";
 import { Column } from "react-table";
 import { useModelState } from "./hooks/use-model-state";
