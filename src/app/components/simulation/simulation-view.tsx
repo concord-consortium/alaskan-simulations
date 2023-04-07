@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { t } from "../../translation/translate";
 import React, { useState } from "react";
-import { IModelInputState, IModelOutputState, InputAmount } from "../../../types";
+import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../../../types";
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";
@@ -18,14 +18,11 @@ interface IProps {
 
 export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished, readOnly}) => {
   const {water, light, co2amount} = input;
-  const [rulerType, setRulerType] = useState<"metric" | "imperial">("metric");
+  const [rulerType, setRulerType] = useState<RulerType>(RulerType.Metric);
+  const buttonDisabled = isRunning || readOnly;
 
-  const handleToggleRuler = () => {
-    if (rulerType === "metric") {
-       setRulerType("imperial");
-    } else {
-      setRulerType("metric");
-    }
+  const handleToggleRuler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setRulerType(e.currentTarget.value as RulerType);
   };
 
   const getClass = (inputAmount: InputAmount) => {
@@ -45,16 +42,15 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         <div className={clsx(css.soil, getClass(water))}/>
         <div className={clsx(css.light,  getClass(light))}/>
         <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
-        <div className={css.toggleRuler}>
-          <Switch
-            checked={rulerType === "imperial"}
-            disabled={readOnly || isRunning}
-            label={""}
-            offLabel="cm"
-            onLabel={"in"}
-            vertical={true}
-            onChange={handleToggleRuler}
-          />
+        <div className={css.toggleRulerContainer}>
+          <div className={css.toggle}>
+            <div className={clsx(css.buttonContainer, css.left, {[css.disabled]: buttonDisabled, [css.active]: rulerType === RulerType.Metric})}>
+              <button disabled={buttonDisabled} onClick={handleToggleRuler} value={RulerType.Metric}>{RulerType.Metric}</button>
+            </div>
+            <div className={clsx(css.buttonContainer, css.right, {[css.disabled]: buttonDisabled, [css.active]: rulerType === RulerType.Imperial})}>
+              <button disabled={buttonDisabled} onClick={handleToggleRuler} value={RulerType.Imperial}>{RulerType.Imperial}</button>
+            </div>
+          </div>
         </div>
       </div>
       <AnimationView light={light} water={water} co2Amount={co2amount} time={output.time} isRunning={isRunning} isFinished={isFinished}/>

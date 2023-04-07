@@ -24,10 +24,10 @@
     height: 469px;
     position: absolute;
     top: 0;
-    &.metric {
+    &.cm {
       background-image: url("../../assets/terrarium/ruler-centimeter.svg");
     }
-    &.imperial {
+    &.in {
       background-image: url("../../assets/terrarium/ruler-inch.svg");
     }
   }
@@ -47,11 +47,56 @@
     top: 0;
     margin: 0 auto;
 
-    .toggleRuler {
+    .toggleRulerContainer {
       position: absolute;
       top: 345px;
-      left: 335px;
+      left: 338px;
       z-index: 10;
+      .toggle {
+        display: flex;
+        flex-direction: column;
+        height: 80px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        background-color: $panel-bg;
+        border: 2px solid #7f6d00;
+        color: $bluePrimary;
+        .buttonContainer {
+          height: 50%;
+          padding-top: 2px;
+          padding-bottom: 4px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.left {
+            border-radius: 20px 20px 0px 0px;
+          }
+          &.right {
+            border-radius: 0px 0px 20px 20px;
+          }
+          &.active {
+            background-color: $medium-yellow;
+            button {
+              font-weight: bold;
+            }
+          }
+          &:hover:not(.active):not(.disabled) {
+            background-color: $light-yellow;
+
+          }
+          button {
+            background-color: transparent;
+            border: 0px;
+            color: $font-color;
+            font-family: $fontFamilyNunito;
+            font-size: 16px;
+            &:hover:not(:disabled) {
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
 
     .terrariumBack{
@@ -108,7 +153,7 @@
       top: 100px;
       height:23px;
       width:100px;
-      z-index: 5;
+      z-index: 10;
       border-radius: 20px;
       border: 2px solid $bluePrimary;
       display: flex;

@@ -6,7 +6,11 @@ export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   inputState: IModelInputState,
   outputState: IModelOutputState,
   modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
-  rulerType: "metric" | "imperial"
+}
+
+export enum RulerType {
+  Metric = "cm",
+  Imperial = "in"
 }
 
 export enum Container {
@@ -68,6 +72,5 @@ export const defaultInitialState: IInteractiveState = {
       sugarUsed: 0,
       sugarCreated: 0
     },
-    modelRuns: [],
-    rulerType: "metric"
-};
+    modelRuns: []
+  };

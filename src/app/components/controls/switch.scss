@@ -9,62 +9,6 @@ $borderWidth: 3px;
   padding-bottom: 0.25 * $thumbSize;
   color: $bluePrimary;
 
-  &.vertical {
-    padding: 0px;
-    box-sizing: border-box;
-    height: 120px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    border-radius: 10px;
-    border: 1px solid $font-color;
-    background-color: $panel-bg;
-
-    .switchContainer {
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      width: 100%;
-      box-sizing: border-box;
-
-      .offLabel, .onLabel {
-        display: flex;
-        justify-content: center;
-        &.active {
-          font-weight: bold;
-          box-sizing: border-box;
-          background: $medium-yellow;
-          width: 100%;
-        }
-      }
-
-      .offLabel.active {
-        border-radius: 10px 10px 0px 0px;
-      }
-
-      .onLabel.active {
-        border-radius: 0px 0px 10px 10px;
-      }
-
-      .switchRoot {
-        transform: rotate(90deg);
-        &.checked {
-          background-color: $white;
-        }
-        .thumb {
-          // border: 1px solid black;
-          background-color: $medium-yellow;
-          &:hover {
-
-          }
-          &:active {
-
-          }
-        }
-      }
-    }
-  }
-
   &.disabled {
     opacity: 0.35;
     pointer-events: none;
@@ -88,7 +32,6 @@ $borderWidth: 3px;
 
     .offLabel, .onLabel {
       font-size: 16px;
-      color: $font-color;
       font-weight: 500; // medium
       white-space: nowrap;
     }
