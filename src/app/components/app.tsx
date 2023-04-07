@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { t } from "../translation/translate";
-import { Column } from "react-table";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
+import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
 import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
@@ -204,7 +204,6 @@ export const App = (props: IAppProps) => {
       focusTargetAfterNewRun.current?.focus();
     }, 150);
   };
-
 
   return (
     <SimulationFrame

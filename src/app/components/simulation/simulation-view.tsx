@@ -28,6 +28,14 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
     return inputAmount === InputAmount.Full ? css.full : inputAmount === InputAmount.Some ? css.some : css.none;
   };
 
+  const renderButton = (type: RulerType) => {
+    return (
+      <div className={clsx(css.buttonContainer, css[type], {[css.disabled]: buttonDisabled, [css.active]: rulerType === type})}>
+        <button disabled={buttonDisabled} onClick={handleToggleRuler} value={type}>{type}</button>
+      </div>
+    );
+  };
+
   return (
     <LabeledContainer className={css.simulationView} label={t("TERRARIUM")}>
       <div className={css.terrariumBackGround}/>
@@ -43,12 +51,8 @@ export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFi
         <div className={clsx(css.terrariumFront, getClass(co2amount))}></div>
         <div className={css.toggleRulerContainer}>
           <div className={css.toggle}>
-            <div className={clsx(css.buttonContainer, css.left, {[css.disabled]: buttonDisabled, [css.active]: rulerType === RulerType.Metric})}>
-              <button disabled={buttonDisabled} onClick={handleToggleRuler} value={RulerType.Metric}>{RulerType.Metric}</button>
-            </div>
-            <div className={clsx(css.buttonContainer, css.right, {[css.disabled]: buttonDisabled, [css.active]: rulerType === RulerType.Imperial})}>
-              <button disabled={buttonDisabled} onClick={handleToggleRuler} value={RulerType.Imperial}>{RulerType.Imperial}</button>
-            </div>
+            {renderButton(RulerType.Metric)}
+            {renderButton(RulerType.Imperial)}
           </div>
         </div>
       </div>
