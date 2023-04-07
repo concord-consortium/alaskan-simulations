@@ -9,7 +9,6 @@ import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
-import { Switch } from "./controls/switch";
 import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
 import { Model } from "./model";
