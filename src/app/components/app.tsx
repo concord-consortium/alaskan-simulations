@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { Column } from "react-table";
+import { t } from "../translation/translate";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
+import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
 import { SimulationFrame } from "./simulation-frame/simulation-frame";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
-import { t } from "../translation/translate";
 import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
 import { Model } from "./model";
@@ -196,6 +196,7 @@ export const App = (props: IAppProps) => {
   // navigate through multiple elements before they get back to input widgets. To avoid this, we focus on the Play
   // button which is a reasonable choice and it's also near the inputs.
   const focusTargetAfterNewRun = useRef<HTMLButtonElement>(null);
+
   const handleAddModelRun = () => {
     addModelRun();
     // Timeout is necessary, as table will be re-rendered asynchronously.
@@ -223,6 +224,7 @@ export const App = (props: IAppProps) => {
             output={outputState}
             isRunning={isRunning}
             isFinished={isFinished}
+            readOnly={readOnly}
           />
           <div className={css.controls}>
             <div className={css.group}>
