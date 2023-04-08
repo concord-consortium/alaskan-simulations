@@ -19,7 +19,7 @@ import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
-import { translations } from "../translation/translations";
+import { translations } from "./translations";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -54,9 +54,11 @@ export const App = (props: IAppProps) => {
 
   const t = (string: string) => {
     let stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
+
     if (readAloudMode && "mp3" in translations[string]) {
+      const audio = translations[string].mp3;
       return (
-        <a href={translations[string].mp3}>{stringToRender}</a>
+        <div onClick={() => audio!.play()} className={css.readAloud}>{stringToRender}</div>
       )
     } else {
       return stringToRender;
