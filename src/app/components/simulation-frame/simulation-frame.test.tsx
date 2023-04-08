@@ -6,7 +6,7 @@ describe("SimulationFrame component", () => {
   it("renders simulation frame", () => {
     const readOnly = false;
     render(
-      <SimulationFrame title="Sim Title" directions="Directions" t={(string) => readOnly ? <a href="">{string}</a> : string} />
+      <SimulationFrame readAloudMode={false} handleSetReadAloud={(e) => ""} title="Sim Title" directions="Directions" t={(string) => readOnly ? <a href="">{string}</a> : string} />
     );
     expect(screen.getByTestId("simulation-frame")).toBeInTheDocument();
   });

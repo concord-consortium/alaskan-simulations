@@ -53,12 +53,13 @@ export const App = (props: IAppProps) => {
   const {interactiveState, readOnly} = props;
 
   const t = (string: string) => {
+    let stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
     if (readAloudMode && "mp3" in translations[string]) {
       return (
-        <a href={translations[string].mp3}>{translations[string].string}</a>
+        <a href={translations[string].mp3}>{stringToRender}</a>
       )
     } else {
-      return translations[string].string;
+      return stringToRender;
     }
   };
 
@@ -66,37 +67,37 @@ export const App = (props: IAppProps) => {
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
     {
-      Header: "Trial",
+      Header: t("TRIAL"),
       accessor: "trial" as const,
       width: 60,
       disableSortBy: true
     },
     {
-      Header: "Light",
+      Header: t("LIGHT"),
       accessor: "light" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: "Water",
+      Header: t("WATER"),
       accessor: "water" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: <div style={{marginBottom:"-3px"}}><span>CO<sub>2</sub></span></div>,
+      Header: t("CO2"),
       accessor: "co2" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: "Sugar Used",
+      Header: t("OUTPUT.SUGAR_USED"),
       accessor: "sugarUsed" as const,
       width: 150,
       disableSortBy: true
     },
     {
-      Header: "Sugar Created",
+      Header: t("OUTPUT.SUGAR_CREATED"),
       accessor: "sugarCreated" as const,
       width: 155,
       disableSortBy: true
@@ -220,11 +221,17 @@ export const App = (props: IAppProps) => {
     return (`Time: ${(maxDaysScale * maxDays * outputState.time).toFixed(0)} days`);
   }
 
+  const handleSetReadAloud = () => {
+    setReadAloudMode(!readAloudMode);
+  }
+
   return (
     <SimulationFrame
       title={translations["SIMULATION.TITLE"].string}
       directions={plantLabDirections()} // ReactNode is also allowed if more complex content is needed.
       t={t}
+      readAloudMode={readAloudMode}
+      handleSetReadAloud={handleSetReadAloud}
     >
       <div className={css.content}>
         <div className={css.optionsContainer}>

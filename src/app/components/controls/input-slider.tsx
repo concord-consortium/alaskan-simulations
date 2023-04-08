@@ -27,11 +27,11 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
   };
 
   const numToVal = (num: number) => {
-    return num === 0 ? labels[2] : num === 1 ? labels[1] : labels[0];
+    return num === 0 ? InputAmount.None : num === 1 ? InputAmount.Some : InputAmount.Full;
   };
 
   const valToNum= (val: string) => {
-    return val === labels[2] ? 0 : val === labels[1] ? 1 : 2;
+    return val === InputAmount.None ? 0 : val === InputAmount.Some ? 1 : 2;
   };
 
   const titleCase = (str: string) => {
@@ -40,7 +40,7 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
 
   return (
     <div className={css.input}>
-      <div className={css.type}>{type === "CO2" ? <span>CO<sub>2</sub></span> : type}</div>
+      <div className={css.type}>{t(type)}</div>
       <div className={css.control}>
         <div className={css.left}>
           <input
@@ -60,7 +60,7 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
           <datalist className={css.labels} id={`${type}-values`}>
             {labels.map((label, i) => {
               return (
-                <div key={label + i} className={clsx({[css.active]: value === label})}>
+                <div key={label + i} className={clsx({[css.active]: t(value) === t(label)})}>
                   {t(label)}
                 </div>
               );

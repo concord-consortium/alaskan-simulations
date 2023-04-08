@@ -11,16 +11,19 @@ import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";
 
 import css from "./simulation-frame.scss";
+import { Switch } from "../controls/switch";
 
 interface IProps {
   title: string;
   directions: string | ReactNode;
-  t: (string: string) => string | JSX.Element
+  t: (string: string) => string | JSX.Element;
+  readAloudMode: boolean;
+  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ title, t, directions, children }) => {
+export const SimulationFrame: React.FC<IProps> = ({ title, t, directions, children, readAloudMode, handleSetReadAloud }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 
@@ -43,6 +46,11 @@ export const SimulationFrame: React.FC<IProps> = ({ title, t, directions, childr
         </div>
         <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
         <div className={clsx(css.buttons, css.right)}>
+          <Switch
+            checked={readAloudMode}
+            label={"Read Aloud in Yug'tun"}
+            onChange={handleSetReadAloud}
+          />
           <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}><DirectionsButton /></button>
         </div>
       </div>

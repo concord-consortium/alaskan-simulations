@@ -32,16 +32,16 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
     <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")}>
       <div className={css.optionsContainer}>
           <InputSlider
-            type={"Light"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            type={"LIGHT"}
+            labels={["LIGHT_AMOUNT.FULL", "LIGHT_AMOUNT.SOME", "LIGHT_AMOUNT.NONE"]}
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
             t={t}
           />
           <InputSlider
-            type={"Water"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            type={"WATER"}
+            labels={["WATER_AMOUNT.FULL", "WATER_AMOUNT.SOME", "WATER_AMOUNT.NONE"]}
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
@@ -49,7 +49,7 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
           />
           <InputSlider
             type={"CO2"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            labels={["CO2_AMOUNT.FULL", "CO2_AMOUNT.SOME", "CO2_AMOUNT.NONE"]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}
