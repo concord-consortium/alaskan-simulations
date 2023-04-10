@@ -8,7 +8,7 @@ export interface IUseModelTableOptions<IModelInputState, IModelOutputState, IRow
 }
 
 export interface IUseModelTableResult<IRowData> {
-  tableProps: Omit<ITableProps<IRowData>, "disabled" | "columns" | "columnsMeta" | "t" | "readAloudMode">;
+  tableProps: Omit<ITableProps<IRowData>, "disabled" | "columns" | "columnsMeta" | "t">;
 }
 
 /*

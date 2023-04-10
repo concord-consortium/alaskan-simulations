@@ -313,7 +313,6 @@ export const App = (props: IAppProps) => {
               disabled={isRunning || !!readOnly}
               centerHeader={true}
               noWrapDeleteButton={true}
-              readAloudMode={readAloudMode}
               t={t}
             />
           </div>

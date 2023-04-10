@@ -26,15 +26,11 @@ export interface ITableProps<Data> {
   noWrapDeleteButton?: boolean;
   maxWidthDeleteButton?: number;
   t: (string: string) => string | JSX.Element;
-  readAloudMode: boolean;
 }
-
-// Clear table button is disabled for now, but there was a request to make it easy to re-enable it later.
-const clearTableButtonAvailable = false;
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
   const { columns, data, activeRow, onActiveRowChange, disabled,
-    onRowDelete, onClearTable, centerHeader, noWrapDeleteButton, maxWidthDeleteButton, t, readAloudMode } = props;
+    onRowDelete, centerHeader, t } = props;
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
@@ -80,13 +76,15 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     <div className={clsx(css.tableContainer, { [css.disabled]: disabled })}>
       <div className={css.header}>
         <span className={css.title}>{t("TABLE.TITLE")}</span>
-        <button
-          className={clsx(css.noWrap, {[css.readAloudMode]: readAloudMode})}
-          onClick={handleRowDelete}
-          disabled={disabled || readAloudMode}>
-            <DeleteIcon />
-            { t("TABLE.DELETE_TRIAL") }
-        </button>
+        <div className={css.deleteButtonContainer}>
+          <div className={css.label}>{t("TABLE.DELETE_TRIAL")}:</div>
+          <button
+            className={clsx(css.noWrap)}
+            onClick={handleRowDelete}
+            disabled={disabled}>
+              <DeleteIcon />
+          </button>
+        </div>
       </div>
       <table ref={tableRef} className={css.table} {...getTableProps()}>
         <thead>
