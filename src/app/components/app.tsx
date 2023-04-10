@@ -20,6 +20,7 @@ import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
 import { translations } from "./translations";
+import clsx from "clsx";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -49,17 +50,40 @@ interface IAppProps {
 }
 
 export const App = (props: IAppProps) => {
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
   const {interactiveState, readOnly} = props;
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
+  const [activeAudioId, setActiveAudioId] = useState<string>("");
 
   const t = (string: string) => {
     let stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
-
     if (readAloudMode && "mp3" in translations[string]) {
-      const audio = translations[string].mp3;
+      const audio = new Audio(translations[string].mp3);
+      audio.id = string;
+
+      audio.addEventListener('playing', () => {
+        setIsAudioPlaying(true);
+        setActiveAudioId(audio.id);
+      });
+      audio.addEventListener('ended', () => {
+        setIsAudioPlaying(false);
+        setActiveAudioId("");
+      });
+
+      const isActive = isAudioPlaying && activeAudioId === audio.id;
+      const isDisabled = isRunning || (isAudioPlaying && activeAudioId !== audio.id);
+
+      const classes = {
+        [css.readAloud]: true,
+        [css.active]: isActive,
+        [css.disabled]: isDisabled
+      };
+
       return (
-        <div onClick={() => audio!.play()} className={css.readAloud}>{stringToRender}</div>
-      )
+        <div onClick={() => !isDisabled && audio.play()} className={clsx(classes)}>
+          {stringToRender}
+        </div>
+      );
     } else {
       return stringToRender;
     }
@@ -104,7 +128,7 @@ export const App = (props: IAppProps) => {
       width: 155,
       disableSortBy: true
     },
-  ], []);
+  ], [readAloudMode]);
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
@@ -289,15 +313,17 @@ export const App = (props: IAppProps) => {
               <div className={css.graphsContainer}>
                 <BarGraph
                   data={sugarUsedData}
-                  title={"Sugar Used"}
+                  title={t("OUTPUT.SUGAR_USED")}
                   activeXTick={getActiveX()}
                   className={"sugarUsed"}
+                  t={t}
                 />
                 <BarGraph
                   data={sugarCreatedData}
-                  title={"Sugar Created"}
+                  title={t("OUTPUT.SUGAR_CREATED")}
                   activeXTick={getActiveX()}
                   className="sugarCreated"
+                  t={t}
                 />
               </div>
             </div>

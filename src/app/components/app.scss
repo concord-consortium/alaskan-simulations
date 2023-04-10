@@ -11,6 +11,30 @@
   padding-left: 15px;
   padding-right: 15px;
 
+  .readAloud {
+    text-decoration: underline;
+    &:hover {
+      cursor: pointer!important;
+      background-color: $lightBlueTint25;
+      text-decoration: none;
+    }
+    &:active, &.active {
+      background-color: $bluePrimary;
+      color: $white;
+      text-decoration: none;
+    };
+    &.disabled {
+      text-decoration: none;
+      &:hover {
+        cursor: default!important;
+        background-color: transparent;
+      }
+      &:active {
+        color: $font-color;
+      }
+    }
+  }
+
   .optionsContainer {
     box-sizing: border-box;
     height: 545px;
@@ -153,3 +177,4 @@
     height: 18px;
   }
 }
+

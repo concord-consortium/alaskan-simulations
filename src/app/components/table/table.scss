@@ -50,7 +50,7 @@ $tableBorderWidth: 2px;
     height: $headerHeight;
 
     .title {
-      margin: 7px 75px 6px 185px;
+      margin: 7px 75px 6px 165px;
     }
 
     button.noWrap {
@@ -68,6 +68,7 @@ $tableBorderWidth: 2px;
       color: $bluePrimary;
       box-sizing: border-box;
       font-size: 14px;
+      font-family: $fontFamilyNunito;
       font-weight: 500; // medium
       border: 3px solid $bluePrimary;
       border-radius: 10px;

@@ -24,7 +24,9 @@ import SugarUsed from "../assets/yupik-audio/sugar-used.mp3";
 import None from "../assets/yupik-audio/none.mp3";
 import Low from "../assets/yupik-audio/low.mp3";
 import High from "../assets/yupik-audio/high.mp3";
+import TrialResults from "../assets/yupik-audio/trial-results.mp3";
 import DeleteTrial from "../assets/yupik-audio/delete-trial.mp3";
+import Graphs_XAxisLabel from "../assets/yupik-audio/time-days.mp3";
 import Graphs_Trial1 from "../assets/yupik-audio/trial-1-graphs.mp3";
 import Graphs_Trial2 from "../assets/yupik-audio/trial-2-graphs.mp3";
 import Graphs_Trial3 from "../assets/yupik-audio/trial-3-graphs.mp3";
@@ -37,7 +39,7 @@ import Graphs_Trial9 from "../assets/yupik-audio/trial-9-graphs.mp3";
 
 interface ITranslation {
   string: string;
-  mp3?: HTMLAudioElement;
+  mp3?: string;
 }
 
 export const translations: Record<string, ITranslation> = {
@@ -100,9 +102,10 @@ export const translations: Record<string, ITranslation> = {
 
   "TERRARIUM": { string: "Terrarium"},
 
-  "TABLE.TITLE": {string: "Trials: Data"},
+  "TABLE.TITLE": {string: "Trial Results", mp3: TrialResults},
   "TABLE.DELETE_TRIAL": { string: "Delete trial", mp3: DeleteTrial},
 
+  "GRAPHS.X_AXIS_LABEL": {string: "Time (Days)", mp3: Graphs_XAxisLabel},
   "GRAPHS.TRIAL_1": { string: "Trial 1 Graphs", mp3: Graphs_Trial1},
   "GRAPHS.TRIAL_2": { string: "Trial 2 Graphs", mp3: Graphs_Trial2},
   "GRAPHS.TRIAL_3": { string: "Trial 3 Graphs", mp3: Graphs_Trial3},

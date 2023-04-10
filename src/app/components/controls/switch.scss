@@ -6,8 +6,16 @@ $railHeight: 24px;
 $borderWidth: 3px;
 
 .switch {
-  padding-bottom: 0.25 * $thumbSize;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 50px;
   color: $bluePrimary;
+  padding-right: 5px;
+  // background-color: $panel-bg;
+  padding-left: 10px;
+  border-radius: 20px;
+  margin-right: 10px;
 
   &.disabled {
     opacity: 0.35;
@@ -22,7 +30,6 @@ $borderWidth: 3px;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 14px;
   }
 
   .switchContainer {
@@ -78,6 +85,7 @@ $borderWidth: 3px;
         background: $bluePrimary;
 
         .thumb {
+          background-color: $lightBlueTint25;
           left: $railWidth - $thumbSize;
         }
       }

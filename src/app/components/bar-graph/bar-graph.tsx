@@ -20,11 +20,12 @@ export interface IBarGraphProps {
   data: number[];
   activeXTick?: string | number;
   className: string;
+  t: (string: string) => string | JSX.Element;
 }
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
   const yAxisLabel = "Amount";
-  const xAxisLabel = "Time (Days)";
+  const xAxisLabel = props.t("GRAPHS.X_AXIS_LABEL");
   const yMin = 0;
   const yMax = 10;
   const yGridStep = 2;

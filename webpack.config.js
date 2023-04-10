@@ -72,8 +72,8 @@ module.exports = (env, argv) => {
           ]
         },
         {
-          test: /\.(png|woff|woff2|eot|ttf)$/,
-          type: 'asset'
+          test: /\.(png|woff|woff2|eot|ttf|mp3)$/,
+          type: 'asset/resource'
         },
         { // disable svgo optimization for files ending in .nosvgo.svg
           test: /\.nosvgo\.svg$/i,
@@ -82,10 +82,10 @@ module.exports = (env, argv) => {
             svgo: false
           }
         },
-        {
-          test: /\.mp3$/,
-          loader: 'file-loader'
-        },
+        // {
+        //   test: /\.mp3$/,
+        //   loader: 'file-loader'
+        // },
         {
           test: /\.svg$/i,
           exclude: /\.nosvgo\.svg$/i,

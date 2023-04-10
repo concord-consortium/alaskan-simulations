@@ -87,7 +87,7 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
   return (
     <div className={clsx(css.tableContainer, { [css.disabled]: disabled })}>
       <div className={css.header}>
-        <span className={css.title}>{ t("TABLE.TITLE") }</span>
+        <span className={css.title}>{t("TABLE.TITLE")}</span>
         <button className={clsx({[css.noWrap]: noWrapDeleteButton})} style={deleteButtonStyle} onClick={handleRowDelete} disabled={disabled}><DeleteIcon />{ t("TABLE.DELETE_TRIAL") }</button>
       </div>
       <table ref={tableRef} className={css.table} {...getTableProps()}>
