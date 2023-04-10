@@ -84,15 +84,15 @@ $tableBorderWidth: 2px;
         overflow: visible;
       }
 
-      &:disabled {
+      &:disabled:not(.readAloudMode) {
         pointer-events: none;
         opacity: 0.35;
       }
 
-      &:hover {
+      &:hover:not(.readAloudMode) {
         background-color: $lightBlueTint10;
       }
-      &:active {
+      &:active:not(.readAloudMode) {
         color: #fff;
         background-color: $bluePrimary;
         svg path {

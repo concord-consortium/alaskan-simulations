@@ -60,14 +60,24 @@ export const translations: Record<string, ITranslation> = {
   "TIME.24_DAYS": { string: "Time: 20 days"},
   "TIME.28_DAYS": { string: "Time: 28 days", mp3: Time28Days},
 
-  "DAY_0": { string: "Day 0"},
-  "DAY_4": { string: "Day 4", mp3: Day4},
-  "DAY_8": { string: "Day 8", mp3: Day8},
-  "DAY_12": { string: "Day 12", mp3: Day12},
-  "DAY_16": { string: "Day 16"},
-  "DAY_20": { string: "Day 20"},
-  "DAY_24": { string: "Day 24", mp3: Day24},
-  "DAY_28": { string: "Day 28", mp3: Day28},
+  "DAY_0": { string: `Time: 0 days`},
+  "DAY_4": { string: `Time: 4 days`, mp3: Day4},
+  "DAY_8": { string: `Time: 8 days`, mp3: Day8},
+  "DAY_12": { string: `Time: 12 days`, mp3: Day12},
+  "DAY_16": { string: `Time: 16 days`},
+  "DAY_20": { string: `Time: 20 days`},
+  "DAY_24": { string: `Time: 24 days`, mp3: Day24},
+  "DAY_28": { string: `Time: 28 days`, mp3: Day28},
+
+  "X_TICK_0": { string: `0`},
+  "X_TICK_4": { string: `4`, mp3: Day4},
+  "X_TICK_8": { string: `8`, mp3: Day8},
+  "X_TICK_12": { string: `12`, mp3: Day12},
+  "X_TICK_16": { string: `16`},
+  "X_TICK_20": { string: `20`},
+  "X_TICK_24": { string: `24`, mp3: Day24},
+  "X_TICK_28": { string: `28`, mp3: Day28},
+
 
   "SETUP_TERRARIUM": { string: "Controls" },
 
@@ -79,7 +89,7 @@ export const translations: Record<string, ITranslation> = {
   "LIGHT_AMOUNT.NONE": { string: "None", mp3: LightNone},
   "LIGHT_AMOUNT.SOME": { string: "Some", mp3: LightLow},
   "LIGHT_AMOUNT.FULL": { string: "Full", mp3: LightHigh},
-  "LIGHT": { string: "Light", mp3: Light},
+  "LIGHT": { string: "Light", mp3: Light },
 
   "WATER_AMOUNT.NONE": { string: "None", mp3: WaterNone},
   "WATER_AMOUNT.SOME": { string: "Some", mp3: WaterLow},
@@ -91,7 +101,6 @@ export const translations: Record<string, ITranslation> = {
   "AMOUNT.FULL": { string: "Full"},
   "AMOUNT.NO": { string: "no"},
 
-  "TRIAL": {string: "Trial", mp3: Trial},
   "OUTPUT.SUGAR_CREATED": {string: "Sugar Created", mp3: SugarCreated},
   "OUTPUT.SUGAR_USED": {string: "Sugar Used", mp3: SugarUsed},
 
@@ -102,7 +111,14 @@ export const translations: Record<string, ITranslation> = {
 
   "TERRARIUM": { string: "Terrarium"},
 
-  "TABLE.TITLE": {string: "Trial Results", mp3: TrialResults},
+  "TABLE.TITLE": {string: "Trials: Data"},
+  "TABLE.HEADER_TRIAL": {string: "Trial", mp3: Trial},
+  "TABLE.HEADER_LIGHT": {string: "Light", mp3: Light},
+  "TABLE.HEADER_WATER": {string: "Water", mp3: Water},
+  "TABLE.HEADER_CO2": {string: "CO2", mp3: Co2},
+  "TABLE.HEADER_OUTPUT.SUGAR_CREATED": {string: "Sugar Created", mp3: SugarCreated},
+  "TABLE.HEADER_OUTPUT.SUGAR_USED": {string: "Sugar Used", mp3: SugarUsed},
+
   "TABLE.DELETE_TRIAL": { string: "Delete trial", mp3: DeleteTrial},
 
   "GRAPHS.X_AXIS_LABEL": {string: "Time (Days)", mp3: Graphs_XAxisLabel},

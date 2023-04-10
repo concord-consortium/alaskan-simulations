@@ -16,7 +16,6 @@
     &:hover {
       cursor: pointer!important;
       background-color: $lightBlueTint25;
-      text-decoration: none;
     }
     &:active, &.active {
       background-color: $bluePrimary;
@@ -24,7 +23,6 @@
       text-decoration: none;
     };
     &.disabled {
-      text-decoration: none;
       &:hover {
         cursor: default!important;
         background-color: transparent;

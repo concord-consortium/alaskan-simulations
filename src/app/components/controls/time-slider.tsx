@@ -4,7 +4,7 @@ import { Slider } from "./slider";
 interface IProps {
   time: number; // between 0 and 1
   snapshotsCount: number;
-  label: string;
+  label: string|JSX.Element;
   onChange: (snapshotIdx: number) => void;
   disabled?: boolean;
 }

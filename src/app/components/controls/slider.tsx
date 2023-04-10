@@ -10,7 +10,7 @@ interface IProps {
   min: number;
   max: number;
   step: number;
-  label: string;
+  label: string|JSX.Element;
   onChange: (event: Event, value: number) => void;
   disabled?: boolean;
   marks?: boolean | Mark[];
@@ -26,7 +26,7 @@ export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disa
     <div className={`${css.slider} ${disabled ? css.disabled : ""}`}>
       <div className={css.label}>{ label }</div>
       <SliderUnstyled
-        aria-label={label}
+        // aria-label={typeof label === "string" && label}
         min={min}
         max={max}
         step={step}

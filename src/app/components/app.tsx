@@ -59,6 +59,7 @@ export const App = (props: IAppProps) => {
     let stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
     if (readAloudMode && "mp3" in translations[string]) {
       const audio = new Audio(translations[string].mp3);
+
       audio.id = string;
 
       audio.addEventListener('playing', () => {
@@ -93,42 +94,42 @@ export const App = (props: IAppProps) => {
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
     {
-      Header: t("TRIAL"),
+      Header: t("TABLE.HEADER_TRIAL"),
       accessor: "trial" as const,
       width: 60,
       disableSortBy: true
     },
     {
-      Header: t("LIGHT"),
+      Header: t("TABLE.HEADER_LIGHT"),
       accessor: "light" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: t("WATER"),
+      Header: t("TABLE.HEADER_WATER"),
       accessor: "water" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: t("CO2"),
+      Header: t("TABLE.HEADER_CO2"),
       accessor: "co2" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: t("OUTPUT.SUGAR_USED"),
+      Header: t("TABLE.HEADER_OUTPUT.SUGAR_USED"),
       accessor: "sugarUsed" as const,
       width: 150,
       disableSortBy: true
     },
     {
-      Header: t("OUTPUT.SUGAR_CREATED"),
+      Header: t("TABLE.HEADER_OUTPUT.SUGAR_CREATED"),
       accessor: "sugarCreated" as const,
       width: 155,
       disableSortBy: true
     },
-  ], [readAloudMode]);
+  ], [readAloudMode, isAudioPlaying, activeAudioId]);
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
@@ -244,11 +245,19 @@ export const App = (props: IAppProps) => {
   };
 
   const getTimeSliderLabel = () => {
-    return (`Time: ${(maxDaysScale * maxDays * outputState.time).toFixed(0)} days`);
+    if (isRunning) {
+      return `Time: ${(maxDaysScale * maxDays * outputState.time).toFixed(0)} days`;
+    } else {
+      return t(`DAY_${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`);
+    }
   }
 
   const handleSetReadAloud = () => {
     setReadAloudMode(!readAloudMode);
+  }
+
+  const getGraphTitle = () => {
+    return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs`: t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
   }
 
   return (
@@ -304,11 +313,12 @@ export const App = (props: IAppProps) => {
               disabled={isRunning || !!readOnly}
               centerHeader={true}
               noWrapDeleteButton={true}
+              readAloudMode={readAloudMode}
               t={t}
             />
           </div>
           <div className={css.barGraphs}>
-            <div className={css.header}>{`Trial ${activeRunIdx + 1} Graphs`}</div>
+            <div className={css.header}>{getGraphTitle()}</div>
             <div className={css.body}>
               <div className={css.graphsContainer}>
                 <BarGraph

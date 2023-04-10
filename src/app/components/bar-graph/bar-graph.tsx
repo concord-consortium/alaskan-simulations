@@ -30,7 +30,7 @@ export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
   const yMax = 10;
   const yGridStep = 2;
   const yTicks: IYTick[] = [];
-  const xTicks: IXTick[] = [0, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: val}));
+  const xTicks: IXTick[] = [0, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: props.t(`X_TICK_${val}`)}));
 
   const { title, data, activeXTick, className } = props;
 
