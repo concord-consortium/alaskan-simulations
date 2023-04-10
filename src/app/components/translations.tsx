@@ -24,7 +24,6 @@ import SugarUsed from "../assets/yupik-audio/sugar-used.mp3";
 import None from "../assets/yupik-audio/none.mp3";
 import Low from "../assets/yupik-audio/low.mp3";
 import High from "../assets/yupik-audio/high.mp3";
-import TrialResults from "../assets/yupik-audio/trial-results.mp3";
 import DeleteTrial from "../assets/yupik-audio/delete-trial.mp3";
 import Graphs_XAxisLabel from "../assets/yupik-audio/time-days.mp3";
 import Graphs_Trial1 from "../assets/yupik-audio/trial-1-graphs.mp3";
@@ -77,7 +76,6 @@ export const translations: Record<string, ITranslation> = {
   "X_TICK_20": { string: `20`},
   "X_TICK_24": { string: `24`, mp3: Day24},
   "X_TICK_28": { string: `28`, mp3: Day28},
-
 
   "SETUP_TERRARIUM": { string: "Controls" },
 

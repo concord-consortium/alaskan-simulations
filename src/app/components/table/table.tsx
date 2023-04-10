@@ -1,7 +1,7 @@
 import React, { useEffect, KeyboardEvent, useRef } from "react";
 import { useTable, useSortBy, Column } from "react-table";
-import clsx from "clsx";
 import DeleteIcon from "../../assets/delete-icon.svg";
+import clsx from "clsx";
 
 import css from "./table.scss";
 

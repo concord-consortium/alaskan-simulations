@@ -55,24 +55,24 @@ export const App = (props: IAppProps) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [activeAudioId, setActiveAudioId] = useState<string>("");
 
-  const t = (string: string) => {
-    let stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
+  const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
+
+  const t = useCallback((string: string) => {
+    const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
     if (readAloudMode && "mp3" in translations[string]) {
       const audio = new Audio(translations[string].mp3);
 
-      audio.id = string;
-
-      audio.addEventListener('playing', () => {
+      audio.addEventListener("playing", () => {
         setIsAudioPlaying(true);
-        setActiveAudioId(audio.id);
+        setActiveAudioId(string);
       });
-      audio.addEventListener('ended', () => {
+      audio.addEventListener("ended", () => {
         setIsAudioPlaying(false);
         setActiveAudioId("");
       });
 
-      const isActive = isAudioPlaying && activeAudioId === audio.id;
-      const isDisabled = isRunning || (isAudioPlaying && activeAudioId !== audio.id);
+      const isActive = isAudioPlaying && activeAudioId === string;
+      const isDisabled = isRunning || (isAudioPlaying && activeAudioId !== string);
 
       const classes = {
         [css.readAloud]: true,
@@ -88,7 +88,7 @@ export const App = (props: IAppProps) => {
     } else {
       return stringToRender;
     }
-  };
+  }, [readAloudMode, isAudioPlaying, isRunning, activeAudioId]);
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -129,15 +129,13 @@ export const App = (props: IAppProps) => {
       width: 155,
       disableSortBy: true
     },
-  ], [readAloudMode, isAudioPlaying, activeAudioId]);
+  ], [t]);
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
     initialOutputState: interactiveState?.outputState || defaultInitialState.outputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns,
   }), [interactiveState]));
-
-  const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
@@ -172,7 +170,7 @@ export const App = (props: IAppProps) => {
     co2: getPng(runInputState.co2amount),
     sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
     sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
-  }), [isRunning]);
+  }), [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
@@ -245,20 +243,19 @@ export const App = (props: IAppProps) => {
   };
 
   const getTimeSliderLabel = () => {
-    if (isRunning) {
-      return `Time: ${(maxDaysScale * maxDays * outputState.time).toFixed(0)} days`;
-    } else {
-      return t(`DAY_${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`);
-    }
-  }
+    const time = (maxDaysScale * maxDays * outputState.time).toFixed(0);
+    // Translations only for days that user re-visits.
+    return isRunning ? `Time: ${time} days` : t(`DAY_${time}`);
+  };
 
   const handleSetReadAloud = () => {
     setReadAloudMode(!readAloudMode);
-  }
+  };
 
   const getGraphTitle = () => {
+    // We do not have translations for graph run when higher than 9th run.
     return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs`: t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
-  }
+  };
 
   return (
     <SimulationFrame

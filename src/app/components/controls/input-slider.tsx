@@ -1,8 +1,8 @@
 import React from "react";
+import { InputAmount } from "../../../types";
 import clsx from "clsx";
 
 import css from "./input-slider.scss";
-import { InputAmount } from "../../../types";
 
 interface IProps {
   type: string;
@@ -32,10 +32,6 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
 
   const valToNum= (val: string) => {
     return val === InputAmount.None ? 0 : val === InputAmount.Some ? 1 : 2;
-  };
-
-  const titleCase = (str: string) => {
-    return `${str[0].toUpperCase() + str.slice(1)}`;
   };
 
   return (
