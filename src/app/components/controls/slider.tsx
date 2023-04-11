@@ -11,6 +11,7 @@ interface IProps {
   max: number;
   step: number;
   label: string|JSX.Element;
+  ariaLabel?: string;
   onChange: (event: Event, value: number) => void;
   disabled?: boolean;
   marks?: boolean | Mark[];
@@ -18,7 +19,7 @@ interface IProps {
 
 
 
-export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disabled, label, marks = true }) => {
+export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disabled, label, ariaLabel, marks = true }) => {
   const handleChange = (e: Event, val: number | number[]) => {
     onChange(e, typeof val === "number" ? val : val[0]);
   };
@@ -26,7 +27,7 @@ export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disa
     <div className={`${css.slider} ${disabled ? css.disabled : ""}`}>
       <div className={css.label}>{ label }</div>
       <SliderUnstyled
-        // aria-label={typeof label === "string" && label}
+        aria-label={ariaLabel}
         min={min}
         max={max}
         step={step}

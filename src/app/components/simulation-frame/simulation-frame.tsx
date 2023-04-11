@@ -50,7 +50,9 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, rea
             label={"Read Aloud in Yug'tun"}
             onChange={handleSetReadAloud}
           />
-          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}><DirectionsButton /></button>
+          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
+            <DirectionsButton />
+          </button>
         </div>
       </div>
       <div className={css.content}>

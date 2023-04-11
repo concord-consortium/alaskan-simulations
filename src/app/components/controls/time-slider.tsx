@@ -1,5 +1,6 @@
 import React from "react";
 import { Slider } from "./slider";
+import { translations } from "../translations";
 
 interface IProps {
   time: number; // between 0 and 1
@@ -13,6 +14,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, d
   const handleChange = (e: Event, value: number) => {
     onChange(value);
   };
+
   return (
     <Slider
       value={time * (snapshotsCount - 1)}
@@ -22,6 +24,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, d
       label={label}
       onChange={handleChange}
       disabled={disabled}
+      ariaLabel={"Time"}
     />
   );
 };

@@ -32,7 +32,7 @@ export enum OutputAmountValue {
 }
 
 export enum OutputAmount {
-  None = "AMOUNT.NONE",
+  None = "OUTPUT.NONE",
   Low = "OUTPUT.LOW",
   Medium = "OUTPUT.MEDIUM",
   High = "OUTPUT.HIGH",

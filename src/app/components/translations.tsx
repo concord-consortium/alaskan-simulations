@@ -103,7 +103,7 @@ export const translations: Record<string, ITranslation> = {
   "OUTPUT.SUGAR_CREATED": {string: "Sugar Created", mp3: SugarCreated},
   "OUTPUT.SUGAR_USED": {string: "Sugar Used", mp3: SugarUsed},
 
-  "OUTPUT.NONE": { string: "Low", mp3: None},
+  "OUTPUT.NONE": { string: "None", mp3: None},
   "OUTPUT.LOW": { string: "Low", mp3: Low},
   "OUTPUT.MEDIUM": { string: "Medium"},
   "OUTPUT.HIGH": { string: "High", mp3: High},

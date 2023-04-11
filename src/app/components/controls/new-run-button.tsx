@@ -16,6 +16,7 @@ export const NewRunButton: React.FC<IProps> = React.forwardRef<HTMLButtonElement
     <Button
       ref={ref}
       label={t("BUTTON.TRIAL")}
+      ariaLabel={t("BUTTON.NEW") as string}
       innerLabel={t("BUTTON.NEW") as string}
       icon={<AddIcon />}
       onClick={onClick}
