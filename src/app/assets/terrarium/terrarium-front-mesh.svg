@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 394 469">
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 346 469">
   <defs>
     <linearGradient id="linear-gradient" x1="129.66987" y1="354.95002" x2="216.33013" y2="505.04998" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff"/>
@@ -28,21 +28,16 @@
       <stop offset="1" stop-color="#1d1d1b" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="linear-gradient-7" x1="154.75147" y1="120.13743" x2="200.18553" y2="-4.69163" xlink:href="#linear-gradient"/>
-    <linearGradient id="linear-gradient-8" x1="131.40192" y1="3.95002" x2="214.59808" y2="148.04998" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fff"/>
-      <stop offset=".02964" stop-color="#fff"/>
-      <stop offset=".6649" stop-color="#fff" stop-opacity="0"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-    </linearGradient>
+    <linearGradient id="linear-gradient-8" x1="131.40192" y1="3.95002" x2="214.59808" y2="148.04998" xlink:href="#linear-gradient"/>
     <linearGradient id="linear-gradient-9" y1="69.99994" y2="69.99994" xlink:href="#linear-gradient-3"/>
   </defs>
   <g id="Terrarium">
     <g id="Terrarium_Front_Mesh_Top" data-name="Terrarium Front Mesh Top">
       <g id="rectangle">
-        <rect width="394" height="469" fill="none"/>
+        <rect width="346" height="469" fill="none"/>
       </g>
       <g id="Front_Base" data-name="Front Base">
-        <path id="Base_outline_front" data-name="Base outline front" d="m329.70433,417h-2.24982l1.54547,3v20H16.99999v-20l1.54547-3h-2.24982c-.23215.52915-1.37563,2.34738-1.2957,2.99998.00005.00002.00005,20.00002.00005,20.00002,0,1.10455.89545,2,2,2h312c1.10461,0,2-.89545,2-2,0,0,0-20,0-20s-.07611-.63263-.22205-.91595c0,0-1.07361-2.08405-1.07361-2.08405Z" fill="#515151"/>
+        <path id="Base_outline_front" data-name="Base outline front" d="m329.70433,417h-2.24982l1.54547,3v20H16.99999v-20l1.54547-3h-2.24982c-.23215.52915-1.37563,2.34738-1.2957,2.99998.00005.00002.00005,20.00002.00005,20.00002,0,1.10455.89545,2,2,2h312c1.10461,0,2-.89545,2-2v-20c0-.31866-.07611-.63263-.22205-.91595l-1.07361-2.08405Z" fill="#515151"/>
         <rect id="Base_F_front" data-name="Base F front" x="17" y="420" width="312" height="20" fill="#666"/>
         <rect id="Base_F_front_HI" data-name="Base F front HI" x="17" y="420" width="312" height="20" fill="url(#linear-gradient)" opacity=".2"/>
         <polygon id="Base_F_top" data-name="Base F top" points="329 420 17 420 18.5455 417 327.4545 417 329 420" fill="#a0a0a0"/>
