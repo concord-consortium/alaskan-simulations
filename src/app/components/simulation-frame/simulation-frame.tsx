@@ -6,12 +6,11 @@ import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instruc
 import { Dialog } from "./dialog";
 import Logo from "../../assets/concord.png";
 import HeaderTitle from "../../assets/HeaderTitle.png";
-
+import { Switch } from "../controls/switch";
 import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";
 
 import css from "./simulation-frame.scss";
-import { Switch } from "../controls/switch";
 
 interface IProps {
   title: string;
@@ -23,7 +22,7 @@ interface IProps {
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ title, t, directions, children, readAloudMode, handleSetReadAloud }) => {
+export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, readAloudMode, handleSetReadAloud }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 

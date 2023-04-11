@@ -171,10 +171,10 @@ $topZIndex: 10;
       width: 394px;
       height: 469px;
       z-index: 6;
-      &.full, &.some {
+      &.full {
         background-image: url("../../assets/terrarium/terrarium-front-mesh.svg");
       }
-      &.none {
+      &.some, &.none {
         background-image: url("../../assets/terrarium/terrarium-front-glass.svg");
       }
     }

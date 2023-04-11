@@ -1,4 +1,5 @@
 import NewTrial from "../assets/yupik-audio/new-trial.mp3";
+import Controls from "../assets/yupik-audio/controls.mp3";
 import Play from "../assets/yupik-audio/play.mp3";
 import Time28Days from "../assets/yupik-audio/time-28-days.mp3";
 import Day4 from "../assets/yupik-audio/day-4.mp3";
@@ -77,7 +78,7 @@ export const translations: Record<string, ITranslation> = {
   "X_TICK_24": { string: `24`, mp3: Day24},
   "X_TICK_28": { string: `28`, mp3: Day28},
 
-  "SETUP_TERRARIUM": { string: "Controls" },
+  "SETUP_TERRARIUM": { string: "Controls", mp3: Controls },
 
   "CO2_AMOUNT.NONE": { string: "None", mp3: Co2None},
   "CO2_AMOUNT.SOME": { string: "Some", mp3: Co2Low},

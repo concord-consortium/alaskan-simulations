@@ -2,6 +2,8 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
+import { useTranslation } from "./hooks/use-translation";
+import { translations } from "./translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
 import { SimulationFrame } from "./simulation-frame/simulation-frame";
@@ -19,8 +21,6 @@ import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
 
 import css from "./app.scss";
-import { translations } from "./translations";
-import clsx from "clsx";
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -51,44 +51,9 @@ interface IAppProps {
 
 export const App = (props: IAppProps) => {
   const {interactiveState, readOnly} = props;
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-  const [activeAudioId, setActiveAudioId] = useState<string>("");
 
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
-
-  const t = useCallback((string: string) => {
-    const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
-    if (readAloudMode && "mp3" in translations[string]) {
-      const audio = new Audio(translations[string].mp3);
-
-      audio.addEventListener("playing", () => {
-        setIsAudioPlaying(true);
-        setActiveAudioId(string);
-      });
-      audio.addEventListener("ended", () => {
-        setIsAudioPlaying(false);
-        setActiveAudioId("");
-      });
-
-      const isActive = isAudioPlaying && activeAudioId === string;
-      const isDisabled = isRunning || (isAudioPlaying && activeAudioId !== string);
-
-      const classes = {
-        [css.readAloud]: true,
-        [css.active]: isActive,
-        [css.disabled]: isDisabled
-      };
-
-      return (
-        <div onClick={() => !isDisabled && audio.play()} className={clsx(classes)}>
-          {stringToRender}
-        </div>
-      );
-    } else {
-      return stringToRender;
-    }
-  }, [readAloudMode, isAudioPlaying, isRunning, activeAudioId]);
+  const {t, readAloudMode, setReadAloudMode} = useTranslation({isRunning});
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
