@@ -1,6 +1,5 @@
 import React from "react";
 import { Slider } from "./slider";
-import { translations } from "../translations";
 
 interface IProps {
   time: number; // between 0 and 1

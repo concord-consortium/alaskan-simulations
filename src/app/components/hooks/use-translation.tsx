@@ -28,7 +28,7 @@ export const useTranslation = (props: IProps) => {
       });
       const handlePlay = () => {
         if (!isDisabled) {
-          audio.load()
+          audio.load();
           audio.play();
         }
       };
