@@ -1,12 +1,19 @@
 @import "../vars.scss";
 
-$topZIndex: 10;
+$terrariumBackgroundZIndex: 1;
+$terrariumBackZIndex: 2;
+$soilZIndex: 3;
+$rulerZIndex: 4;
+$co2LabelZIndex:  7;
+$terrariumFrontZIndex: 8;
+$lightZIndex: 9;
+$toggleZIndex: 10;
 
 .simulationView {
   position: relative;
   box-sizing: border-box;
-  width: 100%;
-  height: 470px;
+  width: $simViewWidth;
+  height: $simViewHeight;
   border-radius: 5px;
   border: 2px solid $bluePrimary;
   background-color: #fff;
@@ -21,9 +28,9 @@ $topZIndex: 10;
   }
 
   .ruler {
-    z-index: $topZIndex;
-    width: 394px;
-    height: 469px;
+    z-index: $rulerZIndex;
+    width: $simViewWidth;
+    height: $simViewHeight;
     position: absolute;
     top: 0;
     &.cm {
@@ -41,7 +48,7 @@ $topZIndex: 10;
     width:100%;
     background-image: url("../../assets/terrarium/terrarium-background.svg");
     border-radius: 19px;
-    z-index: 1;
+    z-index: $terrariumBackgroundZIndex;
   }
 
   .terrarium{
@@ -52,8 +59,8 @@ $topZIndex: 10;
     .toggle {
       position: absolute;
       top: 345px;
-      left: 338px;
-      z-index: $topZIndex;
+      left: 258px;
+      z-index: $toggleZIndex;
       display: flex;
       flex-direction: column;
       height: 80px;
@@ -102,17 +109,17 @@ $topZIndex: 10;
       background-image: url("../../assets/terrarium/terrarium-back.svg");
       position: absolute;
       top: 0;
-      width: 394px;
-      height: 496px;
-      z-index: 1;
+      width: $simViewWidth;
+      height: $simViewHeight;
+      z-index: $terrariumBackZIndex;
     }
 
     .soil {
       position: absolute;
       top: 0;
-      width: 394px;
-      height: 469px;
-      z-index: 2;
+      width: $simViewWidth;
+      height: $simViewHeight;
+      z-index: $soilZIndex;
       &.full {
         background-image: url("../../assets/terrarium/soil-water-high.svg");
       }
@@ -127,9 +134,9 @@ $topZIndex: 10;
 
     .light {
       position: absolute;
-      width: 393px;
-      height: 468px;
-      z-index: 2;
+      width: $simViewWidth;
+      height: $simViewHeight;
+      z-index: $lightZIndex;
       border-radius: 19px;
       &.full {
         background-image: url("../../assets/terrarium/light-high.svg");
@@ -152,7 +159,7 @@ $topZIndex: 10;
       top: 100px;
       height:23px;
       width:100px;
-      z-index: $topZIndex;
+      z-index: $co2LabelZIndex;
       border-radius: 20px;
       border: 2px solid $bluePrimary;
       display: flex;
@@ -168,9 +175,9 @@ $topZIndex: 10;
     .terrariumFront{
       position: absolute;
       top: 0;
-      width: 394px;
-      height: 469px;
-      z-index: 6;
+      width: $simViewWidth;
+      height: $simViewHeight;
+      z-index: $terrariumFrontZIndex;
       &.full {
         background-image: url("../../assets/terrarium/terrarium-front-mesh.svg");
       }

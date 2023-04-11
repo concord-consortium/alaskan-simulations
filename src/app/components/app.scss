@@ -1,15 +1,17 @@
 @import "./vars.scss";
 
+$tableGraphContainerWidth: 400px;
+
 .content {
-  width: 100%;
+  width: $maxAppWidth;
   height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   .readAloud {
     text-decoration: underline;
@@ -41,7 +43,7 @@
 
   .simulationContainer {
     box-sizing: border-box;
-    width: 395px;
+    width: $simViewWidth;
     height: 545px;
 
     .controls {
@@ -81,7 +83,7 @@
 
     .tableContainer {
       box-sizing: border-box;
-      width: 480px;
+      width: $tableGraphContainerWidth;
       height: 280px;
       border: 1px solid $font-color;
       border-radius: 20px;
@@ -137,7 +139,7 @@
     display: flex;
     flex-direction: column;
     height: 245px;
-    width: 480px;
+    width: $tableGraphContainerWidth;
     border: 1px solid $font-color;
     border-radius: 20px;
     color: black;

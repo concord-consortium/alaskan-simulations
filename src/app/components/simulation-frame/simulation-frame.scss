@@ -1,11 +1,11 @@
 @import "../vars.scss";
 
 $headerHeight: 60px;
-$width: 1060px;
+$width: $maxAppWidth;
 $headerTextColor: $bluePrimary;
 
 .simulationFrame {
-  width: 100%;
+  width: $maxAppWidth;
   height: 635px;
   background-color: $main-bg;
 
