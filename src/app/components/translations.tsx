@@ -44,7 +44,7 @@ interface ITranslation {
 
 export const translations: Record<string, ITranslation> = {
   "CREDITS.HEADER": { string: "Credits"},
-  "INSTRUCTIONS.HEADER": { string: "Activity Instructions"},
+  "INSTRUCTIONS.HEADER": { string: "Plant Growth Experiments"},
 
   "BUTTON.NEW": {string: "New"},
   "BUTTON.TRIAL": { string: "Trial", mp3: NewTrial},

@@ -37,9 +37,9 @@ export const Dialog: React.FC<IProps> = ({ title, modal, closeButtonLabel, noMax
     <div ref={dialogRef} className={clsx(css.dialogContainer, className, { [css.modal]: modal })} style={containerStyle}>
       <div className={css.dialog}>
         <div className={css.header}>
-          <div className={css.title}>
-            { title}
-          </div>
+          <span className={css.title}>
+            {title}
+          </span>
           {showCloseButton && <div className={css.close} onClick={onClose}><CloseButtonSvg /></div>}
         </div>
         {addSeparator && <div className={css.seperator} />}

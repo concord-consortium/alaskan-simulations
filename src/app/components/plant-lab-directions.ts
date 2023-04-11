@@ -1,35 +1,37 @@
 
 
 import PlayButton from "../assets/snapshots-directions/instructions-play-button@3x.png";
-import EnglishNewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
-import BarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button@3x.png";
-import GreenBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-green@3x.png";
-import OrangeBarChartButton from "../assets/snapshots-directions/instructions-bar-chart-button-orange@3x.png";
+import NewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
 
-const englishMarkdown = `
+const markDown = `
+Experiment with a plant in a terrarium to see how much sugar it creates and uses
+with different conditions of light, water, and CO<sub>2</sub>.
+
 # Running a trial
 
-Set up the terrarium. Select whether you want to add soil, water, or both.
-Choose the Amount of CO<sub>2</sub> in the Air sealed in the terrarium. Press “Play”
-![play button](${PlayButton}) to see how well the plant grows over 28 days.
-After a trial, you can use the “Time” slider to move back and forth in time for that
-trial. Tap “New” ![new trial button](${EnglishNewTrialButton}) to start a new trial.
+Each trial starts with a seed planted in the soil. Choose the amount of light, water,
+and CO<sub>2</sub> for each trial using the sliders in the “Controls” panel. Press “Play”
+![play button](${PlayButton}) to see how these conditions affect the amount of sugar
+the plant creates and uses. The Trials table records the trial conditions and results, and
+the graph shows the amounts of sugar created and used by the plant every 4 days for each
+28 day experiment. After a trial, you can use the “Time” slider to move back and forth
+in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.
 
-# Analyzing Trials: Data
+# Analyzing trials
 
-When you run a trial, that trial will appear in the data table with an orange icon
-![graph icon button](${OrangeBarChartButton}), and the data will appear in orange
-on the graph. Tap the graph icon ![graph icon button](${BarChartButton}) for a row
-to add another trial to the bar graph for comparison. That trial will appear in teal
-![graph icon button](${GreenBarChartButton}) on the graph.
+After you have collected several trials, compare the results of trials by clicking on
+different trials in the table to see the graphs that go with that trial. How do the settings
+of light, water, and CO<sub>2</sub> affect the plant's growth?
 
-When you want to remove a trial from the bar graph, find the matching colored icon
-in the data table. Tap the icon to remove that trial from the graph.
+# Try recording your own data
 
-You can also select an entire row in the data table, then use the “Time” slider
-to rewatch that trial.
+Investigate how different conditions of light, water, and CO<sub>2</sub> affect the height
+of the plant. Make your own data table to record the height of the plant every 4 days.
+Run a trial, then use the “Time” slider to read the ruler and record the heights in your table.
+Then you can use your data table to make a graph to show how the height of the plant
+changes over time with different conditions.
 `;
 
 export const plantLabDirections = () => {
-  return englishMarkdown;
+  return markDown;
 };

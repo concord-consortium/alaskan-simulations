@@ -68,7 +68,8 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, rea
             addSeparator={true}
             className={css.instructions}
           >
-            {typeof directions === "string" ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
+            {typeof directions === "string" ?
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
           </Dialog>
         }
       </div>
