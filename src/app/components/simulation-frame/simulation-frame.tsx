@@ -47,7 +47,7 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, rea
         <div className={clsx(css.buttons, css.right)}>
           <Switch
             checked={readAloudMode}
-            label={"Read Aloud in Yug'tun"}
+            label={"Read Aloud in Yugtun"}
             onChange={handleSetReadAloud}
           />
           <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
@@ -68,7 +68,8 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, rea
             addSeparator={true}
             className={css.instructions}
           >
-            {typeof directions === "string" ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
+            {typeof directions === "string" ?
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
           </Dialog>
         }
       </div>

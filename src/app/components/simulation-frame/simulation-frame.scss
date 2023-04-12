@@ -1,11 +1,11 @@
 @import "../vars.scss";
 
 $headerHeight: 60px;
-$width: 1060px;
+$width: $maxAppWidth;
 $headerTextColor: $bluePrimary;
 
 .simulationFrame {
-  width: 100%;
+  width: $maxAppWidth;
   height: 635px;
   background-color: $main-bg;
 
@@ -40,9 +40,10 @@ $headerTextColor: $bluePrimary;
 
     .titleContainer {
       position: absolute;
-      left: 380px;
+      // 296 px is the width of the title image.
+      margin-left: calc((100% - 237px) / 2);
       .title {
-        height: 50px;
+        height: 40px;
       }
     }
 

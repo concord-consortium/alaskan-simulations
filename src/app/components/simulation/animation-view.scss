@@ -1,5 +1,8 @@
 @import "../vars.scss";
 
+$plantZIndex: 5;
+$heightLineZIndex: 6;
+
 @function cmToPx($cm) {
   // the 0 cm line is 327px from the top of the container.
   $cm0: 327px;
@@ -10,15 +13,15 @@
 .viewContainer{
   position: absolute;
   top:0px;
-  width: 394px;
-  height: 469px;
+  width: $simViewWidth;
+  height: $simViewHeight;
 }
 
 .animationImage {
   position: absolute;
-  width: 394px;
-  height: 469px;
-  z-index: 4;
+  width: $simViewWidth;
+  height: $simViewHeight;
+  z-index: $plantZIndex;
 }
 
 .heightLine {

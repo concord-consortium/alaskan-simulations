@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 394.00001 469">
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 346.00001 469">
   <defs>
     <linearGradient id="linear-gradient" x1="158.3089" y1="469" x2="158.3089" y2="-7.80698" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
@@ -7,19 +7,19 @@
       <stop offset=".79083" stop-color="#fff" stop-opacity=".15"/>
       <stop offset="1" stop-color="#fff" stop-opacity=".3"/>
     </linearGradient>
-    <linearGradient id="linear-gradient-2" x1="197" y1="469" x2="197" y2="-7.80698" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient-2" x1="173" y1="469" x2="173" y2="-7.80698" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".43923" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".77372" stop-color="#fff" stop-opacity=".2"/>
       <stop offset="1" stop-color="#fff" stop-opacity=".4"/>
     </linearGradient>
-    <linearGradient id="linear-gradient-3" x1="175.89926" y1="469" x2="175.89926" y2="-7.80698" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient-3" x1="173" y1="469" x2="173" y2="-7.80698" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".42382" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".8571" stop-color="#fff" stop-opacity=".2"/>
       <stop offset="1" stop-color="#fff" stop-opacity=".5"/>
     </linearGradient>
-    <linearGradient id="linear-gradient-4" x1="253.07468" y1="469" x2="253.07468" y2="-7.80698" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient-4" x1="229.07468" y1="469" x2="229.07468" y2="35.07495" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".35215" stop-color="#fff" stop-opacity="0"/>
       <stop offset=".67831" stop-color="#fff" stop-opacity=".1"/>
@@ -29,15 +29,15 @@
   <g id="Light">
     <g id="Light_Low" data-name="Light Low" opacity=".5">
       <g id="rectangle">
-        <rect x=".00001" y="0" width="394" height="469" fill="none"/>
+        <rect x=".00001" y="0" width="346" height="469" fill="none"/>
       </g>
-      <g id="low_light_scrim" data-name="low light scrim" opacity=".1">
-        <rect x=".00001" y="0" width="394" height="469"/>
+      <g opacity=".1">
+        <rect width="346" height="469"/>
       </g>
       <polygon points="0 469 25.2785 469 316.6178 0 157.67346 0 0 223.85834 0 469" fill="url(#linear-gradient)"/>
-      <polygon points="394 139.35229 394 0 249.06584 0 0 393.48151 0 469 237.92267 469 394 139.35229" fill="url(#linear-gradient-2)"/>
-      <polygon points="351.79852 0 214.05792 0 0 328.07391 0 469 75.44525 469 351.79852 0" fill="url(#linear-gradient-3)"/>
-      <polygon points="175.2265 469 394 46.64471 394 0 369.10992 0 112.14935 469 175.2265 469" fill="url(#linear-gradient-4)"/>
+      <polygon points="346 0 249.06586 0 0 393.48151 0 469 237.92267 469 346 240.73212 346 0" fill="url(#linear-gradient-2)"/>
+      <polygon points="346 0 214.05792 0 0 328.07391 0 469 75.44525 469 346 9.8407 346 0" fill="url(#linear-gradient-3)"/>
+      <polygon points="346 42.17981 112.14935 469 175.2265 469 346 139.31158 346 42.17981" fill="url(#linear-gradient-4)"/>
     </g>
   </g>
 </svg>
