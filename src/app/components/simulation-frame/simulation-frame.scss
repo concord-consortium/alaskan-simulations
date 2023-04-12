@@ -1,10 +1,11 @@
 @import "../vars.scss";
 
 $headerHeight: 60px;
-$headerTextColor: #333333;
+$width: $maxAppWidth;
+$headerTextColor: $bluePrimary;
 
 .simulationFrame {
-  width: 100%;
+  width: $maxAppWidth;
   height: 635px;
   background-color: $main-bg;
 
@@ -25,6 +26,7 @@ $headerTextColor: #333333;
     box-sizing: border-box;
     height: $headerHeight;
     color: $headerTextColor;
+    font-family: $fontFamilyNunito;
     background-color: $header-bg;
     border-radius: 0 0 0 0;
     display: flex;
@@ -37,9 +39,11 @@ $headerTextColor: #333333;
     }
 
     .titleContainer {
-      margin: 0 auto;
+      position: absolute;
+      // 296 px is the width of the title image.
+      margin-left: calc((100% - 237px) / 2);
       .title {
-        height: 50px;
+        height: 40px;
       }
     }
 
@@ -64,24 +68,30 @@ $headerTextColor: #333333;
         font-size: 16px;
         display: flex;
         align-items: center;
+        font-family: $fontFamilyNunito;
+        color: $bluePrimary;
+
+        svg path {
+          fill: $bluePrimary;
+        }
       }
       img + button {
         margin-left: 6px;
       }
       button.active {
         svg :global(.background) {
-          fill: $dark-yellow;
+          fill: $lightBlueTint25;
         }
         svg :global(.questionMark) {
           fill: $bluePrimary;
         }
       }
-      button:not(.active):hover {
-        color: $blueAccent;
-        svg :global(.outline), svg :global(.questionMark)  {
-          fill: $blueAccent;
-        }
-      }
+      // button:not(.active):hover {
+      //   color: $blueAccent;
+      //   svg :global(.outline), svg :global(.questionMark)  {
+      //     fill: $blueAccent;
+      //   }
+      // }
     }
   }
 

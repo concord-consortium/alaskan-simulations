@@ -1,5 +1,4 @@
 import React, {useCallback} from "react";
-import { t } from "../translation/translate";
 import { IModelInputState, InputAmount } from "../../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
@@ -12,9 +11,10 @@ interface IProps {
   inputState: IModelInputState,
   setInputState: (update: Partial<IModelInputState>) => void,
   disabled: boolean,
+  t: (string: string) => string | JSX.Element
 }
 
-export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled}) => {
+export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled, t}) => {
 
   const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({light: value as InputAmount});
@@ -32,25 +32,28 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
     <LabeledContainer className={css.optionsView} label={t("SETUP_TERRARIUM")}>
       <div className={css.optionsContainer}>
           <InputSlider
-            type={"Light"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            type={"LIGHT"}
+            labels={["LIGHT_AMOUNT.FULL", "LIGHT_AMOUNT.SOME", "LIGHT_AMOUNT.NONE"]}
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
+            t={t}
           />
           <InputSlider
-            type={"Water"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            type={"WATER"}
+            labels={["WATER_AMOUNT.FULL", "WATER_AMOUNT.SOME", "WATER_AMOUNT.NONE"]}
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
+            t={t}
           />
           <InputSlider
             type={"CO2"}
-            labels={[InputAmount.Full, InputAmount.Some, InputAmount.None]}
+            labels={["CO2_AMOUNT.FULL", "CO2_AMOUNT.SOME", "CO2_AMOUNT.NONE"]}
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}
+            t={t}
           />
       </div>
     </LabeledContainer>

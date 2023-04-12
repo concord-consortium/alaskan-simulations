@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { t } from "../translation/translate";
 import { useModelState } from "./hooks/use-model-state";
 import { useSimulationRunner } from "./hooks/use-simulation-runner";
 import { useModelTable } from "./hooks/use-model-table";
+import { useTranslation } from "./hooks/use-translation";
+import { translations } from "./translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
 import { SimulationFrame } from "./simulation-frame/simulation-frame";
@@ -51,54 +52,55 @@ interface IAppProps {
 export const App = (props: IAppProps) => {
   const {interactiveState, readOnly} = props;
 
+  const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
+  const {t, readAloudMode, setReadAloudMode} = useTranslation({isRunning});
+
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
     {
-      Header: "Trial",
+      Header: t("TABLE.HEADER_TRIAL"),
       accessor: "trial" as const,
       width: 60,
       disableSortBy: true
     },
     {
-      Header: "Light",
+      Header: t("TABLE.HEADER_LIGHT"),
       accessor: "light" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: "Water",
+      Header: t("TABLE.HEADER_WATER"),
       accessor: "water" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: <div style={{marginBottom:"-3px"}}><span>CO<sub>2</sub></span></div>,
+      Header: t("TABLE.HEADER_CO2"),
       accessor: "co2" as const,
       width: 75,
       disableSortBy: true
     },
     {
-      Header: "Sugar Used",
+      Header: t("TABLE.HEADER_OUTPUT.SUGAR_USED"),
       accessor: "sugarUsed" as const,
       width: 150,
       disableSortBy: true
     },
     {
-      Header: "Sugar Created",
+      Header: t("TABLE.HEADER_OUTPUT.SUGAR_CREATED"),
       accessor: "sugarCreated" as const,
       width: 155,
       disableSortBy: true
     },
-  ], []);
+  ], [t]);
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
     initialOutputState: interactiveState?.outputState || defaultInitialState.outputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns,
   }), [interactiveState]));
-
-  const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
@@ -133,7 +135,7 @@ export const App = (props: IAppProps) => {
     co2: getPng(runInputState.co2amount),
     sugarUsed: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarUsed)),
     sugarCreated: !isRunning && !runIsFinished ? "" : t(convertNumberToText(runOutputState.sugarCreated))
-  }), [isRunning]);
+  }), [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
@@ -205,10 +207,28 @@ export const App = (props: IAppProps) => {
     }, 150);
   };
 
+  const getTimeSliderLabel = () => {
+    const time = (maxDaysScale * maxDays * outputState.time).toFixed(0);
+    // Translations only for days that user re-visits.
+    return isRunning ? `Time: ${time} days` : t(`DAY_${time}`);
+  };
+
+  const handleSetReadAloud = () => {
+    setReadAloudMode(!readAloudMode);
+  };
+
+  const getGraphTitle = () => {
+    // We do not have translations for graph run when higher than 9th run.
+    return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs`: t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
+  };
+
   return (
     <SimulationFrame
-      title={t("SIMULATION.TITLE")}
+      title={translations["SIMULATION.TITLE"].string}
       directions={plantLabDirections()} // ReactNode is also allowed if more complex content is needed.
+      t={t}
+      readAloudMode={readAloudMode}
+      handleSetReadAloud={handleSetReadAloud}
     >
       <div className={css.content}>
         <div className={css.optionsContainer}>
@@ -216,6 +236,7 @@ export const App = (props: IAppProps) => {
               inputState={inputState}
               setInputState={setInputState}
               disabled={uiDisabled || !!readOnly}
+              t={t}
           />
         </div>
         <div className={css.simulationContainer}>
@@ -225,16 +246,17 @@ export const App = (props: IAppProps) => {
             isRunning={isRunning}
             isFinished={isFinished}
             readOnly={readOnly}
+            t={t}
           />
           <div className={css.controls}>
             <div className={css.group}>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} t={t} />
+              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} t={t} />
             </div>
             <div className={css.grow}>
               <div className={css.timeSliderContainer}>
                 <TimeSlider
-                  label={t("SIMULATION.TIME", {vars: {days: `${(maxDaysScale * maxDays * outputState.time).toFixed(0)}`}})}
+                  label={getTimeSliderLabel()}
                   time={outputState.time}
                   snapshotsCount={snapshotsCount}
                   onChange={setActiveOutputSnapshotIdx}
@@ -253,23 +275,26 @@ export const App = (props: IAppProps) => {
               disabled={isRunning || !!readOnly}
               centerHeader={true}
               noWrapDeleteButton={true}
+              t={t}
             />
           </div>
           <div className={css.barGraphs}>
-            <div className={css.header}>{`Trial ${activeRunIdx + 1} Graphs`}</div>
+            <div className={css.header}>{getGraphTitle()}</div>
             <div className={css.body}>
               <div className={css.graphsContainer}>
                 <BarGraph
                   data={sugarUsedData}
-                  title={"Sugar Used"}
+                  title={t("OUTPUT.SUGAR_USED")}
                   activeXTick={getActiveX()}
                   className={"sugarUsed"}
+                  t={t}
                 />
                 <BarGraph
                   data={sugarCreatedData}
-                  title={"Sugar Created"}
+                  title={t("OUTPUT.SUGAR_CREATED")}
                   activeXTick={getActiveX()}
                   className="sugarCreated"
+                  t={t}
                 />
               </div>
             </div>

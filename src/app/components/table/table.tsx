@@ -1,8 +1,7 @@
 import React, { useEffect, KeyboardEvent, useRef } from "react";
 import { useTable, useSortBy, Column } from "react-table";
-import { t } from "../../translation/translate";
-import clsx from "clsx";
 import DeleteIcon from "../../assets/delete-icon.svg";
+import clsx from "clsx";
 
 import css from "./table.scss";
 
@@ -26,14 +25,12 @@ export interface ITableProps<Data> {
   centerHeader?: boolean; //used in Plant-Lab, header title and contents are centered
   noWrapDeleteButton?: boolean;
   maxWidthDeleteButton?: number;
+  t: (string: string) => string | JSX.Element;
 }
-
-// Clear table button is disabled for now, but there was a request to make it easy to re-enable it later.
-const clearTableButtonAvailable = false;
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
   const { columns, data, activeRow, onActiveRowChange, disabled,
-    onRowDelete, onClearTable, centerHeader, noWrapDeleteButton, maxWidthDeleteButton } = props;
+    onRowDelete, centerHeader, t } = props;
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
@@ -74,22 +71,20 @@ const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
     onRowDelete();
   };
 
-  const handleClearTable = () => {
-    if (disabled) {
-      return;
-    }
-    onActiveRowChange?.(0);
-    onClearTable();
-  };
-
-  const deleteButtonStyle: React.CSSProperties = maxWidthDeleteButton ? {maxWidth: maxWidthDeleteButton} : {};
 
   return (
     <div className={clsx(css.tableContainer, { [css.disabled]: disabled })}>
       <div className={css.header}>
-        <span className={css.title}>{ t("TABLE.TITLE") }</span>
-        <button className={clsx({[css.noWrap]: noWrapDeleteButton})} style={deleteButtonStyle} onClick={handleRowDelete} disabled={disabled}><DeleteIcon />{ t("TABLE.DELETE_TRIAL") }</button>
-        { clearTableButtonAvailable && <button onClick={handleClearTable} disabled={disabled}>{ t("TABLE.CLEAR") }</button> }
+        <span className={css.title}>{t("TABLE.TITLE")}</span>
+        <div className={css.deleteButtonContainer}>
+          <div className={css.label}>{t("TABLE.DELETE_TRIAL")}:</div>
+          <button
+            className={clsx(css.noWrap)}
+            onClick={handleRowDelete}
+            disabled={disabled}>
+              <DeleteIcon />
+          </button>
+        </div>
       </div>
       <table ref={tableRef} className={css.table} {...getTableProps()}>
         <thead>

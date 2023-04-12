@@ -32,7 +32,7 @@ export enum OutputAmountValue {
 }
 
 export enum OutputAmount {
-  None = "AMOUNT.NONE",
+  None = "OUTPUT.NONE",
   Low = "OUTPUT.LOW",
   Medium = "OUTPUT.MEDIUM",
   High = "OUTPUT.HIGH",
@@ -54,8 +54,8 @@ export interface IRowData {
   light: JSX.Element;
   water: JSX.Element;
   co2: JSX.Element;
-  sugarUsed: number | string;
-  sugarCreated: number|string;
+  sugarUsed: string | JSX.Element;
+  sugarCreated: string | JSX.Element;
 }
 
 export const defaultAuthoredState: IAuthoredState = {

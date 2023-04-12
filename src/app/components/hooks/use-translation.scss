@@ -1,0 +1,23 @@
+@import "../vars.scss";
+
+.readAloud {
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer!important;
+    background-color: $lightBlueTint25;
+  }
+  &:active, &.active {
+    background-color: $bluePrimary;
+    color: $white;
+    text-decoration: none;
+  };
+  &.disabled {
+    &:hover {
+      cursor: default!important;
+      background-color: transparent;
+    }
+    &:active {
+      color: $font-color;
+    }
+  }
+}

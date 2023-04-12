@@ -4,10 +4,9 @@ import clsx from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 
 import { Dialog } from "./dialog";
-import { t } from "../../translation/translate";
 import Logo from "../../assets/concord.png";
 import HeaderTitle from "../../assets/HeaderTitle.png";
-
+import { Switch } from "../controls/switch";
 import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";
 
@@ -16,11 +15,14 @@ import css from "./simulation-frame.scss";
 interface IProps {
   title: string;
   directions: string | ReactNode;
+  t: (string: string) => string | JSX.Element;
+  readAloudMode: boolean;
+  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ title, directions, children }) => {
+export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, readAloudMode, handleSetReadAloud }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 
@@ -43,13 +45,20 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children 
         </div>
         <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
         <div className={clsx(css.buttons, css.right)}>
-          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}><DirectionsButton /></button>
+          <Switch
+            checked={readAloudMode}
+            label={"Read Aloud in Yugtun"}
+            onChange={handleSetReadAloud}
+          />
+          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
+            <DirectionsButton />
+          </button>
         </div>
       </div>
       <div className={css.content}>
         {children}
         {
-          showCredits && <Credits onClose={toggleCredits} />
+          showCredits && <Credits onClose={toggleCredits} t={t} />
         }
         {showDirections &&
           <Dialog
@@ -59,7 +68,8 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children 
             addSeparator={true}
             className={css.instructions}
           >
-            {typeof directions === "string" ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
+            {typeof directions === "string" ?
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
           </Dialog>
         }
       </div>

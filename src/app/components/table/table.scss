@@ -5,6 +5,7 @@ $rowMinHeight: 40px;
 $containerPadding: 1px;
 $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
+$titleWidth: 90px;
 
 @mixin activeRow($opacity) {
   td {
@@ -48,9 +49,10 @@ $tableBorderWidth: 2px;
     gap: 10px;
     font-weight: 800;
     height: $headerHeight;
+    justify-content: space-between;
 
     .title {
-      margin: 7px 75px 6px 185px;
+       margin-left: calc((100% - $titleWidth) / 2);
     }
 
     button.noWrap {
@@ -64,44 +66,51 @@ $tableBorderWidth: 2px;
       margin: 0 20px;
     }
 
+    .deleteButtonContainer {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      font-size: 14px;
+      .label {
+        display: flex;
+      }
+    }
+
     button {
       color: $bluePrimary;
       box-sizing: border-box;
       font-size: 14px;
+      font-family: $fontFamilyNunito;
       font-weight: 500; // medium
       border: 3px solid $bluePrimary;
       border-radius: 10px;
       height: 34px;
+      width: 34px;
       background-color: $lightBlueTint25;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 12px;
 
       svg {
+        margin-left: -9px;
+        margin-top: -3px;
         overflow: visible;
+
       }
 
-      &:disabled {
+      &:disabled:not(.readAloudMode) {
         pointer-events: none;
         opacity: 0.35;
       }
 
-      &:hover {
+      &:hover:not(.readAloudMode) {
         background-color: $lightBlueTint10;
       }
-      &:active {
+      &:active:not(.readAloudMode) {
         color: #fff;
         background-color: $bluePrimary;
         svg path {
           fill: #fff;
         }
-      }
-
-      svg {
-        margin-top: -1px;
-        margin-right: 3px;
       }
     }
   }

@@ -4,7 +4,7 @@ import { Slider } from "./slider";
 interface IProps {
   time: number; // between 0 and 1
   snapshotsCount: number;
-  label: string;
+  label: string|JSX.Element;
   onChange: (snapshotIdx: number) => void;
   disabled?: boolean;
 }
@@ -13,6 +13,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, d
   const handleChange = (e: Event, value: number) => {
     onChange(value);
   };
+
   return (
     <Slider
       value={time * (snapshotsCount - 1)}
@@ -22,6 +23,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, d
       label={label}
       onChange={handleChange}
       disabled={disabled}
+      ariaLabel={"Time"}
     />
   );
 };

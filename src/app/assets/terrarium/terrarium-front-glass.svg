@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 394 469">
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 346 469">
   <defs>
     <linearGradient id="linear-gradient" x1="129.66987" y1="354.95002" x2="216.33013" y2="505.04998" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff"/>
@@ -44,7 +44,7 @@
   <g id="Terrarium">
     <g id="Terrarium_Front_Glass_Top" data-name="Terrarium Front Glass Top">
       <g id="rectangle">
-        <rect width="394" height="469" fill="none"/>
+        <rect width="346" height="469" fill="none"/>
       </g>
       <g id="Front_Base" data-name="Front Base">
         <path id="Base_outline_front" data-name="Base outline front" d="m329.70433,417h-2.24982l1.54547,3v20H16.99999v-20l1.54547-3h-2.24982l-1.07361,2.08405c-.14587.28333-.22205.59729-.22205.91595v20c0,1.10455.89545,2,2,2h312c1.10461,0,2-.89545,2-2v-20c0-.31866-.07611-.63263-.22205-.91595l-1.07361-2.08405Z" fill="#515151"/>

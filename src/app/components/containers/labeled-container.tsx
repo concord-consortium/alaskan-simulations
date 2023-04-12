@@ -4,7 +4,7 @@ import clsx from "clsx";
 import css from "./labeled-container.scss";
 
 interface IProps {
-  label: string;
+  label: string|JSX.Element;
   labelStyle?: "white";
   className?: string;
   centerLabel?: boolean;
