@@ -34,7 +34,7 @@ export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, 
   // Cases 2, 6
   const isCase2OrSame = (someLight && fullWater && fullCo2) || (fullLight && someWater && fullCo2);
   // Cases 13, 19, 20, 21, 22, 23, 24
-  const isCase13OrSame = (noLight && someWater && someCo2) || noCo2;
+  const isCase13OrSame = (noLight && someWater && someCo2) || (!noWater && noCo2);
   // Cases 14, 15
   const isCase14OrSame = (someWater && someLight && someCo2) || (fullLight && someWater && someCo2);
 
@@ -50,8 +50,8 @@ export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, 
   if (time > 0.142 && time <= 0.285){ // Day 04
     plantClass = clsx({
       [css.day0]: isNoGrowthCase,
-      [css.case1day4]: isCase1OrSame || isCase5 || isCase13OrSame,
-      [css.case2day4]: isCase2OrSame || isCase11 || isCase14OrSame,
+      [css.case1day4]: isCase1OrSame || isCase13OrSame,
+      [css.case2day4]: isCase2OrSame || isCase5 || isCase11 || isCase14OrSame,
       [css.case3day4]: isCase3 || isCase12
     });
   }
@@ -60,9 +60,9 @@ export const AnimationView: React.FC<IProps> = ({light, water, co2Amount, time, 
     plantClass = clsx({
       [css.day0]: isNoGrowthCase,
       [css.case1day8]: isCase1OrSame,
-      [css.case2day8]: isCase2OrSame || isCase11 || isCase14OrSame,
+      [css.case2day8]: isCase2OrSame || isCase11,
       [css.case3day8]: isCase3,
-      [css.case5day8]: isCase5,
+      [css.case5day8]: isCase5 || isCase14OrSame,
       [css.case12day8]: isCase12,
       [css.case13day8]: isCase13OrSame
     });
