@@ -40,9 +40,10 @@ $headerTextColor: $bluePrimary;
 
     .titleContainer {
       position: absolute;
-      left: 380px;
+      // 296 px is the width of the title image.
+      margin-left: calc((100% - 237px) / 2);
       .title {
-        height: 50px;
+        height: 40px;
       }
     }
 

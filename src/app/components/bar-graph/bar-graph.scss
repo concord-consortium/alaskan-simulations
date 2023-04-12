@@ -3,8 +3,9 @@
 $tableGraphContainerWidth: 400px;
 
 $barGraphContainerWidth: calc(($tableGraphContainerWidth / 2) - 4px);
-$barGraphWidth: $barGraphContainerWidth - 45px;
+$barGraphWidth: 158px;
 $barGraphHeight: 177px;
+$barWidth: 16px;
 $containerPadding: 4px;
 $graphAreaHeight: 103px;
 
@@ -47,7 +48,6 @@ $graphAreaHeight: 103px;
     display: inline-block;
     writing-mode: tb;
     transform: rotate(180deg);
-    margin-right: 5px;
     white-space: nowrap;
   }
 
@@ -162,7 +162,7 @@ $graphAreaHeight: 103px;
           div {
             // 1px shift to line up border with Y lines.
             transform: translate(0, 1px);
-            width: 14px;
+            width: $barWidth;
           }
           div.negative {
             // Shift the whole bar down.

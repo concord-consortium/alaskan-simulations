@@ -8,7 +8,7 @@ interface IProps {
   t: (string: string) => string | JSX.Element;
 }
 
-const WIDTH = 52; // to keep Spanish and English button widths the same
+const WIDTH = 40;
 
 export const NewRunButton: React.FC<IProps> = React.forwardRef<HTMLButtonElement, IProps>((props, ref) => {
   const { onClick, disabled, t } = props;
