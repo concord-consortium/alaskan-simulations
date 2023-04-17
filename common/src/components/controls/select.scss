@@ -1,0 +1,254 @@
+@import "../../vars.scss";
+
+$minWidth: 180px;
+
+.select {
+
+  &.above {
+    :global(.MuiSelectUnstyled-root) {
+      background-image: url("../../assets/dropdown-up-arrow-icon.svg");
+      &:global(.Mui-expanded) {
+        border-radius: 0 0 10px 10px !important;
+        background-image: url("../../assets/dropdown-up-arrow-icon-white.svg") !important;
+        z-index: 201;
+      }
+    }
+    :global(ul.MuiSelectUnstyled-listbox) {
+      border-radius: 10px 10px 0 0 !important;
+    }
+    :global(.MuiOptionUnstyled-root) {
+      &:first-of-type {
+        border-radius: 10px 10px 0 0;
+      }
+      &:last-of-type {
+        border-radius: 0 !important;
+      }
+    }
+  }
+
+  &.shadow {
+    :global(.MuiSelectUnstyled-root) {
+      box-shadow: 2px 2px 4px 0 $bluePrimary50;
+    }
+
+    :global(.MuiSelectUnstyled-popper) {
+      :global(ul.MuiSelectUnstyled-listbox) {
+        box-shadow: 2px 2px 4px 0 $bluePrimary50;
+      }
+    }
+  }
+
+  &.larger {
+    :global(.MuiSelectUnstyled-root) {
+      font-size: 18px;
+      font-weight: bold;
+      padding-left: 6px;
+      padding-top: 6px;
+      padding-bottom: 5px;
+      height: 37px;
+      border: 4px solid $bluePrimary;
+      min-width: 214px;
+      background-image: url("../../assets/larger-dropup-arrow-icon.svg");
+      background-position: 100%;
+
+      &:global(.Mui-expanded) {
+        background-image: url("../../assets/larger-dropup-arrow-icon-white.svg") !important;
+        background-position: 100%;
+      }
+
+      &:hover {
+        background-color: $lightBlueTint25;
+      }
+
+      &:global(.Mui-expanded) {
+        background-color: $bluePrimary;
+      }
+    }
+
+    :global(.MuiSelectUnstyled-popper) {
+      margin-bottom: -2px !important; // fixes bug(?) in popper that was adding 2px
+
+      :global(ul.MuiSelectUnstyled-listbox) {
+        border: 4px solid $bluePrimary;
+        min-width: 214px;
+
+        :global(.MuiOptionUnstyled-root) {
+          font-size: 18px;
+          font-weight: bold;
+
+          &:first-of-type, &:last-of-type {
+            height: 39px;
+          }
+
+          &:global(.Mui-selected) {
+            background-image: url("../../assets/larger-list-check-mark-icon.svg");
+            background-position: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  :global(.MuiSelectUnstyled-root) {
+    box-sizing: border-box;
+    min-width: $minWidth;
+    height: 34px;
+    text-align: left;
+    background: #fff;
+    border-radius: 10px;
+    border: 3px solid $bluePrimary;
+    padding-left: 4px;
+    padding-right: 25px; // checkmark icon
+    color: $bluePrimary;
+    font-size: 14px;
+    font-weight: 500; // medium
+    font-family: $fontFamilyRoboto;
+    background-image: url("../../assets/dropdown-arrow-icon.svg");
+    background-position: calc(100% - 5px);
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+
+    &:global(.Mui-disabled) {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    &:hover {
+      background-color: $lightBlueTint10;
+    }
+
+    &:global(.Mui-focusVisible) {
+      outline: $focusOutline;
+    }
+
+    &:global(.Mui-expanded) {
+      background-color: $bluePrimary;
+      color: white;
+      border-radius: 10px 10px 0 0;
+      background-image: url("../../assets/dropdown-arrow-icon-white.svg");
+      // Make sure button is on top of the open option list and it covers its box shadow.
+      position: relative;
+      z-index: 2;
+    }
+  }
+
+  :global(.MuiSelectUnstyled-popper) {
+    z-index: 200;
+
+    ul:global(.MuiSelectUnstyled-listbox) {
+      box-sizing: border-box;
+      min-width: $minWidth;
+      margin: 0;
+      padding: 0;
+      outline: 0;
+      background: white;
+      border: 2px solid $bluePrimary;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+      border-radius: 0 0 10px 10px;
+      color: $bluePrimary;
+      font-size: 14px;
+      font-weight: 500; // medium
+
+      :global(.MuiOptionUnstyled-root) {
+        list-style: none;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 5px;
+        padding-right: 25px; // checkmark icon
+        cursor: pointer;
+
+        &:last-of-type {
+          border-radius: 0 0 10px 10px;
+        }
+
+        &:global(.Mui-selected) {
+          background-image: url("../../assets/list-check-icon.svg");
+          background-position: calc(100% - 5px);
+          background-repeat: no-repeat;
+        }
+
+        &:global(.Mui-disabled) {
+          opacity: 0.35;
+        }
+
+        &:hover:not(:global(.Mui-disabled)) {
+          background-color: $lightBlueTint18;
+        }
+      }
+    }
+  }
+
+  // Track keyboard events so we can highlight option when user is using arrows. This highlight should not be shown
+  // when user is using mouse. See: https://www.pivotaltracker.com/story/show/182062634
+  :focus-visible :global(.MuiOptionUnstyled-highlighted) {
+    background-color: $lightBlueTint18;
+  }
+
+  &.violet {
+
+    :focus-visible :global(.MuiOptionUnstyled-highlighted) {
+      background-color: $purpleTint25;
+    }
+
+    :global(.MuiSelectUnstyled-root) {
+      color: $purpleAccent;
+      border-color: $purpleAccent;
+
+      &:hover:not(:global(.Mui-disabled)) {
+        background-color: $purpleTint25;
+        color: $purpleAccent;
+      }
+
+      &:global(.Mui-expanded) {
+        background-color: $purpleAccent !important;
+        color: white !important;
+      }
+    }
+    :global(.MuiSelectUnstyled-popper) {
+      ul:global(.MuiSelectUnstyled-listbox) {
+        border-color: $purpleAccent;
+        color: $purpleAccent;
+
+        :global(.MuiOptionUnstyled-root) {
+          &:hover:not(:global(.Mui-disabled)) {
+            background-color: $purpleTint25;
+          }
+
+          &:global(.Mui-selected) {
+            background-image: url("../../assets/list-check-icon-violet.svg");
+          }
+        }
+      }
+    }
+  }
+}
+
+.readOnlySelect {
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  height: 37px;
+  border: 4px solid #005f99;
+  box-sizing: border-box;
+  text-align: left;
+  background: #fff;
+  border-radius: 10px;
+  color: #005f99;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 214px;
+  margin: 5px 0 0;
+
+  &.disabled {
+    opacity: 0.35;
+  }
+}

@@ -1,0 +1,248 @@
+@import "common/src/vars";
+
+.snapShotContainer {
+  $snapshot-button-width: 65px;
+  $snapshot-button-height: 65px;
+
+  width: 194px;
+  height: $snapshot-button-height;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+
+  .buttonContainer {
+    width: $snapshot-button-width;
+    height: $snapshot-button-height;
+    background-color: $purpleTint25;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .innerSnapshotButton {
+      width: 55px;
+      height: 55px;
+      border-color: $purpleAccent;
+      box-shadow: 2px 2px 4px 0 rgba(78, 44, 130, 0.5);
+
+      &:hover {
+        top: 0;
+        width: $snapshot-button-width;
+        height: $snapshot-button-height;
+        background-color: $purpleTint25;
+      }
+      &:active {
+        top: 0;
+        width: $snapshot-button-width - 5px;
+        height: $snapshot-button-width - 5px;
+        background-color: $purpleAccent;
+      }
+    }
+  }
+
+  .snapShotDescription {
+    margin-left: 10px;
+    width: 109px;
+    color: $purpleAccent;
+    font-size: 18px;
+    font-weight: 500;
+    &.takeSnapshot {
+      left: 95px;
+      width: 75px;
+      margin-left: 5px;
+    }
+    &.disabled {
+      opacity: 35%;
+    }
+  }
+
+  .snapshotWithDescription {
+    position: relative;
+    top: 2.5px;
+    box-sizing: border-box;
+    width: $snapshot-button-width;
+    height: $snapshot-button-height;
+    border: 3px solid $purpleAccent;
+    background-color: $purpleTint25;
+    border-radius: 10px;
+
+    &:hover .closeButton {
+      display: block;
+    }
+
+    .closeButton {
+      display: none;
+      background: none;
+      border: none;
+      z-index: 100;
+      position: absolute;
+      top: -12px;
+      left: 34px;
+      width: 38px;
+      height: 38px;
+      padding: 0px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(2px 2px 5px $purpleAccent50);
+      }
+
+      svg :global(.close) {
+        fill: $purpleAccent;
+      }
+      svg :global(.border) {
+        fill: $purpleAccent;
+      }
+
+      &:hover {
+        cursor: pointer;
+        svg :global(.background) {
+          transform: scale(1.25);
+          transform-origin: center;
+          fill: $purpleTint25;
+        }
+        svg :global(.border) {
+          transform: scale(1.25);
+          transform-origin: center;
+        }
+      }
+
+      &:active {
+        svg :global(.background) {
+          transform: scale(1.1);
+          transform-origin: center;
+          fill: $purpleAccent;
+        }
+        svg :global(.border) {
+          transform: scale(1.1);
+          transform-origin: center;
+        }
+        svg :global(.close) {
+          fill: $white;
+        }
+      }
+    }
+
+    svg {
+      border-radius: 7px;
+      max-width: $snapshot-button-width;
+      max-height: $snapshot-button-height;
+    }
+
+    .background {
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .foreground {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      &.flip {
+        transform: scaleX(-1);
+      }
+    }
+  }
+
+  &.plantGrowthLab {
+    $pgl-snapshot-button-width: 93px;
+    $pgl-snapshot-button-height: 137px;
+
+    width: 194px;
+    height: $pgl-snapshot-button-height;
+    margin-bottom: -1px;
+    display: flex;
+    align-items: center;
+
+    .buttonContainer {
+      width: $pgl-snapshot-button-width;
+      height: $pgl-snapshot-button-height;
+
+      .innerSnapshotButton {
+        width: 55px;
+        height: 55px;
+
+        &:hover {
+          width: 65px;
+          height: 65px;
+        }
+        &:active {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    }
+
+    .snapshotWithDescription {
+      top: 0px;
+      width: $pgl-snapshot-button-width + 20px;
+      height: $pgl-snapshot-button-height;
+
+      .closeButton {
+        left: 64px;
+      }
+
+      svg {
+        max-width: $pgl-snapshot-button-width;
+        max-height: $pgl-snapshot-button-height;
+      }
+    }
+  }
+
+  &.stormLab {
+    $sl-snapshot-button-width: 194px;
+    $sl-snapshot-button-height: 111px;
+
+    width: 194px;
+    height: $sl-snapshot-button-height;
+    margin-bottom: -1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $purpleTint25;
+    border-radius: 10px;
+
+    .buttonContainer {
+
+      .innerSnapshotButton {
+        width: 55px;
+        height: 55px;
+
+        &:hover {
+          width: 65px;
+          height: 65px;
+        }
+        &:active {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    }
+
+    .snapshotWithDescription {
+      top: 0px;
+      width: $sl-snapshot-button-width;
+      height: $sl-snapshot-button-height;
+
+      .closeButton {
+        top: -13px;
+        left: 163px;
+      }
+
+      svg {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+}

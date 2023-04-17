@@ -6,8 +6,8 @@ on:
         description: The git tag for the version to use for index.html
         required: true
 env:
-  BUCKET: private-models-resources
-  PREFIX: foss-simulations
+  BUCKET: models-resources
+  PREFIX: plant-growth
   SRC_FILE: index-top.html
   DEST_FILE: index.html
 jobs:
@@ -18,36 +18,18 @@ jobs:
       matrix:
         include:
           # Add new simulations to this list
-          - SIM_FOLDER: "starter"
-          - SIM_FOLDER: "starter-es"
-          - SIM_FOLDER: "erosion"
-          - SIM_FOLDER: "erosion-es"
-          - SIM_FOLDER: "message-decoder"
-          - SIM_FOLDER: "message-decoder-es"
-          - SIM_FOLDER: "survival-systems"
-          - SIM_FOLDER: "survival-systems-es"
-          - SIM_FOLDER: "plant-lab"
-          - SIM_FOLDER: "plant-lab-es"
-          - SIM_FOLDER: "materials-lab"
-          - SIM_FOLDER: "materials-lab-es"
-          - SIM_FOLDER: "sky-modeler"
-          - SIM_FOLDER: "sky-modeler-es"
+          - SIM_FOLDER: "plant-growth"
+          - SIM_FOLDER: "star-navigation"
     steps:
       - name: Set S3 Paths
         run: |
           echo "S3_VERSIONED_SIM_PATH=s3://${{ env.BUCKET }}/${{ env.PREFIX }}/version/${{ github.event.inputs.version }}/${{ matrix.SIM_FOLDER }}" >> $GITHUB_ENV
           echo "S3_TOP_SIM_PATH=s3://${{ env.BUCKET }}/${{ env.PREFIX }}/${{ matrix.SIM_FOLDER }}" >> $GITHUB_ENV
       # Copy from:
-      # private-models-resources/foss-simulations/version/v1.0.0/starter/index-top.html
+      # models-resources/alaskan-simulations/version/v1.0.0/starter/index-top.html
       # to:
-      # private-models-resources/foss-simulations/starter/index.html
+      # models-resources/alaskan-simulations/starter/index.html
       - run: aws s3 cp ${{ env.S3_VERSIONED_SIM_PATH }}/${{ env.SRC_FILE }} ${{ env.S3_TOP_SIM_PATH }}/${{ env.DEST_FILE }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
-      # Copy .zip archives too
-      - run: aws s3 cp ${{ env.S3_VERSIONED_SIM_PATH }}.zip ${{ env.S3_TOP_SIM_PATH }}.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -57,9 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Copy from:
-      # private-models-resources/foss-simulations/version/v1.0.0/index.html
+      # models-resources/alaskan-simulations/version/v1.0.0/index.html
       # to:
-      # private-models-resources/foss-simulations/index.html
+      # models-resources/alaskan-simulations/index.html
       - run: >
           aws s3 cp
           s3://${{ env.BUCKET }}/${{ env.PREFIX }}/version/${{ github.event.inputs.version }}/index.html

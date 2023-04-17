@@ -1,5 +1,5 @@
-# foss-simulations
-FOSS science simulations
+# alaskan-simulations
+Alaskan science simulations
 
 ## Prerequisites
 
@@ -99,10 +99,10 @@ Use the following steps to add a new simulation:
 Production releases to S3 are based on the contents of the /dist folder and are built automatically by GitHub Actions
 for each branch and tag pushed to GitHub.
 
-Branches are deployed to https://foss-simulations.concord.org/branch/<name>.
+Branches are deployed to https://alaskan-simulations.concord.org/branch/<name>.
 If the branch name starts or ends with a number this number is stripped off.
 
-Tags are deployed to http://foss-simulations.concord.org/version/<name>.
+Tags are deployed to http://alaskan-simulations.concord.org/version/<name>.
 
 To deploy a production release:
 
@@ -110,9 +110,9 @@ To deploy a production release:
 2. Increment version number in package.json
 3. Create an annotated tag for the version, of the form `v[x].[y].[z]`, include at least the version in the tag message. On the command line this can be done with a command like `git tag -a v1.2.3 -m "1.2.3 some info about this version"`
 4. Push the tag to github with a command like: `git push origin v1.2.3`.
-5. Use https://github.com/concord-consortium/foss-simulations/releases to make this tag into a GitHub release.
-6. Run the release workflow to update https://models-resources.concord.org/foss-simulations/index.html.
-    1. Navigate to the actions page in GitHub and the click the "Release" workflow. This should take you to this page: https://github.com/concord-consortium/foss-simulations/actions/workflows/release.yml.
+5. Use https://github.com/concord-consortium/alaskan-simulations/releases to make this tag into a GitHub release.
+6. Run the release workflow to update https://models-resources.concord.org/alaskan-simulations/index.html.
+    1. Navigate to the actions page in GitHub and the click the "Release" workflow. This should take you to this page: https://github.com/concord-consortium/alaskan-simulations/actions/workflows/release.yml.
     2. Click the "Run workflow" menu button.
     3. Type in the tag name you want to release for example `v1.2.3`.
     4. Click the `Run Workflow` button.
@@ -121,11 +121,11 @@ To deploy a production release:
 
 The production deploy above works by copying the index.html from the `/version/v1.2.3/index.html` to `/index.html`. It also copies special index-top.html files from the sub folders. For example `/version/v1.2.3/erosion/index-top.html` is copied to `/erosion/index.html`.  These `index-top.html` files are built specially to reference their javascript, css and other assets back in the version folder. So in the scenario above `/erosion/index.html` will load its files from `../version/v1.2.3/erosion/`. This is supported by using webpack's dynamic publicPath support combined with the the HtmlWebpackPlugin publicPath setting. If the code is loading or referring to assets without using webpack imports, these assets will not be found by the `/erosion/index.html` file.
 
-Because of this difference between a production and non-production deploy, it is useful to test this out before updating production. The `s3-deploy-action` supports testing this with a `topBranches` property. This repository is setup with a "topBranch" of "main". So whenever `main` is pushed you can test out the dynamic asset support by going directly to `https://foss-simulations.concord.org/[sim-name]/index-main.html`.  In this repository there is no root level index file which provides links to each of these `[sim-name]/index-main.html` files, see below for more info on fixing this.
+Because of this difference between a production and non-production deploy, it is useful to test this out before updating production. The `s3-deploy-action` supports testing this with a `topBranches` property. This repository is setup with a "topBranch" of "main". So whenever `main` is pushed you can test out the dynamic asset support by going directly to `https://alaskan-simulations.concord.org/[sim-name]/index-main.html`.  In this repository there is no root level index file which provides links to each of these `[sim-name]/index-main.html` files, see below for more info on fixing this.
 
-The "topBranch" support works by checking if the branch being built is a "topBranch", then all the `/branch/[branch-name]/**/index-top.html` files copied to `/**/index-[branch-name].html`. `**/index-top.html` means any index-top.html from the root and any subfolder. This approach supports monorepos like this one. This approach is described in https://github.com/concord-consortium/s3-deploy-action#top-branches and https://github.com/concord-consortium/s3-deploy-action#top-branch-support-in-mono-repos . 
+The "topBranch" support works by checking if the branch being built is a "topBranch", then all the `/branch/[branch-name]/**/index-top.html` files copied to `/**/index-[branch-name].html`. `**/index-top.html` means any index-top.html from the root and any subfolder. This approach supports monorepos like this one. This approach is described in https://github.com/concord-consortium/s3-deploy-action#top-branches and https://github.com/concord-consortium/s3-deploy-action#top-branch-support-in-mono-repos .
 
-In this repository the root level index.html is currently constructed manually with links to subfolder index.html files. Because a topBranch deploy will modify the names of these subfolder index files the current root level index.html is not useful. 
+In this repository the root level index.html is currently constructed manually with links to subfolder index.html files. Because a topBranch deploy will modify the names of these subfolder index files the current root level index.html is not useful.
 
 To provide a root level index that references all of the `index-[branch-name].html` files:
 - [ ] an index-top.html needs to be added into dist during the build

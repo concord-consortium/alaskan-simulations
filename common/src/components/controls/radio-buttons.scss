@@ -1,0 +1,136 @@
+@import "../../vars.scss";
+
+.radioFormControl {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+
+  :global(.MuiFormLabel-root), :global(.MuiFormControlLabel-label) {
+    font-family: $fontFamilyRobotoCondensed; //default
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: $bluePrimary; // label gets highlighted on focus otherwise (note: this did have !important before)
+  }
+  :global(.MuiFormLabel-root.Mui-focused) {
+    color: $bluePrimary; // label gets highlighted on focus otherwise (note: this did have !important before)
+  }
+
+  :global(.Mui-disabled) {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  /* this removes the "double" opacity setting of each radio button since
+     .Mui-disabled is applied to both the outer counter and each radio button */
+  :global(span.Mui-disabled) {
+    opacity: 1;
+  }
+
+  .radioGroup {
+    display: inline-box; //original
+    margin-top: 3px;
+
+    .radioLabelRoot {
+      padding: 0;
+      margin: 0 0 0 3px;
+
+      :global(.Mui-focusVisible) {
+        outline: $focusOutline;
+      }
+
+      .radioRoot {
+        background-color: transparent; // disable default MUI hover effect
+        padding: 0;
+      }
+
+      .imageRadioButton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 3px;
+
+        img.normalImage {
+          display: block;
+        }
+        img.hoverImage {
+          display: none;
+          opacity: 0.5;
+        }
+      }
+
+      .radioButtonIcon {
+        :global(.inner) {
+          fill: white;
+        }
+
+        &.checked {
+          :global(.inner) {
+            fill: $bluePrimary;
+          }
+        }
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.35;
+        }
+      }
+
+      &:hover {
+        .imageRadioButton {
+          img.normalImage {
+            display: none;
+          }
+          img.hoverImage {
+            display: block;
+          }
+        }
+
+        .radioButtonIcon:not(.checked) {
+          opacity: 0.25;
+          :global(.outer) {
+            stroke: #7fafcc !important;
+          }
+          :global(.inner) {
+            fill: #7fafcc !important;
+          }
+        }
+      }
+
+      &.outlineText {
+        text-shadow: -2px 2px 0 white,
+        2px 2px 0 white,
+        2px -2px 0 white,
+        -2px -2px 0 white;
+      }
+
+      &.purple {
+        .radioButtonIcon {
+          :global(.outer) {
+            stroke: $purpleAccent !important;
+          }
+
+          &.checked {
+            :global(.inner) {
+              fill: $purpleAccent !important;
+            }
+          }
+
+        }
+
+        &:hover:not(.checked) {
+          :global(.outer) {
+            stroke: $purpleAccent !important;
+          }
+          :global(.inner) {
+            fill: $purpleAccent !important;
+          }
+        }
+
+        :global(.MuiFormControlLabel-label) {
+          color: $purpleAccent;
+        }
+      }
+    }
+  }
+}
+

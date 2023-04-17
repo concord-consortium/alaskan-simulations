@@ -1,0 +1,114 @@
+@import "../../vars.scss";
+
+$headerHeight: 35px;
+$largerHeaderHeight: 40px;
+$headerTextColor: #ffffff;
+
+.simulationFrame {
+  width: 1000px;
+  height: 562px;
+  border-radius: $frameBorderRadius;
+  background-color: $lightBlueTint10;
+
+  *:focus-visible {
+    outline: $focusOutline;
+  }
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .instructions {
+    > div {
+      padding-bottom: 15px;
+    }
+  }
+
+  .header {
+    height: $headerHeight;
+    color: $headerTextColor;
+    background-color: $bluePrimary;
+    border-radius: $frameBorderRadius $frameBorderRadius 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &.larger {
+      height: $largerHeaderHeight;
+      .logo {
+        svg {
+          height: 32px;
+        }
+      }
+      .title {
+        font-size: 26px;
+      }
+      .buttons {
+        button {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .logo {
+      padding: 0 12px;
+
+      svg {
+        height: 27px;
+        margin-top: 4px;
+      }
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .buttons {
+      margin-left: auto;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+
+      button {
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        font-weight: bold;
+        font-size: 14px;
+        color: white;
+        display: flex;
+        align-items: center;
+      }
+      button + button {
+        margin-left: 6px;
+      }
+      button.active {
+        svg :global(.background) {
+          fill: white;
+        }
+        svg :global(.questionMark) {
+          fill: $bluePrimary;
+        }
+      }
+      button:not(.active):hover {
+        color: $lightBlueAccent;
+        svg :global(.outline), svg :global(.questionMark)  {
+          fill: $lightBlueAccent;
+        }
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: calc(100% - $headerHeight);
+    border-radius: 0 0 $frameBorderRadius $frameBorderRadius;
+    position: relative;
+  }
+  &.larger {
+    .content {
+      height: calc(100% - $largerHeaderHeight);
+    }
+  }
+}

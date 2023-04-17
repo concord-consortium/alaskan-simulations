@@ -1,0 +1,35 @@
+@import "common/src/vars.scss";
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #b7e7f7;
+
+  .simulationContainer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: $secondGradeSimWidth;
+    height: 486px;
+    margin: 26px 0 0 10px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 4px $bluePrimary, inset 0 0 0 8px $white;
+
+    .simulationView {
+      // This container acts as a mask for elements inside (animation elements).
+      overflow: hidden;
+      width: $secondGradeSimInnerWidth;
+      // Most of the container height will be covered by other containers. But since there's overflow: hidden,
+      // it'll be also applies to draggable elements. It looks better when user can drag within the complete
+      // simulation container. Otherwise, there'd be a random cut off line.
+      height: 470px;
+      position: relative;
+      margin-top: 8px;
+      border-radius: 12px;
+    }
+  }
+}
+

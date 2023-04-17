@@ -1,0 +1,91 @@
+@import "common/src/vars.scss";
+
+.experimentButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  &.narrow {
+    gap: 4px;
+  }
+
+  .buttonContainer {
+    width: 50px;
+    height: 50px;
+  }
+
+  .experimentButton {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 7px 14px 9px;
+    box-shadow: 2px 2px 4px 0 $bluePrimaryTint50;
+    border: solid 4px $bluePrimary;
+    background-color: $white;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: $bluePrimary;
+
+    &:hover {
+      width: 50px;
+      height: 50px;
+      top: -5px;
+      left: -5px;
+      background-color: $lightBlueTint25;
+      cursor: pointer;
+    }
+
+    &:active {
+      top: -2.5px;
+      left: -2.5px;
+      width: 45px;
+      height: 45px;
+      box-shadow: none;
+      background-color: $bluePrimary;
+      color: $white;
+    }
+
+    &.disabled {
+      background-color: $white;
+      border-color: $bluePrimaryTint50;
+      color: $bluePrimaryTint50;
+      &:hover, &:active {
+        width: 40px;
+        height: 40px;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+        box-shadow: 2px 2px 4px 0 $bluePrimaryTint50;
+      }
+    }
+
+    &.current {
+      top: -2.5px;
+      left: -2.5px;
+      width: 45px;
+      height: 45px;
+      box-shadow: none;
+      background-color: $bluePrimary;
+      color: $white;
+      cursor: default;
+      &:hover, &.disabled {
+        top: -2.5px;
+        left: -2.5px;
+        width: 45px;
+        height: 45px;
+        box-shadow: none;
+        border-color: $bluePrimary;
+        background-color: $bluePrimary;
+        color: $white;
+      }
+      &.disabled {
+        pointer-events: none;
+      }
+    }
+  }
+}
+

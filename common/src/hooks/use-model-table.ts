@@ -1,0 +1,45 @@
+import { useMemo, useState } from "react";
+import { ITableProps, SelectedRows } from "../components/table/table";
+import { IUseModelStateResult } from "./use-model-state";
+
+export interface IUseModelTableOptions<IModelInputState, IModelOutputState, IRowData> {
+  modelState: IUseModelStateResult<IModelInputState, IModelOutputState>;
+  modelRunToRow: (inputState: IModelInputState, outputState: IModelOutputState) => IRowData;
+}
+
+export interface IUseModelTableResult<IRowData> {
+  tableProps: Omit<ITableProps<IRowData>, "disabled" | "columns" | "columnsMeta">;
+}
+
+/*
+ * This hook is a bridge between Table component and useModelState hook. It maps useModelState helpers and states
+ * to table React props. It's useful to keep it in a hook rather than in App component, so future updates can be easily
+ * shared with all the simulations.
+ */
+export const useModelTable = <IModelInputState, IModelOutputState, IRowData>(
+  options: IUseModelTableOptions<IModelInputState, IModelOutputState, IRowData>
+): IUseModelTableResult<IRowData> => {
+  const { modelState, modelRunToRow } = options;
+
+  const [selectedRows, setSelectedRows] = useState<SelectedRows>({});
+
+  // useMemo is recommended by react-table docs.
+  const data = useMemo(() =>
+    // Table should always display the most recent output state snapshot.
+    modelState.modelRuns.map(run => modelRunToRow(run.inputState, run.outputStateSnapshots[run.outputStateSnapshots.length - 1])
+  ), [modelState.modelRuns, modelRunToRow]);
+
+  const tableProps = {
+    data,
+    activeRow: modelState.activeRunIdx,
+    onActiveRowChange: modelState.setActiveRunIdx,
+    onRowDelete: modelState.removeModelRun,
+    onClearTable: modelState.removeAllModelRuns,
+    selectedRows,
+    onSelectedRowsChange: setSelectedRows,
+  };
+
+  return {
+    tableProps
+  };
+};

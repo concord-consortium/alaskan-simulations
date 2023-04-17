@@ -1,0 +1,177 @@
+@import "common/src/vars.scss";
+
+.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .simulationContainer {
+    box-sizing: border-box;
+    padding: 25px 10px 10px 10px;
+    width: 100%;
+    height: 298px;
+  }
+
+  .timeSliderContainer {
+    :global(.MuiSlider-root) {
+      margin-top: 3px;
+      width: calc(100% - 50px);
+      margin: 0 30px 0 20px;
+    }
+    :global(.MuiSlider-markLabel) {
+      top: 32px;
+      font-weight: 500;
+    }
+
+    :global(.MuiSlider-mark[data-index="0"]),
+    :global(.MuiSlider-mark[data-index="12"]),
+    :global(.MuiSlider-mark[data-index="24"]) {
+      width: 6px;
+      height: 6px;
+      margin-top: 9px;
+    }
+  }
+
+  .bottomContainer {
+    width: 100%;
+    display: flex;
+
+    .controls {
+      width: 50%;
+
+      .row {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 1px 10px 16px 10px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .group {
+          white-space: nowrap;
+
+          &>*+* {
+            margin-left: 16px;
+          }
+        }
+
+        // move the input controls up to match the table
+        &:nth-of-type(2) {
+          padding-top: 3px;
+        }
+      }
+
+      .timeSliderContainer {
+        width: 338px;
+      }
+
+      .monthAndConstellation {
+        width: 100%;
+        height: 118px;
+        justify-content: flex-start;
+        padding: 0 20px;
+
+        .selectContainer {
+          margin-right: 20px;
+
+          .disabled {
+            opacity: 0.35;
+          }
+
+          .label {
+            text-align: center;
+            font-size: 16px;
+            font-family: $fontFamilyRoboto;
+            font-weight: bold;
+            color: $purpleAccent;
+            margin-bottom: 5px;
+          }
+
+          :global(.MuiOptionUnstyled-root) {
+            height: 32px;
+          }
+          :global(.MuiSelectUnstyled-root) {
+            min-width: 128px;
+            padding-left: 9px;
+            height: 40px;
+            font-size: 16px;
+          }
+          :global(.MuiSelectUnstyled-popper) {
+            ul:global(.MuiSelectUnstyled-listbox) {
+              min-width: 128px;
+            }
+          }
+        }
+      }
+    }
+
+    .tableContainer {
+      box-sizing: border-box;
+      padding: 0 10px;
+      width: 50%;
+      height: 220px;
+      border-radius: 0 0 $frameBorderRadius 0;
+
+      .key {
+        font-weight: normal;
+        font-size: 14px;
+        color: black;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        height: 34px;
+        border-radius: 10px;
+        background-color: $lightBlueTint18;
+        padding: 0 10px;
+
+        span {
+          white-space: nowrap;
+        }
+
+        .keyLabel {
+          font-weight: 500; // medium
+          color: $bluePrimary;
+        }
+
+        svg {
+          margin-left: 7px;
+          margin-right: 4px;
+          width: 20px;
+        }
+      }
+
+      $iconSize: 18px;
+
+      .correct, .incorrect {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .correct {
+        background-color: rgba(118, 216, 67, 0.15) !important;
+      }
+      .incorrect {
+        background-color: rgba(245, 67, 99, 0.15) !important;
+      }
+
+      thead tr th {
+        text-align: center !important;
+      }
+      thead tr th:nth-of-type(1){
+        text-align: left !important;
+      }
+      tbody tr td {
+        text-align: center !important;
+      }
+      tbody tr td:nth-of-type(1) {
+        text-align: left !important;
+      }
+      tbody tr td:nth-of-type(4){
+        padding: 0;
+      }
+    }
+  }
+}

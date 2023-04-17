@@ -8,72 +8,47 @@ on:
         default: main
         required: true
       sim:
-        description: Sim to test - all, erosion
-        default: starter
+        description: Sim to test - plant-growth, star-navigation
+        default: plant-growth
         required: true
 
 jobs:
   test-sim:
-    name: Cypress Tests for single sim
-    if: github.event.inputs.sim != 'all'
+    name: Cypress Tests - ${{ github.event.inputs.sim }} sim
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
       - name: Install Dependencies
-        run: npm install
-        with:
-          sim-folder: ${{ github.event.inputs.sim }}
+        run: yarn install
       - name: Build
-        run: npm run build
-        with:
-          sim-folder: ${{ github.event.inputs.sim }}
+        run: yarn build
+        working-directory: ./
+        shell: bash
+      - name: Start the application
+        run: |
+          cd ./
+          yarn serve &
+        shell: bash
+      - name: Install Cypress Dependencies
+        run: |
+          cd ./tests-e2e
+          npm install
+        shell: bash
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v4
         with:
           install: false
-          start: npm start
-          wait-on: 'http://localhost:8080'
+          wait-on: "http://localhost:8080"
           wait-on-timeout: 300
-          working-directory: ${{ github.event.inputs.sim }}
-        env:
-          # pass GitHub token to allow accurately detecting a build vs a re-run build
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  test-all:
-    name: Cypress Tests for All Sims
-    if: github.event.inputs.sim == 'all'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - SIM_FOLDER: "erosion"
-            RECORD_KEY: "EROSION_RECORD_KEY"
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - name: Install Dependencies
-        run: npm install
-        with:
-          sim-folder: ${{ matrix.SIM_FOLDER }}
-      - name: Build
-        run: npm run build
-        with:
-          sim-folder: ${{ matrix.SIM_FOLDER }}
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v4
-        with:
-          install: false
-          start: yarn start
-          wait-on: 'http://localhost:8080'
-          wait-on-timeout: 300
-          working-directory: ${{ matrix.SIM_FOLDER }}
           # only record the results to dashboard.cypress.io if RECORD_KEY is set
-          record: ${{ !!secrets[matrix.RECORD_KEY] }}
+          record: ${{ !!secrets.CYPRESS_RECORD_KEY }}
+          working-directory: tests-e2e
           # upload videos for failing specs
           config: video=true,videoUploadOnPasses=false
+          spec: cypress/e2e/**/${{ github.event.inputs.sim }}**
         env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # pass GitHub token to allow accurately detecting a build vs a re-run build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets[matrix.RECORD_KEY] }}

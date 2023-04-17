@@ -1,0 +1,60 @@
+<svg width="100" height="80" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="jj4i924kua">
+            <path d="M5370 0v5280H0V0h5370z"/>
+        </clipPath>
+        <clipPath id="cvazf4mh2b">
+            <path d="M100 0v80H0V0h100z"/>
+        </clipPath>
+        <clipPath id="sg9fm3z0dc">
+            <path d="m.303 0 60.162 19.126 18.044 13.91 2.13 9.39-.975.221-2.05-9.038-17.62-13.584L0 .953.303 0z"/>
+        </clipPath>
+        <clipPath id="348ydsx0gd">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="4ku7qxan3e">
+            <path d="M2.5 0C3.878 0 5 1.122 5 2.5S3.878 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.122 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="c8nn733jdf">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="0k3io2arjg">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="cps1rd792h">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#jj4i924kua)" transform="translate(-1236 -316)">
+        <g clip-path="url(#cvazf4mh2b)" transform="translate(1236 316)">
+            <path d="M0 0h100v80H0V0z"/>
+        </g>
+        <g clip-path="url(#sg9fm3z0dc)" transform="translate(1245.849 334.494)">
+            <path fill="#FFF" d="M0 0h80.64v42.647H0V0z"/>
+        </g>
+        <g clip-path="url(#348ydsx0gd)" transform="translate(1323.5 374.53)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#348ydsx0gd)" transform="translate(1321.41 365.316)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#348ydsx0gd)" transform="translate(1303.578 351.57)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#4ku7qxan3e)" transform="translate(1243.5 332.47)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#c8nn733jdf)" transform="translate(1244.5 333.47)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#0k3io2arjg)" transform="translate(1304.578 352.57)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#cps1rd792h)" transform="translate(1322.41 366.316)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#cps1rd792h)" transform="translate(1324.5 375.53)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+    </g>
+</svg>
