@@ -1,0 +1,87 @@
+<svg width="100" height="80" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="ned0s488ia">
+            <path d="M5370 0v5280H0V0h5370z"/>
+        </clipPath>
+        <clipPath id="0f3oja25eb">
+            <path d="M100 0v80H0V0h100z"/>
+        </clipPath>
+        <clipPath id="vzgyzt4s5c">
+            <path d="m7.543 0 3.262 21.86L26.164 2.441l.784.62-15.977 20.2-.596 10.6 23.09 25.88-.745.666-22.699-25.44L.896 53.4 0 52.956l9.408-19.003.571-10.853L6.554.147 7.543 0z"/>
+        </clipPath>
+        <clipPath id="pgxndir33d">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="h4q74ixnae">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="r5vnekd97f">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="mwyb2sj8tg">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="pym64j1c2h">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="kfxb8cb3oi">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="fmd0vioyrj">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="w3ryuohrik">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="tx4oy2yjrl">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="384z6xor7m">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#ned0s488ia)" transform="translate(-1346 -316)">
+        <g clip-path="url(#0f3oja25eb)" transform="translate(1346 316)">
+            <path d="M0 0h100v80H0V0z"/>
+        </g>
+        <g clip-path="url(#vzgyzt4s5c)" transform="translate(1379.23 325.926)">
+            <path fill="#FFF" d="M0 0h33.466v60.407H0V0z"/>
+        </g>
+        <g clip-path="url(#pgxndir33d)" transform="translate(1409.822 383.5)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#h4q74ixnae)" transform="translate(1403.285 326.178)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#h4q74ixnae)" transform="translate(1383.778 323.5)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#r5vnekd97f)" transform="translate(1387.21 346.502)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#mwyb2sj8tg)" transform="translate(1386.631 357.509)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#pym64j1c2h)" transform="translate(1377.178 376.603)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#kfxb8cb3oi)" transform="translate(1378.178 377.603)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#fmd0vioyrj)" transform="translate(1387.631 358.509)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#w3ryuohrik)" transform="translate(1388.21 347.502)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#tx4oy2yjrl)" transform="translate(1384.778 324.5)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#384z6xor7m)" transform="translate(1404.285 327.178)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#w3ryuohrik)" transform="translate(1410.822 384.5)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+    </g>
+</svg>

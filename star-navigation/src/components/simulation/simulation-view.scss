@@ -1,0 +1,174 @@
+@import "common/src/vars.scss";
+
+$viewWidth: 487px;
+$viewHeight: 263px;
+$labelHeight: 28px;
+
+.simulationView {
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 2px solid $bluePrimary;
+  display: flex;
+
+  .orbitView, .horizonView {
+    width: $viewWidth;
+    height: $viewHeight;
+  }
+
+  .horizonView {
+    border-left: 2px solid $bluePrimary;
+  }
+
+  .labels {
+    position: absolute;
+    margin-top: -15px;
+    width: $viewWidth * 2;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 16px;
+
+    .spaceView {
+      display: flex;
+      margin-left: -5px;
+    }
+
+    .time {
+      display: flex;
+      justify-content: center;
+      font-family: $fontFamilyRobotoCondensed;
+      margin-top: -$labelHeight;
+
+      .label {
+        width: 76px;
+        white-space: nowrap;
+
+        &.es {
+          width: 86px;
+          text-align: center;
+        }
+      }
+    }
+
+    .constellation {
+      display: flex;
+      flex-direction: row;
+      width: $viewWidth;
+      justify-content: center;
+      margin-left: 38px;
+      font-family: $fontFamilyRobotoCondensed;
+      margin-top: -$labelHeight;
+
+      &.es {
+        margin-left: 46px;
+      }
+
+      div:nth-child(1) {
+        border-radius: 14px 0 0 14px;
+      }
+      div:nth-child(2) {
+        border-radius: 0 14px 14px 0;
+        width: 108px;
+      }
+    }
+
+    .earthView {
+      display: flex;
+      margin-left: $viewWidth;
+      width: $viewWidth;
+      justify-content: space-around;
+      margin-top: -$labelHeight;
+    }
+
+    .label {
+      background-color: white;
+      color: $bluePrimary;
+      border: 2px solid $bluePrimary;
+
+      box-sizing: border-box;
+      height: $labelHeight;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index:1;
+
+      &.blue {
+        background-color: $bluePrimary;
+        color: white;
+      }
+    }
+  }
+
+  .bottomControls {
+    position: absolute;
+    width: $viewWidth * 2;
+    top: $viewHeight - 15;
+    font-size: 16px;
+    font-weight: bold;
+    color: $bluePrimary;
+    font-stretch: condensed;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      margin-left: 10px;
+      gap: 10px;
+
+      :global(.button-innerLabel) {
+        font-family: $fontFamilyRobotoCondensed;
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: condensed;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+      }
+    }
+
+    .checkboxes {
+      display: flex;
+      justify-content: center;
+      margin-top: -34px;
+
+      &.es {
+        margin-left: 40px;
+      }
+
+      > div {
+        border-radius: 5px;
+        padding: 0 0 0 15px;
+        background-color: $lightBlueTint10;
+        display: flex;
+        gap: 10px;
+      }
+
+      :global(.MuiCheckbox-root) {
+        padding: 0;
+
+        &:hover:not(:active) {
+          opacity: 0.35;
+        }
+      }
+
+      .checkboxHover {
+        opacity: 0.35;
+      }
+
+      :global(.MuiTypography-root) {
+        line-height: initial;
+        letter-spacing: normal;
+        font-family: $fontFamilyRobotoCondensed;
+      }
+
+      :global(.MuiFormControlLabel-label) {
+        font-weight: bold;
+      }
+      :global(.MuiFormControlLabel-root) {
+        margin-right: 10px;
+      }
+    }
+  }
+}

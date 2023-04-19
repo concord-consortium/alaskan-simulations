@@ -1,0 +1,72 @@
+@import "../../vars.scss";
+
+$topMargin: 13px;
+
+.labeledContainer {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  border-radius: 5px;
+  padding: $topMargin 0 0 0;
+  margin-top: $topMargin;
+
+  &.larger {
+    padding-bottom: 8px;
+    margin-top: 0px;
+  }
+
+  &.violet {
+    background-color: $purpleTint;
+    .label {
+      background-color: $purpleAccent;
+    }
+  }
+
+  &.blue {
+    background-color: white;
+    border: 2px solid $bluePrimary;
+    .label {
+      background-color: $bluePrimary;
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: -15px;
+    left: -5px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    height: 28px;
+    border-radius: 14px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:1;
+
+    &.larger {
+      font-size: 20px;
+      border-radius: 20px;
+      height: 40px;
+      padding: 7px 13px 9px;
+      border: solid 3px $white;
+      left: -15px;
+      top: -25px;
+      font-weight: 500;
+    }
+
+    &.centerLabel {
+      left: initial;
+    }
+
+    &.white {
+      color: $bluePrimary;
+      border: 2px solid $bluePrimary;
+      background-color: white;
+    }
+  }
+}

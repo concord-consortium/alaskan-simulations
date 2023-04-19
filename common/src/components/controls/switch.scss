@@ -1,0 +1,101 @@
+@import "../../vars.scss";
+
+$thumbSize: 40px;
+$railWidth: 54px;
+$railHeight: 24px;
+$borderWidth: 3px;
+
+.switch {
+  padding-bottom: 0.25 * $thumbSize;
+  color: $bluePrimary;
+
+  &.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  &.focusVisible {
+    outline: $focusOutline;
+  }
+
+  .label {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .switchContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .offLabel, .onLabel {
+      font-size: 16px;
+      font-weight: 500; // medium
+      white-space: nowrap;
+    }
+
+    .switchRoot {
+      margin: 0 8px;
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      width: $railWidth;
+      height: $railHeight;
+      border-radius: 0.5 * $railHeight;
+      border: $borderWidth solid $bluePrimary;
+      background-color: $white;
+      cursor: pointer;
+
+      &:hover {
+        .thumb {
+          background-color: $lightBlueTint10 !important;
+        }
+      }
+      &:active {
+        .thumb {
+          background-color: $bluePrimary !important;
+        }
+      }
+
+      .thumb {
+        box-sizing: border-box;
+        display: block;
+        width: $thumbSize;
+        height: $thumbSize;
+        border-radius: $thumbSize;
+        border: solid $borderWidth $bluePrimary;
+        background-color: $white;
+        position: relative;
+        z-index: 1;
+        transition: all 200ms ease;
+        top: 0.5 * ($railHeight - $thumbSize) - $borderWidth;
+        left: -2 * $borderWidth;
+      }
+
+      &.checked {
+        background: $bluePrimary;
+
+        .thumb {
+          left: $railWidth - $thumbSize;
+        }
+      }
+
+      // input element is positioned on top of the thumb and rail, and it needs to match their dimensions.
+      // This element is invisible (opacity=0), but it catches all mouse events. This is standard Material UI
+      // implementation. I believe it's done that way for accessibility reasons.
+      input {
+        cursor: inherit;
+        position: absolute;
+        width: $railWidth + 2 * $borderWidth;
+        height: $thumbSize;
+        top: -0.25 * $thumbSize;
+        left: -2 * $borderWidth;
+        opacity: 0;
+        z-index: 1;
+        margin: 0;
+      }
+    }
+  }
+}

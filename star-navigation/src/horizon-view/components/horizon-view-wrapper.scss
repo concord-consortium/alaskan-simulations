@@ -1,0 +1,46 @@
+$width: 487px;
+$height: 263px;
+
+.horizonViewWrapper {
+  width: $width;
+  height: $height;
+  position: relative;
+  // pointer-events: none;
+
+
+  .sky, .daylight, .landscape, .stars, .pointers {
+    width: $width;
+    height: $height;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .sky {
+    background-image: url("../assets/earth-view-nighttime-background@3x.png");
+  }
+
+  .landscape {
+    background-image: url("../assets/earth-view-landscape@3x.png");
+    pointer-events: none;
+  }
+
+  .daylight {
+    background-image: url("../assets/earth-view-daytime-background@3x.png");
+    pointer-events: none;
+  }
+
+  .pointers {
+    z-index: 1;
+    $pointerTop: 8px;
+    top: $pointerTop;
+    height: $height - $pointerTop;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

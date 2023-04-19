@@ -1,0 +1,123 @@
+<svg width="100" height="80" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="whr2eu4uua">
+            <path d="M5370 0v5280H0V0h5370z"/>
+        </clipPath>
+        <clipPath id="e28ojtg3fb">
+            <path d="M100 0v80H0V0h100z"/>
+        </clipPath>
+        <clipPath id="9au4snshqc">
+            <path d="m79.624 0 .953.304-2.678 8.395-21.077 39.239-.881-.474L76.45 9.298l-37.67 9.185 13.302 34.823-.934.356L37.95 19.11 19.978 40.835l2.885-22.597-15.534.843L0 17.584l.2-.98 7.203 1.47 16.005-.865 14.474.415.539-.083 38.62-9.416L79.624 0zm-55.75 18.221L21.405 37.54l15.667-18.937-13.2-.38z"/>
+        </clipPath>
+        <clipPath id="27ko5h5hfd">
+            <path d="M2.5 0C3.878 0 5 1.122 5 2.5S3.878 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.122 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="evax3gu2ze">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="uufs3uwnjf">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="c0f0gggg4g">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="8g6ed4b56h">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="pjgikkqp6i">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="0tj0vefc8j">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="0d11zglt3k">
+            <path d="M2.5 0C3.879 0 5 1.122 5 2.5S3.879 5 2.5 5A2.503 2.503 0 0 1 0 2.5C0 1.122 1.121 0 2.5 0z"/>
+        </clipPath>
+        <clipPath id="kpv6ki0m1l">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="4stvyyxaam">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="aa6j3jyobn">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="b6m14yy1ko">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="fzmn3tq56p">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="kptdwzj6sq">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="bay5sdkf9r">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+        <clipPath id="0f4u9uyucs">
+            <path d="M1.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#whr2eu4uua)" transform="translate(-1236 -406)">
+        <g clip-path="url(#e28ojtg3fb)" transform="translate(1236 406)">
+            <path d="M0 0h100v80H0V0z"/>
+        </g>
+        <g clip-path="url(#9au4snshqc)" transform="translate(1245.9 419.182)">
+            <path fill="#FFF" d="M0 0h80.577v53.662H0V0z"/>
+        </g>
+        <g clip-path="url(#27ko5h5hfd)" transform="translate(1323.5 416.834)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#27ko5h5hfd)" transform="translate(1320.822 425.23)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#evax3gu2ze)" transform="translate(1299.782 464.383)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#uufs3uwnjf)" transform="translate(1295.015 470.166)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#c0f0gggg4g)" transform="translate(1281.511 434.813)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#8g6ed4b56h)" transform="translate(1264.092 455.87)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#pjgikkqp6i)" transform="translate(1266.834 434.39)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#0tj0vefc8j)" transform="translate(1250.766 435.26)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#0d11zglt3k)" transform="translate(1243.5 433.777)">
+            <path d="M0 0h5v5H0V0z"/>
+        </g>
+        <g clip-path="url(#kpv6ki0m1l)" transform="translate(1244.5 434.777)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#4stvyyxaam)" transform="translate(1251.766 436.26)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#aa6j3jyobn)" transform="translate(1267.834 435.39)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#b6m14yy1ko)" transform="translate(1265.092 456.87)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#fzmn3tq56p)" transform="translate(1282.511 435.813)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#kptdwzj6sq)" transform="translate(1296.015 471.166)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#bay5sdkf9r)" transform="translate(1300.782 465.383)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#aa6j3jyobn)" transform="translate(1321.822 426.23)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+        <g clip-path="url(#0f4u9uyucs)" transform="translate(1324.5 417.834)">
+            <path fill="#FFF" d="M0 0h3v3H0V0z"/>
+        </g>
+    </g>
+</svg>
