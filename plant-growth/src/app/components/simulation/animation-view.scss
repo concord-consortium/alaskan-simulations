@@ -5,7 +5,7 @@ $heightLineZIndex: 6;
 
 @function cmToPx($cm) {
   // the 0 cm line is 327px from the top of the container.
-  $cm0: 327px;
+  $cm0: 330px;
   // there are 12.2px between each cm line.
   @return calc($cm0 - calc(12.2px * $cm));
 }
@@ -27,9 +27,10 @@ $heightLineZIndex: 6;
 .heightLine {
   position: absolute;
   left: 45px;
-  width: 290px;
+  width: 212px;
   height: 0px;
-  border-top: 4px dashed $bright-blue;
+  border-top: 3px dashed $bright-blue;
+  background-color: lightgray;
   opacity: 0%;
   transition: opacity 0s;
   &.visible {
