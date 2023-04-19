@@ -4,7 +4,7 @@ $plantZIndex: 5;
 $heightLineZIndex: 6;
 
 @function cmToPx($cm) {
-  // the 0 cm line is 327px from the top of the container.
+  // the 0 cm line is 330px from the top of the container.
   $cm0: 330px;
   // there are 12.2px between each cm line.
   @return calc($cm0 - calc(12.2px * $cm));
