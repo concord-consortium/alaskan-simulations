@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import { useSaveInteractiveState } from "./use-interactive-state";
 import { translations } from "../translations";
 import clsx from "clsx";
@@ -24,7 +24,7 @@ const Translation = (props: ITranslationProps) => {
   const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
 
   if (readAloudMode && "mp3" in translations[string]) {
-    const audio = new Audio(translations[string].mp3);
+    const audio = translations[string].mp3!;
 
     audio.addEventListener("playing", () => {
       setIsAudioPlaying(true);
