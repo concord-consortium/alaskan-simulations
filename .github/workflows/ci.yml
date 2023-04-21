@@ -33,7 +33,7 @@ jobs:
         with:
           build: yarn build # instead of `npm run build`
           bucket: models-resources
-          prefix: plant-growth
+          prefix: alaskan-simulations
           awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
           awsSecretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # TODO: the root level index file will not work with topBranches in this
