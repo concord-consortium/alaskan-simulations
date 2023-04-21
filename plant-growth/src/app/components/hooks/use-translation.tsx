@@ -60,11 +60,12 @@ const Translation = (props: ITranslationProps) => {
   } else {
     return <div>{stringToRender}</div>;
   }
-}
+};
 
 export const useTranslation = (props: IProps) => {
   const {isRunning, initialReadAloudMode} = props;
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(initialReadAloudMode!);
+  const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const { saveInteractiveState } = useSaveInteractiveState();
 

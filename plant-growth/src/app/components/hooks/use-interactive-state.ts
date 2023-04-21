@@ -17,5 +17,5 @@ export const useSaveInteractiveState = () => {
 
   return {
     saveInteractiveState
-  }
-}
+  };
+};
