@@ -18,16 +18,19 @@ export const useTranslation = (props: IProps) => {
     const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
     if (readAloudMode && "mp3" in translations[string]) {
       const audio = new Audio(translations[string].mp3);
+
       audio.addEventListener("playing", () => {
         setIsAudioPlaying(true);
         setActiveAudioId(string);
       });
+
       audio.addEventListener("ended", () => {
         setIsAudioPlaying(false);
         setActiveAudioId("");
       });
+
       const handlePlay = () => {
-        if (!isDisabled) {
+        if (!isDisabled && !isAudioPlaying) {
           audio.load();
           audio.play();
         }
@@ -39,7 +42,7 @@ export const useTranslation = (props: IProps) => {
       const classes = {
         [css.readAloud]: true,
         [css.active]: isActive,
-        [css.disabled]: isDisabled
+        [css.disabled]: isDisabled || isAudioPlaying
       };
 
       return (
