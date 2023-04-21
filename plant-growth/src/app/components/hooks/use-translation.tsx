@@ -1,11 +1,13 @@
 import React, {useState} from "react";
+import { useSaveInteractiveState } from "./use-interactive-state";
 import { translations } from "../translations";
 import clsx from "clsx";
 
 import css from "./use-translation.scss";
 
 interface IProps {
-  isRunning: boolean;
+  isRunning: boolean,
+  initialReadAloudMode: boolean|undefined
 }
 
 interface ITranslationProps {
@@ -61,9 +63,10 @@ const Translation = (props: ITranslationProps) => {
 }
 
 export const useTranslation = (props: IProps) => {
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
+  const {isRunning, initialReadAloudMode} = props;
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(initialReadAloudMode!);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-  const {isRunning} = props;
+  const { saveInteractiveState } = useSaveInteractiveState();
 
   const t = (string: string) => {
     return (
@@ -76,9 +79,14 @@ export const useTranslation = (props: IProps) => {
     );
   };
 
+  const handleSetReadAloudMode = (onOrOff: boolean) => {
+    setReadAloudMode(onOrOff);
+    saveInteractiveState({readAloudMode: onOrOff});
+  };
+
   return {
     t,
     readAloudMode,
-    setReadAloudMode
+    setReadAloudMode: handleSetReadAloudMode
   };
 };

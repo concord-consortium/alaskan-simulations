@@ -6,6 +6,7 @@ export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   inputState: IModelInputState,
   outputState: IModelOutputState,
   modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
+  readAloudMode: boolean
 }
 
 export enum RulerType {
@@ -72,5 +73,6 @@ export const defaultInitialState: IInteractiveState = {
       sugarUsed: 0,
       sugarCreated: 0
     },
-    modelRuns: []
+    modelRuns: [],
+    readAloudMode: false
   };
