@@ -40,7 +40,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, epochTime, observ
   const [showConstellations, setShowConstellations] = useState(false);
   const toggleShowConstellations = () => setShowConstellations(prev => !prev);
 
-  const [showDaylight, setShowDaylight] = useState(true);
+  const [showDaylight, setShowDaylight] = useState(false);
   const toggleShowDaylight = () => setShowDaylight(prev => !prev);
 
   const [hoverConstellationCheckbox, setHoverConstellationCheckbox] = useState(false);

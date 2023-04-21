@@ -1,5 +1,5 @@
 {
-  "SIMULATION.TITLE": "Sky Modeler Simulation",
+  "SIMULATION.TITLE": "Star Navigation",
   "SIMULATION.TIME": "Time of Day: %{timeOfDay}",
   "BUTTON.CHECK": "Check",
   "TABLE_HEADER.PREDICTED_CONSTELLATION": "Predicted Constellation",

@@ -34,11 +34,12 @@
   }
 
   .bottomContainer {
+    margin-left: 12px;
     width: 100%;
     display: flex;
 
     .controls {
-      width: 50%;
+      width: 49%;
 
       .row {
         box-sizing: border-box;
@@ -103,74 +104,6 @@
             }
           }
         }
-      }
-    }
-
-    .tableContainer {
-      box-sizing: border-box;
-      padding: 0 10px;
-      width: 50%;
-      height: 220px;
-      border-radius: 0 0 $frameBorderRadius 0;
-
-      .key {
-        font-weight: normal;
-        font-size: 14px;
-        color: black;
-        display: flex;
-        justify-items: center;
-        align-items: center;
-        height: 34px;
-        border-radius: 10px;
-        background-color: $lightBlueTint18;
-        padding: 0 10px;
-
-        span {
-          white-space: nowrap;
-        }
-
-        .keyLabel {
-          font-weight: 500; // medium
-          color: $bluePrimary;
-        }
-
-        svg {
-          margin-left: 7px;
-          margin-right: 4px;
-          width: 20px;
-        }
-      }
-
-      $iconSize: 18px;
-
-      .correct, .incorrect {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .correct {
-        background-color: rgba(118, 216, 67, 0.15) !important;
-      }
-      .incorrect {
-        background-color: rgba(245, 67, 99, 0.15) !important;
-      }
-
-      thead tr th {
-        text-align: center !important;
-      }
-      thead tr th:nth-of-type(1){
-        text-align: left !important;
-      }
-      tbody tr td {
-        text-align: center !important;
-      }
-      tbody tr td:nth-of-type(1) {
-        text-align: left !important;
-      }
-      tbody tr td:nth-of-type(4){
-        padding: 0;
       }
     }
   }

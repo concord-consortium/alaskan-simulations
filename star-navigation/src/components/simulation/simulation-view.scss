@@ -16,13 +16,15 @@ $labelHeight: 28px;
   }
 
   .horizonView {
+    width: $viewWidth * 3;
+    height: $viewHeight * 3;
     border-left: 2px solid $bluePrimary;
   }
 
   .labels {
     position: absolute;
     margin-top: -15px;
-    width: $viewWidth * 2;
+    width: $viewWidth * 3;
     z-index: 1;
     font-weight: 700;
     font-size: 16px;
@@ -104,7 +106,7 @@ $labelHeight: 28px;
 
   .bottomControls {
     position: absolute;
-    width: $viewWidth * 2;
+    width: $viewWidth * 3;
     top: $viewHeight - 15;
     font-size: 16px;
     font-weight: bold;
@@ -129,9 +131,13 @@ $labelHeight: 28px;
     }
 
     .checkboxes {
+      position: absolute;
+      left: -70px;
+      bottom: 45px;
+      width: 500px;
+
       display: flex;
       justify-content: center;
-      margin-top: -34px;
 
       &.es {
         margin-left: 40px;
