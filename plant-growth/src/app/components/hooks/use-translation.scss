@@ -2,7 +2,7 @@
 
 .readAloud {
   text-decoration: underline;
-  &:hover {
+  &:hover:not(.disabled) {
     cursor: pointer!important;
     background-color: $lightBlueTint25;
   }
@@ -14,10 +14,13 @@
   &.disabled {
     &:hover {
       cursor: default!important;
-      background-color: transparent;
+      &:not(.active){
+        background-color: transparent;
+      }
     }
-    &:active {
+    &:active:not(.active) {
       color: $font-color;
+      text-decoration: underline;
     }
   }
 }

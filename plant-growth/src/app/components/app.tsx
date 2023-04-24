@@ -51,9 +51,12 @@ interface IAppProps {
 
 export const App = (props: IAppProps) => {
   const {interactiveState, readOnly} = props;
-
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
-  const {t, readAloudMode, setReadAloudMode} = useTranslation({isRunning});
+
+  const {t, readAloudMode, setReadAloudMode} = useTranslation(useMemo(() => ({
+      isRunning,
+      initialReadAloudMode: interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode
+  }), [isRunning, interactiveState]));
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.

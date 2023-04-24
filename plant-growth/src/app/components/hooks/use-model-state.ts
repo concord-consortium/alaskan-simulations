@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
-import { defaultInitialState, IInteractiveState, IModelInputState, IModelOutputState } from "../../../types";
+import { defaultInitialState, IModelInputState, IModelOutputState } from "../../../types";
+import { useSaveInteractiveState } from "./use-interactive-state";
 
 // initialOutputState can be either an object or a function of initialInputState which returns an object.
 export type OutputInitializerFunction<IModelInputState, T> = (inputState: IModelInputState) => T;
@@ -67,6 +67,7 @@ export const useModelState = (
   options: IUseModelStateOptions<IModelInputState, IModelOutputState>
 ): IUseModelStateResult<IModelInputState, IModelOutputState> => {
   const { initialInputState, initialOutputState, initialModelRuns } = options;
+  const { saveInteractiveState } = useSaveInteractiveState();
 
   const initialOutputStateObject = useMemo(() =>
     isFunction(initialOutputState) ? initialOutputState(initialInputState) : initialOutputState
@@ -90,17 +91,6 @@ export const useModelState = (
   // When activeOutputSnapshotIdx is null, it means that currentOutputState is being used instead of snapshot
   // (when simulation is still running).
   const [activeOutputSnapshotIdx, setActiveOutputSnapshotIdx] = useState<number | null>(null);
-  const { setInteractiveState } = useInteractiveState<IInteractiveState>();
-
-  const saveInteractiveState = useCallback((updates: any) => {
-    setInteractiveState((prevState) => {
-      return {
-        answerType: "interactive_state",
-        ...prevState,
-        ...updates
-      };
-    });
-  }, [setInteractiveState]);
 
   const setInputState = useCallback((update: Partial<IModelInputState>) => {
     // setInputState is operating directly on the modelRuns array. Input state is not updated frequently

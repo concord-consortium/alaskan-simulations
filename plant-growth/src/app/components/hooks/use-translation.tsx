@@ -1,60 +1,93 @@
-import React, {useState, useCallback} from "react";
+import React, {useCallback, useState} from "react";
+import { useSaveInteractiveState } from "./use-interactive-state";
 import { translations } from "../translations";
 import clsx from "clsx";
 
 import css from "./use-translation.scss";
 
 interface IProps {
-  isRunning: boolean;
+  isRunning: boolean,
+  initialReadAloudMode: boolean|undefined
 }
 
+interface ITranslationProps {
+  string: string,
+  readAloudMode: boolean,
+  isAudioPlaying: boolean,
+  setIsAudioPlaying: (bool: boolean) => void,
+  isRunning: boolean
+}
+
+const Translation = (props: ITranslationProps) => {
+  const [clicked, setClicked] = useState<boolean>(false);
+  const {string, readAloudMode, isRunning, isAudioPlaying, setIsAudioPlaying} = props;
+  const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
+
+  if (readAloudMode && "mp3" in translations[string]) {
+    const audio = translations[string].mp3!;
+
+    audio.addEventListener("playing", () => {
+      setIsAudioPlaying(true);
+      setClicked(true);
+    });
+
+    audio.addEventListener("ended", () => {
+      setIsAudioPlaying(false);
+      setClicked(false);
+    });
+
+    const handlePlay = () => {
+      if (!isDisabled && !isAudioPlaying) {
+        audio.load();
+        audio.play();
+      }
+    };
+
+    const isActive = isAudioPlaying && clicked;
+    const isDisabled = isRunning || (isAudioPlaying && !clicked);
+
+    const classes = {
+      [css.readAloud]: true,
+      [css.active]: isActive,
+      [css.disabled]: isDisabled || isAudioPlaying
+    };
+
+    return (
+      <div onClick={handlePlay}>
+        <span className={clsx(classes)}>{stringToRender}</span>
+      </div>
+    );
+  } else {
+    return <div>{stringToRender}</div>;
+  }
+};
+
 export const useTranslation = (props: IProps) => {
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
+  const {isRunning, initialReadAloudMode} = props;
+  const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-  const [activeAudioId, setActiveAudioId] = useState<string>("");
-  const {isRunning} = props;
+  const { saveInteractiveState } = useSaveInteractiveState();
 
-  const t = useCallback((string: string) => {
-    const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
-    if (readAloudMode && "mp3" in translations[string]) {
-      const audio = new Audio(translations[string].mp3);
-      audio.addEventListener("playing", () => {
-        setIsAudioPlaying(true);
-        setActiveAudioId(string);
-      });
-      audio.addEventListener("ended", () => {
-        setIsAudioPlaying(false);
-        setActiveAudioId("");
-      });
-      const handlePlay = () => {
-        if (!isDisabled) {
-          audio.load();
-          audio.play();
-        }
-      };
+  const t = (string: string) => {
+    return (
+      <Translation
+        readAloudMode={readAloudMode}
+        string={string}
+        isAudioPlaying={isAudioPlaying}
+        setIsAudioPlaying={setIsAudioPlaying}
+        isRunning={isRunning} />
+    );
+  };
 
-      const isActive = isAudioPlaying && activeAudioId === string;
-      const isDisabled = isRunning || (isAudioPlaying && activeAudioId !== string);
-
-      const classes = {
-        [css.readAloud]: true,
-        [css.active]: isActive,
-        [css.disabled]: isDisabled
-      };
-
-      return (
-        <div onClick={handlePlay}>
-          <span className={clsx(classes)}>{stringToRender}</span>
-        </div>
-      );
-    } else {
-      return stringToRender;
-    }
-  }, [readAloudMode, isAudioPlaying, isRunning, activeAudioId]);
+  const handleSetReadAloudMode = (onOrOff: boolean) => {
+    setReadAloudMode(onOrOff);
+    saveInteractiveState({readAloudMode: onOrOff});
+  };
 
   return {
     t,
     readAloudMode,
-    setReadAloudMode
+    setReadAloudMode: handleSetReadAloudMode
   };
 };
