@@ -28,7 +28,6 @@ const Translation = (props: ITranslationProps) => {
 
     audio.addEventListener("playing", () => {
       setIsAudioPlaying(true);
-      setClicked(true);
     });
 
     audio.addEventListener("ended", () => {
@@ -38,6 +37,7 @@ const Translation = (props: ITranslationProps) => {
 
     const handlePlay = () => {
       if (!isDisabled && !isAudioPlaying) {
+        setClicked(true);
         audio.load();
         audio.play();
       }
