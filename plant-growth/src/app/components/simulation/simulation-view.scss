@@ -134,8 +134,8 @@ $toggleZIndex: 10;
 
     .light {
       position: absolute;
-      width: $simViewWidth;
-      height: $simViewHeight;
+      width: $simViewWidth - 2px;
+      height: $simViewHeight - 2px;
       z-index: $lightZIndex;
       border-radius: 19px;
       &.full {
