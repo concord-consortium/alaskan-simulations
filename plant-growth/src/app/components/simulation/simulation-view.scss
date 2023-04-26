@@ -166,6 +166,9 @@ $toggleZIndex: 10;
       align-items: center;
       justify-content: center;
         .co2LabelText{
+          display: flex;
+          gap: 5px;
+          flex-direction: row;
           font-weight: 500;
           font-size: 14px;
           color: $bluePrimary;
