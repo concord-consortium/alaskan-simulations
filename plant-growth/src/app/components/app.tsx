@@ -15,7 +15,7 @@ import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuth
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { BarGraph } from "./bar-graph/bar-graph";
-import { plantLabDirections} from "./plant-lab-directions";
+import { PlantGrowthDirections } from "./plant-lab-directions";
 import None from "../assets/input-none.png";
 import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
@@ -228,7 +228,7 @@ export const App = (props: IAppProps) => {
   return (
     <SimulationFrame
       title={translations["SIMULATION.TITLE"].string}
-      directions={plantLabDirections()} // ReactNode is also allowed if more complex content is needed.
+      directions={<PlantGrowthDirections t={t}/>} // ReactNode is also allowed if more complex content is needed.
       t={t}
       readAloudMode={readAloudMode}
       handleSetReadAloud={handleSetReadAloud}
