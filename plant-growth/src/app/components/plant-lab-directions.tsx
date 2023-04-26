@@ -1,6 +1,4 @@
 import React from "react";
-import PlayButton from "../assets/snapshots-directions/instructions-play-button@3x.png";
-import NewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
 
 interface IDirections {
   t: (string: string, markdown?: boolean) => string | JSX.Element

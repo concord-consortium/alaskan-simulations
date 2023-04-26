@@ -43,16 +43,16 @@ import PlayButton from "../assets/snapshots-directions/instructions-play-button@
 import NewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
 
 const instructionsPart1_text = `Experiment with a plant in a terrarium to see how much sugar it creates and uses
-with different conditions of light, water, and CO<sub>2</sub>.`
+with different conditions of light, water, and CO<sub>2</sub>.`;
 
 const instructionsPart2_text = `Choose the amount of light, water, and CO2 for each growth trial using the “Controls”.
 Press “Play” ![play button](${PlayButton}) to see how these conditions affect the amount of sugar
 the plant creates and uses. After a trial, you can use the “Time” slider to move back and forth
-in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.`
+in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.`;
 
 const instructionsPart3_text = `When you run a trial, settings and results will appear in the data table. Compare the results
 of trials by tapping on different rows in the table to see the graphs that go with that trial.
-How do the settings of light, water, and  CO<sub>2</sub> affect the plant's growth? `
+How do the settings of light, water, and  CO<sub>2</sub> affect the plant's growth?`;
 
 interface ITranslation {
   string: string;

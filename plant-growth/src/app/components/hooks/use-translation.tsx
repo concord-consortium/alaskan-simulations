@@ -36,7 +36,7 @@ const Translation = (props: ITranslationProps) => {
     } else {
       setCurrentAudio(undefined);
     }
-  }, [readAloudMode])
+  }, [readAloudMode, currentAudio, string]);
 
   if (currentAudio) {
     currentAudio.addEventListener("playing", () => {
@@ -51,8 +51,8 @@ const Translation = (props: ITranslationProps) => {
     const handlePlay = () => {
       if (!isDisabled && !isAudioPlaying) {
         setClicked(true);
-        currentAudio!.load();
-        currentAudio!.play();
+        currentAudio.load();
+        currentAudio.play();
       }
     };
 
@@ -73,7 +73,7 @@ const Translation = (props: ITranslationProps) => {
       </div>
     );
   } else {
-    return <>{markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}</>;
+    return <div>{markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}</div>;
   }
 };
 
