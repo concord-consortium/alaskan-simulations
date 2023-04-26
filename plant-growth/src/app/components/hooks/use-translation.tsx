@@ -53,7 +53,7 @@ const Translation = (props: ITranslationProps) => {
     };
 
     return (
-      <div onClick={handlePlay}>
+      <div className={css.container} onClick={handlePlay}>
         <span className={clsx(classes)}>{stringToRender}</span>
       </div>
     );
