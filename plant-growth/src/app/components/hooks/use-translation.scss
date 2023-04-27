@@ -13,17 +13,30 @@
       background-color: $bluePrimary;
       color: $white;
       text-decoration: none;
+      p {
+        background-color: $bluePrimary;
+        color: $white;
+        text-decoration: none;
+      }
     };
     &.disabled {
       &:hover {
         cursor: default!important;
         &:not(.active){
           background-color: transparent;
+          p {
+            background-color: white;
+          }
         }
       }
       &:active:not(.active) {
         color: $font-color;
         text-decoration: underline;
+        p {
+          background-color: white;
+          color: $font-color;
+          text-decoration: underline;
+        }
       }
     }
   }

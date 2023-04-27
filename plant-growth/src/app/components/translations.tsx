@@ -35,6 +35,25 @@ import Graphs_Trial7 from "../assets/yugtun-audio/trial-7-graphs.mp3";
 import Graphs_Trial8 from "../assets/yugtun-audio/trial-8-graphs.mp3";
 import Graphs_Trial9 from "../assets/yugtun-audio/trial-9-graphs.mp3";
 
+import InstructionsPart1 from "../assets/yugtun-audio/instructions-intro.mp3";
+import InstructionsPart2 from "../assets/yugtun-audio/instructions-running.mp3";
+import InstructionsPart3 from "../assets/yugtun-audio/instructions-analyzing.mp3";
+
+import PlayButton from "../assets/snapshots-directions/instructions-play-button@3x.png";
+import NewTrialButton from "../assets/snapshots-directions/instructions-new-trial-button@3x.png";
+
+const instructionsPart1_text = `Experiment with a plant in a terrarium to see how much sugar it creates and uses
+with different conditions of light, water, and CO<sub>2</sub>.`;
+
+const instructionsPart2_text = `Choose the amount of light, water, and CO2 for each growth trial using the “Controls”.
+Press “Play” ![play button](${PlayButton}) to see how these conditions affect the amount of sugar
+the plant creates and uses. After a trial, you can use the “Time” slider to move back and forth
+in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.`;
+
+const instructionsPart3_text = `When you run a trial, settings and results will appear in the data table. Compare the results
+of trials by tapping on different rows in the table to see the graphs that go with that trial.
+How do the settings of light, water, and  CO<sub>2</sub> affect the plant's growth?`;
+
 interface ITranslation {
   string: string;
   mp3?: HTMLAudioElement;
@@ -120,5 +139,12 @@ export const translations: Record<string, ITranslation> = {
   "GRAPHS.TRIAL_6": { string: "Trial 6 Graphs", mp3: new Audio(Graphs_Trial6)},
   "GRAPHS.TRIAL_7": { string: "Trial 7 Graphs", mp3: new Audio(Graphs_Trial7)},
   "GRAPHS.TRIAL_8": { string: "Trial 8 Graphs", mp3: new Audio(Graphs_Trial8)},
-  "GRAPHS.TRIAL_9": { string: "Trial 9 Graphs", mp3: new Audio(Graphs_Trial9)}
+  "GRAPHS.TRIAL_9": { string: "Trial 9 Graphs", mp3: new Audio(Graphs_Trial9)},
+
+
+  "INSTRUCTIONS.PART_1": {string: instructionsPart1_text, mp3: new Audio(InstructionsPart1)},
+  "INSTRUCTIONS.PART_2_HEADER": {string: `# Running a trial`},
+  "INSTRUCTIONS.PART_2": {string: instructionsPart2_text, mp3: new Audio(InstructionsPart2)},
+  "INSTRUCTIONS.PART_3_HEADER": {string: `# Analyzing trials`},
+  "INSTRUCTIONS.PART_3": {string: instructionsPart3_text, mp3: new Audio(InstructionsPart3)},
 };
