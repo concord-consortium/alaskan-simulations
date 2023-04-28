@@ -73,7 +73,7 @@ const Translation = (props: ITranslationProps) => {
       </div>
     );
   } else {
-    return <div>{markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}</div>;
+    return <span>{markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}</span>;
   }
 };
 
