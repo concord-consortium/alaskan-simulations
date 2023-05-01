@@ -8,6 +8,9 @@
     &:hover:not(.disabled) {
       cursor: pointer!important;
       background-color: $lightBlueTint25;
+      p {
+        background-color: $lightBlueTint25;
+      }
     }
     &:active, &.active {
       background-color: $bluePrimary;
