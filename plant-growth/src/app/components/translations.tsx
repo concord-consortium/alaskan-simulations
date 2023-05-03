@@ -45,7 +45,7 @@ import NewTrialButton from "../assets/snapshots-directions/instructions-new-tria
 const instructionsPart1_text = `Experiment with a plant in a terrarium to see how much sugar it creates and uses
 with different conditions of light, water, and CO<sub>2</sub>.`;
 
-const instructionsPart2_text = `Choose the amount of light, water, and CO2 for each growth trial using the “Controls”.
+const instructionsPart2_text = `Choose the amount of light, water, and CO<sub>2</sub> for each growth trial using the “Controls”.
 Press “Play” ![play button](${PlayButton}) to see how these conditions affect the amount of sugar
 the plant creates and uses. After a trial, you can use the “Time” slider to move back and forth
 in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.`;
