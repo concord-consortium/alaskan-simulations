@@ -17,13 +17,14 @@ interface ITranslationProps {
   readAloudMode: boolean,
   isRunning: boolean,
   markDown?: boolean
+  isAudioPlaying: boolean,
+  setIsAudioPlaying: (bool: boolean) => void;
 }
 
 const Translation = (props: ITranslationProps) => {
   const [clicked, setClicked] = useState<boolean>(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement>();
-  const {string, readAloudMode, isRunning, markDown} = props;
+  const {string, readAloudMode, isRunning, markDown, isAudioPlaying, setIsAudioPlaying} = props;
   const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
 
   useEffect(() => {
@@ -48,16 +49,17 @@ const Translation = (props: ITranslationProps) => {
       setClicked(false);
     });
 
+    const isActive = isAudioPlaying && clicked;
+    const isDisabled = isRunning || (isAudioPlaying && !clicked);
+
     const handlePlay = () => {
+      console.log("isAudioPlaying", isAudioPlaying);
       if (!isDisabled && !isAudioPlaying) {
         setClicked(true);
         currentAudio.load();
         currentAudio.play();
       }
     };
-
-    const isActive = isAudioPlaying && clicked;
-    const isDisabled = isRunning || (isAudioPlaying && !clicked);
 
     const classes = {
       [css.readAloud]: readAloudMode,
@@ -81,6 +83,8 @@ export const useTranslation = (props: IProps) => {
   const {isRunning, initialReadAloudMode} = props;
   const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
   const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
+  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
+
   const { saveInteractiveState } = useSaveInteractiveState();
 
   const t = (string: string, markDown?: boolean) => {
@@ -88,8 +92,10 @@ export const useTranslation = (props: IProps) => {
       <Translation
         readAloudMode={readAloudMode}
         string={string}
+        isAudioPlaying={isAudioPlaying}
         isRunning={isRunning}
         markDown={markDown}
+        setIsAudioPlaying={setIsAudioPlaying}
       />
     );
   };
