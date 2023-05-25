@@ -45,18 +45,29 @@ const Translation = (props: ITranslationProps) => {
 
   }, [readAloudMode, audioElement, string]);
 
+  useEffect(() => {
+    if (audioElement) {
+      const handlePlaying = () => {setIsAnyAudioPlaying(true);};
+      const handleEnded = () => {
+        setIsAnyAudioPlaying(false);
+        setIsAudioSelected(false);
+      };
+      audioElement.addEventListener("playing", handlePlaying);
+      // If audio element is paused (because readAloudMode was turned off), treat as audio ended
+      audioElement.addEventListener("pause", handleEnded);
+      audioElement.addEventListener("ended", handleEnded);
+     // cleanup
+      return () => {
+         audioElement.removeEventListener("playing", handlePlaying);
+         audioElement.addEventListener("pause", handleEnded);
+         audioElement.removeEventListener("ended", handleEnded);
+      };
+    }
+  }, [audioElement]);
+
   if (audioElement) {
-    audioElement.addEventListener("playing", () => {
-        setIsAnyAudioPlaying(true);
-    });
-
-    audioElement.addEventListener("ended", () => {
-      setIsAnyAudioPlaying(false);
-      setIsAudioSelected(false);
-    });
-
     const handlePlay = () => {
-      if (!isRunning && !isAnyAudioPlaying) {
+      if (!isRunning && !isAnyAudioPlaying && readAloudMode) {
         setIsAudioSelected(true);
         audioElement.load();
         audioElement.play();
