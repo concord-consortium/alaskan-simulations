@@ -41,7 +41,8 @@ const Translation = (props: ITranslationProps) => {
     return (() => {
       audioElement?.pause();
       setIsAudioSelected(false);
-    })
+    });
+
   }, [readAloudMode, audioElement, string]);
 
   if (audioElement) {
@@ -91,8 +92,8 @@ export const useTranslation = (props: IProps) => {
   useEffect(() => {
     return (() => {
       setIsAnyAudioPlaying(false);
-    })
-  }, [])
+    });
+  }, []);
 
   const t = (string: string, markDown?: boolean) => {
     return (
