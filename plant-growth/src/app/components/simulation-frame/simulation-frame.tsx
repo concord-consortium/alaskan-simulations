@@ -17,7 +17,7 @@ interface IProps {
   directions: string | ReactNode;
   t: (string: string) => string | JSX.Element;
   readAloudMode: boolean;
-  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
