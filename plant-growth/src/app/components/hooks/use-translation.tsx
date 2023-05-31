@@ -17,52 +17,67 @@ interface ITranslationProps {
   readAloudMode: boolean,
   isRunning: boolean,
   markDown?: boolean
+  isAnyAudioPlaying: boolean,
+  setIsAnyAudioPlaying: (bool: boolean) => void;
 }
 
 const Translation = (props: ITranslationProps) => {
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-  const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement>();
-  const {string, readAloudMode, isRunning, markDown} = props;
+  const [isAudioSelected, setIsAudioSelected] = useState<boolean>(false);
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement>();
+  const {string, readAloudMode, isRunning, markDown, isAnyAudioPlaying, setIsAnyAudioPlaying} = props;
   const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
 
   useEffect(() => {
     if ("mp3" in translations[string] && readAloudMode) {
-      setCurrentAudio(translations[string].mp3);
-    } else if ("mp3" in translations[string] && !readAloudMode) {
-      currentAudio?.pause();
-      setClicked(false);
-      setCurrentAudio(undefined);
+      setAudioElement(translations[string].mp3);
+    } else if ("mp3" in translations[string] && !readAloudMode && audioElement) {
+      audioElement.pause();
+      setIsAudioSelected(false);
     } else {
-      setCurrentAudio(undefined);
+      setAudioElement(undefined);
     }
-  }, [readAloudMode, currentAudio, string]);
 
-  if (currentAudio) {
-    currentAudio.addEventListener("playing", () => {
-        setIsAudioPlaying(true);
+    // If audio is playing from dialog box, pause audio once dialog is closed.
+    return (() => {
+      audioElement?.pause();
+      setIsAudioSelected(false);
     });
 
-    currentAudio.addEventListener("ended", () => {
-      setIsAudioPlaying(false);
-      setClicked(false);
-    });
+  }, [readAloudMode, audioElement, string]);
 
+  useEffect(() => {
+    if (audioElement) {
+      const handlePlaying = () => {setIsAnyAudioPlaying(true);};
+      const handleEnded = () => {
+        setIsAnyAudioPlaying(false);
+        setIsAudioSelected(false);
+      };
+      audioElement.addEventListener("playing", handlePlaying);
+      // If audio element is paused (because readAloudMode was turned off), treat as audio ended
+      audioElement.addEventListener("pause", handleEnded);
+      audioElement.addEventListener("ended", handleEnded);
+     // cleanup
+      return () => {
+         audioElement.removeEventListener("playing", handlePlaying);
+         audioElement.addEventListener("pause", handleEnded);
+         audioElement.removeEventListener("ended", handleEnded);
+      };
+    }
+  }, [audioElement]);
+
+  if (audioElement) {
     const handlePlay = () => {
-      if (!isDisabled && !isAudioPlaying) {
-        setClicked(true);
-        currentAudio.load();
-        currentAudio.play();
+      if (!isRunning && !isAnyAudioPlaying && readAloudMode) {
+        setIsAudioSelected(true);
+        audioElement.load();
+        audioElement.play();
       }
     };
 
-    const isActive = isAudioPlaying && clicked;
-    const isDisabled = isRunning || (isAudioPlaying && !clicked);
-
     const classes = {
       [css.readAloud]: readAloudMode,
-      [css.active]: isActive,
-      [css.disabled]: isDisabled || isAudioPlaying
+      [css.active]: isAnyAudioPlaying && isAudioSelected,
+      [css.disabled]: isRunning || (isAnyAudioPlaying && !isAudioSelected) || isAnyAudioPlaying,
     };
 
     return (
@@ -81,21 +96,35 @@ export const useTranslation = (props: IProps) => {
   const {isRunning, initialReadAloudMode} = props;
   const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
   const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
+  const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
+
   const { saveInteractiveState } = useSaveInteractiveState();
+
+  useEffect(() => {
+    return (() => {
+      setIsAnyAudioPlaying(false);
+    });
+  }, []);
 
   const t = (string: string, markDown?: boolean) => {
     return (
       <Translation
         readAloudMode={readAloudMode}
         string={string}
+        isAnyAudioPlaying={isAnyAudioPlaying}
         isRunning={isRunning}
         markDown={markDown}
+        setIsAnyAudioPlaying={setIsAnyAudioPlaying}
       />
     );
   };
 
   const handleSetReadAloudMode = (onOrOff: boolean) => {
     setReadAloudMode(onOrOff);
+    // If user turns off readAloudMode and audio is playing, pause the audio.
+    if (!onOrOff) {
+      setIsAnyAudioPlaying(false);
+    }
     saveInteractiveState({readAloudMode: onOrOff});
   };
 
