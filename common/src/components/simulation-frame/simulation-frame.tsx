@@ -37,7 +37,6 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children,
   return (
     <div className={clsx(css.simulationFrame, {[css.larger]: largerStyle})} data-testid="simulation-frame">
       <div id={simulationFrameHeaderId} className={`${css.header} ${largerStyle && css.larger}`}>
-        <div className={css.logo}><Logo /></div>
         <div className={css.title}>{title}</div>
         <div className={css.buttons}>
           <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{t("CREDITS.HEADER")}</button>

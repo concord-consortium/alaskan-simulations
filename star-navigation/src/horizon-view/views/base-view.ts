@@ -8,11 +8,12 @@ import { localSiderealTimeToCelestialSphereRotation } from "../../utils/sim-util
 import { toLocalSiderealTime } from "../../utils/time-conversion";
 import { ambientLight, box, horizon } from "../models/simple-models";
 import { ISimState } from "../types";
+import CustomConstellations from "../../common-3d/models/custom-constellations";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
 
-const ENABLE_CAMERA_CONTROLS = false;
-const ADD_SOUTH_MARKER = false;
+const ENABLE_CAMERA_CONTROLS = true;
+const ADD_SOUTH_MARKER = true;
 
 export default class BaseView {
   camera: THREE.PerspectiveCamera;
@@ -22,6 +23,7 @@ export default class BaseView {
   scene: THREE.Scene;
   stars: Stars;
   constellations: Constellations;
+  customConstellations: CustomConstellations;
   celestialSphereContainer: THREE.Object3D;
 
   constructor(parentEl: HTMLElement, props: ISimState) {
@@ -39,6 +41,7 @@ export default class BaseView {
     this.celestialSphereContainer = new THREE.Object3D();
     this.stars = new Stars(CELESTIAL_SPHERE_RADIUS);
     this.constellations = new Constellations(CELESTIAL_SPHERE_RADIUS);
+    this.customConstellations = new CustomConstellations();
 
     this._initScene(props);
 
@@ -90,6 +93,8 @@ export default class BaseView {
 
   _initScene(props: ISimState) {
     this.celestialSphereContainer.add(this.stars.rootObject);
+    this.celestialSphereContainer.add(this.customConstellations.rootObject);
+
     if (props.showConstellations) {
       this.celestialSphereContainer.add(this.constellations.rootObject);
     }

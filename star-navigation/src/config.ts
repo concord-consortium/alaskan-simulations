@@ -22,6 +22,9 @@ export interface IConfig {
   maxConstellationStarSize: number;
   // Minimum absolute star magnitude needed for star to be shown in both views
   minAbsStarMagnitude: number;
+
+  constellations: string;
+  constellationsOpacity: number;
 }
 
 const defaultConfig: IConfig = {
@@ -30,10 +33,12 @@ const defaultConfig: IConfig = {
   horizonCameraAngle: 39, // deg
   orbitFov: 35,
   orbitCelestialSphereRadius: 5000,
-  starSizeMult: 0.0032,
-  minConstellationStarSize: 8,
-  maxConstellationStarSize: 9,
-  minAbsStarMagnitude: 3
+  starSizeMult: 0.5,
+  minConstellationStarSize: 9,
+  maxConstellationStarSize: 10,
+  minAbsStarMagnitude: 3,
+  constellations: "",
+  constellationsOpacity: 0.5
 };
 
 // Config is cached when module is loaded. That's fine, as URL parameters will not change in normal situation.

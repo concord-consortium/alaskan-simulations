@@ -40,7 +40,7 @@ $headerTextColor: #ffffff;
         }
       }
       .title {
-        font-size: 26px;
+        font-size: 26px;;
       }
       .buttons {
         button {
@@ -59,6 +59,7 @@ $headerTextColor: #ffffff;
     }
 
     .title {
+      margin-left: 12px;
       font-size: 22px;
       font-weight: bold;
     }

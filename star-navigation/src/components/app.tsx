@@ -11,22 +11,14 @@ import { formatTimeNumber, fractionalHourToTimeString, getConstellationAtTargetT
 import { skyModelerDirections } from "./sky-modeler-directions";
 import { Thumbnail } from "./thumbnail";
 
-import CheckIcon from "../assets/check-icon.svg";
 import CorrectIcon from "../assets/correct-icon.svg";
 import IncorrectIcon from "../assets/incorrect-icon.svg";
 
 import css from "./app.scss";
 
-const columnsMeta: IColumnMeta[] = [
-  { numeric: false },
-  { numeric: false },
-  { numeric: false },
-  { numeric: false },
-];
-
-// Observer location is at Berkeley, CA.
-const OBSERVER_LAT = 37.87084;
-const OBSERVER_LON = -122.27286;
+// Observer location is at Hooper Bay, Alaska.
+const OBSERVER_LAT = 61.523997904;
+const OBSERVER_LON = -166.090999636;
 
 const YEAR = 2022;
 // The day is specified for each month separately to ensure that only one constellation is perfectly centered in the horizon view.
@@ -114,22 +106,8 @@ export const App: React.FC = () => {
     }
   }), []));
 
-  const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
+  const { inputState, setInputState, setOutputState } = modelState;
 
-  const { inputState, setInputState, setOutputState, addModelRun } = modelState;
-
-  // When a new row is added to the table, it also receives a focus. This is not desired, as users will have to
-  // navigate through multiple elements before they get back to input widgets. To avoid this, we focus on the Play
-  // button which is a reasonable choice and it's also near the inputs.
-  const focusTargetAfterNewRun = useRef<HTMLButtonElement>(null);
-  const handleAddModelRun = () => {
-    addModelRun();
-    setOutputState({ constellationMatch: null });
-    // Timeout is necessary, as table will be re-rendered asynchronously.
-    setTimeout(() => {
-      focusTargetAfterNewRun.current?.focus();
-    }, 150);
-  };
 
   const constellationMatch = () => {
     const { month, predictedConstellation } = inputState;
@@ -187,10 +165,6 @@ export const App: React.FC = () => {
         <div className={css.bottomContainer}>
           <div className={css.controls}>
             <div className={css.row}>
-              <div className={css.group}>
-                <NewRunButton onClick={handleAddModelRun} />
-                <Button ref={focusTargetAfterNewRun} label={t("BUTTON.CHECK")} icon={<CheckIcon />} onClick={handleCheck} disabled={!checkEnabled} />
-              </div>
               <div className={css.timeSliderContainer}>
                 <Slider
                   value={inputState.timeOfDay}
@@ -203,62 +177,48 @@ export const App: React.FC = () => {
                 />
               </div>
             </div>
-            <div className={css.row}>
-              <LabeledContainer className={css.monthAndConstellation} label={t("PREDICT_CONSTELLATION_PROMPT")} style="violet">
-                <Thumbnail inputState={inputState} disabled={disableInputs} />
-                <div className={css.selectContainer}>
-                  <div className={clsx(css.label, { [css.disabled]: disableInputs })}>{t("CONSTELLATION")}</div>
-                  <Select value={inputState.predictedConstellation} onChange={handlePredictedConstellationChange} placeholder={t("CHOOSE")} listLocation="above" disabled={disableInputs} style="violet">
-                    <Option value={Constellation.Aquarius}>{t(Constellation.Aquarius)}</Option>
-                    <Option value={Constellation.Aquila}>{t(Constellation.Aquila)}</Option>
-                    <Option value={Constellation.Aries}>{t(Constellation.Aries)}</Option>
-                    <Option value={Constellation.Cancer}>{t(Constellation.Cancer)}</Option>
-                    <Option value={Constellation.Capricornus}>{t(Constellation.Capricornus)}</Option>
-                    <Option value={Constellation.Gemini}>{t(Constellation.Gemini)}</Option>
-                    <Option value={Constellation.Leo}>{t(Constellation.Leo)}</Option>
-                    <Option value={Constellation.Libra}>{t(Constellation.Libra)}</Option>
-                    <Option value={Constellation.Orion}>{t(Constellation.Orion)}</Option>
-                    <Option value={Constellation.Pisces}>{t(Constellation.Pisces)}</Option>
-                    <Option value={Constellation.Sagittarius}>{t(Constellation.Sagittarius)}</Option>
-                    <Option value={Constellation.Scorpius}>{t(Constellation.Scorpius)}</Option>
-                    <Option value={Constellation.Taurus}>{t(Constellation.Taurus)}</Option>
-                    <Option value={Constellation.UrsaMajor}>{t(Constellation.UrsaMajor)}</Option>
-                    <Option value={Constellation.Virgo}>{t(Constellation.Virgo)}</Option>
-                  </Select>
-                </div>
-                <div className={css.selectContainer}>
-                  <div className={clsx(css.label, { [css.disabled]: disableInputs })}>{t("MONTH")}</div>
-                  <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
-                    <Option value="1">{t(Month.January)}</Option>
-                    <Option value="2">{t(Month.February)}</Option>
-                    <Option value="3">{t(Month.March)}</Option>
-                    <Option value="4">{t(Month.April)}</Option>
-                    <Option value="5">{t(Month.May)}</Option>
-                    <Option value="6">{t(Month.June)}</Option>
-                    <Option value="7">{t(Month.July)}</Option>
-                    <Option value="8">{t(Month.August)}</Option>
-                    <Option value="9">{t(Month.September)}</Option>
-                    <Option value="10">{t(Month.October)}</Option>
-                    <Option value="11">{t(Month.November)}</Option>
-                    <Option value="12">{t(Month.December)}</Option>
-                  </ScrollingSelect>
-                </div>
-              </LabeledContainer>
-            </div>
+          <div className={css.row}>
+            <LabeledContainer className={css.monthAndConstellation} label={t("PREDICT_CONSTELLATION_PROMPT")} style="violet">
+              <Thumbnail inputState={inputState} disabled={disableInputs} />
+              <div className={css.selectContainer}>
+                <div className={clsx(css.label, { [css.disabled]: disableInputs })}>{t("CONSTELLATION")}</div>
+                <Select value={inputState.predictedConstellation} onChange={handlePredictedConstellationChange} placeholder={t("CHOOSE")} listLocation="above" disabled={disableInputs} style="violet">
+                  <Option value={Constellation.Aquarius}>{t(Constellation.Aquarius)}</Option>
+                  <Option value={Constellation.Aquila}>{t(Constellation.Aquila)}</Option>
+                  <Option value={Constellation.Aries}>{t(Constellation.Aries)}</Option>
+                  <Option value={Constellation.Cancer}>{t(Constellation.Cancer)}</Option>
+                  <Option value={Constellation.Capricornus}>{t(Constellation.Capricornus)}</Option>
+                  <Option value={Constellation.Gemini}>{t(Constellation.Gemini)}</Option>
+                  <Option value={Constellation.Leo}>{t(Constellation.Leo)}</Option>
+                  <Option value={Constellation.Libra}>{t(Constellation.Libra)}</Option>
+                  <Option value={Constellation.Orion}>{t(Constellation.Orion)}</Option>
+                  <Option value={Constellation.Pisces}>{t(Constellation.Pisces)}</Option>
+                  <Option value={Constellation.Sagittarius}>{t(Constellation.Sagittarius)}</Option>
+                  <Option value={Constellation.Scorpius}>{t(Constellation.Scorpius)}</Option>
+                  <Option value={Constellation.Taurus}>{t(Constellation.Taurus)}</Option>
+                  <Option value={Constellation.UrsaMajor}>{t(Constellation.UrsaMajor)}</Option>
+                  <Option value={Constellation.Virgo}>{t(Constellation.Virgo)}</Option>
+                </Select>
+              </div>
+              <div className={css.selectContainer}>
+                <div className={clsx(css.label, { [css.disabled]: disableInputs })}>{t("MONTH")}</div>
+                <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
+                  <Option value="1">{t(Month.January)}</Option>
+                  <Option value="2">{t(Month.February)}</Option>
+                  <Option value="3">{t(Month.March)}</Option>
+                  <Option value="4">{t(Month.April)}</Option>
+                  <Option value="5">{t(Month.May)}</Option>
+                  <Option value="6">{t(Month.June)}</Option>
+                  <Option value="7">{t(Month.July)}</Option>
+                  <Option value="8">{t(Month.August)}</Option>
+                  <Option value="9">{t(Month.September)}</Option>
+                  <Option value="10">{t(Month.October)}</Option>
+                  <Option value="11">{t(Month.November)}</Option>
+                  <Option value="12">{t(Month.December)}</Option>
+                </ScrollingSelect>
+              </div>
+            </LabeledContainer>
           </div>
-          <div className={css.tableContainer}>
-            <Table<IRowData>
-              {...tableProps}
-              columns={columns}
-              columnsMeta={columnsMeta}
-              disabled={false}
-              customHeader={(
-                <div className={css.key}>
-                  <span className={css.keyLabel}>{ t("KEY") }</span> <CorrectIcon /> <span>{ t("MATCH") }</span> <IncorrectIcon /> <span>{ t("NO_MATCH") }</span>
-                </div>
-              )}
-              noWrapDeleteButton={true}
-            />
           </div>
         </div>
       </div>

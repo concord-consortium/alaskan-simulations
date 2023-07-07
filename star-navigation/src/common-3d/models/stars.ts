@@ -6,7 +6,7 @@ import allStars from "../data/CEASAR-HYG-for-import-9k.csv";
 import constellations from "../data/constellations.csv";
 
 const STAR_SIZES = [1, 2, 3, 4, 5, 6, 7];
-const SIZE_POW = 3;
+const SIZE_POW = 1;
 const SIZE_MULT = config.starSizeMult;
 const MIN_CONSTELLATION_STAR_SIZE = config.minConstellationStarSize;
 const MAX_CONSTELLATION_STAR_SIZE = config.maxConstellationStarSize;
