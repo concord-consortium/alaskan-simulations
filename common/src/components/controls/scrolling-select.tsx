@@ -6,6 +6,15 @@ import ForwardIcon from "../../assets/forward-icon.svg";
 
 import css from "./scrolling-select.scss";
 
+interface IOptionProps {
+  value: string;
+  disabled?: boolean;
+}
+
+export const Option: React.FC<IOptionProps> = ({ value, disabled, children }) => (
+  <option value={value} disabled={disabled}>{ children }</option>
+);
+
 // a hack to quickly peer into the <Option ..> elements passed as children
 interface IOptionChild {
   props: {
