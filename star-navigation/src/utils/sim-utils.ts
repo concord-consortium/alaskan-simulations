@@ -38,3 +38,8 @@ export const localSiderealTimeToCelestialSphereRotation = (lst: number) => {
   const fractionOfDay = lst / siderealHoursPerDay;
   return THREE.MathUtils.degToRad(fractionOfDay * 360);
 };
+
+export const timeToAMPM = (hour: number) => {
+  const time = new Date(`2022-01-01T${fractionalHourToTimeString(hour)}`);
+  return time.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+};
