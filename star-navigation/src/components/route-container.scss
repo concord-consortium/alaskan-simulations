@@ -1,0 +1,9 @@
+@import "./vars.scss";
+
+.routeContainer {
+  width: 100%;
+  background-color: $darkYellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

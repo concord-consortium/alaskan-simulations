@@ -1,10 +1,9 @@
 import * as THREE from "three";
-import * as data from "../solar-system-data";
 import { config } from "../../config";
 
 const DEF_COLOR = 0xffffff;
 
-export const SF = 1 / data.SCALE_FACTOR;
+export const SF = 1 / 100000;
 export const SIMPLE_EARTH_RADIUS = 118000000 * SF;
 export const HIGHLIGHT_COLOR = 0xff0000;
 export const HIGHLIGHT_EMISSIVE = 0xbb3333;

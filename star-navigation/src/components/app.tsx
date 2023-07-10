@@ -1,13 +1,14 @@
 import React, { useMemo } from "react";
 import {
-  SimulationFrame, t, useModelState, Slider, Option, ScrollingSelect, Mark, getDefaultLanguage
+  SimulationFrame, t, useModelState
 } from "common";
-import clsx from "clsx";
-
 import { SimulationView } from "./simulation/simulation-view";
-import { IModelInputState, IModelOutputState, Constellation, Month } from "../types";
-import { formatTimeNumber, fractionalHourToTimeString, getConstellationAtTargetTime, monthLabel, timeToAMPM } from "../utils/sim-utils";
+import { IModelInputState, IModelOutputState } from "../types";
+import { formatTimeNumber, fractionalHourToTimeString } from "../utils/sim-utils";
 import { skyModelerDirections } from "./sky-modeler-directions";
+import { config } from "../config";
+import { RouteContainer } from "./route-container";
+import { BottomContainer } from "./bottom-container";
 
 import css from "./app.scss";
 
@@ -41,13 +42,6 @@ const getDateTimeString = (month: number, hour: number) =>
   `${YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(DAY[month])}T${fractionalHourToTimeString(hour)}${getTimezone(month)}`;
 
 export const App: React.FC = () => {
-
-  const sliderMarks: Mark[] = [];
-  for (let hour = 0; hour <= 24; hour++) {
-    const label = (hour === 0) || (hour === 24) ? t("TIME.MIDNIGHT") : (hour === 12 ? t("TIME.NOON") : undefined);
-    sliderMarks.push({value: hour, label});
-  }
-
   const modelState = useModelState<IModelInputState, IModelOutputState>(useMemo(() => ({
     initialInputState: {
       predictedConstellation: null,
@@ -60,35 +54,22 @@ export const App: React.FC = () => {
     }
   }), []));
 
-  const { inputState, setInputState, setOutputState } = modelState;
+  const { inputState, setInputState } = modelState;
 
-
-  const constellationMatch = () => {
-    const { month, predictedConstellation } = inputState;
-    const constellationAtTargetTime = month ? getConstellationAtTargetTime(month) : null;
-    return constellationAtTargetTime ? predictedConstellation === constellationAtTargetTime : false;
-  };
-
-  const handleTimeOfDayChange = (event: Event, value: number) => {
+  const handleTimeOfDayChange = (value: number) => {
     setInputState({
       timeOfDay: value
     });
   };
 
-
-  const handleMonthChange = (value: string | null) => {
+  const handleMonthChange = (value: number) => {
     setInputState({
-      answerChecked: false,
-      month: Number(value) || 1
+      month: value
     });
   };
 
-  const disableInputs = inputState.answerChecked && !!constellationMatch();
-
   const date = new Date(getDateTimeString(inputState.month || 1, inputState.timeOfDay));
   const epochTime = date.getTime();
-
-  const lang = getDefaultLanguage();
 
   const noop = () => undefined;
 
@@ -102,47 +83,28 @@ export const App: React.FC = () => {
       handleSetReadAloud={noop}
     >
       <div className={css.content}>
-        <div className={css.simulationContainer}>
-          <SimulationView
+        <div className={css.leftColumn}>
+          <div className={css.simulationContainer}>
+            <SimulationView
+              inputState={inputState}
+              epochTime={epochTime}
+              observerLat={OBSERVER_LAT}
+              observerLon={OBSERVER_LON}
+            />
+          </div>
+          <BottomContainer
             inputState={inputState}
-            epochTime={epochTime}
-            observerLat={OBSERVER_LAT}
-            observerLon={OBSERVER_LON}
+            disableInputs={false}
+            onTimeOfDayChange={handleTimeOfDayChange}
+            onMonthChange={handleMonthChange}
           />
         </div>
-        <div className={css.bottomContainer}>
-          <div className={css.controls}>
-            <div className={css.row}>
-              <div className={css.timeSliderContainer}>
-                <Slider
-                  value={inputState.timeOfDay}
-                  min={0}
-                  max={24}
-                  step={1}
-                  label={t("SIMULATION.TIME", { vars: { timeOfDay: timeToAMPM(inputState.timeOfDay, lang) } })}
-                  onChange={handleTimeOfDayChange}
-                  marks={sliderMarks}
-                />
-              </div>
-            </div>
-          <div className={css.row}>
-            <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
-              <Option value="1">{t(Month.January)}</Option>
-              <Option value="2">{t(Month.February)}</Option>
-              <Option value="3">{t(Month.March)}</Option>
-              <Option value="4">{t(Month.April)}</Option>
-              <Option value="5">{t(Month.May)}</Option>
-              <Option value="6">{t(Month.June)}</Option>
-              <Option value="7">{t(Month.July)}</Option>
-              <Option value="8">{t(Month.August)}</Option>
-              <Option value="9">{t(Month.September)}</Option>
-              <Option value="10">{t(Month.October)}</Option>
-              <Option value="11">{t(Month.November)}</Option>
-              <Option value="12">{t(Month.December)}</Option>
-            </ScrollingSelect>
+        {
+          config.routeMap &&
+          <div className={css.rightColumn}>
+            <RouteContainer />
           </div>
-          </div>
-        </div>
+        }
       </div>
     </SimulationFrame>
   );

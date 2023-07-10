@@ -1,0 +1,13 @@
+@import "./vars.scss";
+
+.bottomContainer {
+  background-color: $lightYellow;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  height: 160px;
+
+  .timeSliderContainer {
+    width: 400px;
+  }
+}

@@ -1,113 +1,28 @@
-@import "common/src/vars.scss";
+@import "./vars.scss";
 
 .simulationFrame {
   background-color: #fffefd;
 }
 
 .content {
-  width: 100%;
-  height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  padding: 5px;
 
-  .simulationContainer {
-    box-sizing: border-box;
-    padding: 5px;
-    width: 100%;
-  }
-
-  .timeSliderContainer {
-    :global(.MuiSlider-root) {
-      margin-top: 3px;
-      width: calc(100% - 50px);
-      margin: 0 30px 0 20px;
-    }
-    :global(.MuiSlider-markLabel) {
-      top: 32px;
-      font-weight: 500;
-    }
-
-    :global(.MuiSlider-mark[data-index="0"]),
-    :global(.MuiSlider-mark[data-index="12"]),
-    :global(.MuiSlider-mark[data-index="24"]) {
-      width: 6px;
-      height: 6px;
-      margin-top: 9px;
-    }
-  }
-
-  .bottomContainer {
-    margin-left: 12px;
-    width: 100%;
+  .leftColumn {
     display: flex;
+    flex: 10;
+    flex-direction: column;
 
-    .controls {
-      width: 49%;
-
-      .row {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 1px 10px 16px 10px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-
-        .group {
-          white-space: nowrap;
-
-          &>*+* {
-            margin-left: 16px;
-          }
-        }
-
-        // move the input controls up to match the table
-        &:nth-of-type(2) {
-          padding-top: 3px;
-        }
-      }
-
-      .timeSliderContainer {
-        width: 338px;
-      }
-
-      .monthAndConstellation {
-        width: 100%;
-        height: 118px;
-        justify-content: flex-start;
-        padding: 0 20px;
-
-        .selectContainer {
-          margin-right: 20px;
-
-          .disabled {
-            opacity: 0.35;
-          }
-
-          .label {
-            text-align: center;
-            font-size: 16px;
-            font-family: $fontFamilyRoboto;
-            font-weight: bold;
-            color: $purpleAccent;
-            margin-bottom: 5px;
-          }
-
-          :global(.MuiOptionUnstyled-root) {
-            height: 32px;
-          }
-          :global(.MuiSelectUnstyled-root) {
-            min-width: 128px;
-            padding-left: 9px;
-            height: 40px;
-            font-size: 16px;
-          }
-          :global(.MuiSelectUnstyled-popper) {
-            ul:global(.MuiSelectUnstyled-listbox) {
-              min-width: 128px;
-            }
-          }
-        }
-      }
+    .simulationContainer {
+      box-sizing: border-box;
+      width: 100%;
     }
+  }
+
+  .rightColumn {
+    width: 230px;
+    margin-left: 5px;
+    display: flex;
   }
 }
