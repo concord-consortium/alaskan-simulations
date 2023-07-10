@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { useModelState } from "./hooks/use-model-state";
-import { useSimulationRunner } from "./hooks/use-simulation-runner";
+import { useSimulationRunner, SimulationFrame } from "common";
 import { useModelTable } from "./hooks/use-model-table";
 import { useTranslation } from "./hooks/use-translation";
 import { translations } from "./translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
-import { SimulationFrame } from "common";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
