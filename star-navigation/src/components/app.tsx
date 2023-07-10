@@ -94,6 +94,7 @@ export const App: React.FC = () => {
 
   return (
     <SimulationFrame
+      className={css.simulationFrame}
       title={t("SIMULATION.TITLE")}
       directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
       t={t}

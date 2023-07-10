@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 import { Dialog } from "./dialog";
 import Logo from "../../assets/concord.png";
@@ -16,12 +16,13 @@ interface IProps {
   directions: string | ReactNode;
   t: (string: string) => string | JSX.Element;
   readAloudMode: boolean;
+  className?: string;
   handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, readAloudMode, handleSetReadAloud }) => {
+export const SimulationFrame: React.FC<IProps> = ({ t, directions, className, children, readAloudMode, handleSetReadAloud }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 
@@ -36,7 +37,7 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, rea
   };
 
   return (
-    <div className={css.simulationFrame} data-testid="simulation-frame">
+    <div className={clsx(css.simulationFrame, className)} data-testid="simulation-frame">
       <div id={simulationFrameHeaderId} className={css.header}>
         <div className={clsx(css.buttons, css.left)}>
           <img className={css.logo} src={Logo}/>

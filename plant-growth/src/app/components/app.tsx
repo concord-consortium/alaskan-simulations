@@ -227,6 +227,7 @@ export const App = (props: IAppProps) => {
 
   return (
     <SimulationFrame
+      className={css.simulationFrame}
       title={translations["SIMULATION.TITLE"].string}
       directions={<PlantGrowthDirections t={t}/>} // ReactNode is also allowed if more complex content is needed.
       t={t}

@@ -1,13 +1,11 @@
 @import "../../vars.scss";
 
 $headerHeight: 60px;
-$width: $maxAppWidth;
 $headerTextColor: $bluePrimary;
 
 .simulationFrame {
   width: $maxAppWidth;
-  height: 635px;
-  background-color: $main-bg;
+  padding-bottom: 15px;
 
   *:focus-visible {
     outline: $focusOutline;
