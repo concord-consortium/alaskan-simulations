@@ -2,12 +2,11 @@ import React, { useState, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import clsx from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
-
 import { Dialog } from "./dialog";
-import { t } from "../..";
-import Logo from "../../assets/logo.svg";
+import Logo from "../../assets/concord.png";
+import HeaderTitle from "../../assets/HeaderTitle.png";
+import { Switch } from "../controls/switch";
 import DirectionsButton from "../../assets/directions-button.svg";
-import DirectionsButtonLarger from "../../assets/directions-button-larger.svg";
 import { Credits } from "./credits";
 
 import css from "./simulation-frame.scss";
@@ -15,12 +14,14 @@ import css from "./simulation-frame.scss";
 interface IProps {
   title: string;
   directions: string | ReactNode;
-  largerStyle?: true;
+  t: (string: string) => string | JSX.Element;
+  readAloudMode: boolean;
+  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ title, directions, children, largerStyle }) => {
+export const SimulationFrame: React.FC<IProps> = ({ t, directions, children, readAloudMode, handleSetReadAloud }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
 
@@ -35,20 +36,28 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children,
   };
 
   return (
-    <div className={clsx(css.simulationFrame, {[css.larger]: largerStyle})} data-testid="simulation-frame">
-      <div id={simulationFrameHeaderId} className={`${css.header} ${largerStyle && css.larger}`}>
-        <div className={css.title}>{title}</div>
-        <div className={css.buttons}>
+    <div className={css.simulationFrame} data-testid="simulation-frame">
+      <div id={simulationFrameHeaderId} className={css.header}>
+        <div className={clsx(css.buttons, css.left)}>
+          <img className={css.logo} src={Logo}/>
           <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{t("CREDITS.HEADER")}</button>
-          <button className={clsx({ [css.active]: showDirections, [css.larger]: largerStyle})} onClick={toggleDirections}>
-            {largerStyle ? <DirectionsButtonLarger/> : <DirectionsButton/>}
+        </div>
+        <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
+        <div className={clsx(css.buttons, css.right)}>
+          <Switch
+            checked={readAloudMode}
+            label={"Read Aloud in Yugtun"}
+            onChange={handleSetReadAloud}
+          />
+          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
+            <DirectionsButton />
           </button>
         </div>
       </div>
       <div className={css.content}>
         {children}
         {
-          showCredits && <Credits onClose={toggleCredits} />
+          showCredits && <Credits onClose={toggleCredits} t={t} />
         }
         {showDirections &&
           <Dialog
@@ -58,7 +67,8 @@ export const SimulationFrame: React.FC<IProps> = ({ title, directions, children,
             addSeparator={true}
             className={css.instructions}
           >
-            {typeof directions === "string" ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
+            {typeof directions === "string" ?
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>{directions}</ReactMarkdown> : directions}
           </Dialog>
         }
       </div>

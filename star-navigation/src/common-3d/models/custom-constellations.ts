@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import * as data from "../solar-system-data";
-import earthImg from "../assets/earth-grid-2k.jpg";
 import { config } from "../../config";
 
 const DEF_COLOR = 0xffffff;
@@ -21,7 +20,7 @@ export default class CustomConstellations {
     const geometry = new THREE.SphereGeometry(RADIUS, 64, 64);
     this._material = new THREE.MeshBasicMaterial(COLORS);
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(config.constellations || earthImg);
+    const texture = textureLoader.load(config.constellations);
     this._material.opacity = config.constellationsOpacity;
     this._material.map = texture;
     this._material.map.wrapS = THREE.RepeatWrapping;
