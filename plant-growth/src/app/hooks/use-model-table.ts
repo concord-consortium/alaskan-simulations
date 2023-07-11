@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ITableProps } from "../table/table";
+import { ITableProps } from "../components/table/table";
 import { IUseModelStateResult } from "./use-model-state";
 
 export interface IUseModelTableOptions<IModelInputState, IModelOutputState, IRowData> {

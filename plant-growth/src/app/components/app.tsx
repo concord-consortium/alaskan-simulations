@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { useModelState } from "./hooks/use-model-state";
+import { useModelState } from "../hooks/use-model-state";
 import { useSimulationRunner, SimulationFrame } from "common";
-import { useModelTable } from "./hooks/use-model-table";
-import { useTranslation } from "./hooks/use-translation";
-import { translations } from "./translations";
+import { useModelTable } from "../hooks/use-model-table";
+import { useTranslation } from "../hooks/use-translation";
+import { translations } from "../translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
 import { NewRunButton } from "./controls/new-run-button";

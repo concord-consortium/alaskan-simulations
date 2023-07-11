@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "./button";
 import PlayIcon from "../../assets/play-icon.svg";
-import { translations } from "../translations";
+import { translations } from "../../translations";
 
 interface IProps {
   onClick?: () => void;
