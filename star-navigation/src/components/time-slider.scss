@@ -1,0 +1,75 @@
+@import "./vars.scss";
+
+$railHeight: 17px;
+$thumbSize: 40px;
+
+.slider {
+  width: 100%;
+  display: flex;
+  // Make sure that interacting with slider on touch devices won't trigger scrolling.
+  // https://docs.dndkit.com/api-documentation/sensors/pointer#touch-action
+  touch-action: none;
+
+  &.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .customRail {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: $railHeight;
+    border-radius: $railHeight * 0.5;
+    background-color: #fcc545;
+
+    .beforeSunrise, .afterSunset {
+      position: absolute;
+      background-color: $midnight-blue;
+      height: $railHeight;
+    }
+
+    .beforeSunrise {
+      border-bottom-left-radius: $railHeight * 0.5;
+      border-top-left-radius: $railHeight * 0.5;
+    }
+
+    .afterSunset {
+      border-bottom-right-radius: $railHeight * 0.5;
+      border-top-right-radius: $railHeight * 0.5;
+    }
+  }
+
+  :global(.Mui-focusVisible) {
+    outline: $focusOutline;
+  }
+
+  :global(.MuiSlider-root) {
+    height: $railHeight;
+    width: calc(100% - $thumbSize);
+    padding: 17px 0;
+    margin: 0 $thumbSize * 0.5;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+
+    :global(.MuiSlider-thumb) {
+      position: absolute;
+      width: $thumbSize;
+      height: $thumbSize;
+      margin-left: -$thumbSize * 0.5;
+      margin-top: -12px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: 3px solid $midnight-blue;
+      background-color: $light-blue;
+
+      &:hover {
+        background-color: $blue-hover;
+      }
+      &:active {
+        background-color: $blue-active;
+      }
+    }
+  }
+}

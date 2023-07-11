@@ -3,7 +3,6 @@ export * from "./utils/config";
 export * from "./components/simulation-frame/simulation-frame";
 export * from "./components/simulation-frame/dialog";
 
-export * from "./components/controls/slider";
 export * from "./components/controls/scrolling-select";
 
 export * from "./hooks/use-model-state";

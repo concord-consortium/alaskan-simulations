@@ -32,11 +32,11 @@
     }
 
     &:hover {
-      background-color: darken($light-blue, 10%);
+      background-color: $blue-hover;
     }
 
     &:active {
-      background-color: darken($light-blue, 30%);
+      background-color: $blue-active;
 
       path {
         fill: white;

@@ -1,7 +1,6 @@
 import React from "react";
-import {
-  Slider, Option, ScrollingSelect, useTranslation
-} from "common";
+import { Option, ScrollingSelect, useTranslation } from "common";
+import { TimeSlider } from "./time-slider";
 import { IModelInputState, Month } from "../types";
 import { daysInMonth, timeToAMPM } from "../utils/sim-utils";
 
@@ -38,14 +37,14 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
     <div className={css.bottomContainer}>
       <div className={css.row}>
         <div className={css.timeSliderContainer}>
-          <Slider
+          <div className={css.label}>{ t("MIDNIGHT") }</div>
+          <TimeSlider
             value={inputState.timeOfDay}
-            min={0}
-            max={24}
-            step={1 / 60}
-            label={""}
+            day={inputState.day}
+            month={inputState.month}
             onChange={handleTimeOfDayChange}
           />
+          <div className={css.label}>{ t("MIDNIGHT") }</div>
         </div>
       </div>
       <div className={css.row}>
