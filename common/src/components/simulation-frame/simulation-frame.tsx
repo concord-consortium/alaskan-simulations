@@ -1,5 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
+import { useTranslation } from "../../hooks/use-translation";
 import { clsx } from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 import { Dialog } from "./dialog";
@@ -12,19 +13,20 @@ import { Credits } from "./credits";
 import css from "./simulation-frame.scss";
 
 interface IProps {
-  title: string;
   directions: string | ReactNode;
-  t: (string: string) => string | JSX.Element;
-  readAloudMode: boolean;
   className?: string;
-  handleSetReadAloud: (e: React.ChangeEvent<HTMLInputElement> | boolean) => void;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ t, directions, className, children, readAloudMode, handleSetReadAloud }) => {
+export const SimulationFrame: React.FC<IProps> = ({ directions, className, children }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
+  const { t, readAloudMode, setReadAloudMode } = useTranslation();
+
+  const handleSetReadAloud = () => {
+    setReadAloudMode(!readAloudMode);
+  };
 
   const toggleCredits = () => {
     setShowCredits(old => !old);
@@ -58,7 +60,7 @@ export const SimulationFrame: React.FC<IProps> = ({ t, directions, className, ch
       <div className={css.content}>
         {children}
         {
-          showCredits && <Credits onClose={toggleCredits} t={t} />
+          showCredits && <Credits onClose={toggleCredits} />
         }
         {showDirections &&
           <Dialog

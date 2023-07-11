@@ -1,6 +1,7 @@
 import React from "react";
-import { InputAmount } from "../../types";
 import clsx from "clsx";
+import { useTranslation } from "common";
+import { InputAmount } from "../../types";
 
 import css from "./input-slider.scss";
 
@@ -10,10 +11,11 @@ interface IProps {
   labels: string[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   disabled: boolean;
-  t: (string: string) => string | JSX.Element;
 }
 
-export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels, t }) => {
+export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels }) => {
+  const { t } = useTranslation();
+
   const getClass = () => {
     if (value === InputAmount.Full) {
       return css.full;

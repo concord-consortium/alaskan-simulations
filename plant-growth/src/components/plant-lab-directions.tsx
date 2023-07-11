@@ -1,11 +1,8 @@
+import { useTranslation } from "common";
 import React from "react";
 
-interface IDirections {
-  t: (string: string, markdown?: boolean) => string | JSX.Element
-}
-
-export const PlantGrowthDirections = (props: IDirections) => {
-  const {t} = props;
+export const PlantGrowthDirections = () => {
+  const { t } = useTranslation();
   const useMarkdown = true;
   return (
     <div>
