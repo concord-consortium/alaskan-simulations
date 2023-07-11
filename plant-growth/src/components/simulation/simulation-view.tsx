@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
-import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../../../types";
+import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../../types";
 import { AnimationView } from "./animation-view";
 import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";

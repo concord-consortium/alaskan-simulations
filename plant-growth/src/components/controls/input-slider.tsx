@@ -1,5 +1,5 @@
 import React from "react";
-import { InputAmount } from "../../../types";
+import { InputAmount } from "../../types";
 import clsx from "clsx";
 
 import css from "./input-slider.scss";

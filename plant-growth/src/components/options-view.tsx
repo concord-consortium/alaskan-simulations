@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import { IModelInputState, InputAmount } from "../../types";
+import { IModelInputState, InputAmount } from "../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
 

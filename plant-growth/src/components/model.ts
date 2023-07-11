@@ -1,4 +1,4 @@
-import { IModelInputState, InputAmount } from "../../types";
+import { IModelInputState, InputAmount } from "../types";
 import equal from "deep-equal";
 
 interface ICaseData {

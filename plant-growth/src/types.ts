@@ -1,5 +1,5 @@
 import { IRuntimeInteractiveMetadata } from "@concord-consortium/lara-interactive-api";
-import { IModelRun } from "./app/hooks/use-model-state";
+import { IModelRun } from "./hooks/use-model-state";
 
 export interface IAuthoredState extends IModelInputState {}
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {

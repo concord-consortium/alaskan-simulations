@@ -9,7 +9,7 @@ import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, OutputAmount, InputAmount, OutputAmountValue } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { BarGraph } from "./bar-graph/bar-graph";

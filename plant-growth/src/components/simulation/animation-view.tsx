@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { InputAmount } from "../../../types";
+import { InputAmount } from "../../types";
 import css from "./animation-view.scss";
 
 interface IProps {
