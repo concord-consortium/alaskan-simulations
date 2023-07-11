@@ -1,3 +1,4 @@
+import { TranslationDict } from "common";
 import NewTrial from "./assets/yugtun-audio/new-trial.mp3";
 import Controls from "./assets/yugtun-audio/controls.mp3";
 import Play from "./assets/yugtun-audio/play.mp3";
@@ -54,12 +55,7 @@ const instructionsPart3_text = `When you run a trial, settings and results will 
 of trials by tapping on different rows in the table to see the graphs that go with that trial.
 How do the settings of light, water, and  CO<sub>2</sub> affect the plant's growth?`;
 
-interface ITranslation {
-  string: string;
-  mp3?: HTMLAudioElement;
-}
-
-export const translations: Record<string, ITranslation> = {
+export const translations: TranslationDict = {
   "CREDITS.HEADER": { string: "Credits"},
   "INSTRUCTIONS.HEADER": { string: "Plant Growth Experiments"},
 

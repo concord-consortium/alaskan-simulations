@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { defaultInitialState, IModelInputState, IModelOutputState } from "../../types";
-import { useSaveInteractiveState } from "./use-interactive-state";
+import { useSaveInteractiveState } from "common/src/hooks/use-interactive-state";
 
 // initialOutputState can be either an object or a function of initialInputState which returns an object.
 export type OutputInitializerFunction<IModelInputState, T> = (inputState: IModelInputState) => T;

@@ -2,29 +2,31 @@ import React, {useEffect, useState} from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { useSaveInteractiveState } from "./use-interactive-state";
-import { translations } from "../translations";
 import clsx from "clsx";
 
 import css from "./use-translation.scss";
 
-interface IProps {
-  isRunning: boolean,
-  initialReadAloudMode: boolean|undefined
+export interface ITranslation {
+  string: string;
+  mp3?: HTMLAudioElement;
 }
 
+export type TranslationDict = Record<string, ITranslation>;
+
 interface ITranslationProps {
-  string: string,
-  readAloudMode: boolean,
-  isRunning: boolean,
-  markDown?: boolean
-  isAnyAudioPlaying: boolean,
+  string: string;
+  readAloudMode: boolean;
+  isRunning: boolean;
+  translations: TranslationDict;
+  isAnyAudioPlaying: boolean;
   setIsAnyAudioPlaying: (bool: boolean) => void;
+  markDown?: boolean;
 }
 
 const Translation = (props: ITranslationProps) => {
   const [isAudioSelected, setIsAudioSelected] = useState<boolean>(false);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement>();
-  const {string, readAloudMode, isRunning, markDown, isAnyAudioPlaying, setIsAnyAudioPlaying} = props;
+  const {string, readAloudMode, isRunning, markDown, isAnyAudioPlaying, setIsAnyAudioPlaying, translations} = props;
   const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const Translation = (props: ITranslationProps) => {
       setIsAudioSelected(false);
     });
 
-  }, [readAloudMode, audioElement, string]);
+  }, [readAloudMode, audioElement, string, translations]);
 
   useEffect(() => {
     if (audioElement) {
@@ -63,7 +65,7 @@ const Translation = (props: ITranslationProps) => {
          audioElement.removeEventListener("ended", handleEnded);
       };
     }
-  }, [audioElement]);
+  }, [audioElement, setIsAnyAudioPlaying]);
 
   if (audioElement) {
     const handlePlay = () => {
@@ -92,8 +94,14 @@ const Translation = (props: ITranslationProps) => {
   }
 };
 
+interface IProps {
+  isRunning: boolean,
+  translations: TranslationDict;
+  initialReadAloudMode?: boolean;
+}
+
 export const useTranslation = (props: IProps) => {
-  const {isRunning, initialReadAloudMode} = props;
+  const {isRunning, initialReadAloudMode, translations} = props;
   const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
   const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
@@ -109,6 +117,7 @@ export const useTranslation = (props: IProps) => {
   const t = (string: string, markDown?: boolean) => {
     return (
       <Translation
+        translations={translations}
         readAloudMode={readAloudMode}
         string={string}
         isAnyAudioPlaying={isAnyAudioPlaying}

@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { useModelState } from "../hooks/use-model-state";
-import { useSimulationRunner, SimulationFrame } from "common";
+import { useSimulationRunner, SimulationFrame, useTranslation } from "common";
 import { useModelTable } from "../hooks/use-model-table";
-import { useTranslation } from "../hooks/use-translation";
 import { translations } from "../translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
@@ -53,6 +52,7 @@ export const App = (props: IAppProps) => {
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
 
   const {t, readAloudMode, setReadAloudMode} = useTranslation(useMemo(() => ({
+      translations,
       isRunning,
       initialReadAloudMode: interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode
   }), [isRunning, interactiveState]));
