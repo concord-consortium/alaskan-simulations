@@ -22,7 +22,7 @@ export const simulationFrameHeaderId = "simulationFrameHeader";
 export const SimulationFrame: React.FC<IProps> = ({ directions, className, children }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
-  const { t, readAloudMode, setReadAloudMode } = useTranslation();
+  const { t, tStringOnly, readAloudMode, setReadAloudMode } = useTranslation();
 
   const handleSetReadAloud = () => {
     setReadAloudMode(!readAloudMode);
@@ -43,7 +43,7 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, child
       <div id={simulationFrameHeaderId} className={css.header}>
         <div className={clsx(css.buttons, css.left)}>
           <img className={css.logo} src={Logo}/>
-          <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{t("CREDITS.HEADER")}</button>
+          <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{ tStringOnly("CREDITS.HEADER") }</button>
         </div>
         <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
         <div className={clsx(css.buttons, css.right)}>
