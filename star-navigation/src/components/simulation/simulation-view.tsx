@@ -1,8 +1,6 @@
 import React from "react";
-
 import { HorizonViewWrapper } from "../../horizon-view/components/horizon-view-wrapper";
 import { IModelInputState } from "../../types";
-import { daytimeOpacity } from "../../utils/daytime";
 
 import css from "./simulation-view.scss";
 
