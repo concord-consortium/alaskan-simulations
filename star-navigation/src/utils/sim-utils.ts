@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+export const SIMULATION_YEAR = 2023;
+
 export const monthLabel: Record<number, string> = {
   1: "MONTH.JANUARY",
   2: "MONTH.FEBRUARY",
@@ -40,6 +42,30 @@ export const localSiderealTimeToCelestialSphereRotation = (lst: number) => {
 };
 
 export const timeToAMPM = (hour: number) => {
-  const time = new Date(`2022-01-01T${fractionalHourToTimeString(hour)}`);
+  const time = new Date(`${SIMULATION_YEAR}-01-01T${fractionalHourToTimeString(hour)}`);
   return time.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
 };
+
+export const daysInMonth = (month: number) => new Date(SIMULATION_YEAR, month, 0).getDate();
+
+// In year 2023:
+// PDT: March 12 <-> November 5
+// PST: November 5 <-> March 12
+export const getTimezone = (month: number, day: number) => {
+  const PDT = "-07:00";
+  const PST = "-08:00";
+  if (month > 3 || month < 11) {
+    return PDT;
+  }
+  if (month === 3 && day >= 12) {
+    return PDT;
+  }
+  if (month === 11 && day < 5) {
+    return PDT;
+  }
+  return PST;
+};
+
+export const getDateTimeString = (month: number, day: number, hour: number) =>
+  `${SIMULATION_YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(day)}T${fractionalHourToTimeString(hour)}${getTimezone(month, day)}`;
+
