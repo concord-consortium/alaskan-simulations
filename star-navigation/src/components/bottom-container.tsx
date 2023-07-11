@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  Slider, Option, ScrollingSelect, t
+  Slider, Option, ScrollingSelect, useTranslation
 } from "common";
 import { IModelInputState, Month } from "../types";
+import { timeToAMPM } from "../utils/sim-utils";
 
 import css from "./bottom-container.scss";
-import { timeToAMPM } from "../utils/sim-utils";
 
 interface IProps {
   inputState: IModelInputState;
@@ -15,6 +15,8 @@ interface IProps {
 }
 
 export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, onMonthChange, onTimeOfDayChange }) => {
+  const { t } = useTranslation();
+
   const handleTimeOfDayChange = (event: Event, value: number) => {
     onTimeOfDayChange(value);
   };
@@ -39,14 +41,14 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
       </div>
       <div className={css.row}>
         <div className={css.widgetContainer}>
-          <div className={css.label}>{t("Constellations")}</div>
+          <div className={css.label}>{t("CONSTELLATIONS")}</div>
           <div className={css.content}>
             <div className={css.content100}>
             </div>
           </div>
         </div>
         <div className={css.widgetContainer}>
-          <div className={css.label}>{t("Month")}</div>
+          <div className={css.label}>{t("MONTH")}</div>
           <div className={css.content}>
             <div className={css.content100}>
               <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
@@ -67,14 +69,14 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
           </div>
         </div>
         <div className={css.widgetContainer}>
-          <div className={css.label}>{t("Day")}</div>
+          <div className={css.label}>{t("DAY")}</div>
           <div className={css.content}>
             <div className={css.content100}>
             </div>
           </div>
         </div>
         <div className={css.widgetContainer}>
-          <div className={css.label}>{t("Time")}</div>
+          <div className={css.label}>{t("TIME")}</div>
           <div className={css.content}>
             <div className={css.content100}>
               {timeToAMPM(inputState.timeOfDay)}
@@ -82,7 +84,7 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
           </div>
         </div>
         <div className={css.widgetContainer}>
-          <div className={css.label}>{t("Navigation Markers")}</div>
+          <div className={css.label}>{t("NAVIGATION_MARKERS")}</div>
           <div className={css.content}>
             <div className={css.content50}></div>
             <div className={css.content50}></div>

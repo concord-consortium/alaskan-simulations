@@ -1,7 +1,9 @@
 import React, { useEffect, KeyboardEvent, useRef } from "react";
-import { useTable, useSortBy, Column } from "react-table";
-import DeleteIcon from "../../assets/delete-icon.svg";
 import clsx from "clsx";
+import { useTable, useSortBy, Column } from "react-table";
+import { useTranslation } from "common";
+
+import DeleteIcon from "../../assets/delete-icon.svg";
 
 import css from "./table.scss";
 
@@ -25,12 +27,11 @@ export interface ITableProps<Data> {
   centerHeader?: boolean; //used in Plant-Lab, header title and contents are centered
   noWrapDeleteButton?: boolean;
   maxWidthDeleteButton?: number;
-  t: (string: string) => string | JSX.Element;
 }
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
-  const { columns, data, activeRow, onActiveRowChange, disabled,
-    onRowDelete, centerHeader, t } = props;
+  const { columns, data, activeRow, onActiveRowChange, disabled, onRowDelete, centerHeader } = props;
+  const { t } = useTranslation();
 
   const activeRowRef = useRef<HTMLTableRowElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);

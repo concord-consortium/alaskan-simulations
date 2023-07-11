@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
+import { useTranslation } from "common";
 import css from "./bar-graph.scss";
 
 export type GraphDatasetStyle = "data1" | "data2";
@@ -20,17 +20,17 @@ export interface IBarGraphProps {
   data: number[];
   activeXTick?: string | number;
   className: string;
-  t: (string: string) => string | JSX.Element;
 }
 
 export const BarGraph:  React.FC<IBarGraphProps> = (props) => {
-  const yAxisLabel = props.t("GRAPHS.Y_AXIS_LABEL");
-  const xAxisLabel = props.t("GRAPHS.X_AXIS_LABEL");
+  const { t } = useTranslation();
+  const yAxisLabel = t("GRAPHS.Y_AXIS_LABEL");
+  const xAxisLabel = t("GRAPHS.X_AXIS_LABEL");
   const yMin = 0;
   const yMax = 10;
   const yGridStep = 2;
   const yTicks: IYTick[] = [];
-  const xTicks: IXTick[] = [0, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: props.t(`X_TICK_${val}`)}));
+  const xTicks: IXTick[] = [0, 4, 8, 12, 16, 20, 24, 28].map(val => ({val, label: t(`X_TICK_${val}`)}));
 
   const { title, data, activeXTick, className } = props;
 

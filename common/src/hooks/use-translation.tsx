@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { useSaveInteractiveState } from "./use-interactive-state";
@@ -16,23 +16,24 @@ export type TranslationDict = Record<string, ITranslation>;
 interface ITranslationProps {
   string: string;
   readAloudMode: boolean;
-  isRunning: boolean;
   translations: TranslationDict;
   isAnyAudioPlaying: boolean;
   setIsAnyAudioPlaying: (bool: boolean) => void;
   markDown?: boolean;
+  disabled?: boolean;
 }
 
 const Translation = (props: ITranslationProps) => {
   const [isAudioSelected, setIsAudioSelected] = useState<boolean>(false);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement>();
-  const {string, readAloudMode, isRunning, markDown, isAnyAudioPlaying, setIsAnyAudioPlaying, translations} = props;
-  const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : translations[string].string;
+  const { string, readAloudMode, disabled, markDown, isAnyAudioPlaying, setIsAnyAudioPlaying, translations } = props;
+  const translationData = useMemo(() => translations[string] || {}, [string, translations]);
+  const stringToRender = string === "CO2" ? <span>CO<sub>2</sub></span> : (translationData?.string || string);
 
   useEffect(() => {
-    if ("mp3" in translations[string] && readAloudMode) {
-      setAudioElement(translations[string].mp3);
-    } else if ("mp3" in translations[string] && !readAloudMode && audioElement) {
+    if ("mp3" in translationData && readAloudMode) {
+      setAudioElement(translationData.mp3);
+    } else if ("mp3" in translationData && !readAloudMode && audioElement) {
       audioElement.pause();
       setIsAudioSelected(false);
     } else {
@@ -45,11 +46,11 @@ const Translation = (props: ITranslationProps) => {
       setIsAudioSelected(false);
     });
 
-  }, [readAloudMode, audioElement, string, translations]);
+  }, [readAloudMode, audioElement, string, translationData]);
 
   useEffect(() => {
     if (audioElement) {
-      const handlePlaying = () => {setIsAnyAudioPlaying(true);};
+      const handlePlaying = () => { setIsAnyAudioPlaying(true); };
       const handleEnded = () => {
         setIsAnyAudioPlaying(false);
         setIsAudioSelected(false);
@@ -58,18 +59,18 @@ const Translation = (props: ITranslationProps) => {
       // If audio element is paused (because readAloudMode was turned off), treat as audio ended
       audioElement.addEventListener("pause", handleEnded);
       audioElement.addEventListener("ended", handleEnded);
-     // cleanup
+      // cleanup
       return () => {
-         audioElement.removeEventListener("playing", handlePlaying);
-         audioElement.addEventListener("pause", handleEnded);
-         audioElement.removeEventListener("ended", handleEnded);
+        audioElement.removeEventListener("playing", handlePlaying);
+        audioElement.addEventListener("pause", handleEnded);
+        audioElement.removeEventListener("ended", handleEnded);
       };
     }
   }, [audioElement, setIsAnyAudioPlaying]);
 
   if (audioElement) {
     const handlePlay = () => {
-      if (!isRunning && !isAnyAudioPlaying && readAloudMode) {
+      if (!disabled && !isAnyAudioPlaying && readAloudMode) {
         setIsAudioSelected(true);
         audioElement.load();
         audioElement.play();
@@ -79,32 +80,38 @@ const Translation = (props: ITranslationProps) => {
     const classes = {
       [css.readAloud]: readAloudMode,
       [css.active]: isAnyAudioPlaying && isAudioSelected,
-      [css.disabled]: isRunning || (isAnyAudioPlaying && !isAudioSelected) || isAnyAudioPlaying,
+      [css.disabled]: disabled || (isAnyAudioPlaying && !isAudioSelected) || isAnyAudioPlaying,
     };
 
     return (
-      <div className={css.container} onClick={handlePlay}>
+      <span className={css.container} onClick={handlePlay}>
         <span className={clsx(classes)}>
           {markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}
         </span>
-      </div>
+      </span>
     );
   } else {
     return <span>{markDown ? <ReactMarkdown rehypePlugins={[rehypeRaw]}>{stringToRender as string}</ReactMarkdown> : stringToRender}</span>;
   }
 };
 
-interface IProps {
-  isRunning: boolean,
+export interface ITranslationContextProps {
   translations: TranslationDict;
-  initialReadAloudMode?: boolean;
+  readAloudMode: boolean;
+  setReadAloudMode: (onOrOff: boolean) => void;
+  isAnyAudioPlaying: boolean;
+  setIsAnyAudioPlaying: (bool: boolean) => void;
+  disabled?: boolean,
 }
 
-export const useTranslation = (props: IProps) => {
-  const {isRunning, initialReadAloudMode, translations} = props;
-  const readAloud = initialReadAloudMode !== undefined ? initialReadAloudMode : false;
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(readAloud);
-  const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
+// It's a bit untypical pattern, but useTranslation accepts both props or tries to obtain them from context.
+// This lets the top-level component provide props, so it's not necessary to move all UI and logic to the child
+// component. However, components lower in the component tree can simply use useTranslation without any props.
+export const useTranslation = (props?: ITranslationContextProps) => {
+  const propsFromContext = useContext(TranslationContext);
+  const {
+    disabled, translations, readAloudMode, setReadAloudMode, isAnyAudioPlaying, setIsAnyAudioPlaying
+  } = props || propsFromContext;
 
   const { saveInteractiveState } = useSaveInteractiveState();
 
@@ -112,21 +119,21 @@ export const useTranslation = (props: IProps) => {
     return (() => {
       setIsAnyAudioPlaying(false);
     });
-  }, []);
+  }, [setIsAnyAudioPlaying]);
 
-  const t = (string: string, markDown?: boolean) => {
-    return (
-      <Translation
-        translations={translations}
-        readAloudMode={readAloudMode}
-        string={string}
-        isAnyAudioPlaying={isAnyAudioPlaying}
-        isRunning={isRunning}
-        markDown={markDown}
-        setIsAnyAudioPlaying={setIsAnyAudioPlaying}
-      />
-    );
-  };
+  const t = (string: string, markDown?: boolean) => (
+    <Translation
+      translations={translations}
+      readAloudMode={readAloudMode}
+      string={string}
+      isAnyAudioPlaying={isAnyAudioPlaying}
+      disabled={disabled}
+      markDown={markDown}
+      setIsAnyAudioPlaying={setIsAnyAudioPlaying}
+    />
+  );
+
+  const tStringOnly = (string: string) => translations[string]?.string;
 
   const handleSetReadAloudMode = (onOrOff: boolean) => {
     setReadAloudMode(onOrOff);
@@ -134,12 +141,20 @@ export const useTranslation = (props: IProps) => {
     if (!onOrOff) {
       setIsAnyAudioPlaying(false);
     }
-    saveInteractiveState({readAloudMode: onOrOff});
+    saveInteractiveState({ readAloudMode: onOrOff });
   };
 
   return {
-    t,
+    t, tStringOnly,
     readAloudMode,
     setReadAloudMode: handleSetReadAloudMode
   };
 };
+
+export const TranslationContext = createContext<ITranslationContextProps>({
+  translations: {},
+  readAloudMode: false,
+  setReadAloudMode: () => undefined,
+  isAnyAudioPlaying: false,
+  setIsAnyAudioPlaying: () => undefined,
+});

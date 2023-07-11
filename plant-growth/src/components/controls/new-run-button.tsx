@@ -1,23 +1,25 @@
 import React from "react";
+import { useTranslation } from "common";
 import { Button } from "./button";
 import AddIcon from "../../assets/add-icon.svg";
 
 interface IProps {
   onClick?: () => void;
   disabled?: boolean;
-  t: (string: string) => string | JSX.Element;
 }
 
 const WIDTH = 40;
 
 export const NewRunButton: React.FC<IProps> = React.forwardRef<HTMLButtonElement, IProps>((props, ref) => {
-  const { onClick, disabled, t } = props;
+  const { onClick, disabled } = props;
+  const { t, tStringOnly } = useTranslation();
+
   return (
     <Button
       ref={ref}
       label={t("BUTTON.TRIAL")}
-      ariaLabel={t("BUTTON.NEW") as string}
-      innerLabel={t("BUTTON.NEW") as string}
+      ariaLabel={tStringOnly("BUTTON.NEW")}
+      innerLabel={tStringOnly("BUTTON.NEW")}
       icon={<AddIcon />}
       onClick={onClick}
       disabled={disabled}

@@ -2,8 +2,10 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { IModelInputState, IModelOutputState, InputAmount, RulerType } from "../../types";
 import { AnimationView } from "./animation-view";
-import css from "./simulation-view.scss";
 import { LabeledContainer } from "../containers/labeled-container";
+import { useTranslation } from "common";
+
+import css from "./simulation-view.scss";
 
 interface IProps {
   input: IModelInputState
@@ -11,11 +13,11 @@ interface IProps {
   isRunning: boolean;
   isFinished: boolean;
   readOnly?: boolean;
-  t: (string: string) => string | JSX.Element;
 }
 
 
-export const SimulationView: React.FC<IProps> = ({input, output, isRunning, isFinished, readOnly, t}) => {
+export const SimulationView: React.FC<IProps> = ({ input, output, isRunning, isFinished, readOnly }) => {
+  const { t } = useTranslation();
   const {water, light, co2amount} = input;
   const [rulerType, setRulerType] = useState<RulerType>(RulerType.Metric);
   const buttonDisabled = isRunning || readOnly;

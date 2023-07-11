@@ -1,4 +1,5 @@
-import React, {useCallback} from "react";
+import { useTranslation } from "common";
+import React, { useCallback } from "react";
 import { IModelInputState, InputAmount } from "../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
@@ -9,10 +10,10 @@ interface IProps {
   inputState: IModelInputState,
   setInputState: (update: Partial<IModelInputState>) => void,
   disabled: boolean,
-  t: (string: string) => string | JSX.Element
 }
 
-export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabled, t}) => {
+export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disabled }) => {
+  const { t } = useTranslation();
 
   const handleLightAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setInputState({light: value as InputAmount});
@@ -35,7 +36,6 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
             value={inputState.light}
             onChange={handleLightAmountChange}
             disabled={disabled}
-            t={t}
           />
           <InputSlider
             type={"WATER"}
@@ -43,7 +43,6 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
             value={inputState.water}
             onChange={handleWaterAmountChange}
             disabled={disabled}
-            t={t}
           />
           <InputSlider
             type={"CO2"}
@@ -51,7 +50,6 @@ export const OptionsView: React.FC<IProps> = ({inputState, setInputState, disabl
             value={inputState.co2amount}
             onChange={handleCO2AmountChange}
             disabled={disabled}
-            t={t}
           />
       </div>
     </LabeledContainer>

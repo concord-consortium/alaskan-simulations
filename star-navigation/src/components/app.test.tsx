@@ -1,6 +1,5 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { t } from "common";
 import { App } from "./app";
 
 jest.mock("../horizon-view/components/horizon-view-wrapper", () => ({

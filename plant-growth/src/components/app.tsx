@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useModelState } from "../hooks/use-model-state";
-import { useSimulationRunner, SimulationFrame, useTranslation } from "common";
+import { useSimulationRunner, SimulationFrame, useTranslation, TranslationContext } from "common";
 import { useModelTable } from "../hooks/use-model-table";
 import { translations } from "../translations";
 import { Column } from "react-table";
@@ -42,20 +42,29 @@ const columnsMeta: IColumnMeta[] = [
 ];
 
 interface IAppProps {
-  interactiveState: IInteractiveState|null;
-  authoredState: IAuthoredState|null;
+  interactiveState: IInteractiveState | null;
+  authoredState: IAuthoredState | null;
   readOnly?: boolean;
 }
 
 export const App = (props: IAppProps) => {
-  const {interactiveState, readOnly} = props;
+  const { interactiveState, readOnly } = props;
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode);
+  const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
 
-  const {t, readAloudMode, setReadAloudMode} = useTranslation(useMemo(() => ({
-      translations,
-      isRunning,
-      initialReadAloudMode: interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode
-  }), [isRunning, interactiveState]));
+  const translationContextValues = useMemo(() => ({
+    translations,
+    disabled: isRunning,
+    readAloudMode,
+    setReadAloudMode,
+    isAnyAudioPlaying,
+    setIsAnyAudioPlaying
+  }), [isAnyAudioPlaying, isRunning, readAloudMode]);
+
+  // Pass context values as props, as App component also defines TranslationContext.Provider, so it's not possible to
+  // rely on context values from there.
+  const { t } = useTranslation(translationContextValues);
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -111,11 +120,11 @@ export const App = (props: IAppProps) => {
 
   const getPng = (inputLevel: string) => {
     if (inputLevel === InputAmount.None) {
-      return <img src={None}/>;
+      return <img src={None} />;
     } else if (inputLevel === InputAmount.Some) {
-      return <img src={Some}/>;
+      return <img src={Some} />;
     } else {
-      return <img src={Full}/>;
+      return <img src={Full} />;
     }
   };
 
@@ -126,9 +135,9 @@ export const App = (props: IAppProps) => {
       return OutputAmount.Low;
     } else if (amount < OutputAmountValue.High) {
       return OutputAmount.Medium;
-    } else  {
+    } else {
       return OutputAmount.High;
-   }
+    }
   };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
@@ -215,95 +224,84 @@ export const App = (props: IAppProps) => {
     return isRunning ? `Time: ${time} days` : t(`DAY_${time}`);
   };
 
-  const handleSetReadAloud = () => {
-    setReadAloudMode(!readAloudMode);
-  };
-
   const getGraphTitle = () => {
     // We do not have translations for graph run when higher than 9th run.
-    return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs`: t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
+    return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs` : t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
   };
 
   return (
-    <SimulationFrame
-      className={css.simulationFrame}
-      title={translations["SIMULATION.TITLE"].string}
-      directions={<PlantGrowthDirections t={t}/>} // ReactNode is also allowed if more complex content is needed.
-      t={t}
-      readAloudMode={readAloudMode}
-      handleSetReadAloud={handleSetReadAloud}
-    >
-      <div className={css.content}>
-        <div className={css.optionsContainer}>
-          <OptionsView
+    <TranslationContext.Provider value={translationContextValues}>
+      <SimulationFrame
+        className={css.simulationFrame}
+        directions={<PlantGrowthDirections />} // ReactNode is also allowed if more complex content is needed.
+      >
+        <div className={css.content}>
+          <div className={css.optionsContainer}>
+            <OptionsView
               inputState={inputState}
               setInputState={setInputState}
               disabled={uiDisabled || !!readOnly}
-              t={t}
-          />
-        </div>
-        <div className={css.simulationContainer}>
-          <SimulationView
-            input={inputState}
-            output={outputState}
-            isRunning={isRunning}
-            isFinished={isFinished}
-            readOnly={readOnly}
-            t={t}
-          />
-          <div className={css.controls}>
-            <div className={css.group}>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} t={t} />
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} t={t} />
-            </div>
-            <div className={css.grow}>
-              <div className={css.timeSliderContainer}>
-                <TimeSlider
-                  label={getTimeSliderLabel()}
-                  time={outputState.time}
-                  snapshotsCount={snapshotsCount}
-                  onChange={setActiveOutputSnapshotIdx}
-                  disabled={!isFinished || readOnly}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={css.tableGraphsColumn}>
-          <div className={css.tableContainer}>
-            <Table<IRowData>
-              {...tableProps}
-              columns={columns}
-              columnsMeta={columnsMeta}
-              disabled={isRunning || !!readOnly}
-              centerHeader={true}
-              noWrapDeleteButton={true}
-              t={t}
             />
           </div>
-          <div className={css.barGraphs}>
-            <div className={css.header}>{getGraphTitle()}</div>
-            <div className={css.body}>
-              <div className={css.graphsContainer}>
-                <BarGraph
-                  data={sugarUsedData}
-                  title={t("OUTPUT.SUGAR_USED")}
-                  activeXTick={getActiveX()}
-                  className={"sugarUsed"}
-                  t={t}
-                />
-                <BarGraph
-                  data={sugarCreatedData}
-                  title={t("OUTPUT.SUGAR_CREATED")}
-                  activeXTick={getActiveX()}
-                  className="sugarCreated"
-                  t={t}
-                />
+          <div className={css.simulationContainer}>
+            <SimulationView
+              input={inputState}
+              output={outputState}
+              isRunning={isRunning}
+              isFinished={isFinished}
+              readOnly={readOnly}
+            />
+            <div className={css.controls}>
+              <div className={css.group}>
+                <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
+                <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+              </div>
+              <div className={css.grow}>
+                <div className={css.timeSliderContainer}>
+                  <TimeSlider
+                    label={getTimeSliderLabel()}
+                    time={outputState.time}
+                    snapshotsCount={snapshotsCount}
+                    onChange={setActiveOutputSnapshotIdx}
+                    disabled={!isFinished || readOnly}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={css.tableGraphsColumn}>
+            <div className={css.tableContainer}>
+              <Table<IRowData>
+                {...tableProps}
+                columns={columns}
+                columnsMeta={columnsMeta}
+                disabled={isRunning || !!readOnly}
+                centerHeader={true}
+                noWrapDeleteButton={true}
+              />
+            </div>
+            <div className={css.barGraphs}>
+              <div className={css.header}>{getGraphTitle()}</div>
+              <div className={css.body}>
+                <div className={css.graphsContainer}>
+                  <BarGraph
+                    data={sugarUsedData}
+                    title={t("OUTPUT.SUGAR_USED")}
+                    activeXTick={getActiveX()}
+                    className={"sugarUsed"}
+                  />
+                  <BarGraph
+                    data={sugarCreatedData}
+                    title={t("OUTPUT.SUGAR_CREATED")}
+                    activeXTick={getActiveX()}
+                    className="sugarCreated"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </SimulationFrame>
+      </SimulationFrame>
+    </TranslationContext.Provider>
   );
 };
