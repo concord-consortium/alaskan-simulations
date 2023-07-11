@@ -51,7 +51,12 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
           <div className={css.label}>{t("MONTH")}</div>
           <div className={css.content}>
             <div className={css.content100}>
-              <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
+              <ScrollingSelect
+                value={inputState.month !== null ? inputState.month.toString() : null}
+                onChange={handleMonthChange}
+                disabled={disableInputs}
+                valueMinWidth={53}
+              >
                 <Option value="1">{t(Month.January)}</Option>
                 <Option value="2">{t(Month.February)}</Option>
                 <Option value="3">{t(Month.March)}</Option>
