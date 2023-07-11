@@ -1,0 +1,72 @@
+@import "./vars.scss";
+
+.bottomContainer {
+  display: flex;
+  flex-direction: column;
+  height: 160px;
+
+  .timeSliderContainer {
+    width: 100%;
+    background-color: $lightYellow;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 5px;
+
+    .widgetContainer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .label {
+        $padding: 10px;
+        width: calc(100% - 2 * $padding);
+        padding: 0 $padding;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $darkYellow;
+        white-space: nowrap;
+      }
+
+      .content {
+        width: 100%;
+        height: 75px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .content100, .content50 {
+          height: 100%;
+          background-color: $lightYellow;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .content100 {
+          width: 100%;
+        }
+
+        .content50 {
+          $padding: 5px;
+          width: calc(50% - $padding * 0.5);
+        }
+      }
+
+    }
+
+    .widgetContainer + .widgetContainer {
+      margin-left: 5px;
+    }
+  }
+}

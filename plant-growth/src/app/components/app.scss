@@ -2,6 +2,11 @@
 
 $tableGraphContainerWidth: 400px;
 
+
+.simulationFrame {
+  background-color: #E7EDF6;
+}
+
 .content {
   width: $maxAppWidth;
   height: 100%;
@@ -10,8 +15,7 @@ $tableGraphContainerWidth: 400px;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 15px 10px;
 
   .readAloud {
     text-decoration: underline;

@@ -1,3 +1,7 @@
+$fontFamilyRoboto: 'Roboto', sans-serif;
+$fontFamilyRobotoCondensed: 'Roboto Condensed', sans-serif;
+
+// new vars
 $bluePrimary: #005f99;
 $bluePrimary50: #7fb0cc;
 $bluePrimaryTint50: #7fafcc;
@@ -13,8 +17,6 @@ $purpleTint10: #f8f6fa;
 $purpleTint25: #f0e9f4;
 $purpleTint50: #e0d3e8;
 $purpleAccent: #4e2c82;
-$purpleAccent50: rgba(78, 44, 130, 0.5);
-$purpleAccent25: rgba(78, 44, 130, 0.25);
 $orangeAccent: #eb6d00;
 $orangeTint50: #f5b67f;
 $greenAccent: #00a39e;
@@ -22,20 +24,28 @@ $greenTint50: #7fd1ce;
 $darkGreenAccent: #004d4b;
 $darkGreenTint50: #7fa6a5;
 
-
 $black: #000;
 $white: #fff;
 
 $frameBorderRadius: 15px;
 $focusOutline: 4px solid $lightBlueAccent;
 
-$fontFamilyRoboto: 'Roboto', sans-serif;
-$fontFamilyRobotoCondensed: 'Roboto Condensed', sans-serif;
+$fontFamilyNunito: 'Nunito', sans-serif;
 
 $cellHorizontalPadding: 7px;
 $cellVerticalPadding: 5px;
 
-// Second grade sim constants:
+$header-bg: #ABDFF1;
+$panel-bg: #FFFEFD;
+$font-color: #333333;
+$main-font: 'Nunito';
+$dark-yellow: #FFD075;
+$medium-yellow: #F9E2A1;
+$light-yellow: #FDF4E4;
+$dark-green: #0E7E6D;
+$bright-green: #4CC8B5;
+$light-green: #D1F3EE;
+$bright-blue: #2b72e3;
+$bright-red: #fb565a;
 
-$secondGradeSimWidth: 460px;
-$secondGradeSimInnerWidth: 460px - 16px;
+$maxAppWidth: 900px;

@@ -34,19 +34,9 @@ export enum Month {
 }
 
 export interface IModelInputState {
-  predictedConstellation: Constellation | null;
   month: number | null;
   timeOfDay: number; // [0, 24]
-  answerChecked: boolean;
 }
 
 export interface IModelOutputState {
-  constellationMatch: boolean | null; // null before user checks the answer
-}
-
-export interface IRowData {
-  predictedConstellation: string;
-  month: string;
-  constellationAtTargetTime: string;
-  constellationMatch: boolean | null; // null before user checks the answer
 }

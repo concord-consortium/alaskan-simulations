@@ -10,10 +10,6 @@ export interface IConfig {
   horizonFov: number;
   // Horizon view camera angle.
   horizonCameraAngle: number; // deg
-  // Orbit view camera FOV.
-  orbitFov: number;
-  // Radius of the celestial sphere in the orbit view.
-  orbitCelestialSphereRadius: number;
   // Star size multiple, both orbit and horizon view.
   starSizeMult: number;
   // Minium constellation star size, both orbit and horizon view.
@@ -25,20 +21,22 @@ export interface IConfig {
 
   constellations: string;
   constellationsOpacity: number;
+
+  // Whether to show the route map on the right side of the star map.
+  routeMap: boolean;
 }
 
 const defaultConfig: IConfig = {
   lang: undefined,
   horizonFov: 100,
   horizonCameraAngle: 39, // deg
-  orbitFov: 35,
-  orbitCelestialSphereRadius: 5000,
   starSizeMult: 0.5,
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,
   minAbsStarMagnitude: 3,
   constellations: "",
-  constellationsOpacity: 0.5
+  constellationsOpacity: 0.5,
+  routeMap: false
 };
 
 // Config is cached when module is loaded. That's fine, as URL parameters will not change in normal situation.

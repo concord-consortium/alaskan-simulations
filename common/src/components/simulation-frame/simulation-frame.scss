@@ -1,14 +1,10 @@
 @import "../../vars.scss";
 
-$headerHeight: 35px;
-$largerHeaderHeight: 40px;
-$headerTextColor: #ffffff;
+$headerHeight: 60px;
+$headerTextColor: $bluePrimary;
 
 .simulationFrame {
-  width: 1000px;
-  height: 562px;
-  border-radius: $frameBorderRadius;
-  background-color: $lightBlueTint10;
+  width: $maxAppWidth;
 
   *:focus-visible {
     outline: $focusOutline;
@@ -24,49 +20,44 @@ $headerTextColor: #ffffff;
   }
 
   .header {
+    box-sizing: border-box;
     height: $headerHeight;
     color: $headerTextColor;
-    background-color: $bluePrimary;
-    border-radius: $frameBorderRadius $frameBorderRadius 0 0;
+    font-family: $fontFamilyNunito;
+    background-color: $header-bg;
+    border-radius: 0 0 0 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-
-    &.larger {
-      height: $largerHeaderHeight;
-      .logo {
-        svg {
-          height: 32px;
-        }
-      }
-      .title {
-        font-size: 26px;;
-      }
-      .buttons {
-        button {
-          font-size: 18px;
-        }
-      }
-    }
+    justify-content: space-between;
+    padding: 5px;
+    position: relative;
 
     .logo {
-      padding: 0 12px;
+      height: 30px;
+    }
 
-      svg {
-        height: 27px;
-        margin-top: 4px;
+    .titleContainer {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+
+      .title {
+        height: 40px;
       }
     }
 
-    .title {
+    .left {
       margin-left: 12px;
-      font-size: 22px;
-      font-weight: bold;
+    }
+
+    .right {
+      margin-right: 12px;
     }
 
     .buttons {
-      margin-left: auto;
-      margin-right: 12px;
       display: flex;
       align-items: center;
 
@@ -76,28 +67,33 @@ $headerTextColor: #ffffff;
         background-color: transparent;
         padding: 0;
         font-weight: bold;
-        font-size: 14px;
-        color: white;
+        font-size: 16px;
         display: flex;
         align-items: center;
+        font-family: $fontFamilyNunito;
+        color: $bluePrimary;
+
+        svg path {
+          fill: $bluePrimary;
+        }
       }
-      button + button {
+      img + button {
         margin-left: 6px;
       }
       button.active {
         svg :global(.background) {
-          fill: white;
+          fill: $lightBlueTint25;
         }
         svg :global(.questionMark) {
           fill: $bluePrimary;
         }
       }
-      button:not(.active):hover {
-        color: $lightBlueAccent;
-        svg :global(.outline), svg :global(.questionMark)  {
-          fill: $lightBlueAccent;
-        }
-      }
+      // button:not(.active):hover {
+      //   color: $blueAccent;
+      //   svg :global(.outline), svg :global(.questionMark)  {
+      //     fill: $blueAccent;
+      //   }
+      // }
     }
   }
 
@@ -106,10 +102,5 @@ $headerTextColor: #ffffff;
     height: calc(100% - $headerHeight);
     border-radius: 0 0 $frameBorderRadius $frameBorderRadius;
     position: relative;
-  }
-  &.larger {
-    .content {
-      height: calc(100% - $largerHeaderHeight);
-    }
   }
 }

@@ -34,10 +34,16 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 
     .header {
+      box-sizing: border-box;
       font-weight: bold;
-      color: $purpleAccent;
+      color: $font-color;
       font-size: 20px;
-      line-height: 1.4;
+      width: fit-content;
+      .title {
+        background-color: $dark-yellow;
+        padding: 5px 15px;
+        border-radius: 20px;
+      }
     }
 
     .close {
@@ -75,16 +81,20 @@
       line-height: 28px;
 
       p {
-        margin: 10px 0;
+        margin: 10px 0 20px;
         line-height: 1.4;
       }
 
       h1 {
         font-weight: bold;
         line-height: 1.4;
-        margin: 10px 0;
+        // margin: 10px 0;
         font-size: 20px;
-        color: $bluePrimary;
+        color: $font-color;
+        background-color: $medium-yellow;
+        width: fit-content;
+        padding: 5px 15px;
+        border-radius: 20px;
       }
 
       img {

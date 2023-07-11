@@ -6,7 +6,7 @@ import { useTranslation } from "./hooks/use-translation";
 import { translations } from "./translations";
 import { Column } from "react-table";
 import { IColumnMeta, Table } from "./table/table";
-import { SimulationFrame } from "./simulation-frame/simulation-frame";
+import { SimulationFrame } from "common";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
@@ -227,6 +227,7 @@ export const App = (props: IAppProps) => {
 
   return (
     <SimulationFrame
+      className={css.simulationFrame}
       title={translations["SIMULATION.TITLE"].string}
       directions={<PlantGrowthDirections t={t}/>} // ReactNode is also allowed if more complex content is needed.
       t={t}
