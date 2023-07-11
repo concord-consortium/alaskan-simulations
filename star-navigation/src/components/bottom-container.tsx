@@ -1,42 +1,50 @@
 import React from "react";
-import {
-  Slider, Option, ScrollingSelect, useTranslation
-} from "common";
+import { Option, ScrollingSelect, useTranslation } from "common";
+import { TimeSlider } from "./time-slider";
 import { IModelInputState, Month } from "../types";
-import { timeToAMPM } from "../utils/sim-utils";
+import { daysInMonth, timeToAMPM } from "../utils/sim-utils";
 
 import css from "./bottom-container.scss";
 
 interface IProps {
   inputState: IModelInputState;
   disableInputs: boolean;
-  onTimeOfDayChange: (value: number) => void;
-  onMonthChange: (value: number) => void;
+  setInputState: (update: Partial<IModelInputState>) => void;
 }
 
-export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, onMonthChange, onTimeOfDayChange }) => {
+const getDaysInMonthArray = (month: number) => Array.from({ length: daysInMonth(month) }, (_, idx) => idx + 1);
+
+export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, setInputState }) => {
   const { t } = useTranslation();
 
   const handleTimeOfDayChange = (event: Event, value: number) => {
-    onTimeOfDayChange(value);
+    setInputState({ timeOfDay: value });
   };
 
   const handleMonthChange = (value: string | null) => {
-    onMonthChange(Number(value) || 1);
+    const month = Number(value);
+    setInputState({
+      month,
+      day: Math.min(inputState.day, daysInMonth(month))
+    });
+  };
+
+  const handleDayChange = (value: string | null) => {
+    setInputState({ day: Number(value) });
   };
 
   return (
     <div className={css.bottomContainer}>
       <div className={css.row}>
         <div className={css.timeSliderContainer}>
-          <Slider
+          <div className={css.label}>{ t("MIDNIGHT") }</div>
+          <TimeSlider
             value={inputState.timeOfDay}
-            min={0}
-            max={24}
-            step={1 / 60}
-            label={""}
+            day={inputState.day}
+            month={inputState.month}
             onChange={handleTimeOfDayChange}
           />
+          <div className={css.label}>{ t("MIDNIGHT") }</div>
         </div>
       </div>
       <div className={css.row}>
@@ -51,7 +59,12 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
           <div className={css.label}>{t("MONTH")}</div>
           <div className={css.content}>
             <div className={css.content100}>
-              <ScrollingSelect value={inputState.month !== null ? inputState.month.toString() : null} onChange={handleMonthChange} disabled={disableInputs}>
+              <ScrollingSelect
+                value={inputState.month.toString()}
+                onChange={handleMonthChange}
+                disabled={disableInputs}
+                valueMinWidth={53}
+              >
                 <Option value="1">{t(Month.January)}</Option>
                 <Option value="2">{t(Month.February)}</Option>
                 <Option value="3">{t(Month.March)}</Option>
@@ -72,6 +85,18 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, o
           <div className={css.label}>{t("DAY")}</div>
           <div className={css.content}>
             <div className={css.content100}>
+              <ScrollingSelect
+                value={inputState.day.toString()}
+                onChange={handleDayChange}
+                disabled={disableInputs}
+                valueMinWidth={37}
+              >
+                {
+                  getDaysInMonthArray(inputState.month).map((day) => (
+                    <Option key={day} value={day.toString()}>{day}</Option>
+                  ))
+                }
+              </ScrollingSelect>
             </div>
           </div>
         </div>

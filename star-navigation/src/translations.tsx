@@ -4,6 +4,7 @@ import Controls from "./assets/yugtun-audio/controls.mp3";
 export const translations: TranslationDict = {
   "CREDITS.HEADER": { string: "Credits", mp3: new Audio(Controls)},
   "INSTRUCTIONS.HEADER": { string: "Star Navigation Experiments", mp3: new Audio(Controls)},
+  "MIDNIGHT": { string: "Midnight", mp3: new Audio(Controls)},
   "CONSTELLATIONS": { string: "Constellations", mp3: new Audio(Controls)},
   "MONTH": { string: "Month", mp3: new Audio(Controls)},
   "DAY": { string: "Day", mp3: new Audio(Controls)},

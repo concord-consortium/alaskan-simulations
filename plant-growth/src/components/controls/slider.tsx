@@ -1,5 +1,5 @@
 import React from "react";
-import { SliderUnstyled, Mark } from "@mui/base";
+import { Slider as MUISlider, Mark } from "@mui/base";
 
 import css from "./slider.scss";
 
@@ -17,8 +17,6 @@ interface IProps {
   marks?: boolean | Mark[];
 }
 
-
-
 export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disabled, label, ariaLabel, marks = true }) => {
   const handleChange = (e: Event, val: number | number[]) => {
     onChange(e, typeof val === "number" ? val : val[0]);
@@ -26,7 +24,7 @@ export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disa
   return (
     <div className={`${css.slider} ${disabled ? css.disabled : ""}`}>
       <div className={css.label}>{ label }</div>
-      <SliderUnstyled
+      <MUISlider
         aria-label={ariaLabel}
         min={min}
         max={max}

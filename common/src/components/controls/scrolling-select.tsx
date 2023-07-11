@@ -27,9 +27,10 @@ interface IProps {
   value: string | null;
   onChange: (value: string | null) => void;
   disabled: boolean;
+  valueMinWidth?: number;
 }
 
-export const ScrollingSelect: React.FC<IProps> = ({ value, onChange, disabled, children }) => {
+export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChange, disabled, children }) => {
   const childArray = Children.toArray(children) as IOptionChild[];
   const selectedChildIndex = childArray.findIndex(c => c.props.value === value);
   const selectedChild = childArray[selectedChildIndex];
@@ -67,7 +68,7 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, onChange, disabled, c
       >
         <BackIcon />
       </div>
-      <div className={css.value}>{selectedChild.props.children}</div>
+      <div className={css.value} style={{ minWidth: valueMinWidth }}>{selectedChild.props.children}</div>
       <div
         className={clsx(css.selector, css.right)}
         onClick={handleForward}

@@ -48,4 +48,11 @@ $light-green: #D1F3EE;
 $bright-blue: #2b72e3;
 $bright-red: #fb565a;
 
+$dark-blue: #1e2749;
+$light-blue: #e7edf6;
+$light-blue2: #f7fafe;
+
+$blue-hover: darken($light-blue, 10%);
+$blue-active: darken($light-blue, 20%);
+
 $maxAppWidth: 900px;

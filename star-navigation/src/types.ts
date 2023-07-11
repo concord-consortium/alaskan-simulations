@@ -34,7 +34,8 @@ export enum Month {
 }
 
 export interface IModelInputState {
-  month: number | null;
+  month: number;
+  day: number;
   timeOfDay: number; // [0, 24]
 }
 

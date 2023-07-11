@@ -3,11 +3,9 @@
 .scrollingSelect {
   display: flex;
   box-sizing: border-box;
-  color: $purpleAccent;
   font-size: 16px;
   font-weight: 500;
-  font-family: "Roboto", sans-serif;
-  height: 40px;
+  height: 31px;
 
   &.disabled {
     pointer-events: none;
@@ -15,32 +13,30 @@
   }
 
   .selector {
-    background-color: white;
-    border: 3px solid $purpleAccent;
-    width: 35px;
+    background-color: $light-blue;
+    border: 2px solid $dark-blue;
     cursor: pointer;
 
     &.left {
       border-right: none;
-      border-radius: 10px 0 0 10px;
+      border-radius: 8px 0 0 8px;
     }
     &.right {
       border-left: none;
-      border-radius: 0 10px 10px 0;
+      border-radius: 0 8px 8px 0;
     }
 
     svg {
-      transform: scale(0.9);
-      margin-top: -3px;
-      margin-left: -3px;
+      height: 27px;
+      width: 27px;
     }
 
     &:hover {
-      background-color: $purpleTint25;
+      background-color: $blue-hover;
     }
 
     &:active {
-      background-color: $purpleAccent;
+      background-color: $blue-active;
 
       path {
         fill: white;
@@ -49,11 +45,10 @@
   }
 
   .value {
-    background-color: white;
-    min-width: 90px;
+    background-color: $light-blue2;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 3px solid $purpleAccent;
+    border: 2px solid $dark-blue;
   }
 }

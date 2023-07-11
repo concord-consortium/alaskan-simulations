@@ -1,6 +1,7 @@
 import React from "react";
 import { HorizonViewWrapper } from "../../horizon-view/components/horizon-view-wrapper";
 import { IModelInputState } from "../../types";
+import { daytimeOpacity } from "../../utils/daytime";
 
 import css from "./simulation-view.scss";
 
@@ -20,7 +21,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, epochTime, observ
           lat={observerLat}
           long={observerLon}
           showConstellations={true}
-          daylightOpacity={0} // daytimeOpacity(inputState)}
+          daylightOpacity={daytimeOpacity(inputState)}
         />
       </div>
     </div>
