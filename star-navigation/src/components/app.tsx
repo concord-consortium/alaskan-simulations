@@ -1,12 +1,11 @@
-import React, { useMemo } from "react";
-import {
-  SimulationFrame, t, useModelState
-} from "common";
+import React, { useMemo, useState } from "react";
+import { SimulationFrame, TranslationContext, useModelState } from "common";
 import { SimulationView } from "./simulation/simulation-view";
 import { IModelInputState, IModelOutputState } from "../types";
 import { formatTimeNumber, fractionalHourToTimeString } from "../utils/sim-utils";
 import { skyModelerDirections } from "./sky-modeler-directions";
 import { config } from "../config";
+import { translations } from "../translations";
 import { RouteContainer } from "./route-container";
 import { BottomContainer } from "./bottom-container";
 
@@ -54,6 +53,17 @@ export const App: React.FC = () => {
     }
   }), []));
 
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
+  const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
+
+  const translationContextValues = useMemo(() => ({
+    translations,
+    readAloudMode,
+    setReadAloudMode,
+    isAnyAudioPlaying,
+    setIsAnyAudioPlaying
+  }), [isAnyAudioPlaying, readAloudMode]);
+
   const { inputState, setInputState } = modelState;
 
   const handleTimeOfDayChange = (value: number) => {
@@ -71,41 +81,37 @@ export const App: React.FC = () => {
   const date = new Date(getDateTimeString(inputState.month || 1, inputState.timeOfDay));
   const epochTime = date.getTime();
 
-  const noop = () => undefined;
-
   return (
-    <SimulationFrame
-      className={css.simulationFrame}
-      title={t("SIMULATION.TITLE")}
-      directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
-      t={t}
-      readAloudMode={false}
-      handleSetReadAloud={noop}
-    >
-      <div className={css.content}>
-        <div className={css.leftColumn}>
-          <div className={css.simulationContainer}>
-            <SimulationView
+    <TranslationContext.Provider value={translationContextValues}>
+      <SimulationFrame
+        className={css.simulationFrame}
+        directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
+      >
+        <div className={css.content}>
+          <div className={css.leftColumn}>
+            <div className={css.simulationContainer}>
+              <SimulationView
+                inputState={inputState}
+                epochTime={epochTime}
+                observerLat={OBSERVER_LAT}
+                observerLon={OBSERVER_LON}
+              />
+            </div>
+            <BottomContainer
               inputState={inputState}
-              epochTime={epochTime}
-              observerLat={OBSERVER_LAT}
-              observerLon={OBSERVER_LON}
+              disableInputs={false}
+              onTimeOfDayChange={handleTimeOfDayChange}
+              onMonthChange={handleMonthChange}
             />
           </div>
-          <BottomContainer
-            inputState={inputState}
-            disableInputs={false}
-            onTimeOfDayChange={handleTimeOfDayChange}
-            onMonthChange={handleMonthChange}
-          />
+          {
+            config.routeMap &&
+            <div className={css.rightColumn}>
+              <RouteContainer />
+            </div>
+          }
         </div>
-        {
-          config.routeMap &&
-          <div className={css.rightColumn}>
-            <RouteContainer />
-          </div>
-        }
-      </div>
-    </SimulationFrame>
+      </SimulationFrame>
+    </TranslationContext.Provider>
   );
 };
