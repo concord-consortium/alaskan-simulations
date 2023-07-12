@@ -116,7 +116,7 @@
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
-    "webpack-merge": "^5.8.0",
+    "webpack-merge": "^5.9.0",
     "zip-webpack-plugin": "^4.0.1"
   },
   "dependencies": {
@@ -136,7 +136,6 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.2",
     "react-table": "^7.8.0",
-    "rehype-raw": "^6.1.1",
-    "webpack-merge": "^5.8.0"
+    "rehype-raw": "^6.1.1"
   }
 }
