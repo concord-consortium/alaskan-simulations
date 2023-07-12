@@ -93,10 +93,12 @@ export default class BaseView {
 
   _initScene(props: ISimState) {
     this.celestialSphereContainer.add(this.stars.rootObject);
-    this.celestialSphereContainer.add(this.customConstellations.rootObject);
 
-    if (props.showConstellations) {
+    if (props.showWesternConstellations) {
       this.celestialSphereContainer.add(this.constellations.rootObject);
+    }
+    if (props.showYupikConstellations) {
+      this.celestialSphereContainer.add(this.customConstellations.rootObject);
     }
     this.scene.add(this.celestialSphereContainer);
 
@@ -146,11 +148,19 @@ export default class BaseView {
     this.setTimeAndLongitude(this.props.epochTime, this.props.long);
   }
 
-  _updateShowConstellations() {
-    if (this.props.showConstellations) {
+  _updateShowWesternConstellations() {
+    if (this.props.showWesternConstellations) {
       this.celestialSphereContainer.add(this.constellations.rootObject);
     } else {
       this.celestialSphereContainer.remove(this.constellations.rootObject);
+    }
+  }
+
+  _updateShowYupikConstellations() {
+    if (this.props.showYupikConstellations) {
+      this.celestialSphereContainer.add(this.customConstellations.rootObject);
+    } else {
+      this.celestialSphereContainer.remove(this.customConstellations.rootObject);
     }
   }
 }

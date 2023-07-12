@@ -20,7 +20,9 @@ export const App: React.FC = () => {
     initialInputState: {
       month: 1,
       day: 1,
-      timeOfDay: 0
+      timeOfDay: 0,
+      showWesternConstellations: true,
+      showYupikConstellations: true,
     },
     initialOutputState: {
     }

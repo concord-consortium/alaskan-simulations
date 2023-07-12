@@ -1,5 +1,5 @@
-
 import { applyURLParams } from "common";
+import ConstellationsPng from "./assets/Constellations_illustrationsMapping_230711.png";
 
 // Simulation configuration that can be overwritten using URL parameters.
 export interface IConfig {
@@ -34,8 +34,8 @@ const defaultConfig: IConfig = {
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,
   minAbsStarMagnitude: 3,
-  constellations: "",
-  constellationsOpacity: 0.5,
+  constellations: ConstellationsPng,
+  constellationsOpacity: 1,
   routeMap: false
 };
 

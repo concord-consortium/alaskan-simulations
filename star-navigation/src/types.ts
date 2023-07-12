@@ -37,6 +37,8 @@ export interface IModelInputState {
   month: number;
   day: number;
   timeOfDay: number; // [0, 24]
+  showWesternConstellations: boolean;
+  showYupikConstellations: boolean;
 }
 
 export interface IModelOutputState {

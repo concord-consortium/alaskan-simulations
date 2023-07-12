@@ -2,6 +2,7 @@ export interface ISimState {
   epochTime: number; // milliseconds
   lat: number;
   long: number;
-  showConstellations: boolean;
+  showWesternConstellations: boolean;
+  showYupikConstellations: boolean;
   daylightOpacity: number;
 }
