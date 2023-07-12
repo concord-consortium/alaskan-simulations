@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { App } from "./app";
 
-jest.mock("../horizon-view/components/horizon-view-wrapper", () => ({
-  HorizonViewWrapper: () => null
+jest.mock("../components/star-view/star-view", () => ({
+  StarView: () => null
 }));
 
 describe("App component", () => {
