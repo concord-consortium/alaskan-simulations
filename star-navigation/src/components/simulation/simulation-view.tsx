@@ -20,7 +20,8 @@ export const SimulationView: React.FC<IProps> = ({ inputState, epochTime, observ
           epochTime={epochTime}
           lat={observerLat}
           long={observerLon}
-          showConstellations={true}
+          showWesternConstellations={inputState.showWesternConstellations}
+          showYupikConstellations={inputState.showYupikConstellations}
           daylightOpacity={daytimeOpacity(inputState)}
         />
       </div>

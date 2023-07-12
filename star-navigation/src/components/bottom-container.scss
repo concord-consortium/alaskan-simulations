@@ -57,7 +57,7 @@
           height: 100%;
           background-color: $lightYellow;
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
         }
@@ -70,8 +70,14 @@
           $padding: 5px;
           width: calc(50% - $padding * 0.5);
         }
-      }
 
+        .checkboxGroup {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: flex-start;
+        }
+      }
     }
 
     .widgetContainer + .widgetContainer {
@@ -79,3 +85,19 @@
     }
   }
 }
+
+.checkbox {
+  color: $light-blue;
+
+  &:global(.MuiCheckbox-root) {
+    padding: 0;
+  }
+  &:global(.MuiCheckbox-root .MuiSvgIcon-root) {
+    font-size: 32px;
+  }
+  &:global(.MuiCheckbox-root.Mui-checked) {
+    color: $dark-blue;
+  }
+}
+
+

@@ -5,6 +5,7 @@ import { IModelInputState, Month } from "../types";
 import { daysInMonth, timeToAMPM } from "../utils/sim-utils";
 
 import css from "./bottom-container.scss";
+import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 interface IProps {
   inputState: IModelInputState;
@@ -29,22 +30,27 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
     });
   };
 
-  const handleDayChange = (value: string | null) => {
+  const handleDayChange = (value: string | null) =>
     setInputState({ day: Number(value) });
-  };
+
+  const handleYupikConstellationsChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputState({ showYupikConstellations: event.target.checked });
+
+  const handleWesternConstellationsChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputState({ showWesternConstellations: event.target.checked });
 
   return (
     <div className={css.bottomContainer}>
       <div className={css.row}>
         <div className={css.timeSliderContainer}>
-          <div className={css.label}>{ t("MIDNIGHT") }</div>
+          <div className={css.label}>{t("MIDNIGHT")}</div>
           <TimeSlider
             value={inputState.timeOfDay}
             day={inputState.day}
             month={inputState.month}
             onChange={handleTimeOfDayChange}
           />
-          <div className={css.label}>{ t("MIDNIGHT") }</div>
+          <div className={css.label}>{t("MIDNIGHT")}</div>
         </div>
       </div>
       <div className={css.row}>
@@ -52,6 +58,26 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
           <div className={css.label}>{t("CONSTELLATIONS")}</div>
           <div className={css.content}>
             <div className={css.content100}>
+              <div className={css.checkboxGroup}>
+                <div>
+                  <label>{ t("YUPIK") }</label>
+                  <Checkbox
+                    className={css.checkbox}
+                    checked={inputState.showYupikConstellations}
+                    onChange={handleYupikConstellationsChange}
+                    disableRipple={true}
+                  />
+                </div>
+                <div>
+                  <label>{ t("WESTERN") }</label>
+                  <Checkbox
+                    className={css.checkbox}
+                    checked={inputState.showWesternConstellations}
+                    onChange={handleWesternConstellationsChange}
+                    disableRipple={true}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
