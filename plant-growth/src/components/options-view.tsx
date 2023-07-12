@@ -7,9 +7,9 @@ import { InputSlider } from "./controls/input-slider";
 import css from "./options-view.scss";
 
 interface IProps {
-  inputState: IModelInputState,
-  setInputState: (update: Partial<IModelInputState>) => void,
-  disabled: boolean,
+  inputState: IModelInputState;
+  setInputState: (update: Partial<IModelInputState>) => void;
+  disabled: boolean;
 }
 
 export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disabled }) => {
