@@ -127,6 +127,7 @@
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "shutterbug": "^1.5.0",
     "three": "^0.154.0"
   }
 }
