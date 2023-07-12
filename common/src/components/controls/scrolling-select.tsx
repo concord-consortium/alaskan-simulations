@@ -9,6 +9,7 @@ import css from "./scrolling-select.scss";
 interface IOptionProps {
   value: string;
   disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 export const Option: React.FC<IOptionProps> = ({ value, disabled, children }) => (
@@ -28,6 +29,7 @@ interface IProps {
   onChange: (value: string | null) => void;
   disabled: boolean;
   valueMinWidth?: number;
+  children?: React.ReactNode;
 }
 
 export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChange, disabled, children }) => {

@@ -18,6 +18,7 @@ interface IProps {
   zIndex?: number;
   addSeparator?: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const Dialog: React.FC<IProps> = ({ title, modal, closeButtonLabel, noMaxHeight, onClose, showCloseButton, trapFocus, zIndex, addSeparator, className, children }) => {

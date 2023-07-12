@@ -8,6 +8,7 @@ interface IProps {
   labelStyle?: "white";
   className?: string;
   centerLabel?: boolean;
+  children?: React.ReactNode;
 }
 
 export const LabeledContainer:  React.FC<IProps> = (props) => {

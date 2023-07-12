@@ -15,6 +15,7 @@ import css from "./simulation-frame.scss";
 interface IProps {
   directions: string | ReactNode;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
