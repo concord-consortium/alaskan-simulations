@@ -5,4 +5,4 @@ declare module "*.scss";
 declare module "*.csv";
 declare module "*.mp3";
 
-
+declare module "shutterbug";

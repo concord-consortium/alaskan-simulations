@@ -1,71 +1,41 @@
 @import "common/src/vars.scss";
 
-$viewHeight: 354px;
-$labelHeight: 28px;
+$height: 354px;
 
 .simulationView {
   box-sizing: border-box;
   display: flex;
 
-  .horizonView {
+  .horizonViewWrapper {
     width: 100%;
-    height: $viewHeight;
-  }
+    height: $height;
+    position: relative;
 
-  .bottomControls {
-    position: absolute;
-    top: $viewHeight;
-    font-size: 16px;
-    font-weight: bold;
-    color: $bluePrimary;
-    font-stretch: condensed;
-
-    .checkboxes {
+    .sky, .daylight, .landscape, .stars, .pointers {
+      width: 100%;
+      height: $height;
       position: absolute;
-      left: -70px;
-      bottom: 45px;
-      width: 500px;
+      top: 0;
+      left: 0;
+      background-size: cover;
+    }
 
-      display: flex;
-      justify-content: center;
+    .sky {
+      background-image: url("../../assets/earth-view-nighttime-background@3x.png");
+    }
 
-      &.es {
-        margin-left: 40px;
-      }
+    .landscape {
+      background-image: url("../../assets/earth-view-landscape@3x.png");
+      pointer-events: none;
+      background-position: center;
+      background-size: contain;
+    }
 
-      >div {
-        border-radius: 5px;
-        padding: 0 0 0 15px;
-        background-color: $lightBlueTint10;
-        display: flex;
-        gap: 10px;
-      }
-
-      :global(.MuiCheckbox-root) {
-        padding: 0;
-
-        &:hover:not(:active) {
-          opacity: 0.35;
-        }
-      }
-
-      .checkboxHover {
-        opacity: 0.35;
-      }
-
-      :global(.MuiTypography-root) {
-        line-height: initial;
-        letter-spacing: normal;
-        font-family: $fontFamilyRobotoCondensed;
-      }
-
-      :global(.MuiFormControlLabel-label) {
-        font-weight: bold;
-      }
-
-      :global(.MuiFormControlLabel-root) {
-        margin-right: 10px;
-      }
+    .daylight {
+      background-image: url("../../assets/earth-view-daytime-background@3x.png");
+      pointer-events: none;
+      background-position: center;
+      background-size: contain;
     }
   }
 }
