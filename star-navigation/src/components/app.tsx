@@ -8,6 +8,7 @@ import { getDateTimeString } from "../utils/sim-utils";
 import { translations } from "../translations";
 import { RouteContainer } from "./route-container";
 import { BottomContainer } from "./bottom-container";
+import HeaderTitle from "../assets/title.png";
 
 import css from "./app.scss";
 
@@ -48,6 +49,7 @@ export const App: React.FC = () => {
     <TranslationContext.Provider value={translationContextValues}>
       <SimulationFrame
         className={css.simulationFrame}
+        titleImage={HeaderTitle}
         directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
       >
         <div className={css.content}>

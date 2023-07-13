@@ -14,6 +14,7 @@ import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { BarGraph } from "./bar-graph/bar-graph";
 import { PlantGrowthDirections } from "./plant-lab-directions";
+import HeaderTitle from "../assets/HeaderTitle.png";
 import None from "../assets/input-none.png";
 import Some from "../assets/input-some.png";
 import Full from "../assets/input-full.png";
@@ -233,6 +234,7 @@ export const App = (props: IAppProps) => {
     <TranslationContext.Provider value={translationContextValues}>
       <SimulationFrame
         className={css.simulationFrame}
+        titleImage={HeaderTitle}
         directions={<PlantGrowthDirections />} // ReactNode is also allowed if more complex content is needed.
       >
         <div className={css.content}>

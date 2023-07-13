@@ -86,18 +86,4 @@
   }
 }
 
-.checkbox {
-  color: $light-blue;
-
-  &:global(.MuiCheckbox-root) {
-    padding: 0;
-  }
-  &:global(.MuiCheckbox-root .MuiSvgIcon-root) {
-    font-size: 32px;
-  }
-  &:global(.MuiCheckbox-root.Mui-checked) {
-    color: $dark-blue;
-  }
-}
-
 

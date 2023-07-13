@@ -1,0 +1,45 @@
+@import "../../vars.scss";
+
+.largeToggle {
+  color: $light-blue;
+
+  &:global(.MuiCheckbox-root) {
+    padding: 0;
+  }
+
+  &:hover .icon {
+    background-color: $blue-hover;
+  }
+
+  &:hover .icon.checked {
+    background-color: $dark-blue2;
+  }
+
+  &:global(.Mui-focusVisible) .icon {
+    outline: $focusOutline;
+  }
+
+  &:global(.Mui-disabled) {
+    opacity: 0.35;
+  }
+
+  .icon {
+    box-sizing: border-box;
+    width: 65px;
+    height: 65px;
+    border: 2px solid $dark-blue;
+    background-color: $light-blue2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.checked {
+      background-color: $dark-blue;
+    }
+
+    img {
+      height: 55px;
+    }
+  }
+}
