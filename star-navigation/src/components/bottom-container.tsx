@@ -1,11 +1,14 @@
 import React from "react";
-import { Option, ScrollingSelect, useTranslation } from "common";
+import { Checkbox, Option, ScrollingSelect, useTranslation, LargeToggle } from "common";
 import { TimeSlider } from "./time-slider";
 import { IModelInputState, Month } from "../types";
 import { daysInMonth, timeToAMPM } from "../utils/sim-utils";
+import CompassIcon from "../assets/compass_icon.png";
+import CompassSelectedIcon from "../assets/compass_icon_selected.png";
+import AngleIcon from "../assets/angle_icon.png";
+import AngleSelectedIcon from "../assets/angle_icon_selected.png";
 
 import css from "./bottom-container.scss";
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 interface IProps {
   inputState: IModelInputState;
@@ -62,19 +65,15 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
                 <div>
                   <label>{ t("YUPIK") }</label>
                   <Checkbox
-                    className={css.checkbox}
                     checked={inputState.showYupikConstellations}
                     onChange={handleYupikConstellationsChange}
-                    disableRipple={true}
                   />
                 </div>
                 <div>
                   <label>{ t("WESTERN") }</label>
                   <Checkbox
-                    className={css.checkbox}
                     checked={inputState.showWesternConstellations}
                     onChange={handleWesternConstellationsChange}
-                    disableRipple={true}
                   />
                 </div>
               </div>
@@ -137,8 +136,12 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
         <div className={css.widgetContainer}>
           <div className={css.label}>{t("NAVIGATION_MARKERS")}</div>
           <div className={css.content}>
-            <div className={css.content50}></div>
-            <div className={css.content50}></div>
+            <div className={css.content50}>
+              <LargeToggle image={CompassIcon} checkedImage={CompassSelectedIcon}  />
+            </div>
+            <div className={css.content50}>
+              <LargeToggle image={AngleIcon} checkedImage={AngleSelectedIcon} disabled={true} />
+            </div>
           </div>
         </div>
       </div>

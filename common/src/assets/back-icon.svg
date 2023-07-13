@@ -1,15 +1,13 @@
-<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <clipPath id="1zvecsq75a">
-            <path d="M5370 0v5280H0V0h5370z"/>
-        </clipPath>
-        <clipPath id="zwqgu4xoxb">
-            <path d="M13.797.1a1.315 1.315 0 0 1 1.66.592l.057.121a1.315 1.315 0 0 1-.592 1.66L4.072 8.315l10.85 5.842.115.07a1.315 1.315 0 0 1-1.362 2.246L.7 9.486a1.33 1.33 0 0 1 0-2.342L13.675.157z"/>
-        </clipPath>
-    </defs>
-    <g clip-path="url(#1zvecsq75a)" transform="translate(-1527 -106)">
-        <g clip-path="url(#zwqgu4xoxb)" transform="translate(1537.7 117.685)">
-            <path fill="#1e2749" d="M0 0h15.614v16.63H0V0z"/>
-        </g>
-    </g>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M2395 3360 l-800 -800 800 -800 800 -800 162 162 163 163 -637 637
+-638 638 638 638 637 637 -163 163 -162 162 -800 -800z"/>
+</g>
 </svg>

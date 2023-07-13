@@ -15,12 +15,13 @@ import css from "./simulation-frame.scss";
 interface IProps {
   directions: string | ReactNode;
   className?: string;
+  titleImage?: string;
   children?: React.ReactNode;
 }
 
 export const simulationFrameHeaderId = "simulationFrameHeader";
 
-export const SimulationFrame: React.FC<IProps> = ({ directions, className, children }) => {
+export const SimulationFrame: React.FC<IProps> = ({ directions, className, titleImage, children }) => {
   const [showCredits, setShowCredits] = useState(false);
   const [showDirections, setShowDirections] = useState(false);
   const { t, tStringOnly, readAloudMode, setReadAloudMode } = useTranslation();
@@ -46,7 +47,7 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, child
           <img className={css.logo} src={Logo}/>
           <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{ tStringOnly("CREDITS.HEADER") }</button>
         </div>
-        <div className={css.titleContainer}><img className={css.title} src={HeaderTitle}/></div>
+        <div className={css.titleContainer}><img className={css.title} src={titleImage}/></div>
         <div className={clsx(css.buttons, css.right)}>
           <Switch
             checked={readAloudMode}

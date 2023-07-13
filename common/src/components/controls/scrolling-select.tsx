@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import React, { Children, KeyboardEvent } from "react";
-
 import BackIcon from "../../assets/back-icon.svg";
-import ForwardIcon from "../../assets/forward-icon.svg";
 
 import css from "./scrolling-select.scss";
 
@@ -78,7 +76,7 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChan
         role="button"
         tabIndex={0}
       >
-        <ForwardIcon />
+        <BackIcon style={{transform: "rotate(180deg)"}} />
       </div>
     </div>
   );
