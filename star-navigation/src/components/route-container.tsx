@@ -68,7 +68,7 @@ export const RouteContainer: React.FC = () => {
     const angle = getAngle(length, whichAngle === angle1);
     /* set maxRadius, otherwise circle could be too large */
     const maxRadius = 70;
-    const radius = ((x2-x1) * .75) > maxRadius ? maxRadius : (x2-x1) * .75;
+    const radius = ((length) * .75) > maxRadius ? maxRadius : (length) * .75;
     const clipPath = whichAngle === angle1 ? "cut-off-left" : "cut-off-right";
 
     const degTxtXPos = radius === maxRadius ? x1 + maxRadius : middleOfLine.x;
