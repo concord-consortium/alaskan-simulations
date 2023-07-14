@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { Checkbox, Option, ScrollingSelect, useTranslation, LargeToggle } from "common";
 import { TimeSlider } from "./time-slider";
 import { IModelInputState, Month } from "../types";
@@ -128,7 +129,7 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
         <div className={css.widgetContainer}>
           <div className={css.label}>{t("TIME")}</div>
           <div className={css.content}>
-            <div className={css.content100}>
+            <div className={clsx(css.content100, css.timeOfDay)}>
               {timeToAMPM(inputState.timeOfDay)}
             </div>
           </div>

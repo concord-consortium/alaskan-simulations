@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
 import { Slider } from "@mui/base";
+import { sunriseSunset } from "../utils/daytime";
 
 import css from "./time-slider.scss";
-import { sunriseSunset } from "../utils/daytime";
 
 interface IProps {
   value: number;
@@ -37,7 +37,7 @@ export const TimeSlider: React.FC<IProps> = ({ value, month, onChange, disabled 
         aria-label="Day of Time Slider"
         min={0}
         max={24}
-        step={1/ 60}
+        step={0.01666666667} // 1 minute, 1/60 of an hour
         value={value}
         track={false}
         onChange={handleChange}
