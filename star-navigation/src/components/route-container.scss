@@ -20,6 +20,11 @@
       z-index: 1;
       position: relative;
       top: -150px;
+      .angle {
+        fill: #fabc2a;
+        fill-opacity: 70%;
+
+      }
     }
     .draggableIcon {
       width: 100%;
