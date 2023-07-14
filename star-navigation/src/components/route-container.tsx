@@ -60,6 +60,14 @@ export const RouteContainer: React.FC = () => {
     );
   };
 
+  const makePointLabel = (point: "A" | "B" | "C") => {
+    const pointData = point === "A" ? pointA : point === "B" ? pointB : pointC;
+    const yOffset = 15;
+    return (
+      <text x={pointData.x} y={pointData.y + yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.pointLabel}>{point}</text>
+    );
+  };
+
   const makeLineWithTextAndAngle = (coords: LineProps, whichAngle: WhichAngle) => {
     const {x1, y1, x2, y2} = coords;
 
@@ -84,6 +92,7 @@ export const RouteContainer: React.FC = () => {
         </clipPath>
       </defs>
         {makeLine(coords, "routeLine")}
+        <text x={x1} y={y1} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.pointLabel}></text>
         <text x={middleOfLine.x} y={middleOfLine.y + yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{Math.round(length)}</text>
         <circle r={radius} clipPath={`url(#${clipPath})`} cx={x1} cy={y1} className={css.angle}/>
         <text x={degTxtXPos} y={middleOfLine.y - yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{angle}°</text>
@@ -105,6 +114,9 @@ export const RouteContainer: React.FC = () => {
             {makeLineWithTextAndAngle({x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y}, angle1)}
             {makeLine({x1: pointB.x, y1: 0, x2: pointB.x, y2: mapHeight}, "vertical")}
             {makeLineWithTextAndAngle({x1: pointB.x, y1: pointB.y, x2: pointC.x, y2: pointC.y}, angle2)}
+            {makePointLabel("A")}
+            {makePointLabel("B")}
+            {makePointLabel("C")}
           </svg>
           <div className={css.draggableIcon}>
             <DraggableWrapper onDragMove={handleDragMove}>

@@ -26,7 +26,13 @@
         paint-order: stroke;
         stroke-width: 4px;
         border: 2px solid $midnight-blue;
-
+      }
+      .pointLabel {
+        fill: $darkYellow;
+        stroke: $midnight-blue;
+        paint-order: stroke;
+        stroke-width: 2px;
+        font-weight: bold;
       }
       .routeLine {
         stroke: $midnight-blue;
