@@ -19,15 +19,15 @@ export const DraggableWrapper: React.FC<IDraggableLocation> = (props) => {
 
   const handlePointerMove = (e: any) => {
     if (isDragging) {
-      onDragMove(e)
-    };
+      onDragMove(e);
+    }
   };
 
   useEffect(() => {
-    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener("pointerup", handlePointerUp);
     return () => {
-      window.removeEventListener('pointerup', handlePointerUp);
-    }
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
   }, []);
 
   return (

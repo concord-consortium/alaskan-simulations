@@ -64,7 +64,7 @@ export const RouteContainer: React.FC = () => {
     const {x1, y1, x2, y2} = coords;
 
     const length = (Math.sqrt((Math.pow((x2 - x1), 2)) + (Math.pow((y2 - y1), 2))));
-    const middleOfLine = {x: (x2+x1) / 2, y: ((y2+y1) / 2)}
+    const middleOfLine = {x: (x2+x1) / 2, y: ((y2+y1) / 2)};
     const angle = getAngle(length, whichAngle === angle1);
     /* set maxRadius, otherwise circle could be too large */
     const maxRadius = 70;
