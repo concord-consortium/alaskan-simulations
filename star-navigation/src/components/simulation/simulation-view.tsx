@@ -2,6 +2,7 @@ import React from "react";
 import { IModelInputState } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
+import { getHeadingFromAssumedNorthStar } from "../../utils/sim-utils";
 
 import css from "./simulation-view.scss";
 
@@ -18,6 +19,21 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     setInputState({ selectedStarHip: starHip });
   };
 
+  const handleRealHeadingFromNorthChange = (realHeadingFromNorth: number) => {
+    setInputState({ realHeadingFromNorth });
+  };
+
+  let headingFromAssumedNorthStar;
+  if (inputState.selectedStarHip) {
+    headingFromAssumedNorthStar = getHeadingFromAssumedNorthStar({
+      assumedNorthStarHip: inputState.selectedStarHip,
+      realHeadingFromNorth: inputState.realHeadingFromNorth,
+      epochTime,
+      lat: observerLat,
+      long: observerLon
+    });
+  }
+
   return (
     <div className={css.simulationView}>
       <div className={css.horizonViewWrapper}>
@@ -32,10 +48,17 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             onStarClick={handleStarClick}
             selectedStarHip={inputState.selectedStarHip}
             compassActive={inputState.compassActive}
+            onRealHeadingFromNorthChange={handleRealHeadingFromNorthChange}
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />
         <div className={css.landscape} />
+        {
+          headingFromAssumedNorthStar !== undefined &&
+          <div className={css.heading}>
+            Heading: {Math.round(headingFromAssumedNorthStar)}° from North
+          </div>
+        }
       </div>
     </div>
   );

@@ -38,10 +38,6 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
   return (
     <object3D rotation={rotation}>
       <object3D position={northMarkerTip}>
-        {/* <mesh position={[0, -0.5 * lineHeight, 0]}>
-          <boxGeometry args={[15, lineHeight, 15]} />
-          <meshBasicMaterial color={COLOR} />
-        </mesh> */}
         <Line
           points={[northMarkerTip, [northMarkerTip[0], -10e6, northMarkerTip[2]]]}
           color={COLOR}

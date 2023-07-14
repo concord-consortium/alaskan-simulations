@@ -60,6 +60,7 @@ export interface IModelInputState {
   showYupikConstellations: boolean;
   compassActive: boolean;
   selectedStarHip: number | null;
+  realHeadingFromNorth: number; // degree
 }
 
 export interface IModelOutputState {
