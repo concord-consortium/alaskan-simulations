@@ -24,6 +24,8 @@ export const App: React.FC = () => {
       timeOfDay: 0,
       showWesternConstellations: true,
       showYupikConstellations: true,
+      compassActive: false,
+      selectedStarHip: null
     },
     initialOutputState: {
     }
@@ -60,6 +62,7 @@ export const App: React.FC = () => {
                 epochTime={epochTime}
                 observerLat={OBSERVER_LAT}
                 observerLon={OBSERVER_LON}
+                setInputState={setInputState}
               />
             </div>
             <BottomContainer

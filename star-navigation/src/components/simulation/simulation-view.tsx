@@ -10,9 +10,14 @@ interface IProps {
   observerLat: number;
   observerLon: number;
   inputState: IModelInputState;
+  setInputState: (inputState: Partial<IModelInputState>) => void;
 }
 
-export const SimulationView: React.FC<IProps> = ({ inputState, epochTime, observerLat, observerLon }) => {
+export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, epochTime, observerLat, observerLon }) => {
+  const handleStarClick = (starHip: number) => {
+    setInputState({ selectedStarHip: starHip });
+  };
+
   return (
     <div className={css.simulationView}>
       <div className={css.horizonViewWrapper}>
@@ -24,6 +29,9 @@ export const SimulationView: React.FC<IProps> = ({ inputState, epochTime, observ
             long={observerLon}
             showWesternConstellations={inputState.showWesternConstellations}
             showYupikConstellations={inputState.showYupikConstellations}
+            onStarClick={handleStarClick}
+            selectedStarHip={inputState.selectedStarHip}
+            compassActive={inputState.compassActive}
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />
