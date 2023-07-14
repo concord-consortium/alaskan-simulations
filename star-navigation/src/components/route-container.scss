@@ -20,10 +20,26 @@
       z-index: 1;
       position: relative;
       top: -150px;
-      .angle {
-        fill: #fabc2a;
-        fill-opacity: 70%;
+      .mapText {
+        fill: $lightBlue;
+        stroke: $midnight-blue;
+        paint-order: stroke;
+        stroke-width: 4px;
+        border: 2px solid $midnight-blue;
 
+      }
+      .routeLine {
+        stroke: $midnight-blue;
+        stroke-width: 3;
+      }
+      .vertical {
+        stroke: $midnight-blue;
+        stroke-width: 2;
+        stroke-dasharray: 5;
+      }
+      .angle {
+        fill: $darkYellow;
+        fill-opacity: 65%;
       }
     }
     .draggableIcon {
@@ -33,7 +49,10 @@
       top: -155px;
       svg {
         width: 30px;
-        height: 30px;
+        height: 32px;
+        stroke: $midnight-blue;
+        stroke-width: 30;
+        fill: $lightBlue;
       }
     }
   }

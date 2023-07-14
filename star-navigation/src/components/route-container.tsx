@@ -4,8 +4,10 @@ import { DraggableWrapper } from "./draggable-wrapper";
 
 import css from "./route-container.scss";
 
+/* placeholders for now, these will be determined by final image that has markers for locations */
 const pointA = {x: 10, y: 80};
 const pointC = {x: 200, y: 80};
+
 const mapHeight = 150;
 const mapWidth = 210;
 
@@ -36,8 +38,7 @@ export const RouteContainer: React.FC = () => {
 
   const convertRadiansToDegrees = (rad: number) => {
     return Math.round((rad) * 180/Math.PI);
-  }
-
+  };
 
   const getAngle = (hypLength: number, isFirstAngle: boolean) => {
     const otherSideLength = isFirstAngle ? pointB.x - pointA.x : pointC.x - pointB.x;
@@ -50,40 +51,49 @@ export const RouteContainer: React.FC = () => {
       finalAngle = pointB.y < pointC.y ? 180 - angleInDegrees : angleInDegrees;
     }
     return finalAngle;
-  }
+  };
 
-  const makeLine = (coords: LineProps) => {
+  const makeLine = (coords: LineProps, className: string) => {
     const {x1, y1, x2, y2} = coords;
     return (
-      <line x1={x1} y1={y1} x2={x2} y2={y2} style={{stroke: "black", strokeWidth: 2}}/>
+      <line x1={x1} y1={y1} x2={x2} y2={y2} className={css[className]}/>
     );
   };
 
   const makeLineWithTextAndAngle = (coords: LineProps, whichAngle: WhichAngle) => {
     const {x1, y1, x2, y2} = coords;
+
     const length = (Math.sqrt((Math.pow((x2 - x1), 2)) + (Math.pow((y2 - y1), 2))));
     const middleOfLine = {x: (x2+x1) / 2, y: ((y2+y1) / 2)}
-
     const angle = getAngle(length, whichAngle === angle1);
-    const radius = ((x2-x1) * .75) > 70 ? 70 : (x2-x1) * .75;
-    const degTxtXPos = radius === 50 ? x1 + 50 : middleOfLine.x;
+    /* set maxRadius, otherwise circle could be too large */
+    const maxRadius = 70;
+    const radius = ((x2-x1) * .75) > maxRadius ? maxRadius : (x2-x1) * .75;
     const clipPath = whichAngle === angle1 ? "cut-off-left" : "cut-off-right";
+
+    const degTxtXPos = radius === maxRadius ? x1 + maxRadius : middleOfLine.x;
+    /* position text above or below route line */
+    const yOffset = 15;
 
     return (
       <>
       { /* create a polygon to clip the circle to only the parts we want to see */ }
       <defs>
         <clipPath id={clipPath}>
-          <polygon points={`${x1+1},${y1-1} ${x1 + 1},0 ${x2 + 1},0 ${x2},${y2} `}/>
+          <polygon points={`${x1+1},${y1-1} ${x1 + 1},0 ${x2 + 1},0 ${x2},${y2-1}`}/>
         </clipPath>
       </defs>
-        {makeLine(coords)}
-        <text x={middleOfLine.x} y={middleOfLine.y + 15} style={{stroke: "black", textAnchor: "middle", dominantBaseline:"middle"}}>{Math.round(length)}</text>
+        {makeLine(coords, "routeLine")}
+        <text x={middleOfLine.x} y={middleOfLine.y + yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{Math.round(length)}</text>
         <circle r={radius} clipPath={`url(#${clipPath})`} cx={x1} cy={y1} className={css.angle}/>
-        <text x={degTxtXPos} y={middleOfLine.y - 15} style={{stroke: "black", textAnchor: "middle", dominantBaseline:"middle"}}>{angle}°</text>
+        <text x={degTxtXPos} y={middleOfLine.y - yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{angle}°</text>
       </>
     );
   };
+
+  /* offset location icon by half its width and height so the bottom of it is aligned with point b*/
+  const locIconXOffset = pointB.x - 15;
+  const locIconYOffset = pointB.y - 32;
 
   return (
     <div className={css.rightPanelContainer}>
@@ -91,14 +101,14 @@ export const RouteContainer: React.FC = () => {
         <div className={css.mapBackground}/>
         <div className={css.svgContainer}>
           <svg height={mapHeight} width={mapWidth}>
-            {makeLine({x1: pointA.x, y1: 1, x2: pointA.x, y2: 149})}
+            {makeLine({x1: pointA.x, y1: 0, x2: pointA.x, y2: mapHeight}, "vertical")}
             {makeLineWithTextAndAngle({x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y}, angle1)}
-            {makeLine({x1: pointB.x, y1: 1, x2: pointB.x, y2: 149})}
+            {makeLine({x1: pointB.x, y1: 0, x2: pointB.x, y2: mapHeight}, "vertical")}
             {makeLineWithTextAndAngle({x1: pointB.x, y1: pointB.y, x2: pointC.x, y2: pointC.y}, angle2)}
           </svg>
           <div className={css.draggableIcon}>
             <DraggableWrapper onDragMove={handleDragMove}>
-              <div style={{transform: `translateX(${pointB.x - 15}px) translateY(${pointB.y - 30}px)`}}>
+              <div style={{transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`}}>
                 <LocationSymbol/>
               </div>
             </DraggableWrapper>
