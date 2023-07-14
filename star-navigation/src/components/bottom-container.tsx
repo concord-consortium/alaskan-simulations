@@ -10,6 +10,7 @@ import AngleIcon from "../assets/angle_icon.png";
 import AngleSelectedIcon from "../assets/angle_icon_selected.png";
 
 import css from "./bottom-container.scss";
+import { config } from "../config";
 
 interface IProps {
   inputState: IModelInputState;
@@ -42,6 +43,8 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
 
   const handleWesternConstellationsChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setInputState({ showWesternConstellations: event.target.checked });
+
+  const monthKeySuffix = config.routeMap ? "_SHORT" : "";
 
   return (
     <div className={css.bottomContainer}>
@@ -89,20 +92,20 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
                 value={inputState.month.toString()}
                 onChange={handleMonthChange}
                 disabled={disableInputs}
-                valueMinWidth={53}
+                valueMinWidth={config.routeMap ? 53 : 92}
               >
-                <Option value="1">{t(Month.January)}</Option>
-                <Option value="2">{t(Month.February)}</Option>
-                <Option value="3">{t(Month.March)}</Option>
-                <Option value="4">{t(Month.April)}</Option>
-                <Option value="5">{t(Month.May)}</Option>
-                <Option value="6">{t(Month.June)}</Option>
-                <Option value="7">{t(Month.July)}</Option>
-                <Option value="8">{t(Month.August)}</Option>
-                <Option value="9">{t(Month.September)}</Option>
-                <Option value="10">{t(Month.October)}</Option>
-                <Option value="11">{t(Month.November)}</Option>
-                <Option value="12">{t(Month.December)}</Option>
+                <Option value="1">{t(Month.January + monthKeySuffix)}</Option>
+                <Option value="2">{t(Month.February + monthKeySuffix)}</Option>
+                <Option value="3">{t(Month.March + monthKeySuffix)}</Option>
+                <Option value="4">{t(Month.April + monthKeySuffix)}</Option>
+                <Option value="5">{t(Month.May + monthKeySuffix)}</Option>
+                <Option value="6">{t(Month.June + monthKeySuffix)}</Option>
+                <Option value="7">{t(Month.July + monthKeySuffix)}</Option>
+                <Option value="8">{t(Month.August + monthKeySuffix)}</Option>
+                <Option value="9">{t(Month.September + monthKeySuffix)}</Option>
+                <Option value="10">{t(Month.October + monthKeySuffix)}</Option>
+                <Option value="11">{t(Month.November + monthKeySuffix)}</Option>
+                <Option value="12">{t(Month.December + monthKeySuffix)}</Option>
               </ScrollingSelect>
             </div>
           </div>
