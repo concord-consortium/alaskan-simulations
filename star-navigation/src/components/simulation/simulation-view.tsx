@@ -3,9 +3,11 @@ import { IModelInputState } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
 import { getHeadingFromAssumedNorthStar } from "../../utils/sim-utils";
+import BackIcon from "../../assets/back-icon.svg";
 import { clsx } from "clsx";
 
 import css from "./simulation-view.scss";
+import { Button } from "common";
 
 interface IProps {
   epochTime: number;
@@ -22,6 +24,14 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
 
   const handleRealHeadingFromNorthChange = (realHeadingFromNorth: number) => {
     setInputState({ realHeadingFromNorth });
+  };
+
+  const handleRotateLeft = () => {
+    setInputState({ realHeadingFromNorth: (inputState.realHeadingFromNorth - 5 + 360) % 360 });
+  };
+
+  const handleRotateRight = () => {
+    setInputState({ realHeadingFromNorth: (inputState.realHeadingFromNorth + 5) % 360 });
   };
 
   let headingFromAssumedNorthStar;
@@ -49,6 +59,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             onStarClick={handleStarClick}
             selectedStarHip={inputState.selectedStarHip}
             compassActive={inputState.compassActive}
+            realHeadingFromNorth={inputState.realHeadingFromNorth}
             onRealHeadingFromNorthChange={handleRealHeadingFromNorthChange}
           />
         </div>
@@ -61,6 +72,16 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             Heading: {Math.round(headingFromAssumedNorthStar) % 360}° from North
           </div>
         }
+        <div className={css.buttons}>
+          <div className={css.buttonContainer}>
+            <div>-5°</div>
+            <button onClick={handleRotateLeft}><BackIcon /></button>
+          </div>
+          <div className={css.buttonContainer}>
+            <div>+5°</div>
+            <button onClick={handleRotateRight}><BackIcon style={{transform: "rotate(180deg)"}} /></button>
+          </div>
+        </div>
       </div>
     </div>
   );

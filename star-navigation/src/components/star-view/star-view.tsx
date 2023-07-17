@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@react-three/drei";
 import Shutterbug from "shutterbug";
 import { config } from "../../config";
 import { CelestialSphere } from "./celestial-sphere";
-import { getCelestialSphereRotation, getStarPositionAtTime, toPositiveHeading } from "../../utils/sim-utils";
+import { getCelestialSphereRotation, getStarPositionAtTime, toNegativeHeading, toPositiveHeading } from "../../utils/sim-utils";
 import { CompassMarkers } from "./compass-markers";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
@@ -30,6 +30,7 @@ interface IProps {
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
   onStarClick: (starHip: number) => void;
+  realHeadingFromNorth: number;
   onRealHeadingFromNorthChange: (heading: number) => void;
   selectedStarHip: number | null;
   compassActive: boolean;
@@ -37,7 +38,10 @@ interface IProps {
 
 export const StarView: React.FC<IProps> = (props) => {
   const { epochTime, lat, long, selectedStarHip, compassActive, showWesternConstellations, showYupikConstellations,
-    onStarClick, onRealHeadingFromNorthChange } = props;
+    onStarClick, realHeadingFromNorth, onRealHeadingFromNorthChange } = props;
+
+  const orbitControlsRef = useRef<any>(null);
+  const cameraHeadingUpdate = useRef<number>(-1);
 
   // Keep Z value small, so target is very close to camera, and orbit controls behave pretty much like first person camera.
   const targetZ = -0.1;
@@ -57,9 +61,23 @@ export const StarView: React.FC<IProps> = (props) => {
 
   const handleCameraUpdate = (event?: OrbitControlsChangeEvent) => {
     if (event) {
-      onRealHeadingFromNorthChange(toPositiveHeading(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle())));
+      const newHeading = toPositiveHeading(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle()));
+      if (newHeading !== realHeadingFromNorth) {
+        // Camera damping generates lots of events, so we need to debounce them.
+        window.clearTimeout(cameraHeadingUpdate.current);
+        cameraHeadingUpdate.current = window.setTimeout(() => {
+          onRealHeadingFromNorthChange(newHeading);
+        }, 300);
+      }
     }
   };
+
+  useLayoutEffect(() => {
+    if (orbitControlsRef.current?.getAzimuthalAngle() !== THREE.MathUtils.degToRad(realHeadingFromNorth)) {
+      const newHeading = toNegativeHeading(THREE.MathUtils.degToRad(realHeadingFromNorth));
+      orbitControlsRef.current?.setAzimuthalAngle(newHeading);
+    }
+  }, [realHeadingFromNorth]);
 
   return (
     // See: https://github.com/jsx-eslint/eslint-plugin-react/issues/3423
@@ -69,8 +87,9 @@ export const StarView: React.FC<IProps> = (props) => {
     <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }}>
       <PerspectiveCamera makeDefault={true} fov={config.horizonFov} position={[0, 0, 0]} />
       <OrbitControls
+        ref={orbitControlsRef}
         target={[0, targetY, targetZ]}
-        enableDamping={false}
+        enableDamping={true}
         enableRotate={true} // disable rotation when something is being dragged
         enablePan={false}
         rotateSpeed={0.5}
