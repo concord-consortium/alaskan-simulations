@@ -106,6 +106,6 @@ $height: 355px;
   }
 
   .interactive {
-    cursor: pointer;
+    cursor: url("../../assets/compass_cursor.png") 20 20, pointer;
   }
 }
