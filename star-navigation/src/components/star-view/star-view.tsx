@@ -54,7 +54,7 @@ export const StarView: React.FC<IProps> = (props) => {
   if (selectedStarHip) {
     northMarkerTip = getStarPositionAtTime({
       starHip: selectedStarHip,
-      celestialSphereRadius: 0.8 * CELESTIAL_SPHERE_RADIUS,
+      celestialSphereRadius: CELESTIAL_SPHERE_RADIUS,
       epochTime, lat, long
      });
   }
@@ -85,43 +85,49 @@ export const StarView: React.FC<IProps> = (props) => {
     // It makes textures match colors in the original image.
     // resize.debounce=0 ensures that canvas will resize immediately when container size changes (right tab animation).
     <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }}>
-      <PerspectiveCamera makeDefault={true} fov={config.horizonFov} position={[0, 0, 0]} />
+      <PerspectiveCamera makeDefault={true} fov={config.horizonFov} position={[0, 0, 0]} near={0.1} far={CELESTIAL_SPHERE_RADIUS * 5} />
       <OrbitControls
         ref={orbitControlsRef}
         target={[targetX, targetY, 0]}
         enableDamping={true}
-        enableRotate={true} // disable rotation when something is being dragged
+        enableRotate={config.freeCamera}
+        enableZoom={config.freeCamera}
         enablePan={false}
         rotateSpeed={0.5}
-        zoomSpeed={0.5}
+        zoomSpeed={0.8}
         onChange={handleCameraUpdate}
       />
       <ambientLight args={[0x303030]} />
-      {/* ground */}
-      <mesh position={[0, -0.1, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[1000, 1000]} />
-        <meshBasicMaterial color={0x228B22} side={THREE.DoubleSide} />
-      </mesh>
-      {/* N marker box */}
-      <mesh position={[0, 0, -10]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color={0xff0000} side={THREE.DoubleSide} />
-      </mesh>
-      {/* S marker box */}
-      <mesh position={[0, 0, 10]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color={0xffff00} side={THREE.DoubleSide} />
-      </mesh>
-      {/* E marker box */}
-      <mesh position={[10, 0, 0]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color={0x00ff00} side={THREE.DoubleSide} />
-      </mesh>
-      {/* W marker box */}
-      <mesh position={[-10, 0, 0]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial color={0x0000ff} side={THREE.DoubleSide} />
-      </mesh>
+      {
+        config.freeCamera &&
+        <>
+          {/* ground */}
+          <mesh position={[0, -0.1, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[1000, 1000]} />
+            <meshBasicMaterial color={0x228B22} side={THREE.BackSide} />
+          </mesh>
+          {/* N marker box */}
+          <mesh position={[0, 0, -1000]}>
+            <boxGeometry args={[100, 100, 100]} />
+            <meshBasicMaterial color={0xff0000} side={THREE.DoubleSide} />
+          </mesh>
+          {/* S marker box */}
+          <mesh position={[0, 0, 1000]}>
+            <boxGeometry args={[100, 100, 100]} />
+            <meshBasicMaterial color={0xffff00} side={THREE.DoubleSide} />
+          </mesh>
+          {/* E marker box */}
+          <mesh position={[1000, 0, 0]}>
+            <boxGeometry args={[100, 100, 100]} />
+            <meshBasicMaterial color={0x00ff00} side={THREE.DoubleSide} />
+          </mesh>
+          {/* W marker box */}
+          <mesh position={[-1000, 0, 0]}>
+            <boxGeometry args={[100, 100, 100]} />
+            <meshBasicMaterial color={0x0000ff} side={THREE.DoubleSide} />
+          </mesh>
+        </>
+      }
       <CelestialSphere
         radius={CELESTIAL_SPHERE_RADIUS}
         rotation={celestialSphereRotation}

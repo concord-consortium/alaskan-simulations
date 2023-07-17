@@ -24,6 +24,8 @@ export interface IConfig {
 
   // Whether to show the route map on the right side of the star map.
   routeMap: boolean;
+  // When set to false, it disabled any camera movement besides the rotation buttons.
+  freeCamera: boolean;
 }
 
 const defaultConfig: IConfig = {
@@ -36,7 +38,8 @@ const defaultConfig: IConfig = {
   minAbsStarMagnitude: 3,
   constellations: ConstellationsPng,
   constellationsOpacity: 1,
-  routeMap: false
+  routeMap: false,
+  freeCamera: false
 };
 
 // Config is cached when module is loaded. That's fine, as URL parameters will not change in normal situation.

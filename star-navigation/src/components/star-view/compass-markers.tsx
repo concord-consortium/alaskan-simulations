@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 import * as THREE from "three";
-import { useTexture, Line, QuadraticBezierLine } from "@react-three/drei";
+import { useTexture, Line } from "@react-three/drei";
 
 import compassN from "../../assets/compass_icon_selected.png";
 import compassS from "../../assets/compass_s.png";
