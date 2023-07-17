@@ -44,9 +44,9 @@ export const StarView: React.FC<IProps> = (props) => {
   const cameraHeadingUpdate = useRef<number>(-1);
 
   // Keep Z value small, so target is very close to camera, and orbit controls behave pretty much like first person camera.
-  const targetZ = -0.1;
+  const targetX = 0.1;
   // This value decides about the initial camera angle.
-  const targetY = Math.tan(THREE.MathUtils.degToRad(config.horizonCameraAngle)) * -targetZ;
+  const targetY = Math.tan(THREE.MathUtils.degToRad(config.horizonCameraAngle)) * targetX;
 
   const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
 
@@ -88,7 +88,7 @@ export const StarView: React.FC<IProps> = (props) => {
       <PerspectiveCamera makeDefault={true} fov={config.horizonFov} position={[0, 0, 0]} />
       <OrbitControls
         ref={orbitControlsRef}
-        target={[0, targetY, targetZ]}
+        target={[targetX, targetY, 0]}
         enableDamping={true}
         enableRotate={true} // disable rotation when something is being dragged
         enablePan={false}

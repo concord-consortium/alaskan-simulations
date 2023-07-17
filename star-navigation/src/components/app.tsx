@@ -26,7 +26,7 @@ export const App: React.FC = () => {
       showYupikConstellations: true,
       compassActive: false,
       selectedStarHip: null,
-      realHeadingFromNorth: 0
+      realHeadingFromNorth: 90
     },
     initialOutputState: {
     }
