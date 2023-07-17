@@ -7,7 +7,6 @@ import BackIcon from "../../assets/back-icon.svg";
 import { clsx } from "clsx";
 
 import css from "./simulation-view.scss";
-import { Button } from "common";
 
 interface IProps {
   epochTime: number;
