@@ -73,6 +73,15 @@ export const getStarPositionAtTime = (options: { starHip: number, celestialSpher
   return starPos;
 };
 
+export const toPositiveHeading = (heading: number) => {
+  if (heading < 0) {
+    // [-0, -180] range representing N-E-S side
+    return -heading;
+  }
+  // [0, 180] range representing N-W-S side
+  return (360 - heading) % 360;
+};
+
 export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: number, lat: number, long: number}) => {
   const { starHip, epochTime, lat, long } = options;
   const assumedNorthStarPos = getStarPositionAtTime({
@@ -82,7 +91,7 @@ export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: n
     lat,
     long
   });
-  return THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z));
+  return toPositiveHeading(THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z)));
 };
 
 export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: number, realHeadingFromNorth: number, epochTime: number, lat: number, long: number}) => {
@@ -92,5 +101,5 @@ export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: n
     lat: options.lat,
     long: options.long
   });
-  return assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth;
+  return (assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth) % 360;
 };

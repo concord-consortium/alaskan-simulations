@@ -5,7 +5,7 @@ import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@rea
 import Shutterbug from "shutterbug";
 import { config } from "../../config";
 import { CelestialSphere } from "./celestial-sphere";
-import { getCelestialSphereRotation, getStarPositionAtTime } from "../../utils/sim-utils";
+import { getCelestialSphereRotation, getStarPositionAtTime, toPositiveHeading } from "../../utils/sim-utils";
 import { CompassMarkers } from "./compass-markers";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
@@ -57,7 +57,7 @@ export const StarView: React.FC<IProps> = (props) => {
 
   const handleCameraUpdate = (event?: OrbitControlsChangeEvent) => {
     if (event) {
-      onRealHeadingFromNorthChange(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle()));
+      onRealHeadingFromNorthChange(toPositiveHeading(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle())));
     }
   };
 
