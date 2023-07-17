@@ -75,9 +75,11 @@ export const getStarPositionAtTime = (options: { starHip: number, celestialSpher
 
 export const toPositiveHeading = (heading: number) => {
   if (heading < 0) {
+    // [-0, -180] range representing N-E-S side
     return -heading;
   }
-  return 360 - heading;
+  // [0, 180] range representing N-W-S side
+  return (360 - heading) % 360;
 };
 
 export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: number, lat: number, long: number}) => {
