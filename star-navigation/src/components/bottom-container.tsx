@@ -8,9 +8,9 @@ import CompassIcon from "../assets/compass_icon.png";
 import CompassSelectedIcon from "../assets/compass_icon_selected.png";
 import AngleIcon from "../assets/angle_icon.png";
 import AngleSelectedIcon from "../assets/angle_icon_selected.png";
+import { config } from "../config";
 
 import css from "./bottom-container.scss";
-import { config } from "../config";
 
 interface IProps {
   inputState: IModelInputState;
@@ -43,6 +43,9 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
 
   const handleWesternConstellationsChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setInputState({ showWesternConstellations: event.target.checked });
+
+  const handleCompassModeChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputState({ compassActive: event.target.checked });
 
   const monthKeySuffix = config.routeMap ? "_SHORT" : "";
 
@@ -141,7 +144,11 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
           <div className={css.label}>{t("NAVIGATION_MARKERS")}</div>
           <div className={css.content}>
             <div className={css.content50}>
-              <LargeToggle image={CompassIcon} checkedImage={CompassSelectedIcon}  />
+              <LargeToggle
+                image={CompassIcon} checkedImage={CompassSelectedIcon}
+                checked={inputState.compassActive}
+                onChange={handleCompassModeChange}
+              />
             </div>
             <div className={css.content50}>
               <LargeToggle image={AngleIcon} checkedImage={AngleSelectedIcon} disabled={true} />

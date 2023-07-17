@@ -11,13 +11,14 @@ $height: 355px;
     height: $height;
     position: relative;
 
-    .sky, .daylight, .landscape, .stars, .pointers {
+    .sky, .daylight, .landscape, .stars, .pointers, .heading {
       width: 100%;
       height: $height;
       position: absolute;
-      top: 0;
+      // top: 0;
       left: 0;
       background-size: cover;
+      pointer-events: none;
     }
 
     .sky {
@@ -36,6 +37,14 @@ $height: 355px;
       pointer-events: none;
       background-position: center;
       background-size: contain;
+    }
+
+    .heading {
+      font-weight: bold;
+      color: #1cc4ab;
+      text-align: center;
+      top: $height - 25px;
+      font-size: 16px;
     }
   }
 }

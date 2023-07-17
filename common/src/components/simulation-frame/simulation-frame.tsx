@@ -5,7 +5,6 @@ import { clsx } from "clsx";
 import rehypeRaw from "rehype-raw"; // used to allow for raw html in the instructional markdown
 import { Dialog } from "./dialog";
 import Logo from "../../assets/concord.png";
-import HeaderTitle from "../../assets/HeaderTitle.png";
 import { Switch } from "../controls/switch";
 import DirectionsButton from "../../assets/directions-button.svg";
 import { Credits } from "./credits";

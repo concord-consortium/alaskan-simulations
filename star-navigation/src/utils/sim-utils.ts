@@ -1,21 +1,8 @@
 import * as THREE from "three";
+import { toLocalSiderealTime } from "./time-conversion";
+import { getStarByHip } from "./star-utils";
 
 export const SIMULATION_YEAR = 2023;
-
-export const monthLabel: Record<number, string> = {
-  1: "MONTH.JANUARY",
-  2: "MONTH.FEBRUARY",
-  3: "MONTH.MARCH",
-  4: "MONTH.APRIL",
-  5: "MONTH.MAY",
-  6: "MONTH.JUNE",
-  7: "MONTH.JULY",
-  8: "MONTH.AUGUST",
-  9: "MONTH.SEPTEMBER",
-  10: "MONTH.OCTOBER",
-  11: "MONTH.NOVEMBER",
-  12: "MONTH.DECEMBER",
-};
 
 // The only reliable data format is ISO 8601 format. Firefox and Safari is very strict about number format:
 // new Date("2022-01-01") is fine, but new Date("2022-1-1") will return an invalid date.
@@ -69,3 +56,41 @@ export const getTimezone = (month: number, day: number) => {
 export const getDateTimeString = (month: number, day: number, hour: number) =>
   `${SIMULATION_YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(day)}T${fractionalHourToTimeString(hour)}${getTimezone(month, day)}`;
 
+
+export const getCelestialSphereRotation = (options: { epochTime: number, lat: number, long: number }): [number, number, number] => {
+  const { epochTime, lat, long } = options;
+  const date = new Date(epochTime);
+  const lst = toLocalSiderealTime(date, long);
+  return [ -1 * THREE.MathUtils.degToRad(90 - lat), -1 * localSiderealTimeToCelestialSphereRotation(lst), 0 ];
+};
+
+export const getStarPositionAtTime = (options: { starHip: number, celestialSphereRadius: number, epochTime: number, lat: number, long: number}) => {
+  const { starHip, celestialSphereRadius, epochTime, lat, long } = options;
+  const star = getStarByHip(starHip);
+  const starPos = calculateEquatorialPosition(star.RadianRA, star.RadianDec, celestialSphereRadius);
+  const eulerRotation = new THREE.Euler(...getCelestialSphereRotation({ epochTime, lat, long }));
+  starPos.applyEuler(eulerRotation);
+  return starPos;
+};
+
+export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: number, lat: number, long: number}) => {
+  const { starHip, epochTime, lat, long } = options;
+  const assumedNorthStarPos = getStarPositionAtTime({
+    starHip,
+    celestialSphereRadius: 1, // it doesn't matter for heading calculations
+    epochTime,
+    lat,
+    long
+  });
+  return THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z));
+};
+
+export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: number, realHeadingFromNorth: number, epochTime: number, lat: number, long: number}) => {
+  const assumedNorthStarHeadingFromNorth = getStarHeadingFromNorth({
+    starHip: options.assumedNorthStarHip,
+    epochTime: options.epochTime,
+    lat: options.lat,
+    long: options.long
+  });
+  return assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth;
+};

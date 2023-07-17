@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@react-three/drei";
 import Shutterbug from "shutterbug";
 import { config } from "../../config";
 import { CelestialSphere } from "./celestial-sphere";
+import { getCelestialSphereRotation, getStarPositionAtTime } from "../../utils/sim-utils";
+import { CompassMarkers } from "./compass-markers";
+
+const CELESTIAL_SPHERE_RADIUS = 1000;
 
 // This needs to be a separate component, as useThree depends on context provided by <Canvas> component.
 const ShutterbugSupport = () => {
@@ -25,13 +29,37 @@ interface IProps {
   long: number;
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
+  onStarClick: (starHip: number) => void;
+  onRealHeadingFromNorthChange: (heading: number) => void;
+  selectedStarHip: number | null;
+  compassActive: boolean;
 }
 
 export const StarView: React.FC<IProps> = (props) => {
+  const { epochTime, lat, long, selectedStarHip, compassActive, showWesternConstellations, showYupikConstellations,
+    onStarClick, onRealHeadingFromNorthChange } = props;
+
   // Keep Z value small, so target is very close to camera, and orbit controls behave pretty much like first person camera.
-  const targetZ = 0.1;
+  const targetZ = -0.1;
   // This value decides about the initial camera angle.
-  const targetY = Math.tan(THREE.MathUtils.degToRad(config.horizonCameraAngle)) * targetZ;
+  const targetY = Math.tan(THREE.MathUtils.degToRad(config.horizonCameraAngle)) * -targetZ;
+
+  const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
+
+  let northMarkerTip;
+  if (selectedStarHip) {
+    northMarkerTip = getStarPositionAtTime({
+      starHip: selectedStarHip,
+      celestialSphereRadius: 0.8 * CELESTIAL_SPHERE_RADIUS,
+      epochTime, lat, long
+     });
+  }
+
+  const handleCameraUpdate = (event?: OrbitControlsChangeEvent) => {
+    if (event) {
+      onRealHeadingFromNorthChange(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle()));
+    }
+  };
 
   return (
     // See: https://github.com/jsx-eslint/eslint-plugin-react/issues/3423
@@ -47,6 +75,7 @@ export const StarView: React.FC<IProps> = (props) => {
         enablePan={false}
         rotateSpeed={0.5}
         zoomSpeed={0.5}
+        onChange={handleCameraUpdate}
       />
       <ambientLight args={[0x303030]} />
       {/* ground */}
@@ -55,11 +84,37 @@ export const StarView: React.FC<IProps> = (props) => {
         <meshBasicMaterial color={0x228B22} side={THREE.DoubleSide} />
       </mesh>
       {/* N marker box */}
-      <mesh position={[0, 0, 10]}>
+      <mesh position={[0, 0, -10]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial color={0xff0000} side={THREE.DoubleSide} />
       </mesh>
-      <CelestialSphere {...props} />
+      {/* S marker box */}
+      <mesh position={[0, 0, 10]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshBasicMaterial color={0xffff00} side={THREE.DoubleSide} />
+      </mesh>
+      {/* E marker box */}
+      <mesh position={[10, 0, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshBasicMaterial color={0x00ff00} side={THREE.DoubleSide} />
+      </mesh>
+      {/* W marker box */}
+      <mesh position={[-10, 0, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshBasicMaterial color={0x0000ff} side={THREE.DoubleSide} />
+      </mesh>
+      <CelestialSphere
+        radius={CELESTIAL_SPHERE_RADIUS}
+        rotation={celestialSphereRotation}
+        showWesternConstellations={showWesternConstellations}
+        showYupikConstellations={showYupikConstellations}
+        onStarClick={onStarClick}
+        compassActive={compassActive}
+      />
+      {
+        northMarkerTip &&
+        <CompassMarkers northMarkerTip={[northMarkerTip.x, northMarkerTip.y, northMarkerTip.z]} />
+      }
       <ShutterbugSupport />
     </Canvas>
   );
