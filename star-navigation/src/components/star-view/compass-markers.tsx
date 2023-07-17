@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import * as THREE from "three";
-import { useTexture, Line } from "@react-three/drei";
+import { useTexture, Line, QuadraticBezierLine } from "@react-three/drei";
 
 import compassN from "../../assets/compass_icon_selected.png";
 import compassS from "../../assets/compass_s.png";
@@ -35,26 +35,41 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
 
   const rotation: [number, number, number] = [0, THREE.MathUtils.degToRad(directionToDeg[direction]), 0];
 
+
+  const originalTopPoint = new THREE.Vector3(...northMarkerTip);
+  const radius = originalTopPoint.length();
+
+  const bottomPoint = new THREE.Vector3(northMarkerTip[0], 0, northMarkerTip[2]);
+  bottomPoint.setLength(radius);
+
+  let topPoint;
+  if (direction === "N") {
+    topPoint = northMarkerTip;
+  } else {
+    // S/W/E marker lines are much shorter and closer to the horizon.
+    topPoint = (new THREE.Vector3(...northMarkerTip)).sub(bottomPoint).setLength(radius * 0.12);
+    topPoint.add(bottomPoint);
+  }
+
   return (
     <object3D rotation={rotation}>
-      <object3D position={northMarkerTip}>
-        <Line
-          points={[northMarkerTip, [northMarkerTip[0], -10e6, northMarkerTip[2]]]}
+      <Line
+        points={[topPoint, bottomPoint]}
+        color={COLOR}
+        lineWidth={3}
+      />
+      <sprite
+        position={topPoint}
+        scale={[SPRITE_WIDTH, SPRITE_HEIGHT, 1]}
+        center={direction === "N" ? undefined : SPRITE_CENTER}
+      >
+        <spriteMaterial
+          map={compassTexture[direction]}
+          transparent={true}
           color={COLOR}
-          lineWidth={3}
+          sizeAttenuation={false}
         />
-        <sprite
-          scale={[SPRITE_WIDTH, SPRITE_HEIGHT, 1]}
-          center={direction === "N" ? undefined : SPRITE_CENTER}
-        >
-          <spriteMaterial
-            map={compassTexture[direction]}
-            transparent={true}
-            color={COLOR}
-            sizeAttenuation={false}
-          />
-        </sprite>
-      </object3D>
+      </sprite>
     </object3D>
   );
 };
