@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { calculateEquatorialPosition } from "../../utils/sim-utils";
@@ -16,11 +16,7 @@ interface IProps {
 
 export const InteractiveStars: React.FC<IProps> = ({ radius, onStarClick }) => {
   const circleTexture = useLoader(THREE.TextureLoader, circleImg) as THREE.Texture;
-
   const [hovered, setHovered] = useState(-1);
-  useEffect(() => {
-    document.body.style.cursor = hovered !== -1 ? "pointer" : "auto";
-  }, [hovered]);
 
   const stars = getFilteredStars();
 

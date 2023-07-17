@@ -3,6 +3,7 @@ import { IModelInputState } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
 import { getHeadingFromAssumedNorthStar } from "../../utils/sim-utils";
+import { clsx } from "clsx";
 
 import css from "./simulation-view.scss";
 
@@ -38,7 +39,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     <div className={css.simulationView}>
       <div className={css.horizonViewWrapper}>
         <div className={css.sky} />
-        <div className={css.stars}>
+        <div className={clsx(css.stars, { [css.interactive]: inputState.compassActive })}>
           <StarView
             epochTime={epochTime}
             lat={observerLat}
