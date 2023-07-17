@@ -82,6 +82,15 @@ export const toPositiveHeading = (heading: number) => {
   return (360 - heading) % 360;
 };
 
+export const toNegativeHeading = (heading: number) => {
+  // Opposite of toPositiveHeading
+  if (heading > 180) {
+    // [180, 360] range representing N-E-S side
+    return 360 - heading;
+  }
+  return -heading;
+};
+
 export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: number, lat: number, long: number}) => {
   const { starHip, epochTime, lat, long } = options;
   const assumedNorthStarPos = getStarPositionAtTime({

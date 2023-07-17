@@ -20,23 +20,10 @@
     cursor: pointer;
   }
 
-  &.larger {
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
-
-    &.disabled {
-      opacity: .35;
-    }
-  }
-
   .label {
     font-weight: bold;
     margin-bottom: 6px;
     align-self: center;
-    &.larger {
-      font-family: $fontFamilyRoboto;
-    }
   }
 
   .innerButton {
@@ -50,11 +37,6 @@
     background-color: #fff;
     border-radius: 10px;
     border: 3px solid $bluePrimary;
-
-    &.larger {
-      box-shadow: 2px 2px 4px 0 $bluePrimaryTint50;
-      border-width: 4px;
-    }
 
     &.withInnerLabel {
       width: auto;
@@ -95,24 +77,6 @@
       }
     }
 
-    &.larger {
-      &:hover {
-        position: relative;
-        top: -4px;
-        width: 50px;
-        height: 50px;
-        background: $lightBlueTint25;
-      }
-      &:active {
-        position: relative;
-        top: -2.5px;
-        width: 45px;
-        height: 45px;
-        background-color: $bluePrimary;
-        box-shadow: none;
-      }
-    }
-
     &:hover {
       background-color: $lightBlueTint10;
     }
@@ -125,6 +89,4 @@
       }
     }
   }
-
-
 }

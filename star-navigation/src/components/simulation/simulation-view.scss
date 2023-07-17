@@ -11,11 +11,10 @@ $height: 355px;
     height: $height;
     position: relative;
 
-    .sky, .daylight, .landscape, .stars, .pointers, .heading {
+    .sky, .daylight, .landscape, .stars, .pointers, .heading, .buttons {
       width: 100%;
       height: $height;
       position: absolute;
-      // top: 0;
       left: 0;
       background-size: cover;
       pointer-events: none;
@@ -45,6 +44,64 @@ $height: 355px;
       text-align: center;
       top: $height - 25px;
       font-size: 16px;
+    }
+
+    .buttons {
+      top: $height - 70px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .buttonContainer {
+        color: #1cc4ab;
+        text-align: center;
+        font-size: 16px;
+
+        button {
+          box-sizing: border-box;
+          width: 36px;
+          height: 37px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid $dark-blue;
+          pointer-events: all;
+          margin: 5px 10px;
+          padding: 0;
+          cursor: pointer;
+          background-color: $light-blue;
+
+          svg {
+            height: 100%;
+          }
+
+          svg path {
+            fill: $dark-blue;
+          }
+
+          &:hover {
+            background-color: $blue-hover;
+          }
+
+          &:active {
+            background-color: $blue-active;
+
+            svg path {
+              fill: #fff;
+            }
+          }
+        }
+
+        &:first-child button {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+        }
+
+        &:last-child button {
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+      }
     }
   }
 
