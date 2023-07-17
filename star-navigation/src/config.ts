@@ -9,7 +9,7 @@ export interface IConfig {
   // Horizon view camera FOV.
   horizonFov: number;
   // Horizon view camera angle.
-  horizonCameraAngle: number; // deg
+  cameraVerticalAngle: number; // deg
   // Star size multiple, both orbit and horizon view.
   starSizeMult: number;
   // Minium constellation star size, both orbit and horizon view.
@@ -31,7 +31,7 @@ export interface IConfig {
 const defaultConfig: IConfig = {
   lang: undefined,
   horizonFov: 100,
-  horizonCameraAngle: 39, // deg
+  cameraVerticalAngle: 39, // deg
   starSizeMult: 0.5,
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,

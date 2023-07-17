@@ -46,7 +46,7 @@ export const StarView: React.FC<IProps> = (props) => {
   // Keep Z value small, so target is very close to camera, and orbit controls behave pretty much like first person camera.
   const targetX = 0.1;
   // This value decides about the initial camera angle.
-  const targetY = Math.tan(THREE.MathUtils.degToRad(config.horizonCameraAngle)) * targetX;
+  const targetY = Math.tan(THREE.MathUtils.degToRad(config.cameraVerticalAngle)) * targetX;
 
   const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
 
