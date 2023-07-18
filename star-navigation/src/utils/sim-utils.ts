@@ -112,3 +112,9 @@ export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: n
   });
   return (assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth) % 360;
 };
+
+export const getHorizontalFov = (verticalFovInDeg: number, aspectRatio: number) => {
+  const verticalFovRad = THREE.MathUtils.degToRad(verticalFovInDeg);
+  const horizontalFovRad = 2 * Math.atan(Math.tan(verticalFovRad / 2) * aspectRatio);
+  return THREE.MathUtils.radToDeg(horizontalFovRad);
+};

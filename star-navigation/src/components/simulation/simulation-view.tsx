@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IModelInputState } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
@@ -7,6 +7,7 @@ import BackIcon from "../../assets/back-icon.svg";
 import { clsx } from "clsx";
 
 import css from "./simulation-view.scss";
+import { Landscape } from "./landscape";
 
 interface IProps {
   epochTime: number;
@@ -17,6 +18,9 @@ interface IProps {
 }
 
 export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, epochTime, observerLat, observerLon }) => {
+  const starViewRef = useRef<HTMLDivElement>(null);
+  const [ starViewAspectRatio, setStarViewAspectRatio ] = useState<number>(0);
+
   const handleStarClick = (starHip: number) => {
     setInputState({ selectedStarHip: starHip });
   };
@@ -44,11 +48,18 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     });
   }
 
+  useEffect(() => {
+    if (starViewRef.current) {
+      const { clientWidth, clientHeight } = starViewRef.current;
+      setStarViewAspectRatio(clientWidth / clientHeight);
+    }
+  }, []);
+
   return (
     <div className={css.simulationView}>
       <div className={css.horizonViewWrapper}>
         <div className={css.sky} />
-        <div className={clsx(css.stars, { [css.interactive]: inputState.compassActive })}>
+        <div ref={starViewRef} className={clsx(css.stars, { [css.interactive]: inputState.compassActive })}>
           <StarView
             epochTime={epochTime}
             lat={observerLat}
@@ -63,7 +74,12 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />
-        <div className={css.landscape} />
+        <div className={css.landscapeContainer}>
+          <Landscape
+            aspectRatio={starViewAspectRatio}
+            realHeadingFromNorth={inputState.realHeadingFromNorth}
+          />
+        </div>
         {
           headingFromAssumedNorthStar !== undefined &&
           <div className={css.heading}>
