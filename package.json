@@ -3,7 +3,7 @@
   "private": true,
   "description": "Alaskan simulations",
   "engines": {
-    "node": ">=12",
+    "node": ">=16",
     "yarn": "^1.0.0"
   },
   "workspaces": [
