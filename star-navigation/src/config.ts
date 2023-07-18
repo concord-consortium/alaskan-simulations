@@ -30,8 +30,8 @@ export interface IConfig {
 
 const defaultConfig: IConfig = {
   lang: undefined,
-  horizonFov: 100,
-  cameraVerticalAngle: 39, // deg
+  horizonFov: 85,
+  cameraVerticalAngle: 30, // deg
   starSizeMult: 0.5,
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,
