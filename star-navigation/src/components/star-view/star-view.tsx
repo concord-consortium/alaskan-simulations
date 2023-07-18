@@ -103,7 +103,7 @@ export const StarView: React.FC<IProps> = (props) => {
         <>
           {/* ground */}
           <mesh position={[0, -0.1, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[1000, 1000]} />
+            <planeGeometry args={[3000, 3000]} />
             <meshBasicMaterial color={0x228B22} side={THREE.BackSide} />
           </mesh>
           {/* N marker box */}

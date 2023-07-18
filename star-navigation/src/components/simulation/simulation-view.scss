@@ -11,22 +11,16 @@ $height: 355px;
     height: $height;
     position: relative;
 
-    .sky, .daylight, .landscape, .stars, .pointers, .heading, .buttons {
+    .sky, .daylight, .landscapeContainer, .stars, .pointers, .heading, .buttons {
       width: 100%;
       height: $height;
       position: absolute;
       left: 0;
-      background-size: cover;
       pointer-events: none;
     }
 
     .sky {
       background-image: url("../../assets/earth-view-nighttime-background@3x.png");
-    }
-
-    .landscape {
-      background-image: url("../../assets/earth-view-landscape@3x.png");
-      pointer-events: none;
       background-position: center;
       background-size: contain;
     }
