@@ -1,20 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getHorizontalFov } from "../../utils/sim-utils";
 import { config } from "../../config";
+import { Hands } from "./hands";
 import LandscapeImg from "../../assets/CC_Constellation_environment_230711.png";
 import LandscapeImgWithMarkers from "../../assets/CC_Constellation_environment_230711_with_markers.png";
 
 import css from "./landscape.scss";
-import { Hands } from "./hands";
 
 const landscapeFullAngle = 360; // degrees
 
-const LandscapeFragment = () => {
+interface ILandscapeFragmentProps {
+  northMarkerOffset?: number;
+  degreeToPixel: number;
+}
+
+const LandscapeFragment: React.FC<ILandscapeFragmentProps> = ({ northMarkerOffset, degreeToPixel }) => {
   // When freeCamera is used, use image with N/S/W/E markers for debugging/dev purposes.
   const Image = config.freeCamera ? LandscapeImgWithMarkers : LandscapeImg;
+
+  const compassMarkers = config.landscapeMarkers && northMarkerOffset !== undefined ? [
+    { label: "N", offset: northMarkerOffset * degreeToPixel },
+    { label: "E", offset: (northMarkerOffset + 90) * degreeToPixel },
+    { label: "S", offset: (northMarkerOffset + 180) * degreeToPixel },
+    { label: "W", offset: (northMarkerOffset - 90) * degreeToPixel },
+  ] : [];
+
   return (
     <div className={css.landscapeFragment}>
       <img src={Image} />
+      {
+        compassMarkers.map(({ label, offset }) => (
+          <div key={label} className={css.marker} style={{ transform: `translate(${offset}px)` }}>
+            <div className={css.label}>{ label }</div>
+          </div>
+        ))
+      }
     </div>
   );
 };
@@ -51,13 +71,16 @@ export const Landscape: React.FC<IProps> = ({ aspectRatio, realHeadingFromNorth,
     left
   } : undefined;
 
+  const northMarkerOffset =
+    headingFromAssumedNorthStar !== undefined ? (realHeadingFromNorth - headingFromAssumedNorthStar) : undefined;
+
   return (
     <div ref={containerRef} className={css.landscape}>
       <div className={css.imageContainer} style={positionStyles}>
         {/* There are 3 full, repeated landscapes so we don't have to worry about wrapping when user makes a full 360 loop */}
-        <LandscapeFragment />
-        <LandscapeFragment />
-        <LandscapeFragment />
+        <LandscapeFragment northMarkerOffset={northMarkerOffset} degreeToPixel={degreeToPixel} />
+        <LandscapeFragment northMarkerOffset={northMarkerOffset} degreeToPixel={degreeToPixel} />
+        <LandscapeFragment northMarkerOffset={northMarkerOffset} degreeToPixel={degreeToPixel} />
       </div>
       <Hands
         headingFromAssumedNorthStar={headingFromAssumedNorthStar}

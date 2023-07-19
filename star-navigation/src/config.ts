@@ -19,15 +19,17 @@ export interface IConfig {
   // Minimum absolute star magnitude needed for star to be shown in both views
   minAbsStarMagnitude: number;
 
+  //--- New Alaskan Simulation Star Navigation params: ---
   constellations: string;
   constellationsOpacity: number;
-
   // Whether to show the route map on the right side of the star map.
   routeMap: boolean;
   // When set to false, it disabled any camera movement besides the rotation buttons.
   freeCamera: boolean;
   // When set to true, hands angle display shows range from 0 to 360 degrees. Otherwise, it shows 0 to 180.
   hands360: boolean;
+  // When set to true, N/W/S/E markers are shown in the landscape view instead of the 3D view.
+  landscapeMarkers: boolean;
 }
 
 const defaultConfig: IConfig = {
@@ -43,6 +45,7 @@ const defaultConfig: IConfig = {
   routeMap: false,
   freeCamera: false,
   hands360: false,
+  landscapeMarkers: true,
 };
 
 // Config is cached when module is loaded. That's fine, as URL parameters will not change in normal situation.
