@@ -6,6 +6,7 @@ import compassN from "../../assets/compass_icon_selected.png";
 import compassS from "../../assets/compass_s.png";
 import compassW from "../../assets/compass_w.png";
 import compassE from "../../assets/compass_e.png";
+import { config } from "../../config";
 
 const SPRITE_SCALE = 0.0035;
 const SPRITE_WIDTH = SPRITE_SCALE * 82; // px
@@ -53,11 +54,15 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
 
   return (
     <object3D rotation={rotation}>
-      <Line
-        points={[topPoint, bottomPoint]}
-        color={COLOR}
-        lineWidth={3}
-      />
+      {
+        // Don't render the line when landscape markers are enabled. This line will be drawn in the landscape component instead.
+        !config.landscapeMarkers &&
+        <Line
+          points={[topPoint, bottomPoint]}
+          color={COLOR}
+          lineWidth={3}
+        />
+      }
       <sprite
         position={topPoint}
         scale={[SPRITE_WIDTH, SPRITE_HEIGHT, 1]}
@@ -81,8 +86,15 @@ interface IProps {
 export const CompassMarkers: React.FC<IProps> = ({ northMarkerTip }) => (
   <>
     <Marker northMarkerTip={northMarkerTip} direction="N" />
-    <Marker northMarkerTip={northMarkerTip} direction="E" />
-    <Marker northMarkerTip={northMarkerTip} direction="S" />
-    <Marker northMarkerTip={northMarkerTip} direction="W" />
+    {
+      // E/S/W markers are not rendered when landscape markers are enabled.
+      // These markers will be drawn in the landscape component instead.
+      !config.landscapeMarkers &&
+      <>
+        <Marker northMarkerTip={northMarkerTip} direction="E" />
+        <Marker northMarkerTip={northMarkerTip} direction="S" />
+        <Marker northMarkerTip={northMarkerTip} direction="W" />
+      </>
+    }
   </>
 );
