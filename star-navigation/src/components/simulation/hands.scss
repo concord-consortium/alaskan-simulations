@@ -1,0 +1,37 @@
+@import "common/src/vars.scss";
+
+.handImages {
+  background-image: url("../../assets/Constellations_handIcon_230711.png");
+  background-repeat: repeat-x;
+  transform: scaleX(-1);
+  transition: width 0.5s ease-in-out;
+
+  &.left {
+    transform: scaleX(-1) scaleY(-1); // flip vertically as the hands container is also flipped vertically
+  }
+}
+
+.handsContainer, .handsOverflowContainer {
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  bottom: 25px;
+  width: 50%;
+  transform-origin: 0 50%;
+}
+
+.handsContainer {
+  left: 50%;
+
+  &.left {
+    transform: rotate(180deg);
+  }
+}
+
+.handsOverflowContainer {
+  left: 0%;
+
+  &.left {
+    left: 100%;
+    transform: rotate(180deg);
+  }
+}

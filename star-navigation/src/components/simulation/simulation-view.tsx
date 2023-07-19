@@ -78,6 +78,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
           <Landscape
             aspectRatio={starViewAspectRatio}
             realHeadingFromNorth={inputState.realHeadingFromNorth}
+            headingFromAssumedNorthStar={headingFromAssumedNorthStar}
           />
         </div>
         {

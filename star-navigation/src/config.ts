@@ -26,12 +26,14 @@ export interface IConfig {
   routeMap: boolean;
   // When set to false, it disabled any camera movement besides the rotation buttons.
   freeCamera: boolean;
+  // When set to true, hands angle display shows range from 0 to 360 degrees. Otherwise, it shows 0 to 180.
+  hands360: boolean;
 }
 
 const defaultConfig: IConfig = {
   lang: undefined,
   horizonFov: 85,
-  cameraVerticalAngle: 30, // deg
+  cameraVerticalAngle: 34, // deg
   starSizeMult: 0.5,
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,
@@ -39,7 +41,8 @@ const defaultConfig: IConfig = {
   constellations: ConstellationsPng,
   constellationsOpacity: 1,
   routeMap: false,
-  freeCamera: false
+  freeCamera: false,
+  hands360: false,
 };
 
 // Config is cached when module is loaded. That's fine, as URL parameters will not change in normal situation.
