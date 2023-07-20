@@ -1,3 +1,5 @@
+import { IRuntimeInteractiveMetadata } from "@concord-consortium/lara-interactive-api";
+
 export enum Constellation {
   // Translation keys should match the values.
   Virgo = "CONSTELLATION.VIRGO",
@@ -64,4 +66,9 @@ export interface IModelInputState {
 }
 
 export interface IModelOutputState {
+}
+
+export interface IInteractiveState extends IRuntimeInteractiveMetadata {
+  inputState: IModelInputState,
+  readAloudMode: boolean
 }

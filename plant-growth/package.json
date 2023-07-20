@@ -120,7 +120,7 @@
     "zip-webpack-plugin": "^4.0.1"
   },
   "dependencies": {
-    "@concord-consortium/lara-interactive-api": "^1.7.2",
+    "@concord-consortium/lara-interactive-api": "^1.9.4",
     "@dnd-kit/core": "^5.0.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
