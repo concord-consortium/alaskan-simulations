@@ -64,6 +64,14 @@ export const getCelestialSphereRotation = (options: { epochTime: number, lat: nu
   return [ -1 * THREE.MathUtils.degToRad(90 - lat), -1 * localSiderealTimeToCelestialSphereRotation(lst), 0 ];
 };
 
+export const invertCelestialSphereRotation = (options: { point: THREE.Vector3, epochTime: number, lat: number, long: number }) => {
+  const { point, epochTime, lat, long } = options;
+  const eulerRotation = new THREE.Euler(...getCelestialSphereRotation({ epochTime, lat, long }));
+  const quaternionInverted = (new THREE.Quaternion().setFromEuler(eulerRotation)).invert();
+  point.applyQuaternion(quaternionInverted);
+  return point;
+};
+
 export const getStarPositionAtTime = (options: { starHip: number, celestialSphereRadius: number, epochTime: number, lat: number, long: number}) => {
   const { starHip, celestialSphereRadius, epochTime, lat, long } = options;
   const star = getStarByHip(starHip);

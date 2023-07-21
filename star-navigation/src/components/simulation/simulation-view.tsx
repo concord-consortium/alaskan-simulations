@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { clsx } from "clsx";
 import { IModelInputState } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
-import { getHeadingFromAssumedNorthStar } from "../../utils/sim-utils";
+import { getHeadingFromAssumedNorthStar, invertCelestialSphereRotation } from "../../utils/sim-utils";
+import { Landscape } from "./landscape";
+
 import BackIcon from "../../assets/back-icon.svg";
-import { clsx } from "clsx";
 
 import css from "./simulation-view.scss";
-import { Landscape } from "./landscape";
 
 interface IProps {
   epochTime: number;
@@ -37,6 +39,32 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     setInputState({ realHeadingFromNorth: (inputState.realHeadingFromNorth + 5) % 360 });
   };
 
+  const handleMarkerStartPointChange = (startPoint: THREE.Vector3) => {
+    const pointWithoutRotation = invertCelestialSphereRotation({
+      point: startPoint, epochTime, lat: observerLat, long: observerLon
+    });
+    setInputState({
+      angleMarker: {
+        startPoint: pointWithoutRotation.toArray(),
+        endPoint: null,
+        createdAtEpoch: epochTime
+      }
+    });
+  };
+
+  const handleMarkerEndPointChange = (endPoint: THREE.Vector3) => {
+    const pointWithoutRotation = invertCelestialSphereRotation({
+      point: endPoint, epochTime, lat: observerLat, long: observerLon
+    });
+    setInputState({
+      angleMarker: {
+        startPoint: inputState.angleMarker?.startPoint || [0, 0, 0], // [0, 0, 0] is a fallback to make TS happy, it should never happen
+        endPoint: pointWithoutRotation.toArray(),
+        createdAtEpoch: epochTime
+      }
+    });
+  };
+
   let headingFromAssumedNorthStar;
   if (inputState.selectedStarHip) {
     headingFromAssumedNorthStar = getHeadingFromAssumedNorthStar({
@@ -55,22 +83,31 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     }
   }, []);
 
+  const starViewClassNames = clsx(css.stars, {
+    [css.compassInteraction]: inputState.compassInteractionActive,
+    [css.angleMarkerInteraction]: inputState.angleMarkerInteractionActive,
+  });
+
   return (
     <div className={css.simulationView}>
-      <div className={css.horizonViewWrapper}>
+      <div className={css.wrapper}>
         <div className={css.sky} />
-        <div ref={starViewRef} className={clsx(css.stars, { [css.interactive]: inputState.compassActive })}>
+        <div ref={starViewRef} className={starViewClassNames}>
           <StarView
             epochTime={epochTime}
             lat={observerLat}
             long={observerLon}
             showWesternConstellations={inputState.showWesternConstellations}
             showYupikConstellations={inputState.showYupikConstellations}
-            onStarClick={handleStarClick}
-            selectedStarHip={inputState.selectedStarHip}
-            compassActive={inputState.compassActive}
             realHeadingFromNorth={inputState.realHeadingFromNorth}
+            selectedStarHip={inputState.selectedStarHip}
+            angleMarker={inputState.angleMarker}
+            compassInteractionActive={inputState.compassInteractionActive}
+            angleMarkerInteractionActive={inputState.angleMarkerInteractionActive}
+            onStarClick={handleStarClick}
             onRealHeadingFromNorthChange={handleRealHeadingFromNorthChange}
+            onAngleMarkerStartPointChange={handleMarkerStartPointChange}
+            onAngleMarkerEndPointChange={handleMarkerEndPointChange}
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />

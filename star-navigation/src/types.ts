@@ -54,15 +54,24 @@ export interface IStarData {
   ColorIndex: number;
 }
 
+export interface IAngleMarker {
+  startPoint: [number, number, number]; // [x, y, z]
+  endPoint: [number, number, number] | null; // [x, y, z]
+  createdAtEpoch: number;
+}
+
 export interface IModelInputState {
   month: number;
   day: number;
   timeOfDay: number; // [0, 24]
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
-  compassActive: boolean;
-  selectedStarHip: number | null;
   realHeadingFromNorth: number; // degree
+  selectedStarHip: number | null;
+  angleMarker: IAngleMarker | null;
+  // interactions
+  compassInteractionActive: boolean;
+  angleMarkerInteractionActive: boolean;
 }
 
 export interface IModelOutputState {

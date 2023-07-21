@@ -46,7 +46,10 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
     setInputState({ showWesternConstellations: event.target.checked });
 
   const handleCompassModeChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputState({ compassActive: event.target.checked });
+    setInputState({ compassInteractionActive: event.target.checked });
+
+  const handleAngleMarkerModeChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputState({ angleMarkerInteractionActive: event.target.checked });
 
   const monthKeySuffix = config.routeMap ? "_SHORT" : "";
 
@@ -147,12 +150,16 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
             <div className={css.content50}>
               <LargeToggle
                 image={CompassIcon} checkedImage={CompassSelectedIcon}
-                checked={inputState.compassActive}
+                checked={inputState.compassInteractionActive}
                 onChange={handleCompassModeChange}
               />
             </div>
             <div className={css.content50}>
-              <LargeToggle image={AngleIcon} checkedImage={AngleSelectedIcon} disabled={true} />
+              <LargeToggle
+                image={AngleIcon} checkedImage={AngleSelectedIcon}
+                checked={inputState.angleMarkerInteractionActive}
+                onChange={handleAngleMarkerModeChange}
+              />
             </div>
           </div>
         </div>
