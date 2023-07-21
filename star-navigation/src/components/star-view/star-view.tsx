@@ -23,6 +23,18 @@ const ShutterbugSupport = () => {
   return null;
 };
 
+const getInitialCameraPosition = (headingFromNorth: number) => {
+  // North direction follows negative Z axis.
+  // So, position camera behind the (0, 0, 0) point, looking at it, towards negative Z axis => north.
+  const cameraZ = 0.1;
+  // This value decides about the initial camera angle.
+  const cameraY = Math.tan(THREE.MathUtils.degToRad(config.cameraVerticalAngle)) * -cameraZ;
+  // Finally rotate the camera by desired heading from north.
+  const pos = new THREE.Vector3(0, cameraY, cameraZ);
+  pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(-headingFromNorth));
+  return pos.toArray();
+};
+
 interface IProps {
   epochTime: number;
   lat: number;
@@ -41,12 +53,15 @@ export const StarView: React.FC<IProps> = (props) => {
     onStarClick, realHeadingFromNorth, onRealHeadingFromNorthChange } = props;
 
   const orbitControlsRef = useRef<any>(null);
-  const cameraHeadingUpdate = useRef<number>(-1);
+  const cameraHeadingUpdate = useRef(-1);
 
-  // Keep Z value small, so target is very close to camera, and orbit controls behave pretty much like first person camera.
-  const targetX = 0.1;
-  // This value decides about the initial camera angle.
-  const targetY = Math.tan(THREE.MathUtils.degToRad(config.cameraVerticalAngle)) * targetX;
+  // Setting initial camera and its further updates is pretty confusing. As long as OrbitControls are not instantiated,
+  // we need to keep updating camera position manually. Once OrbitControls are instantiated, camera position is updated
+  // via useLayoutEffect below that calls OrbitControls.setAzimuthalAngle.
+  const initialCameraPos = useRef(getInitialCameraPosition(realHeadingFromNorth));
+  if (!orbitControlsRef.current) {
+    initialCameraPos.current = getInitialCameraPosition(realHeadingFromNorth);
+  }
 
   const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
 
@@ -73,9 +88,9 @@ export const StarView: React.FC<IProps> = (props) => {
   };
 
   useLayoutEffect(() => {
-    if (orbitControlsRef.current?.getAzimuthalAngle() !== THREE.MathUtils.degToRad(realHeadingFromNorth)) {
+    if (orbitControlsRef.current && orbitControlsRef.current.getAzimuthalAngle() !== THREE.MathUtils.degToRad(realHeadingFromNorth)) {
       const newHeading = toNegativeHeading(THREE.MathUtils.degToRad(realHeadingFromNorth));
-      orbitControlsRef.current?.setAzimuthalAngle(newHeading);
+      orbitControlsRef.current.setAzimuthalAngle(newHeading);
     }
   }, [realHeadingFromNorth]);
 
@@ -85,10 +100,16 @@ export const StarView: React.FC<IProps> = (props) => {
     // It makes textures match colors in the original image.
     // resize.debounce=0 ensures that canvas will resize immediately when container size changes (right tab animation).
     <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }}>
-      <PerspectiveCamera makeDefault={true} fov={config.horizonFov} position={[0, 0, 0]} near={0.1} far={CELESTIAL_SPHERE_RADIUS * 5} />
+      <PerspectiveCamera
+        makeDefault={true}
+        position={initialCameraPos.current}
+        fov={config.horizonFov}
+        near={0.1}
+        far={CELESTIAL_SPHERE_RADIUS * 5}
+      />
       <OrbitControls
         ref={orbitControlsRef}
-        target={[targetX, targetY, 0]}
+        target={[0, 0, 0]}
         enableDamping={true}
         enableRotate={config.freeCamera}
         enableZoom={config.freeCamera}
@@ -109,22 +130,22 @@ export const StarView: React.FC<IProps> = (props) => {
           {/* N marker box */}
           <mesh position={[0, 0, -1000]}>
             <boxGeometry args={[100, 100, 100]} />
-            <meshBasicMaterial color={0xff0000} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="red" side={THREE.DoubleSide} />
           </mesh>
           {/* S marker box */}
           <mesh position={[0, 0, 1000]}>
             <boxGeometry args={[100, 100, 100]} />
-            <meshBasicMaterial color={0xffff00} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="yellow" side={THREE.DoubleSide} />
           </mesh>
           {/* E marker box */}
           <mesh position={[1000, 0, 0]}>
             <boxGeometry args={[100, 100, 100]} />
-            <meshBasicMaterial color={0x00ff00} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="green" side={THREE.DoubleSide} />
           </mesh>
           {/* W marker box */}
           <mesh position={[-1000, 0, 0]}>
             <boxGeometry args={[100, 100, 100]} />
-            <meshBasicMaterial color={0x0000ff} side={THREE.DoubleSide} />
+            <meshBasicMaterial color="blue" side={THREE.DoubleSide} />
           </mesh>
         </>
       }
