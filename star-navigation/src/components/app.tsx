@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { SimulationFrame, TranslationContext, useModelState } from "common";
+import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
+import { SimulationFrame, TranslationContext } from "common";
 import { SimulationView } from "./simulation/simulation-view";
-import { IModelInputState, IModelOutputState } from "../types";
+import { IInteractiveState, IModelInputState } from "../types";
 import { skyModelerDirections } from "./sky-modeler-directions";
 import { config } from "../config";
 import { getDateTimeString } from "../utils/sim-utils";
@@ -16,34 +17,53 @@ import css from "./app.scss";
 const OBSERVER_LAT = 61.523997904;
 const OBSERVER_LON = -166.090999636;
 
-export const App: React.FC = () => {
-  const modelState = useModelState<IModelInputState, IModelOutputState>(useMemo(() => ({
-    initialInputState: {
-      month: 1,
-      day: 1,
-      timeOfDay: 0,
-      showWesternConstellations: true,
-      showYupikConstellations: true,
-      compassActive: false,
-      selectedStarHip: null,
-      realHeadingFromNorth: 90
-    },
-    initialOutputState: {
-    }
-  }), []));
+interface IProps {
+  readOnly?: boolean;
+}
 
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(false);
+const defaultInteractiveState: IInteractiveState = {
+  answerType: "interactive_state",
+  inputState: {
+    month: 1,
+    day: 1,
+    timeOfDay: 0,
+    showWesternConstellations: true,
+    showYupikConstellations: true,
+    compassActive: false,
+    selectedStarHip: null,
+    realHeadingFromNorth: 90
+  },
+  readAloudMode: false
+};
+
+const noop = () => (void 0);
+
+export const App: React.FC<IProps> = ({ readOnly }) => {
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
+  const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
+
+  const interactiveState = rawInteractiveState || defaultInteractiveState;
 
   const translationContextValues = useMemo(() => ({
     translations,
-    readAloudMode,
-    setReadAloudMode,
+    readAloudMode: interactiveState.readAloudMode,
+    setReadAloudMode: (readAloudMode: boolean) => {
+      setInteractiveState(prev => ({...(prev || defaultInteractiveState), readAloudMode }));
+    },
     isAnyAudioPlaying,
     setIsAnyAudioPlaying
-  }), [isAnyAudioPlaying, readAloudMode]);
+  }), [interactiveState.readAloudMode, isAnyAudioPlaying, setInteractiveState]);
 
-  const { inputState, setInputState } = modelState;
+  const inputState = interactiveState.inputState;
+  const setInputState = readOnly ? noop : (newInputState: Partial<IModelInputState>) => {
+    setInteractiveState(prev => ({
+      ...(prev || defaultInteractiveState),
+      inputState: {
+        ...(prev || defaultInteractiveState).inputState,
+        ...newInputState
+      }
+    }));
+  };
 
   const date = new Date(getDateTimeString(inputState.month, inputState.day, inputState.timeOfDay));
   const epochTime = date.getTime();
