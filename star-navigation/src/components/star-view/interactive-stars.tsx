@@ -11,17 +11,24 @@ const SPRITE_SCALE = 0.1;
 
 interface IProps {
   radius: number;
-  onStarClick: (starHip: number) => void;
+  rotation: [number, number, number];
+  onStarClick?: (point: THREE.Vector3, starHip: number) => void;
+  onStarPointerDown?: (point: THREE.Vector3, starHip: number) => void;
+  onStarPointerUp?: (point: THREE.Vector3, starHip: number) => void;
 }
 
-export const InteractiveStars: React.FC<IProps> = ({ radius, onStarClick }) => {
+export const InteractiveStars: React.FC<IProps> = ({ radius, rotation, onStarClick, onStarPointerDown, onStarPointerUp }) => {
   const circleTexture = useLoader(THREE.TextureLoader, circleImg) as THREE.Texture;
   const [hovered, setHovered] = useState(-1);
 
   const stars = getFilteredStars();
 
+  const rotationEuler = new THREE.Euler(...rotation);
+  const getStarPosition = (starPosWithoutRotation: THREE.Vector3) =>
+    starPosWithoutRotation.clone().applyEuler(rotationEuler);
+
   return (
-    <object3D>
+    <object3D rotation={rotation}>
       {
         !SPRITE_RENDERING &&
         stars.map((star, index) => {
@@ -54,7 +61,9 @@ export const InteractiveStars: React.FC<IProps> = ({ radius, onStarClick }) => {
               position={[pos.x, pos.y, pos.z]}
               onPointerOver={() => setHovered(star.Hip)}
               onPointerOut={() => hovered === star.Hip && setHovered(-1)}
-              onClick={() => onStarClick(star.Hip)}
+              onClick={(event) => onStarClick?.(getStarPosition(event.object.position), star.Hip)}
+              onPointerDown={(event) => onStarPointerDown?.(getStarPosition(event.object.position), star.Hip)}
+              onPointerUp={(event) => onStarPointerUp?.(getStarPosition(event.object.position), star.Hip)}
               scale={[SPRITE_SCALE, SPRITE_SCALE, SPRITE_SCALE]}
             >
               <spriteMaterial

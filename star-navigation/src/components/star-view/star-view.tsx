@@ -10,6 +10,7 @@ import { CompassMarkers } from "./compass-markers";
 import { InteractiveCelestialSphere } from "./interactive-celestial-sphere";
 import { IAngleMarker } from "../../types";
 import { AngleMarker } from "./angle-marker";
+import { InteractiveStars } from "./interactive-stars";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
 
@@ -45,25 +46,29 @@ interface IProps {
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
   realHeadingFromNorth: number;
-  selectedStarHip: number | null;
+  assumedNorthStarHip: number | null;
   angleMarker: IAngleMarker | null;
   compassInteractionActive: boolean;
   angleMarkerInteractionActive: boolean;
-  onStarClick: (starHip: number) => void;
+  onAssumedNorthStarClick: (starHip: number) => void;
   onRealHeadingFromNorthChange: (heading: number) => void;
   onAngleMarkerStartPointChange: (startPoint: THREE.Vector3) => void;
   onAngleMarkerEndPointChange: (endPoint: THREE.Vector3) => void;
+  onAngleMarkerFinalize: (endPoint: THREE.Vector3) => void;
+  onAngleMarkerCancel: () => void;
 }
 
 export const StarView: React.FC<IProps> = (props) => {
   const {
     epochTime, lat, long, showWesternConstellations, showYupikConstellations, realHeadingFromNorth,
-    selectedStarHip, angleMarker, angleMarkerInteractionActive, compassInteractionActive,
-    onRealHeadingFromNorthChange, onStarClick, onAngleMarkerStartPointChange, onAngleMarkerEndPointChange
+    assumedNorthStarHip, angleMarker, angleMarkerInteractionActive, compassInteractionActive,
+    onRealHeadingFromNorthChange, onAssumedNorthStarClick, onAngleMarkerStartPointChange, onAngleMarkerEndPointChange,
+    onAngleMarkerFinalize, onAngleMarkerCancel
   } = props;
 
   const orbitControlsRef = useRef<any>(null);
   const cameraHeadingUpdate = useRef(-1);
+  const angleMarkerDrawingActive = useRef<boolean>(false);
 
   // Setting initial camera and its further updates is pretty confusing. As long as OrbitControls are not instantiated,
   // we need to keep updating camera position manually. Once OrbitControls are instantiated, camera position is updated
@@ -76,9 +81,9 @@ export const StarView: React.FC<IProps> = (props) => {
   const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
 
   let northMarkerTip;
-  if (selectedStarHip) {
+  if (assumedNorthStarHip) {
     northMarkerTip = getStarPositionAtTime({
-      starHip: selectedStarHip,
+      starHip: assumedNorthStarHip,
       celestialSphereRadius: CELESTIAL_SPHERE_RADIUS,
       epochTime, lat, long
      });
@@ -95,6 +100,31 @@ export const StarView: React.FC<IProps> = (props) => {
         }, 300);
       }
     }
+  };
+
+  const handleStarClick = (position: THREE.Vector3, starHip: number) => {
+    onAssumedNorthStarClick(starHip);
+  };
+
+  const handleAngleMarkerPointerDown = (position: THREE.Vector3, starHip: number) => {
+    onAngleMarkerStartPointChange(position);
+    angleMarkerDrawingActive.current = true;
+  };
+
+  const handleAngleMarkerPointerUp = (position: THREE.Vector3, starHip: number) => {
+    onAngleMarkerFinalize(position);
+    angleMarkerDrawingActive.current = false;
+  };
+
+  const handleAngleMarkerPointerMove = (position: THREE.Vector3) => {
+    if (angleMarkerDrawingActive.current) {
+      onAngleMarkerEndPointChange(position);
+    }
+  };
+
+  const handleAngleMarkerCancel = () => {
+    onAngleMarkerCancel();
+    angleMarkerDrawingActive.current = false;
   };
 
   useLayoutEffect(() => {
@@ -164,15 +194,24 @@ export const StarView: React.FC<IProps> = (props) => {
         rotation={celestialSphereRotation}
         showWesternConstellations={showWesternConstellations}
         showYupikConstellations={showYupikConstellations}
-        onStarClick={onStarClick}
-        compassInteractionActive={compassInteractionActive}
       />
+      {
+        (compassInteractionActive || angleMarkerInteractionActive) &&
+        <InteractiveStars
+          radius={CELESTIAL_SPHERE_RADIUS * 1.2}
+          rotation={celestialSphereRotation}
+          onStarClick={compassInteractionActive ? handleStarClick : undefined}
+          onStarPointerDown={angleMarkerInteractionActive ? handleAngleMarkerPointerDown : undefined}
+          onStarPointerUp={angleMarkerInteractionActive ? handleAngleMarkerPointerUp : undefined}
+        />
+      }
       {
         angleMarkerInteractionActive &&
         <InteractiveCelestialSphere
           radius={CELESTIAL_SPHERE_RADIUS}
-          onStartPointChange={onAngleMarkerStartPointChange}
-          onEndPointChange={onAngleMarkerEndPointChange}
+          onPointerMove={handleAngleMarkerPointerMove}
+          onPointerUp={handleAngleMarkerCancel}
+          onPointerCancel={handleAngleMarkerCancel}
         />
       }
       {

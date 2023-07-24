@@ -67,7 +67,7 @@ export interface IModelInputState {
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
   realHeadingFromNorth: number; // degree
-  selectedStarHip: number | null;
+  assumedNorthStarHip: number | null;
   angleMarker: IAngleMarker | null;
   // interactions
   compassInteractionActive: boolean;
