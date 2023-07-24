@@ -29,9 +29,11 @@ const defaultInteractiveState: IInteractiveState = {
     timeOfDay: 0,
     showWesternConstellations: true,
     showYupikConstellations: true,
-    compassActive: false,
+    realHeadingFromNorth: 90,
     selectedStarHip: null,
-    realHeadingFromNorth: 90
+    angleMarker: null,
+    compassInteractionActive: false,
+    angleMarkerInteractionActive: false
   },
   readAloudMode: false
 };

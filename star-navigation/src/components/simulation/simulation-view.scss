@@ -6,7 +6,7 @@ $height: 355px;
   box-sizing: border-box;
   display: flex;
 
-  .horizonViewWrapper {
+  .wrapper {
     width: 100%;
     height: $height;
     position: relative;
@@ -17,6 +17,16 @@ $height: 355px;
       position: absolute;
       left: 0;
       pointer-events: none;
+    }
+
+    .stars {
+      &.compassInteraction {
+        cursor: url("../../assets/compass_cursor.png") 20 20, pointer;
+      }
+
+      &.angleMarkerInteraction {
+        cursor: crosshair;
+      }
     }
 
     .sky {
@@ -97,9 +107,5 @@ $height: 355px;
         }
       }
     }
-  }
-
-  .interactive {
-    cursor: url("../../assets/compass_cursor.png") 20 20, pointer;
   }
 }

@@ -10,11 +10,11 @@ interface IProps {
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
   onStarClick: (starHip: number) => void;
-  compassActive: boolean;
+  compassInteractionActive: boolean;
 }
 
 export const CelestialSphere: React.FC<IProps> = (props) => {
-  const { rotation, radius, showWesternConstellations, showYupikConstellations, onStarClick, compassActive } = props;
+  const { rotation, radius, showWesternConstellations, showYupikConstellations, onStarClick, compassInteractionActive } = props;
 
   return (
     <object3D rotation={rotation}>
@@ -28,7 +28,7 @@ export const CelestialSphere: React.FC<IProps> = (props) => {
         <YupikConstellations radius={radius * 1.1} />
       }
       {
-        compassActive &&
+        compassInteractionActive &&
         <InteractiveStars radius={radius * 1.2} onStarClick={onStarClick} />
       }
     </object3D>

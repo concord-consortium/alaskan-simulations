@@ -7,6 +7,9 @@ import { config } from "../../config";
 import { CelestialSphere } from "./celestial-sphere";
 import { getCelestialSphereRotation, getStarPositionAtTime, toNegativeHeading, toPositiveHeading } from "../../utils/sim-utils";
 import { CompassMarkers } from "./compass-markers";
+import { InteractiveCelestialSphere } from "./interactive-celestial-sphere";
+import { IAngleMarker } from "../../types";
+import { AngleMarker } from "./angle-marker";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
 
@@ -41,16 +44,23 @@ interface IProps {
   long: number;
   showWesternConstellations: boolean;
   showYupikConstellations: boolean;
-  onStarClick: (starHip: number) => void;
   realHeadingFromNorth: number;
-  onRealHeadingFromNorthChange: (heading: number) => void;
   selectedStarHip: number | null;
-  compassActive: boolean;
+  angleMarker: IAngleMarker | null;
+  compassInteractionActive: boolean;
+  angleMarkerInteractionActive: boolean;
+  onStarClick: (starHip: number) => void;
+  onRealHeadingFromNorthChange: (heading: number) => void;
+  onAngleMarkerStartPointChange: (startPoint: THREE.Vector3) => void;
+  onAngleMarkerEndPointChange: (endPoint: THREE.Vector3) => void;
 }
 
 export const StarView: React.FC<IProps> = (props) => {
-  const { epochTime, lat, long, selectedStarHip, compassActive, showWesternConstellations, showYupikConstellations,
-    onStarClick, realHeadingFromNorth, onRealHeadingFromNorthChange } = props;
+  const {
+    epochTime, lat, long, showWesternConstellations, showYupikConstellations, realHeadingFromNorth,
+    selectedStarHip, angleMarker, angleMarkerInteractionActive, compassInteractionActive,
+    onRealHeadingFromNorthChange, onStarClick, onAngleMarkerStartPointChange, onAngleMarkerEndPointChange
+  } = props;
 
   const orbitControlsRef = useRef<any>(null);
   const cameraHeadingUpdate = useRef(-1);
@@ -111,7 +121,7 @@ export const StarView: React.FC<IProps> = (props) => {
         ref={orbitControlsRef}
         target={[0, 0, 0]}
         enableDamping={true}
-        enableRotate={config.freeCamera}
+        enableRotate={config.freeCamera && !compassInteractionActive && !angleMarkerInteractionActive}
         enableZoom={config.freeCamera}
         enablePan={false}
         rotateSpeed={0.5}
@@ -155,8 +165,20 @@ export const StarView: React.FC<IProps> = (props) => {
         showWesternConstellations={showWesternConstellations}
         showYupikConstellations={showYupikConstellations}
         onStarClick={onStarClick}
-        compassActive={compassActive}
+        compassInteractionActive={compassInteractionActive}
       />
+      {
+        angleMarkerInteractionActive &&
+        <InteractiveCelestialSphere
+          radius={CELESTIAL_SPHERE_RADIUS}
+          onStartPointChange={onAngleMarkerStartPointChange}
+          onEndPointChange={onAngleMarkerEndPointChange}
+        />
+      }
+      {
+        angleMarker &&
+        <AngleMarker angleMarker={angleMarker} lat={lat} long={long} currentEpochTime={epochTime} />
+      }
       {
         northMarkerTip &&
         <CompassMarkers northMarkerTip={[northMarkerTip.x, northMarkerTip.y, northMarkerTip.z]} />
