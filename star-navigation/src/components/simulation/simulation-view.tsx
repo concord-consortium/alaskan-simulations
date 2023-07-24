@@ -11,6 +11,10 @@ import BackIcon from "../../assets/back-icon.svg";
 
 import css from "./simulation-view.scss";
 
+// This function compares two points taking into account floating point errors. We operate on ranges of values close
+// to 1000, so when two points are closer than 1e-3, we can surely consider them equal.
+const pointsEqual = (p1: THREE.Vector3, p2: THREE.Vector3) => p1.distanceTo(p2) < 1e-3;
+
 interface IProps {
   epochTime: number;
   observerLat: number;
@@ -23,8 +27,8 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
   const starViewRef = useRef<HTMLDivElement>(null);
   const [ starViewAspectRatio, setStarViewAspectRatio ] = useState<number>(0);
 
-  const handleStarClick = (starHip: number) => {
-    setInputState({ selectedStarHip: starHip });
+  const handleAssumedNorthStarClick = (starHip: number) => {
+    setInputState({ assumedNorthStarHip: starHip });
   };
 
   const handleRealHeadingFromNorthChange = (realHeadingFromNorth: number) => {
@@ -53,22 +57,48 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
   };
 
   const handleMarkerEndPointChange = (endPoint: THREE.Vector3) => {
+    if (!inputState.angleMarker) {
+      return;
+    }
     const pointWithoutRotation = invertCelestialSphereRotation({
       point: endPoint, epochTime, lat: observerLat, long: observerLon
     });
     setInputState({
       angleMarker: {
-        startPoint: inputState.angleMarker?.startPoint || [0, 0, 0], // [0, 0, 0] is a fallback to make TS happy, it should never happen
+        startPoint: inputState.angleMarker.startPoint,
         endPoint: pointWithoutRotation.toArray(),
         createdAtEpoch: epochTime
       }
     });
   };
 
+  const handleMarkerFinalize = (endPoint: THREE.Vector3) => {
+    if (!inputState.angleMarker) {
+      handleMarkerCancel();
+      return;
+    }
+    const pointWithoutRotation = invertCelestialSphereRotation({
+      point: endPoint, epochTime, lat: observerLat, long: observerLon
+    });
+    const startPoint = new THREE.Vector3(...inputState.angleMarker.startPoint);
+    if (pointsEqual(pointWithoutRotation, startPoint)) {
+      // User started and finished drawing at the same star. Cancel the marker.
+      handleMarkerCancel();
+      return;
+    }
+    handleMarkerEndPointChange(endPoint);
+  };
+
+  const handleMarkerCancel = () => {
+    setInputState({
+      angleMarker: null
+    });
+  };
+
   let headingFromAssumedNorthStar;
-  if (inputState.selectedStarHip) {
+  if (inputState.assumedNorthStarHip) {
     headingFromAssumedNorthStar = getHeadingFromAssumedNorthStar({
-      assumedNorthStarHip: inputState.selectedStarHip,
+      assumedNorthStarHip: inputState.assumedNorthStarHip,
       realHeadingFromNorth: inputState.realHeadingFromNorth,
       epochTime,
       lat: observerLat,
@@ -100,14 +130,16 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             showWesternConstellations={inputState.showWesternConstellations}
             showYupikConstellations={inputState.showYupikConstellations}
             realHeadingFromNorth={inputState.realHeadingFromNorth}
-            selectedStarHip={inputState.selectedStarHip}
+            assumedNorthStarHip={inputState.assumedNorthStarHip}
             angleMarker={inputState.angleMarker}
             compassInteractionActive={inputState.compassInteractionActive}
             angleMarkerInteractionActive={inputState.angleMarkerInteractionActive}
-            onStarClick={handleStarClick}
+            onAssumedNorthStarClick={handleAssumedNorthStarClick}
             onRealHeadingFromNorthChange={handleRealHeadingFromNorthChange}
             onAngleMarkerStartPointChange={handleMarkerStartPointChange}
             onAngleMarkerEndPointChange={handleMarkerEndPointChange}
+            onAngleMarkerFinalize={handleMarkerFinalize}
+            onAngleMarkerCancel={handleMarkerCancel}
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />

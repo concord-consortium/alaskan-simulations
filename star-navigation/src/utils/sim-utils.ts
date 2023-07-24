@@ -68,8 +68,7 @@ export const invertCelestialSphereRotation = (options: { point: THREE.Vector3, e
   const { point, epochTime, lat, long } = options;
   const eulerRotation = new THREE.Euler(...getCelestialSphereRotation({ epochTime, lat, long }));
   const quaternionInverted = (new THREE.Quaternion().setFromEuler(eulerRotation)).invert();
-  point.applyQuaternion(quaternionInverted);
-  return point;
+  return point.clone().applyQuaternion(quaternionInverted);
 };
 
 export const getStarPositionAtTime = (options: { starHip: number, celestialSphereRadius: number, epochTime: number, lat: number, long: number}) => {

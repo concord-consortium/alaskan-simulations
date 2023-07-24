@@ -30,7 +30,7 @@ const defaultInteractiveState: IInteractiveState = {
     showWesternConstellations: true,
     showYupikConstellations: true,
     realHeadingFromNorth: 90,
-    selectedStarHip: null,
+    assumedNorthStarHip: null,
     angleMarker: null,
     compassInteractionActive: false,
     angleMarkerInteractionActive: false
