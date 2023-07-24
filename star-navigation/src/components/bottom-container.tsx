@@ -45,11 +45,22 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
   const handleWesternConstellationsChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setInputState({ showWesternConstellations: event.target.checked });
 
-  const handleCompassModeChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputState({ compassInteractionActive: event.target.checked });
+  const handleCompassModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const compassInteractionActive = event.target.checked;
+    setInputState({ compassInteractionActive });
+    if (compassInteractionActive) {
+      setInputState({ angleMarkerInteractionActive: false });
+    }
+  };
 
-  const handleAngleMarkerModeChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputState({ angleMarkerInteractionActive: event.target.checked });
+
+  const handleAngleMarkerModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const angleMarkerInteractionActive = event.target.checked;
+    setInputState({ angleMarkerInteractionActive });
+    if (angleMarkerInteractionActive) {
+      setInputState({ compassInteractionActive: false });
+    }
+  };
 
   const monthKeySuffix = config.routeMap ? "_SHORT" : "";
 
