@@ -6,10 +6,12 @@ import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
 import { getHeadingFromAssumedNorthStar, invertCelestialSphereRotation } from "../../utils/sim-utils";
 import { Landscape } from "./landscape";
+import { Button } from "../button";
 
 import BackIcon from "../../assets/back-icon.svg";
 
 import css from "./simulation-view.scss";
+
 
 // This function compares two points taking into account floating point errors. We operate on ranges of values close
 // to 1000, so when two points are closer than 1e-3, we can surely consider them equal.
@@ -160,11 +162,11 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
         <div className={css.buttons}>
           <div className={css.buttonContainer}>
             <div>-5°</div>
-            <button onClick={handleRotateLeft}><BackIcon /></button>
+            <Button className={css.button} onClick={handleRotateLeft}><BackIcon /></Button>
           </div>
           <div className={css.buttonContainer}>
             <div>+5°</div>
-            <button onClick={handleRotateRight}><BackIcon style={{transform: "rotate(180deg)"}} /></button>
+            <Button className={css.button} onClick={handleRotateRight}><BackIcon style={{transform: "rotate(180deg)"}} /></Button>
           </div>
         </div>
       </div>

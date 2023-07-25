@@ -1,0 +1,51 @@
+@import "../vars.scss";
+
+.rightContainer {
+  $padding: 6px;
+  width: calc(100% - 2 * $padding);
+  padding: 0 $padding;
+  background-color: $darkYellow;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .label {
+    width: 100%;
+    font-size: 16px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    &.light {
+      background-color: $yellow;
+    }
+  }
+
+  .container {
+    $padding: 6px;
+    width: calc(100% - 2 * $padding);
+    padding: 7px $padding;
+    background-color: $lightYellow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .buttonsRow {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      button {
+        margin: 0 1px;
+      }
+    }
+  }
+
+  .takeYourTripBtn {
+    white-space: nowrap;
+  }
+}

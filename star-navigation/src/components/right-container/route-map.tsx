@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import LocationSymbol from "../assets/location-symbol.svg";
+import LocationSymbol from "../../assets/location-symbol.svg";
 import { DraggableWrapper } from "./draggable-wrapper";
 
-import css from "./route-container.scss";
+import css from "./route-map.scss";
 
 /* placeholders for now, these will be determined by final image that has markers for locations */
 const pointA = {x: 10, y: 80};
@@ -19,7 +19,7 @@ const angle1 = "angle1";
 const angle2 = "angle2";
 type WhichAngle = typeof angle1 | typeof angle2;
 
-export const RouteContainer: React.FC = () => {
+export const RouteMap: React.FC = () => {
   const [pointB, setPointB] = useState<{x: number, y: number}>({x: 105, y: 80});
 
   const handleDragMove = (e: any) => {
@@ -105,26 +105,24 @@ export const RouteContainer: React.FC = () => {
   const locIconYOffset = pointB.y - 32;
 
   return (
-    <div className={css.rightPanelContainer}>
-      <div className={css.mapRouteContainer}>
-        <div className={css.mapBackground}/>
-        <div className={css.svgContainer}>
-          <svg height={mapHeight} width={mapWidth}>
-            {makeLine({x1: pointA.x, y1: 0, x2: pointA.x, y2: mapHeight}, "vertical")}
-            {makeLineWithTextAndAngle({x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y}, angle1)}
-            {makeLine({x1: pointB.x, y1: 0, x2: pointB.x, y2: mapHeight}, "vertical")}
-            {makeLineWithTextAndAngle({x1: pointB.x, y1: pointB.y, x2: pointC.x, y2: pointC.y}, angle2)}
-            {makePointLabel("A")}
-            {makePointLabel("B")}
-            {makePointLabel("C")}
-          </svg>
-          <div className={css.draggableIcon}>
-            <DraggableWrapper onDragMove={handleDragMove}>
-              <div style={{transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`}}>
-                <LocationSymbol/>
-              </div>
-            </DraggableWrapper>
-          </div>
+    <div className={css.mapRouteContainer}>
+      <div className={css.mapBackground}/>
+      <div className={css.svgContainer}>
+        <svg height={mapHeight} width={mapWidth}>
+          {makeLine({x1: pointA.x, y1: 0, x2: pointA.x, y2: mapHeight}, "vertical")}
+          {makeLineWithTextAndAngle({x1: pointA.x, y1: pointA.y, x2: pointB.x, y2: pointB.y}, angle1)}
+          {makeLine({x1: pointB.x, y1: 0, x2: pointB.x, y2: mapHeight}, "vertical")}
+          {makeLineWithTextAndAngle({x1: pointB.x, y1: pointB.y, x2: pointC.x, y2: pointC.y}, angle2)}
+          {makePointLabel("A")}
+          {makePointLabel("B")}
+          {makePointLabel("C")}
+        </svg>
+        <div className={css.draggableIcon}>
+          <DraggableWrapper onDragMove={handleDragMove}>
+            <div style={{transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`}}>
+              <LocationSymbol/>
+            </div>
+          </DraggableWrapper>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import { Slider } from "@mui/base";
-import { sunriseSunset } from "../utils/daytime";
+import { sunriseSunset } from "../../utils/daytime";
 
 import css from "./time-slider.scss";
 
