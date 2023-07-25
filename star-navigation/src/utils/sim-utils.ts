@@ -53,8 +53,8 @@ export const getTimezone = (month: number, day: number) => {
   return PST;
 };
 
-export const getDateTimeString = (month: number, day: number, hour: number) =>
-  `${SIMULATION_YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(day)}T${fractionalHourToTimeString(hour)}${getTimezone(month, day)}`;
+export const getDateTimeString = ({ month, day, timeOfDay } : { month: number, day: number, timeOfDay: number}) =>
+  `${SIMULATION_YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(day)}T${fractionalHourToTimeString(timeOfDay)}${getTimezone(month, day)}`;
 
 
 export const getCelestialSphereRotation = (options: { epochTime: number, lat: number, long: number }): [number, number, number] => {

@@ -3,9 +3,6 @@ import ConstellationsPng from "./assets/Constellations_illustrationsMapping_2307
 
 // Simulation configuration that can be overwritten using URL parameters.
 export interface IConfig {
-  // `undefined` (based on browser local setting) or ISO 639-1 Language Code
-  // for the given language (i.e., `es` for Spanish or `de` for German).
-  lang: string | undefined;
   // Horizon view camera FOV.
   horizonFov: number;
   // Horizon view camera angle.
@@ -20,6 +17,8 @@ export interface IConfig {
   minAbsStarMagnitude: number;
 
   //--- New Alaskan Simulation Star Navigation params: ---
+  observerLat: number;
+  observerLong: number;
   constellations: string;
   constellationsOpacity: number;
   // Whether to show the route map on the right side of the star map.
@@ -33,7 +32,9 @@ export interface IConfig {
 }
 
 const defaultConfig: IConfig = {
-  lang: undefined,
+  // Observer location is at Hooper Bay, Alaska.
+  observerLat: 61.523997904,
+  observerLong: -166.090999636,
   horizonFov: 85,
   cameraVerticalAngle: 34, // deg
   starSizeMult: 0.5,

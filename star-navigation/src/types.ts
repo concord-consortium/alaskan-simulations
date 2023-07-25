@@ -19,21 +19,21 @@ export enum Constellation {
   Aquila = "CONSTELLATION.AQUILA",
 }
 
-export enum Month {
+export const Month: Record<number, string> = {
   // Translation keys should match the values.
-  January = "MONTH.JANUARY",
-  February = "MONTH.FEBRUARY",
-  March = "MONTH.MARCH",
-  April = "MONTH.APRIL",
-  May = "MONTH.MAY",
-  June = "MONTH.JUNE",
-  July = "MONTH.JULY",
-  August = "MONTH.AUGUST",
-  September = "MONTH.SEPTEMBER",
-  October = "MONTH.OCTOBER",
-  November = "MONTH.NOVEMBER",
-  December = "MONTH.DECEMBER",
-}
+  1: "MONTH.JANUARY",
+  2: "MONTH.FEBRUARY",
+  3: "MONTH.MARCH",
+  4: "MONTH.APRIL",
+  5: "MONTH.MAY",
+  6: "MONTH.JUNE",
+  7: "MONTH.JULY",
+  8: "MONTH.AUGUST",
+  9: "MONTH.SEPTEMBER",
+  10: "MONTH.OCTOBER",
+  11: "MONTH.NOVEMBER",
+  12: "MONTH.DECEMBER",
+};
 
 export interface IStarData {
   Hip: number; // Hipparcos catalog number
@@ -60,6 +60,17 @@ export interface IAngleMarker {
   createdAtEpoch: number;
 }
 
+export const SNAPSHOT_REQUESTED = "snapshot-requested";
+
+export interface ISnapshot {
+  month: number;
+  day: number;
+  timeOfDay: number; // [0, 24]
+  assumedNorthStarHip: number;
+  realHeadingFromNorth: number;
+  starViewImageSnapshot: string;
+}
+
 export interface IModelInputState {
   month: number;
   day: number;
@@ -69,6 +80,11 @@ export interface IModelInputState {
   realHeadingFromNorth: number; // degree
   assumedNorthStarHip: number | null;
   angleMarker: IAngleMarker | null;
+  pointADepartureSnapshot: ISnapshot | null;
+  pointBArrivalSnapshot: ISnapshot | null;
+  pointBDepartureSnapshot: ISnapshot | null;
+  pointCArrivalSnapshot: ISnapshot | null;
+  journeyLeg: "AtoB" | "BtoC";
   // interactions
   compassInteractionActive: boolean;
   angleMarkerInteractionActive: boolean;
