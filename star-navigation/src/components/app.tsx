@@ -7,8 +7,8 @@ import { skyModelerDirections } from "./sky-modeler-directions";
 import { config } from "../config";
 import { getDateTimeString } from "../utils/sim-utils";
 import { translations } from "../translations";
-import { RouteContainer } from "./route-container";
-import { BottomContainer } from "./bottom-container";
+import { RightContainer } from "./right-container/right-container";
+import { BottomContainer } from "./bottom-container/bottom-container";
 import HeaderTitle from "../assets/title.png";
 
 import css from "./app.scss";
@@ -97,7 +97,11 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
           {
             config.routeMap &&
             <div className={css.rightColumn}>
-              <RouteContainer />
+              <RightContainer
+                inputState={inputState}
+                setInputState={setInputState}
+                disableInputs={false}
+              />
             </div>
           }
         </div>

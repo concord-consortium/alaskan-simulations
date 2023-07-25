@@ -4,6 +4,7 @@ import Controls from "./assets/yugtun-audio/controls.mp3";
 export const translations: TranslationDict = {
   "CREDITS.HEADER": { string: "Credits", mp3: new Audio(Controls) },
   "INSTRUCTIONS.HEADER": { string: "Star Navigation Experiments", mp3: new Audio(Controls) },
+  // Bottom container
   "MIDNIGHT": { string: "Midnight", mp3: new Audio(Controls) },
   "YUPIK": { string: "Yup'ik", mp3: new Audio(Controls) },
   "WESTERN": { string: "Western", mp3: new Audio(Controls) },
@@ -36,4 +37,18 @@ export const translations: TranslationDict = {
   "MONTH.OCTOBER": { string: "October", mp3: new Audio(Controls) },
   "MONTH.NOVEMBER": { string: "November", mp3: new Audio(Controls) },
   "MONTH.DECEMBER": { string: "December", mp3: new Audio(Controls) },
+  // Right container
+  "PLAN_YOUR_ROUTE": { string: "Plan Your Route", mp3: new Audio(Controls) },
+  "CHART_HEADINGS_TIMES": { string: "Chart Headings/Times", mp3: new Audio(Controls) },
+  "DEPARTURE_FROM_POINT_A": { string: "Departure from Point A", mp3: new Audio(Controls) },
+  "DEPARTURE_FROM_POINT_B": { string: "Departure from Point B", mp3: new Audio(Controls) },
+  "ARRIVAL_AT_POINT_B": { string: "Arrival at Point B", mp3: new Audio(Controls) },
+  "ARRIVAL_AT_POINT_C": { string: "Arrival at Point C", mp3: new Audio(Controls) },
+  "RECORD_STAR_CHART_FOR_POINT_A_DEPARTURE": { string: "Record Star Chart for Point A Departure", mp3: new Audio(Controls) },
+  "RECORD_STAR_CHART_FOR_POINT_B_ARRIVAL": { string: "Record Star Chart for Point B Arrival", mp3: new Audio(Controls) },
+  "RECORD_STAR_CHART_FOR_POINT_B_DEPARTURE": { string: "Record Star Chart for Point B Departure", mp3: new Audio(Controls) },
+  "RECORD_STAR_CHART_FOR_POINT_C_ARRIVAL": { string: "Record Star Chart for Point C Arrival", mp3: new Audio(Controls) },
+  "A_TO_B": { string: "A→B", mp3: new Audio(Controls) },
+  "B_TO_C": { string: "B→C", mp3: new Audio(Controls) },
+  "TAKE_YOUR_TRIP": { string: "Take Your Trip", mp3: new Audio(Controls) },
 };

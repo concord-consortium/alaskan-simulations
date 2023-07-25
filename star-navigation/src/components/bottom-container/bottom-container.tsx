@@ -2,14 +2,14 @@ import React from "react";
 import clsx from "clsx";
 import { Checkbox, Option, ScrollingSelect, useTranslation, LargeToggle } from "common";
 import { TimeSlider } from "./time-slider";
-import { IModelInputState, Month } from "../types";
-import { daysInMonth, timeToAMPM } from "../utils/sim-utils";
-import { config } from "../config";
+import { IModelInputState, Month } from "../../types";
+import { daysInMonth, timeToAMPM } from "../../utils/sim-utils";
+import { config } from "../../config";
 
-import CompassIcon from "../assets/compass_icon.png";
-import CompassSelectedIcon from "../assets/compass_icon_selected.png";
-import AngleIcon from "../assets/angle_icon.png";
-import AngleSelectedIcon from "../assets/angle_icon_selected.png";
+import CompassIcon from "../../assets/compass_icon.png";
+import CompassSelectedIcon from "../../assets/compass_icon_selected.png";
+import AngleIcon from "../../assets/angle_icon.png";
+import AngleSelectedIcon from "../../assets/angle_icon_selected.png";
 
 import css from "./bottom-container.scss";
 
