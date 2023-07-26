@@ -113,8 +113,8 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
                 valueMinWidth={config.routeMap ? 53 : 92}
               >
                 {
-                  Object.keys(Month).map((montNumber: string) => (
-                    <Option key={montNumber} value={montNumber}>{t(Month[Number(montNumber)] + monthKeySuffix)}</Option>
+                  Object.keys(Month).map((monthNumber: string) => (
+                    <Option key={monthNumber} value={monthNumber}>{t(Month[Number(monthNumber)] + monthKeySuffix)}</Option>
                   ))
                 }
               </ScrollingSelect>
