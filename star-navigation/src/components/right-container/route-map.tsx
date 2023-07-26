@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import LocationSymbol from "../../assets/location-symbol.svg";
-import { DraggableWrapper } from "./draggable-wrapper";
 
 import css from "./route-map.scss";
 
@@ -8,8 +7,18 @@ import css from "./route-map.scss";
 const pointA = {x: 10, y: 80};
 const pointC = {x: 200, y: 80};
 
+const mapWidth = 220;
 const mapHeight = 150;
-const mapWidth = 210;
+
+// Don't let users drag to the very edges of the map.
+const xDraggingMargin = 40;
+const yDraggingMargin = 20;
+const allowedDraggingArea = {
+  minX: xDraggingMargin,
+  maxX: mapWidth - xDraggingMargin,
+  minY: yDraggingMargin,
+  maxY: mapHeight - yDraggingMargin
+};
 
 interface LineProps {
   x1: number, y1: number, x2: number, y2: number
@@ -21,20 +30,45 @@ type WhichAngle = typeof angle1 | typeof angle2;
 
 export const RouteMap: React.FC = () => {
   const [pointB, setPointB] = useState<{x: number, y: number}>({x: 105, y: 80});
+  const [isDragging, setIsDragging] = useState(false);
+  const draggingOffset = useRef<{x: number, y: number}>({x: 0, y: 0});
+  const draggingContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleDragMove = (e: any) => {
-    const x = pointB.x + e.movementX;
-    const y = pointB.y + e.movementY;
-    const yInRange = y >= 1 && y <= mapHeight;
-    const xInRange = x >= 1 && x <= mapWidth;
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      let { x, y } = getRelativeCoords(e);
+      x = x - draggingOffset.current.x;
+      y = y - draggingOffset.current.y;
+      x = Math.max(allowedDraggingArea.minX, Math.min(allowedDraggingArea.maxX, x));
+      y = Math.max(allowedDraggingArea.minY, Math.min(allowedDraggingArea.maxY, y));
+      setPointB({ x, y });
+    };
 
-    if (yInRange && xInRange) {
-      setPointB({
-        x: pointB.x + e.movementX,
-        y: pointB.y + e.movementY
-      });
+    const handlePointerUp = () => {
+      setIsDragging(false);
+    };
+    if (isDragging) {
+      window.addEventListener("pointerup", handlePointerUp);
+      window.addEventListener("pointermove", handlePointerMove);
     }
+    return () => {
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointermove", handlePointerMove);
+    };
+  }, [isDragging]);
+
+  const getRelativeCoords = (e: PointerEvent | React.PointerEvent) => {
+    const { x: containerX, y: containerY } = draggingContainerRef.current?.getBoundingClientRect() || { x: 0, y: 0};
+    const x = e.clientX - containerX;
+    const y = e.clientY - containerY;
+    return { x, y };
   };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const { x, y } = getRelativeCoords(e);
+    draggingOffset.current = { x: x - pointB.x, y: y - pointB.y };
+    setIsDragging(true);
+   };
 
   const convertRadiansToDegrees = (rad: number) => {
     return Math.round((rad) * 180/Math.PI);
@@ -105,7 +139,7 @@ export const RouteMap: React.FC = () => {
   const locIconYOffset = pointB.y - 32;
 
   return (
-    <div className={css.mapRouteContainer}>
+    <div className={css.mapRouteContainer} ref={draggingContainerRef}>
       <div className={css.mapBackground}/>
       <div className={css.svgContainer}>
         <svg height={mapHeight} width={mapWidth}>
@@ -117,12 +151,15 @@ export const RouteMap: React.FC = () => {
           {makePointLabel("B")}
           {makePointLabel("C")}
         </svg>
-        <div className={css.draggableIcon}>
-          <DraggableWrapper onDragMove={handleDragMove}>
-            <div style={{transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`}}>
-              <LocationSymbol/>
-            </div>
-          </DraggableWrapper>
+        <div
+          className={css.draggableIcon}
+          style={{
+            transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`,
+            cursor: isDragging ? "grabbing" : "grab"
+          }}
+          onPointerDown={handlePointerDown}
+        >
+          <LocationSymbol/>
         </div>
       </div>
     </div>
