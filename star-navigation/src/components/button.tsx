@@ -7,12 +7,15 @@ interface IProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  selected?: boolean;
 }
 
-export const Button: React.FC<IProps> = ({ children, className, onClick }) => {
+export const Button: React.FC<IProps> = ({ children, className, onClick, selected, disabled }) => {
   return (
     <button
-      className={clsx(css.button, className)}
+      className={clsx(css.button, className, { [css.selected]: selected, [css.disabled]: disabled })}
+      disabled={disabled || selected}
       onClick={onClick}
     >
       { children }

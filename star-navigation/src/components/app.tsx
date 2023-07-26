@@ -13,10 +13,6 @@ import HeaderTitle from "../assets/title.png";
 
 import css from "./app.scss";
 
-// Observer location is at Hooper Bay, Alaska.
-const OBSERVER_LAT = 61.523997904;
-const OBSERVER_LON = -166.090999636;
-
 interface IProps {
   readOnly?: boolean;
 }
@@ -33,7 +29,12 @@ const defaultInteractiveState: IInteractiveState = {
     assumedNorthStarHip: null,
     angleMarker: null,
     compassInteractionActive: false,
-    angleMarkerInteractionActive: false
+    angleMarkerInteractionActive: false,
+    pointADepartureSnapshot: null,
+    pointBArrivalSnapshot: null,
+    pointBDepartureSnapshot: null,
+    pointCArrivalSnapshot: null,
+    journeyLeg: "AtoB"
   },
   readAloudMode: false
 };
@@ -67,7 +68,7 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
     }));
   };
 
-  const date = new Date(getDateTimeString(inputState.month, inputState.day, inputState.timeOfDay));
+  const date = new Date(getDateTimeString(inputState));
   const epochTime = date.getTime();
 
   return (
@@ -83,8 +84,6 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
               <SimulationView
                 inputState={inputState}
                 epochTime={epochTime}
-                observerLat={OBSERVER_LAT}
-                observerLon={OBSERVER_LON}
                 setInputState={setInputState}
               />
             </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { clsx } from "clsx";
-import { IModelInputState } from "../../types";
+import { config } from "../../config";
+import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
 import { getHeadingFromAssumedNorthStar, invertCelestialSphereRotation } from "../../utils/sim-utils";
@@ -12,22 +13,36 @@ import BackIcon from "../../assets/back-icon.svg";
 
 import css from "./simulation-view.scss";
 
-
 // This function compares two points taking into account floating point errors. We operate on ranges of values close
 // to 1000, so when two points are closer than 1e-3, we can surely consider them equal.
 const pointsEqual = (p1: THREE.Vector3, p2: THREE.Vector3) => p1.distanceTo(p2) < 1e-3;
 
 interface IProps {
   epochTime: number;
-  observerLat: number;
-  observerLon: number;
   inputState: IModelInputState;
   setInputState: (inputState: Partial<IModelInputState>) => void;
 }
 
-export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, epochTime, observerLat, observerLon }) => {
+const getMissingSnapshotImage = (inputState: IModelInputState) => {
+  if (!!inputState.pointADepartureSnapshot && inputState.pointADepartureSnapshot.starViewImageSnapshot === SNAPSHOT_REQUESTED) {
+    return "pointADepartureSnapshot";
+  }
+  if (!!inputState.pointBArrivalSnapshot && inputState.pointBArrivalSnapshot.starViewImageSnapshot === SNAPSHOT_REQUESTED) {
+    return "pointBArrivalSnapshot";
+  }
+  if (!!inputState.pointBDepartureSnapshot && inputState.pointBDepartureSnapshot.starViewImageSnapshot === SNAPSHOT_REQUESTED) {
+    return "pointBDepartureSnapshot";
+  }
+  if (!!inputState.pointCArrivalSnapshot && inputState.pointCArrivalSnapshot.starViewImageSnapshot === SNAPSHOT_REQUESTED) {
+    return "pointCArrivalSnapshot";
+  }
+  return null;
+};
+
+export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, epochTime }) => {
   const starViewRef = useRef<HTMLDivElement>(null);
   const [ starViewAspectRatio, setStarViewAspectRatio ] = useState<number>(0);
+  const { observerLat, observerLong } = config;
 
   const handleAssumedNorthStarClick = (starHip: number) => {
     setInputState({ assumedNorthStarHip: starHip });
@@ -47,7 +62,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
 
   const handleMarkerStartPointChange = (startPoint: THREE.Vector3) => {
     const pointWithoutRotation = invertCelestialSphereRotation({
-      point: startPoint, epochTime, lat: observerLat, long: observerLon
+      point: startPoint, epochTime, lat: observerLat, long: observerLong
     });
     setInputState({
       angleMarker: {
@@ -63,7 +78,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
       return;
     }
     const pointWithoutRotation = invertCelestialSphereRotation({
-      point: endPoint, epochTime, lat: observerLat, long: observerLon
+      point: endPoint, epochTime, lat: observerLat, long: observerLong
     });
     setInputState({
       angleMarker: {
@@ -80,7 +95,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
       return;
     }
     const pointWithoutRotation = invertCelestialSphereRotation({
-      point: endPoint, epochTime, lat: observerLat, long: observerLon
+      point: endPoint, epochTime, lat: observerLat, long: observerLong
     });
     const startPoint = new THREE.Vector3(...inputState.angleMarker.startPoint);
     if (pointsEqual(pointWithoutRotation, startPoint)) {
@@ -104,7 +119,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
       realHeadingFromNorth: inputState.realHeadingFromNorth,
       epochTime,
       lat: observerLat,
-      long: observerLon
+      long: observerLong
     });
   }
 
@@ -120,6 +135,22 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     [css.angleMarkerInteraction]: inputState.angleMarkerInteractionActive,
   });
 
+  // It's a bit weird way of requesting snapshots through state and props, but it actually seems much cleaner
+  // than using a very long chain of refs.
+  const snapshotRequested = !!getMissingSnapshotImage(inputState);
+  const handleSnapshotReady = (snapshot: string) => {
+    const missingSnapshot = getMissingSnapshotImage(inputState);
+    if (!missingSnapshot) {
+      return;
+    }
+    setInputState({
+      [missingSnapshot]: {
+        ...inputState[missingSnapshot],
+        starViewImageSnapshot: snapshot
+      }
+    });
+  };
+
   return (
     <div className={css.simulationView}>
       <div className={css.wrapper}>
@@ -128,7 +159,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
           <StarView
             epochTime={epochTime}
             lat={observerLat}
-            long={observerLon}
+            long={observerLong}
             showWesternConstellations={inputState.showWesternConstellations}
             showYupikConstellations={inputState.showYupikConstellations}
             realHeadingFromNorth={inputState.realHeadingFromNorth}
@@ -142,6 +173,8 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             onAngleMarkerEndPointChange={handleMarkerEndPointChange}
             onAngleMarkerFinalize={handleMarkerFinalize}
             onAngleMarkerCancel={handleMarkerCancel}
+            snapshotRequested={snapshotRequested}
+            onSnapshotReady={handleSnapshotReady}
           />
         </div>
         <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />

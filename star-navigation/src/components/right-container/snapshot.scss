@@ -1,9 +1,27 @@
 @import "../vars.scss";
 
 .snapshot {
-  .snapshotButton {
+  .snapshotButton, .snapshotData {
     width: 180px;
     height: 90px;
     border-radius: 15px;
+    box-sizing: border-box;
+  }
+
+  .snapshotData {
+    background-color: $dark-blue;
+    background-size: cover;
+    padding: 5px;
+    color: #ffea00;
+    text-shadow: 2px 2px 3px #000;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .textUppercase {
+    text-transform: uppercase;
   }
 }

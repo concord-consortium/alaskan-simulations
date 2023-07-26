@@ -14,11 +14,23 @@
   border-radius: 8px;
   font-size: 16px;
 
+  &.disabled {
+    color: $font-color;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   &:hover {
     background-color: $blue-hover;
   }
 
   &:active {
     background-color: $blue-active;
+  }
+
+  &.selected {
+    background-color: $dark-blue;
+    color: $white;
+    pointer-events: none;
   }
 }

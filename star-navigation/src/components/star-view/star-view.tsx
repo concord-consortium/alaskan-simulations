@@ -27,6 +27,20 @@ const ShutterbugSupport = () => {
   return null;
 };
 
+// This needs to be a separate component, as useThree depends on context provided by <Canvas> component.
+const TakeSnapshot: React.FC<{ onSnapshotReady: (snapshot: string ) => void }> = ({ onSnapshotReady }) => {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    gl.render(scene, camera);
+    // Note that this image will be saved in the app state that is later saved in Firestore. There's 1MB limit for
+    // Firestore documents, so image size is important (we'll have four of them). JPEG with 0.25 ensures reasonable
+    // quality and the size is around 35-50kB, so very safe. In comparison, PNG is around 500kB, so it's not an option.
+    const image = gl.domElement.toDataURL("image/jpeg", 0.25);
+    onSnapshotReady(image);
+  }, [gl, scene, camera, onSnapshotReady]);
+  return null;
+};
+
 const getInitialCameraPosition = (headingFromNorth: number) => {
   // North direction follows negative Z axis.
   // So, position camera behind the (0, 0, 0) point, looking at it, towards negative Z axis => north.
@@ -56,6 +70,8 @@ interface IProps {
   onAngleMarkerEndPointChange: (endPoint: THREE.Vector3) => void;
   onAngleMarkerFinalize: (endPoint: THREE.Vector3) => void;
   onAngleMarkerCancel: () => void;
+  snapshotRequested: boolean;
+  onSnapshotReady: (snapshot: string) => void;
 }
 
 export const StarView: React.FC<IProps> = (props) => {
@@ -63,7 +79,7 @@ export const StarView: React.FC<IProps> = (props) => {
     epochTime, lat, long, showWesternConstellations, showYupikConstellations, realHeadingFromNorth,
     assumedNorthStarHip, angleMarker, angleMarkerInteractionActive, compassInteractionActive,
     onRealHeadingFromNorthChange, onAssumedNorthStarClick, onAngleMarkerStartPointChange, onAngleMarkerEndPointChange,
-    onAngleMarkerFinalize, onAngleMarkerCancel
+    onAngleMarkerFinalize, onAngleMarkerCancel, snapshotRequested, onSnapshotReady
   } = props;
 
   const orbitControlsRef = useRef<any>(null);
@@ -139,7 +155,8 @@ export const StarView: React.FC<IProps> = (props) => {
     // flat=true disables tone mapping that is not a default in threejs, but is enabled by default in react-three-fiber.
     // It makes textures match colors in the original image.
     // resize.debounce=0 ensures that canvas will resize immediately when container size changes (right tab animation).
-    <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }}>
+    // gl.preserveDrawingBuffer=true is needed for snapshots to work.
+    <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }} gl={{ preserveDrawingBuffer: true }}>
       <PerspectiveCamera
         makeDefault={true}
         position={initialCameraPos.current}
@@ -223,6 +240,10 @@ export const StarView: React.FC<IProps> = (props) => {
         <CompassMarkers northMarkerTip={[northMarkerTip.x, northMarkerTip.y, northMarkerTip.z]} />
       }
       <ShutterbugSupport />
+      {
+        snapshotRequested &&
+        <TakeSnapshot onSnapshotReady={onSnapshotReady} />
+      }
     </Canvas>
   );
 };
