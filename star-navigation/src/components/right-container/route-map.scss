@@ -9,12 +9,14 @@
     width: 100%;
     height: 150px;
   }
+
   .svgContainer {
     width: 100%;
     height: 150px;
     z-index: 1;
     position: relative;
     top: -150px;
+
     .mapText {
       fill: $lightBlue;
       stroke: $midnight-blue;
@@ -22,6 +24,7 @@
       stroke-width: 4px;
       border: 2px solid $midnight-blue;
     }
+
     .pointLabel {
       fill: $darkYellow;
       stroke: $midnight-blue;
@@ -29,25 +32,29 @@
       stroke-width: 2px;
       font-weight: bold;
     }
+
     .routeLine {
       stroke: $midnight-blue;
       stroke-width: 3;
     }
+
     .vertical {
       stroke: $midnight-blue;
       stroke-width: 2;
       stroke-dasharray: 5;
     }
+
     .angle {
       fill: $darkYellow;
       fill-opacity: 65%;
     }
   }
+
   .draggableIcon {
-    width: 100%;
-    height: 150px;
-    position: relative;
-    top: -155px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
     svg {
       width: 30px;
       height: 32px;
