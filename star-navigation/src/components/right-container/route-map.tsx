@@ -10,6 +10,9 @@ const pointC = {x: 185, y: 105};
 const mapWidth = 220;
 const mapHeight = 150;
 
+// The real distance between point A and point C is 17 miles.
+const pixelToMileRatio = 17 / (pointC.x - pointA.x);
+
 // Don't let users drag to the very edges of the map.
 const xDraggingMargin = 10;
 const yDraggingMargin = 20;
@@ -116,7 +119,7 @@ export const RouteMap: React.FC = () => {
     const degTxtXPos = radius === maxRadius ? x1 + maxRadius : middleOfLine.x;
     /* position text above or below route line */
     const yOffset = 15;
-
+    const lengthInMiles = (length * pixelToMileRatio).toFixed(1);
     return (
       <>
       { /* create a polygon to clip the circle to only the parts we want to see */ }
@@ -127,7 +130,7 @@ export const RouteMap: React.FC = () => {
       </defs>
         {makeLine(coords, "routeLine")}
         <text x={x1} y={y1} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.pointLabel}></text>
-        <text x={middleOfLine.x} y={middleOfLine.y + yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{Math.round(length)}mi</text>
+        <text x={middleOfLine.x} y={middleOfLine.y + yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{lengthInMiles}mi</text>
         <circle r={radius} clipPath={`url(#${clipPath})`} cx={x1} cy={y1} className={css.angle}/>
         <text x={degTxtXPos} y={middleOfLine.y - yOffset} style={{textAnchor: "middle", dominantBaseline:"middle"}} className={css.mapText}>{angle}°</text>
       </>
