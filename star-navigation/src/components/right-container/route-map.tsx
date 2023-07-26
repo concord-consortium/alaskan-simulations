@@ -4,18 +4,18 @@ import LocationSymbol from "../../assets/location-symbol.svg";
 import css from "./route-map.scss";
 
 /* placeholders for now, these will be determined by final image that has markers for locations */
-const pointA = {x: 10, y: 80};
-const pointC = {x: 200, y: 80};
+const pointA = {x: 30, y: 105};
+const pointC = {x: 185, y: 105};
 
 const mapWidth = 220;
 const mapHeight = 150;
 
 // Don't let users drag to the very edges of the map.
-const xDraggingMargin = 40;
+const xDraggingMargin = 10;
 const yDraggingMargin = 20;
 const allowedDraggingArea = {
-  minX: xDraggingMargin,
-  maxX: mapWidth - xDraggingMargin,
+  minX: pointA.x + xDraggingMargin,
+  maxX: pointC.x - xDraggingMargin,
   minY: yDraggingMargin,
   maxY: mapHeight - yDraggingMargin
 };
@@ -29,7 +29,7 @@ const angle2 = "angle2";
 type WhichAngle = typeof angle1 | typeof angle2;
 
 export const RouteMap: React.FC = () => {
-  const [pointB, setPointB] = useState<{x: number, y: number}>({x: 105, y: 80});
+  const [pointB, setPointB] = useState<{x: number, y: number}>({x: (pointA.x + pointC.x) * 0.5, y: (pointA.y + pointC.y) * 0.5});
   const [isDragging, setIsDragging] = useState(false);
   const draggingOffset = useRef<{x: number, y: number}>({x: 0, y: 0});
   const draggingContainerRef = useRef<HTMLDivElement>(null);
@@ -140,7 +140,6 @@ export const RouteMap: React.FC = () => {
 
   return (
     <div className={css.mapRouteContainer} ref={draggingContainerRef}>
-      <div className={css.mapBackground}/>
       <div className={css.svgContainer}>
         <svg height={mapHeight} width={mapWidth}>
           {makeLine({x1: pointA.x, y1: 0, x2: pointA.x, y2: mapHeight}, "vertical")}
