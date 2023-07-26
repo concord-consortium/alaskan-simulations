@@ -25,7 +25,7 @@ $height: 355px;
       }
 
       &.angleMarkerInteraction {
-        cursor: crosshair;
+        cursor: url("../../assets/angle_icon_cursor.png") 8 6, crosshair;
       }
     }
 
