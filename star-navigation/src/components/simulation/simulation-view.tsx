@@ -198,7 +198,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
           headingFromAssumedNorthStar !== undefined &&
           <div className={css.heading}>
             {/* % 360 is necessary because of the Math.round (eg. 359.5 will become 360) */}
-            Heading: {Math.round(headingFromAssumedNorthStar) % 360}° from North
+            Heading: {Math.round(headingFromAssumedNorthStar) % 360}°
           </div>
         }
         <div className={css.buttons}>
