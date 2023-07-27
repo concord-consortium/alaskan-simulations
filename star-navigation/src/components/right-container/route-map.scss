@@ -31,6 +31,12 @@
       stroke-width: 3;
     }
 
+    .realRouteLine {
+      stroke: #ff0000;
+      stroke-width: 3;
+      stroke-dasharray: 6 3;
+    }
+
     .vertical {
       stroke: $midnight-blue;
       stroke-width: 2;

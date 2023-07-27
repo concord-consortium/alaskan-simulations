@@ -8,6 +8,11 @@ import { Snapshot } from "./snapshot";
 
 import css from "./right-container.scss";
 
+const timeDiffInHours = (time1: number, time2: number) => {
+  const diff = Math.abs(time1 - time2);
+  return Math.min(diff, 24 - diff);
+};
+
 interface IProps {
   inputState: IModelInputState;
   disableInputs: boolean;
@@ -29,6 +34,20 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
   const handleJourneyChangeAtoB = () => setInputState({ journeyLeg: "AtoB" });
 
   const handleJourneyChangeBtoC = () => setInputState({ journeyLeg: "BtoC" });
+
+  const handleTakeYourRouteClick = () => setInputState({ showUserTrip: true });
+
+  const handleResetRouteClick = () => setInputState({
+    pointADepartureSnapshot: null,
+    pointBArrivalSnapshot: null,
+    pointBDepartureSnapshot: null,
+    pointCArrivalSnapshot: null,
+    showUserTrip: false,
+    journeyLeg: "AtoB",
+    timeOfDay: 0
+  });
+
+  const handlePointBChange = (pointB: { x: number; y: number }) => setInputState({ pointB });
 
   const getSnapshotData = (): ISnapshot | null => {
     if (!inputState.assumedNorthStarHip) {
@@ -52,10 +71,26 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
   const handleTakeArrivalSnapshot = () =>
     setInputState(AtoB ? { pointBArrivalSnapshot: getSnapshotData() } : { pointCArrivalSnapshot: getSnapshotData() });
 
+  let AtoBHeading, AtoBDuration, BtoCHeading, BtoCDuration;
+  if (inputState.pointADepartureSnapshot && inputState.pointBArrivalSnapshot && inputState.pointBDepartureSnapshot && inputState.pointCArrivalSnapshot) {
+    AtoBHeading = inputState.pointADepartureSnapshot.realHeadingFromNorth;
+    AtoBDuration = timeDiffInHours(inputState.pointBArrivalSnapshot.timeOfDay, inputState.pointADepartureSnapshot.timeOfDay);
+    BtoCHeading = inputState.pointBDepartureSnapshot.realHeadingFromNorth;
+    BtoCDuration = timeDiffInHours(inputState.pointCArrivalSnapshot.timeOfDay, inputState.pointBDepartureSnapshot.timeOfDay);
+  }
+
   return (
     <div className={css.rightContainer}>
       <div className={css.label}>{t("PLAN_YOUR_ROUTE")}</div>
-      <RouteMap />
+      <RouteMap
+        pointB={inputState.pointB}
+        onPointBChange={handlePointBChange}
+        showUserTrip={inputState.showUserTrip}
+        AtoBHeading={AtoBHeading}
+        AtoBDuration={AtoBDuration}
+        BtoCHeading={BtoCHeading}
+        BtoCDuration={BtoCDuration}
+      />
       <div className={css.label}>{t("CHART_HEADINGS_TIMES")}</div>
       <div className={clsx(css.label, css.light)}>{t(`DEPARTURE_FROM_POINT_${departurePoint}`)}</div>
       <div className={css.container}>
@@ -77,7 +112,13 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
         <div className={css.buttonsRow}>
           <Button selected={AtoB} onClick={handleJourneyChangeAtoB}>{ tStringOnly("A_TO_B") }</Button>
           <Button selected={!AtoB} onClick={handleJourneyChangeBtoC}>{ tStringOnly("B_TO_C") }</Button>
-          <Button className={css.takeYourTripBtn} disabled={takeYourTripDisabled}>{tStringOnly("TAKE_YOUR_TRIP")}</Button>
+          <Button
+            className={css.takeYourTripBtn}
+            onClick={!inputState.showUserTrip ? handleTakeYourRouteClick : handleResetRouteClick}
+            disabled={takeYourTripDisabled}
+          >
+            { !inputState.showUserTrip ? tStringOnly("TAKE_YOUR_TRIP") : tStringOnly("RESET_ROUTE") }
+          </Button>
         </div>
       </div>
     </div>
