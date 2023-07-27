@@ -36,7 +36,6 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
 
   const rotation: [number, number, number] = [0, THREE.MathUtils.degToRad(directionToDeg[direction]), 0];
 
-
   const originalTopPoint = new THREE.Vector3(...northMarkerTip);
   const radius = originalTopPoint.length();
 
@@ -69,7 +68,7 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
         center={direction === "N" ? undefined : SPRITE_CENTER}
       >
         <spriteMaterial
-          map={compassTexture[direction]}
+          map={compassTexture[direction] as THREE.Texture}
           transparent={true}
           color={COLOR}
           sizeAttenuation={false}
@@ -81,10 +80,15 @@ const Marker: React.FC<IMarkerProps> = ({ northMarkerTip, direction }) => {
 
 interface IProps {
   northMarkerTip: [number, number, number];
+  // It'd be theoretically make sense to just not render compass marker when it's not yet selected by user. However,
+  // it loads textures. And when the texture is loaded, the whole component is re-rendered what often breaks
+  // camera animation (camera rotates to the selected star / compass pos). So, it's better to add it to the component
+  // tree right away, so textures can be preloaded.
+  visible: boolean;
 }
 
-export const CompassMarkers: React.FC<IProps> = ({ northMarkerTip }) => (
-  <>
+export const CompassMarkers: React.FC<IProps> = ({ northMarkerTip, visible }) => (
+  <object3D visible={visible}>
     <Marker northMarkerTip={northMarkerTip} direction="N" />
     {
       // E/S/W markers are not rendered when landscape markers are enabled.
@@ -96,5 +100,5 @@ export const CompassMarkers: React.FC<IProps> = ({ northMarkerTip }) => (
         <Marker northMarkerTip={northMarkerTip} direction="W" />
       </>
     }
-  </>
+  </object3D>
 );
