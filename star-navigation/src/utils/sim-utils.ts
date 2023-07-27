@@ -107,7 +107,7 @@ export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: n
     lat,
     long
   });
-  return toPositiveHeading(THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z)));
+  return toPositiveHeading(-1 * THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z)));
 };
 
 export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: number, realHeadingFromNorth: number, epochTime: number, lat: number, long: number}) => {
@@ -117,7 +117,7 @@ export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: n
     lat: options.lat,
     long: options.long
   });
-  return (assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth) % 360;
+  return (options.realHeadingFromNorth - assumedNorthStarHeadingFromNorth + 360) % 360;
 };
 
 export const getHorizontalFov = (verticalFovInDeg: number, aspectRatio: number) => {
