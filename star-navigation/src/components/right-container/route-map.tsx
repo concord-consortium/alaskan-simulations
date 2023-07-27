@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { roundToNearest5 } from "../../utils/sim-utils";
 import LocationSymbol from "../../assets/location-symbol.svg";
 
 import css from "./route-map.scss";
@@ -22,10 +23,6 @@ const allowedDraggingArea = {
   maxX: pointC.x - xDraggingMargin,
   minY: yDraggingMargin,
   maxY: mapHeight - yDraggingMargin
-};
-
-const roundToNearest5 = (num: number) => {
-  return Math.round(num / 5) * 5;
 };
 
 const radToDeg = (rad: number) => {

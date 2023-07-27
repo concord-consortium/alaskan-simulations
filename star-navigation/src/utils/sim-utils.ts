@@ -117,11 +117,15 @@ export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: n
     lat: options.lat,
     long: options.long
   });
-  return (options.realHeadingFromNorth - assumedNorthStarHeadingFromNorth + 360) % 360;
+  return roundToNearest5((options.realHeadingFromNorth - assumedNorthStarHeadingFromNorth + 360) % 360);
 };
 
 export const getHorizontalFov = (verticalFovInDeg: number, aspectRatio: number) => {
   const verticalFovRad = THREE.MathUtils.degToRad(verticalFovInDeg);
   const horizontalFovRad = 2 * Math.atan(Math.tan(verticalFovRad / 2) * aspectRatio);
   return THREE.MathUtils.radToDeg(horizontalFovRad);
+};
+
+export const roundToNearest5 = (num: number) => {
+  return Math.round(num / 5) * 5;
 };
