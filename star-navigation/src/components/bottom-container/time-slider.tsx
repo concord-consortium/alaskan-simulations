@@ -1,9 +1,18 @@
 import React from "react";
 import clsx from "clsx";
 import { Slider } from "@mui/base";
-import { sunriseSunset } from "../../utils/daytime";
+import { getTimes } from "suncalc";
+import { getDateTimeString } from "../../utils/sim-utils";
+import { config } from "../../config";
 
 import css from "./time-slider.scss";
+
+const dateToFractionalHoursInRightTimezone = (date: Date) => {
+  const sunriseInTimezone = new Date(date.toLocaleString("en-US", {
+    timeZone: "America/Anchorage"
+  }));
+  return sunriseInTimezone.getHours() + sunriseInTimezone.getMinutes() / 60;
+};
 
 interface IProps {
   value: number;
@@ -13,21 +22,29 @@ interface IProps {
   disabled?: boolean;
 }
 
-export const TimeSlider: React.FC<IProps> = ({ value, month, onChange, disabled }) => {
+export const TimeSlider: React.FC<IProps> = ({ value, day, month, onChange, disabled }) => {
+  const { observerLat, observerLong } = config;
+
   const handleChange = (e: Event, val: number | number[]) => {
     onChange(e, typeof val === "number" ? val : val[0]);
   };
 
-  const { sunrise, sunset } = sunriseSunset[month - 1];
-
-  const sunriseWidth = `${100 * sunrise / 24}%`;
-  const sunsetStart = `${100 * sunset / 24}%`;
-  const sunsetWidth = `${100 * (24 - sunset) / 24}%`;
+  const date = new Date(getDateTimeString({ month, day, timeOfDay: value }));
+  const times = getTimes(date, observerLat, observerLong);
+  const sunrise = dateToFractionalHoursInRightTimezone(times.sunrise);
+  const sunset = dateToFractionalHoursInRightTimezone(times.sunset);
 
   const Rail = () => (
     <div className={css.customRail}>
-      <div className={css.beforeSunrise} style={{ width: sunriseWidth }} />
-      <div className={css.afterSunset} style={{ left: sunsetStart, width: sunsetWidth }} />
+      {
+        sunrise < sunset ?
+        <>
+          <div className={css.beforeSunrise} style={{ width: `${100 * sunrise / 24}%` }} />
+          <div className={css.afterSunset} style={{ left: `${100 * sunset / 24}%`, width: `${100 * (24 - sunset) / 24}%` }} />
+        </>
+        :
+        <div className={css.night} style={{ left: `${100 * sunset / 24}%`, width: `${100 * (sunrise - sunset) / 24}%` }} />
+      }
     </div>
   );
 
