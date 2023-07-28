@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { calculateEquatorialPosition } from "../../utils/sim-utils";
@@ -21,11 +21,22 @@ export const InteractiveStars: React.FC<IProps> = ({ radius, rotation, onStarCli
   const circleTexture = useLoader(THREE.TextureLoader, circleImg) as THREE.Texture;
   const [hovered, setHovered] = useState(-1);
 
-  const stars = getFilteredStars();
+  const stars = useMemo(getFilteredStars, []);
 
-  const rotationEuler = new THREE.Euler(...rotation);
-  const getStarPosition = (starPosWithoutRotation: THREE.Vector3) =>
-    starPosWithoutRotation.clone().applyEuler(rotationEuler);
+  const rotationEuler = useMemo(() => new THREE.Euler(...rotation), [rotation]);
+  const getStarPosition = useCallback((starPosWithoutRotation: THREE.Vector3) => {
+    return starPosWithoutRotation.clone().applyEuler(rotationEuler);
+  }, [rotationEuler]);
+
+  const starHandlers = useMemo(() => {
+    return stars.map(star => ({
+      onPointerOver: () => setHovered(star.Hip),
+      onPointerOut: () => hovered === star.Hip && setHovered(-1),
+      onClick: (event: THREE.Event) => onStarClick?.(getStarPosition(event.object.position), star.Hip),
+      onPointerDown: (event: THREE.Event) => onStarPointerDown?.(getStarPosition(event.object.position), star.Hip),
+      onPointerUp: (event: THREE.Event) => onStarPointerUp?.(getStarPosition(event.object.position), star.Hip),
+    }));
+  }, [getStarPosition, hovered, onStarClick, onStarPointerDown, onStarPointerUp, stars]);
 
   return (
     <object3D rotation={rotation}>
@@ -59,11 +70,7 @@ export const InteractiveStars: React.FC<IProps> = ({ radius, rotation, onStarCli
             <sprite
               key={index}
               position={[pos.x, pos.y, pos.z]}
-              onPointerOver={() => setHovered(star.Hip)}
-              onPointerOut={() => hovered === star.Hip && setHovered(-1)}
-              onClick={(event) => onStarClick?.(getStarPosition(event.object.position), star.Hip)}
-              onPointerDown={(event) => onStarPointerDown?.(getStarPosition(event.object.position), star.Hip)}
-              onPointerUp={(event) => onStarPointerUp?.(getStarPosition(event.object.position), star.Hip)}
+              {...starHandlers[index]}
               scale={[SPRITE_SCALE, SPRITE_SCALE, SPRITE_SCALE]}
             >
               <spriteMaterial

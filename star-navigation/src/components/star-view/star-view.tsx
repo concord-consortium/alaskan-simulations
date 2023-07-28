@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useCallback, useRef, useMemo, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@react-three/drei";
@@ -94,7 +94,7 @@ export const StarView: React.FC<IProps> = (props) => {
     initialCameraPos.current = getInitialCameraPosition(realHeadingFromNorth);
   }
 
-  const celestialSphereRotation = getCelestialSphereRotation({ epochTime, lat, long });
+  const celestialSphereRotation = useMemo(() => getCelestialSphereRotation({ epochTime, lat, long }), [epochTime, lat, long]);
 
   let northMarkerTip;
   if (assumedNorthStarHip) {
@@ -105,7 +105,7 @@ export const StarView: React.FC<IProps> = (props) => {
      });
   }
 
-  const handleCameraUpdate = (event?: OrbitControlsChangeEvent) => {
+  const handleCameraUpdate = useCallback((event?: OrbitControlsChangeEvent) => {
     if (event) {
       const newHeading = toPositiveHeading(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle()));
       if (newHeading !== realHeadingFromNorth) {
@@ -116,27 +116,27 @@ export const StarView: React.FC<IProps> = (props) => {
         }, 300);
       }
     }
-  };
+  }, [onRealHeadingFromNorthChange, realHeadingFromNorth]);
 
-  const handleStarClick = (position: THREE.Vector3, starHip: number) => {
+  const handleStarClick = useCallback((position: THREE.Vector3, starHip: number) => {
     onAssumedNorthStarClick(starHip);
-  };
+  }, [onAssumedNorthStarClick]);
 
-  const handleAngleMarkerPointerDown = (position: THREE.Vector3, starHip: number) => {
+  const handleAngleMarkerPointerDown = useCallback((position: THREE.Vector3, starHip: number) => {
     onAngleMarkerStartPointChange(position);
     angleMarkerDrawingActive.current = true;
-  };
+  }, [onAngleMarkerStartPointChange]);
 
-  const handleAngleMarkerPointerUp = (position: THREE.Vector3, starHip: number) => {
+  const handleAngleMarkerPointerUp = useCallback((position: THREE.Vector3, starHip: number) => {
     onAngleMarkerFinalize(position);
     angleMarkerDrawingActive.current = false;
-  };
+  }, [onAngleMarkerFinalize]);
 
-  const handleAngleMarkerPointerMove = (position: THREE.Vector3) => {
+  const handleAngleMarkerPointerMove = useCallback((position: THREE.Vector3) => {
     if (angleMarkerDrawingActive.current) {
       onAngleMarkerEndPointChange(position);
     }
-  };
+  }, [onAngleMarkerEndPointChange]);
 
   const handleAngleMarkerCancel = useCallback(() => {
     if (angleMarkerDrawingActive.current) {

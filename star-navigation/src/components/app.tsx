@@ -46,7 +46,7 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
   const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
 
-  const interactiveState = rawInteractiveState || defaultInteractiveState;
+  const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
 
   const translationContextValues = useMemo(() => ({
     translations,

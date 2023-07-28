@@ -57,19 +57,19 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     });
   };
 
-  const handleRealHeadingFromNorthChange = (realHeadingFromNorth: number) => {
+  const handleRealHeadingFromNorthChange = useCallback((realHeadingFromNorth: number) => {
     setInputState({ realHeadingFromNorth });
-  };
+  }, [setInputState]);
 
-  const handleRotateLeft = () => {
+  const handleRotateLeft = useCallback(() => {
     setInputState({ realHeadingFromNorth: (inputState.realHeadingFromNorth - 5 + 360) % 360 });
-  };
+  }, [setInputState, inputState.realHeadingFromNorth]);
 
-  const handleRotateRight = () => {
+  const handleRotateRight = useCallback(() => {
     setInputState({ realHeadingFromNorth: (inputState.realHeadingFromNorth + 5) % 360 });
-  };
+  }, [setInputState, inputState.realHeadingFromNorth]);
 
-  const handleMarkerStartPointChange = (startPoint: THREE.Vector3) => {
+  const handleMarkerStartPointChange = useCallback((startPoint: THREE.Vector3) => {
     const pointWithoutRotation = invertCelestialSphereRotation({
       point: startPoint, epochTime, lat: observerLat, long: observerLong
     });
@@ -80,9 +80,9 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
         createdAtEpoch: epochTime
       }
     });
-  };
+  }, [setInputState, epochTime, observerLat, observerLong]);
 
-  const handleMarkerEndPointChange = (endPoint: THREE.Vector3) => {
+  const handleMarkerEndPointChange = useCallback((endPoint: THREE.Vector3) => {
     if (!inputState.angleMarker) {
       return;
     }
@@ -96,9 +96,15 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
         createdAtEpoch: epochTime
       }
     });
-  };
+  }, [epochTime, inputState.angleMarker, observerLat, observerLong, setInputState]);
 
-  const handleMarkerFinalize = (endPoint: THREE.Vector3) => {
+  const handleMarkerCancel = useCallback(() => {
+    setInputState({
+      angleMarker: null
+    });
+  }, [setInputState]);
+
+  const handleMarkerFinalize = useCallback((endPoint: THREE.Vector3) => {
     if (!inputState.angleMarker) {
       handleMarkerCancel();
       return;
@@ -113,13 +119,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
       return;
     }
     handleMarkerEndPointChange(endPoint);
-  };
-
-  const handleMarkerCancel = useCallback(() => {
-    setInputState({
-      angleMarker: null
-    });
-  }, [setInputState]);
+  }, [epochTime, inputState.angleMarker, observerLat, observerLong, handleMarkerEndPointChange, handleMarkerCancel]);
 
   let headingFromAssumedNorthStar;
   if (inputState.assumedNorthStarHip) {
@@ -147,7 +147,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
   // It's a bit weird way of requesting snapshots through state and props, but it actually seems much cleaner
   // than using a very long chain of refs.
   const snapshotRequested = !!getMissingSnapshotImage(inputState);
-  const handleSnapshotReady = (snapshot: string) => {
+  const handleSnapshotReady = useCallback((snapshot: string) => {
     const missingSnapshot = getMissingSnapshotImage(inputState);
     if (!missingSnapshot) {
       return;
@@ -158,7 +158,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
         starViewImageSnapshot: snapshot
       }
     });
-  };
+  }, [inputState, setInputState]);
 
   return (
     <div className={css.simulationView}>
