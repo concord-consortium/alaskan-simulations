@@ -51,4 +51,5 @@ export const translations: TranslationDict = {
   "A_TO_B": { string: "A→B", mp3: new Audio(Controls) },
   "B_TO_C": { string: "B→C", mp3: new Audio(Controls) },
   "TAKE_YOUR_TRIP": { string: "Take Your Trip", mp3: new Audio(Controls) },
+  "RESET_ROUTE": { string: "Reset Route", mp3: new Audio(Controls) },
 };

@@ -4,14 +4,15 @@ import LocationSymbol from "../../assets/location-symbol.svg";
 import css from "./route-map.scss";
 
 /* placeholders for now, these will be determined by final image that has markers for locations */
-const pointA = {x: 30, y: 105};
-const pointC = {x: 185, y: 105};
+export const pointA = {x: 30, y: 105};
+export const pointC = {x: 185, y: 105};
 
 const mapWidth = 220;
 const mapHeight = 150;
 
 // The real distance between point A and point C is 17 miles.
 const pixelToMileRatio = 17 / (pointC.x - pointA.x);
+const travelSpeed = 20; // miles per hour, snowmobile speed
 
 // Don't let users drag to the very edges of the map.
 const xDraggingMargin = 10;
@@ -35,6 +36,13 @@ const degToRad = (deg: number) => {
   return deg * Math.PI / 180;
 };
 
+const rotatePoint = (point: { x: number, y: number }, angle: number) => {
+  angle = -1 * angle; // to rotate clockwise
+  const x = point.x * Math.cos(angle) - point.y * Math.sin(angle);
+  const y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
+  return { x, y };
+};
+
 interface LineProps {
   x1: number, y1: number, x2: number, y2: number
 }
@@ -43,11 +51,31 @@ const angle1 = "angle1";
 const angle2 = "angle2";
 type WhichAngle = typeof angle1 | typeof angle2;
 
-export const RouteMap: React.FC = () => {
-  const [pointB, setPointB] = useState<{x: number, y: number}>({x: (pointA.x + pointC.x) * 0.5, y: (pointA.y + pointC.y) * 0.5});
+interface IProps {
+  pointB: { x: number, y: number };
+  onPointBChange: (pointB: { x: number, y: number }) => void;
+  showUserTrip: boolean;
+  AtoBHeading?: number;
+  AtoBDuration?: number;
+  BtoCHeading?: number;
+  BtoCDuration?: number;
+}
+
+export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTrip, AtoBHeading, AtoBDuration, BtoCHeading, BtoCDuration }) => {
   const [isDragging, setIsDragging] = useState(false);
   const draggingOffset = useRef<{x: number, y: number}>({x: 0, y: 0});
   const draggingContainerRef = useRef<HTMLDivElement>(null);
+
+  let realPointB, realPointC;
+  if (showUserTrip && AtoBHeading !== undefined && AtoBDuration !== undefined && BtoCHeading !== undefined && BtoCDuration !== undefined) {
+    const realAtoBLength = AtoBDuration * travelSpeed / pixelToMileRatio;
+    const realAtoBOffset = rotatePoint({ x: 0, y: realAtoBLength }, degToRad(AtoBHeading));
+    realPointB = { x: pointA.x + realAtoBOffset.x, y: pointA.y - realAtoBOffset.y };
+
+    const realBtoCLength = BtoCDuration * travelSpeed / pixelToMileRatio;
+    const realBtoCOffset = rotatePoint({ x: 0, y: realBtoCLength }, degToRad(BtoCHeading));
+    realPointC = { x: realPointB.x + realBtoCOffset.x, y: realPointB.y - realBtoCOffset.y };
+  }
 
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
@@ -65,13 +93,13 @@ export const RouteMap: React.FC = () => {
 
       if (!newCoords) {
         // If the angles are 0, just keep user's selected X value.
-        setPointB({ x, y: pointC.y });
+        onPointBChange({ x, y: pointC.y });
       } else {
         const { x: xRelative, y: yRelative } = newCoords;
         if (y < pointA.y) {
-          setPointB({ x: pointA.x + xRelative, y: pointA.y - yRelative });
+          onPointBChange({ x: pointA.x + xRelative, y: pointA.y - yRelative });
         } else {
-          setPointB({ x: pointA.x + xRelative, y: pointA.y + yRelative });
+          onPointBChange({ x: pointA.x + xRelative, y: pointA.y + yRelative });
         }
       }
     };
@@ -87,7 +115,7 @@ export const RouteMap: React.FC = () => {
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [isDragging]);
+  }, [isDragging, onPointBChange]);
 
   const getRelativeCoords = (e: PointerEvent | React.PointerEvent) => {
     const { x: containerX, y: containerY } = draggingContainerRef.current?.getBoundingClientRect() || { x: 0, y: 0};
@@ -201,6 +229,14 @@ export const RouteMap: React.FC = () => {
           {makePointLabel("A")}
           {makePointLabel("B")}
           {makePointLabel("C")}
+          {
+            showUserTrip && realPointB &&
+            makeLine({ x1: pointA.x, y1: pointA.y, x2: realPointB.x, y2: realPointB.y }, "realRouteLine")
+          }
+          {
+            showUserTrip && realPointB && realPointC &&
+            makeLine({ x1: realPointB.x, y1: realPointB.y, x2: realPointC.x, y2: realPointC.y }, "realRouteLine")
+          }
         </svg>
         <div
           className={css.draggableIcon}

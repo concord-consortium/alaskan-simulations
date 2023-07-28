@@ -4,6 +4,7 @@ import { SimulationFrame, TranslationContext } from "common";
 import { SimulationView } from "./simulation/simulation-view";
 import { IInteractiveState, IModelInputState } from "../types";
 import { skyModelerDirections } from "./sky-modeler-directions";
+import { pointA, pointC } from "./right-container/route-map";
 import { config } from "../config";
 import { getDateTimeString } from "../utils/sim-utils";
 import { translations } from "../translations";
@@ -34,7 +35,9 @@ const defaultInteractiveState: IInteractiveState = {
     pointBArrivalSnapshot: null,
     pointBDepartureSnapshot: null,
     pointCArrivalSnapshot: null,
-    journeyLeg: "AtoB"
+    journeyLeg: "AtoB",
+    pointB: { x: (pointA.x + pointC.x) * 0.5, y: (pointA.y + pointC.y) * 0.5 },
+    showUserTrip: false,
   },
   readAloudMode: false
 };
@@ -51,7 +54,7 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
     translations,
     readAloudMode: interactiveState.readAloudMode,
     setReadAloudMode: (readAloudMode: boolean) => {
-      setInteractiveState(prev => ({...(prev || defaultInteractiveState), readAloudMode }));
+      setInteractiveState(prev => ({ ...(prev || defaultInteractiveState), readAloudMode }));
     },
     isAnyAudioPlaying,
     setIsAnyAudioPlaying

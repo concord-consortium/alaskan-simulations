@@ -85,6 +85,8 @@ export interface IModelInputState {
   pointBDepartureSnapshot: ISnapshot | null;
   pointCArrivalSnapshot: ISnapshot | null;
   journeyLeg: "AtoB" | "BtoC";
+  pointB: { x: number, y: number };
+  showUserTrip: boolean;
   // interactions
   compassInteractionActive: boolean;
   angleMarkerInteractionActive: boolean;
