@@ -2,17 +2,10 @@ import React from "react";
 import clsx from "clsx";
 import { Slider } from "@mui/base";
 import { getTimes } from "suncalc";
-import { getDateTimeString } from "../../utils/sim-utils";
+import { dateToFractionalHoursInRightTimezone, getDateTimeString } from "../../utils/sim-utils";
 import { config } from "../../config";
 
 import css from "./time-slider.scss";
-
-const dateToFractionalHoursInRightTimezone = (date: Date) => {
-  const sunriseInTimezone = new Date(date.toLocaleString("en-US", {
-    timeZone: "America/Anchorage"
-  }));
-  return sunriseInTimezone.getHours() + sunriseInTimezone.getMinutes() / 60;
-};
 
 interface IProps {
   value: number;
