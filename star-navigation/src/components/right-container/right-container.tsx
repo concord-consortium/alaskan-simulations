@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import clsx from "clsx";
 import { useTranslation } from "common";
 import { IModelInputState, ISnapshot, SNAPSHOT_REQUESTED } from "../../types";
@@ -47,7 +47,7 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
     timeOfDay: 0
   });
 
-  const handlePointBChange = (pointB: { x: number; y: number }) => setInputState({ pointB });
+  const handlePointBChange = useCallback((pointB: { x: number; y: number }) => setInputState({ pointB }), [setInputState]);
 
   const getSnapshotData = (): ISnapshot | null => {
     if (!inputState.assumedNorthStarHip) {
