@@ -107,7 +107,7 @@ export const getStarHeadingFromNorth = (options: { starHip: number, epochTime: n
     lat,
     long
   });
-  return toPositiveHeading(THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z)));
+  return toPositiveHeading(-1 * THREE.MathUtils.radToDeg(Math.atan2(assumedNorthStarPos.x, -assumedNorthStarPos.z)));
 };
 
 export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: number, realHeadingFromNorth: number, epochTime: number, lat: number, long: number}) => {
@@ -117,11 +117,15 @@ export const getHeadingFromAssumedNorthStar = (options: { assumedNorthStarHip: n
     lat: options.lat,
     long: options.long
   });
-  return (assumedNorthStarHeadingFromNorth + options.realHeadingFromNorth) % 360;
+  return roundToNearest5((options.realHeadingFromNorth - assumedNorthStarHeadingFromNorth + 360) % 360);
 };
 
 export const getHorizontalFov = (verticalFovInDeg: number, aspectRatio: number) => {
   const verticalFovRad = THREE.MathUtils.degToRad(verticalFovInDeg);
   const horizontalFovRad = 2 * Math.atan(Math.tan(verticalFovRad / 2) * aspectRatio);
   return THREE.MathUtils.radToDeg(horizontalFovRad);
+};
+
+export const roundToNearest5 = (num: number) => {
+  return Math.round(num / 5) * 5;
 };

@@ -235,10 +235,16 @@ export const StarView: React.FC<IProps> = (props) => {
         angleMarker &&
         <AngleMarker angleMarker={angleMarker} lat={lat} long={long} currentEpochTime={epochTime} />
       }
-      {
-        northMarkerTip &&
-        <CompassMarkers northMarkerTip={[northMarkerTip.x, northMarkerTip.y, northMarkerTip.z]} />
-      }
+      {/*
+        It'd theoretically make sense to just not render compass marker when it's not yet selected by user. However,
+        it loads textures. And when the texture is loaded, the whole component is re-rendered which often breaks
+        camera animation (camera rotates to the selected star / compass pos). So, it's better to add it to the component
+        tree right away, so textures can be preloaded.
+      */}
+      <CompassMarkers
+        visible={!!northMarkerTip}
+        northMarkerTip={northMarkerTip ? [northMarkerTip.x, northMarkerTip.y, northMarkerTip.z] : [0, 0, 0]}
+      />
       <ShutterbugSupport />
       {
         snapshotRequested &&

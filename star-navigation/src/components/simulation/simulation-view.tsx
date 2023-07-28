@@ -5,7 +5,7 @@ import { config } from "../../config";
 import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { daytimeOpacity } from "../../utils/daytime";
-import { getHeadingFromAssumedNorthStar, invertCelestialSphereRotation } from "../../utils/sim-utils";
+import { getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
 import { Landscape } from "./landscape";
 import { Button } from "../button";
 
@@ -45,7 +45,16 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
   const { observerLat, observerLong } = config;
 
   const handleAssumedNorthStarClick = (starHip: number) => {
-    setInputState({ assumedNorthStarHip: starHip });
+    setInputState({
+      assumedNorthStarHip: starHip,
+      // Reset user heading so they face the selected star perfectly.
+      realHeadingFromNorth: getStarHeadingFromNorth({
+        starHip,
+        epochTime,
+        lat: observerLat,
+        long: observerLong
+      })
+    });
   };
 
   const handleRealHeadingFromNorthChange = (realHeadingFromNorth: number) => {
@@ -189,7 +198,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
           headingFromAssumedNorthStar !== undefined &&
           <div className={css.heading}>
             {/* % 360 is necessary because of the Math.round (eg. 359.5 will become 360) */}
-            Heading: {Math.round(headingFromAssumedNorthStar) % 360}° from North
+            Heading: {Math.round(headingFromAssumedNorthStar) % 360}°
           </div>
         }
         <div className={css.buttons}>

@@ -49,6 +49,7 @@ $height: 355px;
       text-align: center;
       top: $height - 25px;
       font-size: 16px;
+      z-index: 2;
     }
 
     .buttons {
@@ -56,6 +57,7 @@ $height: 355px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      z-index: 2;
 
       .buttonContainer {
         color: #1cc4ab;
