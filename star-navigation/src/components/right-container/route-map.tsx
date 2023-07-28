@@ -23,6 +23,18 @@ const allowedDraggingArea = {
   maxY: mapHeight - yDraggingMargin
 };
 
+const roundToNearest5 = (num: number) => {
+  return Math.round(num / 5) * 5;
+};
+
+const radToDeg = (rad: number) => {
+  return rad * 180 / Math.PI;
+};
+
+const degToRad = (deg: number) => {
+  return deg * Math.PI / 180;
+};
+
 interface LineProps {
   x1: number, y1: number, x2: number, y2: number
 }
@@ -44,7 +56,24 @@ export const RouteMap: React.FC = () => {
       y = y - draggingOffset.current.y;
       x = Math.max(allowedDraggingArea.minX, Math.min(allowedDraggingArea.maxX, x));
       y = Math.max(allowedDraggingArea.minY, Math.min(allowedDraggingArea.maxY, y));
-      setPointB({ x, y });
+
+      let BACAngle = getBACAngle(x, y);
+      let BCAAngle = getBCAAngle(x, y);
+      BACAngle = roundToNearest5(BACAngle);
+      BCAAngle = roundToNearest5(BCAAngle);
+      const newCoords = findBCoordsForGivenAngles(BACAngle, BCAAngle);
+
+      if (!newCoords) {
+        // If the angles are 0, just keep user's selected X value.
+        setPointB({ x, y: pointC.y });
+      } else {
+        const { x: xRelative, y: yRelative } = newCoords;
+        if (y < pointA.y) {
+          setPointB({ x: pointA.x + xRelative, y: pointA.y - yRelative });
+        } else {
+          setPointB({ x: pointA.x + xRelative, y: pointA.y + yRelative });
+        }
+      }
     };
 
     const handlePointerUp = () => {
@@ -73,14 +102,34 @@ export const RouteMap: React.FC = () => {
     setIsDragging(true);
    };
 
-  const convertRadiansToDegrees = (rad: number) => {
-    return Math.round((rad) * 180/Math.PI);
+  const getBACAngle = (xb: number, yb: number) => {
+    return radToDeg(Math.atan2(Math.abs(yb - pointA.y), xb - pointA.x));
+  };
+
+  const getBCAAngle = (xb: number, yb: number) => {
+    return radToDeg(Math.atan2(Math.abs(yb - pointC.y), pointC.x - xb));
+  };
+
+  const findBCoordsForGivenAngles = (BACAngleInDeg: number, BCAAngleInDeg: number) => {
+    // This function finds a B position for a ABC triangle when the angles BAC and BCA are known.
+    // Note that it assumes that point A lays at (0, 0). Equations below are results of trigonometry and solving
+    // a system of two equations on a piece of paper.
+    // Result is returned as an object with x and y coordinates of point B, relative to point A = (0, 0).
+    if (BACAngleInDeg === 0 || BCAAngleInDeg === 0) {
+      // Not really a triangle when one of the angles is 0.
+      return null;
+    }
+    const BACAngle = degToRad(BACAngleInDeg);
+    const BCAAngle = degToRad(BCAAngleInDeg);
+    const x = Math.tan(BCAAngle) * (pointC.x - pointA.x) / (Math.tan(BACAngle) + Math.tan(BCAAngle));
+    const y = Math.tan(BACAngle) * x;
+    return { x, y };
   };
 
   const getAngle = (hypLength: number, isFirstAngle: boolean) => {
     const otherSideLength = isFirstAngle ? pointB.x - pointA.x : pointC.x - pointB.x;
     const angleInRadians = isFirstAngle ? Math.acos(otherSideLength / hypLength) : Math.asin(otherSideLength / hypLength);
-    const angleInDegrees = convertRadiansToDegrees(angleInRadians);
+    const angleInDegrees = Math.round(radToDeg(angleInRadians));
     let finalAngle: number;
     if (isFirstAngle) {
       finalAngle = pointB.y > pointA.y ? 90 + angleInDegrees : 90 - angleInDegrees;
