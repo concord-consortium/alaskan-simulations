@@ -237,7 +237,7 @@ export const StarView: React.FC<IProps> = (props) => {
       {
         angleMarkerInteractionActive &&
         <InteractiveCelestialSphere
-          radius={CELESTIAL_SPHERE_RADIUS}
+          radius={CELESTIAL_SPHERE_RADIUS * 1.2}
           onPointerMove={handleAngleMarkerPointerMove}
           onPointerUp={handleAngleMarkerCancel}
           onPointerCancel={handleAngleMarkerCancel}
