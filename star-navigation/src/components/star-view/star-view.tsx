@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useCallback, useRef, useLayoutEffect } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@react-three/drei";
@@ -138,10 +138,12 @@ export const StarView: React.FC<IProps> = (props) => {
     }
   };
 
-  const handleAngleMarkerCancel = () => {
-    onAngleMarkerCancel();
-    angleMarkerDrawingActive.current = false;
-  };
+  const handleAngleMarkerCancel = useCallback(() => {
+    if (angleMarkerDrawingActive.current) {
+      onAngleMarkerCancel();
+      angleMarkerDrawingActive.current = false;
+    }
+  }, [onAngleMarkerCancel]);
 
   useLayoutEffect(() => {
     if (orbitControlsRef.current && orbitControlsRef.current.getAzimuthalAngle() !== THREE.MathUtils.degToRad(realHeadingFromNorth)) {
@@ -149,6 +151,16 @@ export const StarView: React.FC<IProps> = (props) => {
       orbitControlsRef.current.setAzimuthalAngle(newHeading);
     }
   }, [realHeadingFromNorth]);
+
+
+  // The useEffect below ensures that if user continues dragging outside the canvas and releases the mouse button/tap,
+  // the dragging will be cancelled and won't get stuck.
+  useEffect(() => {
+    window.addEventListener("pointerup", handleAngleMarkerCancel);
+    return () => {
+      window.removeEventListener("pointerup", handleAngleMarkerCancel);
+    };
+  }, [handleAngleMarkerCancel]);
 
   return (
     // See: https://github.com/jsx-eslint/eslint-plugin-react/issues/3423

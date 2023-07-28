@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useCallback, useRef, useState } from "react";
 import * as THREE from "three";
 import { clsx } from "clsx";
 import { config } from "../../config";
@@ -115,11 +115,11 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     handleMarkerEndPointChange(endPoint);
   };
 
-  const handleMarkerCancel = () => {
+  const handleMarkerCancel = useCallback(() => {
     setInputState({
       angleMarker: null
     });
-  };
+  }, [setInputState]);
 
   let headingFromAssumedNorthStar;
   if (inputState.assumedNorthStarHip) {

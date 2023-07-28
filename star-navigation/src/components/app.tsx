@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useCallback, useState } from "react";
 import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { SimulationFrame, TranslationContext } from "common";
 import { SimulationView } from "./simulation/simulation-view";
@@ -42,8 +42,6 @@ const defaultInteractiveState: IInteractiveState = {
   readAloudMode: false
 };
 
-const noop = () => (void 0);
-
 export const App: React.FC<IProps> = ({ readOnly }) => {
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
   const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
@@ -60,8 +58,11 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
     setIsAnyAudioPlaying
   }), [interactiveState.readAloudMode, isAnyAudioPlaying, setInteractiveState]);
 
-  const inputState = interactiveState.inputState;
-  const setInputState = readOnly ? noop : (newInputState: Partial<IModelInputState>) => {
+  const inputState = useMemo(() => interactiveState.inputState, [interactiveState.inputState]);
+  const setInputState = useCallback((newInputState: Partial<IModelInputState>) => {
+    if (readOnly) {
+      return;
+    }
     setInteractiveState(prev => ({
       ...(prev || defaultInteractiveState),
       inputState: {
@@ -69,7 +70,7 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
         ...newInputState
       }
     }));
-  };
+  }, [readOnly, setInteractiveState]);
 
   const date = new Date(getDateTimeString(inputState));
   const epochTime = date.getTime();
