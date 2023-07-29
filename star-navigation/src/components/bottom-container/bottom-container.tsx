@@ -53,7 +53,6 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
     }
   };
 
-
   const handleAngleMarkerModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const angleMarkerInteractionActive = event.target.checked;
     setInputState({ angleMarkerInteractionActive });

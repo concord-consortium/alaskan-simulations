@@ -23,7 +23,7 @@ $thumbSize: 40px;
     border-radius: $railHeight * 0.5;
     background-color: #fcc545;
 
-    .beforeSunrise, .afterSunset {
+    .beforeSunrise, .afterSunset, .night {
       position: absolute;
       background-color: $midnight-blue;
       height: $railHeight;
