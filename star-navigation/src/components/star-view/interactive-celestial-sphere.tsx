@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ThreeEvent } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -13,21 +13,21 @@ interface IProps {
 export const InteractiveCelestialSphere: React.FC<IProps> = (props) => {
   const { radius, onPointerDown, onPointerMove, onPointerUp, onPointerCancel } = props;
 
-  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
+  const handlePointerDown = useCallback((event: ThreeEvent<PointerEvent>) => {
     onPointerDown?.(event.point);
-  };
+  }, [onPointerDown]);
 
-  const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
+  const handlePointerMove = useCallback((event: ThreeEvent<PointerEvent>) => {
     onPointerMove?.(event.point);
-  };
+  }, [onPointerMove]);
 
-  const handlePointerUp = (event: ThreeEvent<PointerEvent>) => {
+  const handlePointerUp = useCallback((event: ThreeEvent<PointerEvent>) => {
     onPointerUp?.(event.point);
-  };
+  }, [onPointerUp]);
 
-  const handlePointerCancel = (event: ThreeEvent<PointerEvent>) => {
+  const handlePointerCancel = useCallback((event: ThreeEvent<PointerEvent>) => {
     onPointerCancel?.(event.point);
-  };
+  }, [onPointerCancel]);
 
   return (
     <mesh

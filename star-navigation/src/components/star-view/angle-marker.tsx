@@ -5,7 +5,7 @@ import { Html, Line } from "@react-three/drei";
 import { getCelestialSphereRotation } from "../../utils/sim-utils";
 
 const ANGLE_ANNOTATION_OFFSET = 50;
-const MIN_ANGLE = 2;
+const MIN_ANGLE = 0.5;
 
 interface IProps {
   angleMarker: IAngleMarker | null;
