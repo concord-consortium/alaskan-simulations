@@ -54,10 +54,10 @@ export const getTimezone = (month: number, day: number) => {
 };
 
 export const dateToFractionalHoursInRightTimezone = (date: Date) => {
-  const sunriseInTimezone = new Date(date.toLocaleString("en-US", {
+  const dateInTimezone = new Date(date.toLocaleString("en-US", {
     timeZone: "America/Anchorage"
   }));
-  return sunriseInTimezone.getHours() + sunriseInTimezone.getMinutes() / 60;
+  return dateInTimezone.getHours() + dateInTimezone.getMinutes() / 60;
 };
 
 export const getDateTimeString = ({ month, day, timeOfDay } : { month: number, day: number, timeOfDay: number}) =>
