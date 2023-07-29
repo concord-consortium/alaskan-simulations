@@ -4,6 +4,7 @@ import { config } from "../../config";
 import { Button } from "../button";
 import { ISnapshot, Month, SNAPSHOT_REQUESTED } from "../../types";
 import { getDateTimeString, getHeadingFromAssumedNorthStar, timeToAMPM } from "../../utils/sim-utils";
+import CloseButtonSvg from "../../assets/close-button.svg";
 
 import css from "./snapshot.scss";
 
@@ -11,10 +12,11 @@ interface IProps {
   buttonLabel: string;
   snapshot: ISnapshot | null;
   onTakeSnapshot: () => void;
+  onSnapshotDelete: () => void;
   disabled: boolean;
 }
 
-const SnapshotData: React.FC<{ snapshot: ISnapshot }> = ({ snapshot }) => {
+const SnapshotData: React.FC<{ snapshot: ISnapshot, onSnapshotDelete: () => void }> = ({ snapshot, onSnapshotDelete }) => {
   const { t } = useTranslation();
   const { month, day, timeOfDay, starViewImageSnapshot, assumedNorthStarHip, realHeadingFromNorth } = snapshot;
 
@@ -37,11 +39,12 @@ const SnapshotData: React.FC<{ snapshot: ISnapshot }> = ({ snapshot }) => {
         {/* % 360 is necessary because of the Math.round (eg. 359.5 will become 360) */}
         Heading: { Math.round(headingFromAssumedNorthStar) % 360 }°
       </div>
+      <button onClick={onSnapshotDelete}><CloseButtonSvg /></button>
     </div>
   );
 };
 
-export const Snapshot: React.FC<IProps> = ({ buttonLabel, disabled, snapshot, onTakeSnapshot }) => {
+export const Snapshot: React.FC<IProps> = ({ buttonLabel, disabled, snapshot, onTakeSnapshot, onSnapshotDelete }) => {
   return (
     <div className={css.snapshot}>
       {
@@ -50,7 +53,7 @@ export const Snapshot: React.FC<IProps> = ({ buttonLabel, disabled, snapshot, on
       }
       {
         snapshot &&
-        <SnapshotData snapshot={snapshot} />
+        <SnapshotData snapshot={snapshot} onSnapshotDelete={onSnapshotDelete} />
       }
     </div>
   );

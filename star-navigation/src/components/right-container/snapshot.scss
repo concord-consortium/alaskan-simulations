@@ -19,6 +19,38 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+
+    button {
+      border: none;
+      background: transparent;
+      width: 38px;
+      height: 38px;
+      border-radius: 19px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -10px;
+      right: -15px;
+      cursor: pointer;
+
+      &:hover {
+        svg circle {
+          fill: $blue-hover;
+        }
+      }
+
+      &:active {
+        svg circle {
+          fill: $dark-blue;
+        }
+        svg path {
+          fill: $white;
+        }
+      }
+    }
   }
 
   .textUppercase {

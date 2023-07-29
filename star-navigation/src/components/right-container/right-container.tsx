@@ -71,6 +71,12 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
   const handleTakeArrivalSnapshot = () =>
     setInputState(AtoB ? { pointBArrivalSnapshot: getSnapshotData() } : { pointCArrivalSnapshot: getSnapshotData() });
 
+  const handleDeleteDepartureSnapshot = () =>
+    setInputState(AtoB ? { pointADepartureSnapshot: null } : { pointBDepartureSnapshot: null });
+
+  const handleDeleteArrivalSnapshot = () =>
+    setInputState(AtoB ? { pointBArrivalSnapshot: null } : { pointCArrivalSnapshot: null });
+
   let AtoBHeading, AtoBDuration, BtoCHeading, BtoCDuration;
   if (inputState.pointADepartureSnapshot && inputState.pointBArrivalSnapshot && inputState.pointBDepartureSnapshot && inputState.pointCArrivalSnapshot) {
     AtoBHeading = inputState.pointADepartureSnapshot.realHeadingFromNorth;
@@ -98,6 +104,7 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
           buttonLabel={tStringOnly(`RECORD_STAR_CHART_FOR_POINT_${departurePoint}_DEPARTURE`)}
           snapshot={departureSnapshot}
           onTakeSnapshot={handleTakeDepartureSnapshot}
+          onSnapshotDelete={handleDeleteDepartureSnapshot}
           disabled={snapshotDisabled}
         />
       </div>
@@ -107,6 +114,7 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
           buttonLabel={tStringOnly(`RECORD_STAR_CHART_FOR_POINT_${arrivalPoint}_ARRIVAL`)}
           snapshot={arrivalSnapshot}
           onTakeSnapshot={handleTakeArrivalSnapshot}
+          onSnapshotDelete={handleDeleteArrivalSnapshot}
           disabled={snapshotDisabled}
         />
         <div className={css.buttonsRow}>
