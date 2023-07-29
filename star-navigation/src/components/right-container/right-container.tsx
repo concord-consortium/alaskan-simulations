@@ -71,7 +71,7 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
   const handleTakeArrivalSnapshot = () =>
     setInputState(AtoB ? { pointBArrivalSnapshot: getSnapshotData() } : { pointCArrivalSnapshot: getSnapshotData() });
 
-    const handleDeleteDepartureSnapshot = () =>
+  const handleDeleteDepartureSnapshot = () =>
     setInputState(AtoB ? { pointADepartureSnapshot: null } : { pointBDepartureSnapshot: null });
 
   const handleDeleteArrivalSnapshot = () =>
