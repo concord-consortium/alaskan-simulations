@@ -1,6 +1,6 @@
-@import "common/src/vars.scss";
+@import "../vars.scss";
 
-$height: 355px;
+$height: 420px;
 
 .simulationView {
   box-sizing: border-box;
@@ -11,7 +11,7 @@ $height: 355px;
     height: $height;
     position: relative;
 
-    .sky, .daylight, .landscapeContainer, .stars, .pointers, .heading, .buttons {
+    .sky, .daylight, .landscapeContainer, .stars, .pointers, .heading {
       width: 100%;
       height: $height;
       position: absolute;
@@ -31,65 +31,51 @@ $height: 355px;
 
     .sky {
       background-image: url("../../assets/earth-view-nighttime-background@3x.png");
+      background-repeat: no-repeat;
       background-position: center;
-      background-size: contain;
+      background-size: cover;
     }
 
     .daylight {
       background-image: url("../../assets/earth-view-daytime-background@3x.png");
+      background-repeat: no-repeat;
       pointer-events: none;
       background-position: center;
-      background-size: contain;
-      z-index: 100;
+      background-size: cover;
+      z-index: 1;
     }
 
-    .heading {
-      font-weight: bold;
-      color: #1cc4ab;
-      text-align: center;
-      top: $height - 25px;
-      font-size: 16px;
-      z-index: 2;
+    .headingMarker {
+      $width: 30px;
+      width: $width;
+      height: $width;
+      position: absolute;
+      left: calc(50% - 0.5 * $width);
+      bottom: 20px;
+      background-color: $darkYellow;
+      opacity: 0.5;
+      transform: rotate(45deg);
     }
 
     .buttons {
-      top: $height - 70px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       z-index: 2;
+      $width: 186px;
+      box-sizing: border-box;
+      width: $width;
+      position: absolute;
+      bottom: -5px;
+      left: calc(50% - 0.5 * $width);
 
-      .buttonContainer {
-        color: #1cc4ab;
-        text-align: center;
-        font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-        .button {
-          width: 36px;
-          margin: 5px 10px;
-          padding: 0;
-
-          svg path {
-            fill: $dark-blue;
-          }
-
-          &:active {
-            svg path {
-              fill: #fff;
-            }
-          }
-        }
-
-        &:first-child .button {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-
-        &:last-child .button {
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-        }
-      }
+      border: 3px solid $darkYellow;
+      border-bottom: none;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding: 3px;
+      background-color: $lightYellow;
     }
   }
 }

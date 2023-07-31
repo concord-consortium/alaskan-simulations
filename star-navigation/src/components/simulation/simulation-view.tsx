@@ -2,14 +2,12 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import * as THREE from "three";
 import { clsx } from "clsx";
 import { getTimes } from "suncalc";
+import { ScrollingSelect } from "common";
 import { config } from "../../config";
 import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
 import { dateToFractionalHoursInRightTimezone, getDateTimeString, getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
 import { Landscape } from "./landscape";
-import { Button } from "../button";
-
-import BackIcon from "../../assets/back-icon.svg";
 
 import css from "./simulation-view.scss";
 
@@ -64,7 +62,7 @@ const getMissingSnapshotImage = (inputState: IModelInputState) => {
 
 export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, epochTime }) => {
   const starViewRef = useRef<HTMLDivElement>(null);
-  const [ starViewAspectRatio, setStarViewAspectRatio ] = useState<number>(0);
+  const [starViewAspectRatio, setStarViewAspectRatio] = useState<number>(0);
   const { observerLat, observerLong } = config;
 
   const handleAssumedNorthStarClick = (starHip: number) => {
@@ -183,6 +181,9 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
     });
   }, [inputState, setInputState]);
 
+  // % 360 is necessary because of the Math.round (eg. 359.5 will become 360)
+  const displayHeading = headingFromAssumedNorthStar !== undefined ? Math.round(headingFromAssumedNorthStar) % 360 : undefined;
+
   return (
     <div className={css.simulationView}>
       <div className={css.wrapper}>
@@ -217,22 +218,14 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             headingFromAssumedNorthStar={headingFromAssumedNorthStar}
           />
         </div>
-        {
-          headingFromAssumedNorthStar !== undefined &&
-          <div className={css.heading}>
-            {/* % 360 is necessary because of the Math.round (eg. 359.5 will become 360) */}
-            Heading: {Math.round(headingFromAssumedNorthStar) % 360}°
-          </div>
-        }
+        <div className={css.headingMarker} />
         <div className={css.buttons}>
-          <div className={css.buttonContainer}>
-            <div>-5°</div>
-            <Button className={css.button} onClick={handleRotateLeft}><BackIcon /></Button>
-          </div>
-          <div className={css.buttonContainer}>
-            <div>+5°</div>
-            <Button className={css.button} onClick={handleRotateRight}><BackIcon style={{transform: "rotate(180deg)"}} /></Button>
-          </div>
+          <ScrollingSelect
+            value={`Heading ${displayHeading !== undefined ? `${displayHeading}°` : ""}`}
+            onBackClick={handleRotateLeft}
+            onForwardClick={handleRotateRight}
+            valueMinWidth={110}
+          />
         </div>
       </div>
     </div>
