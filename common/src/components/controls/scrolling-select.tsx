@@ -48,7 +48,6 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, className, valueMinWi
       }
       onChange?.(childArray[newIndex].props.value);
     } else {
-      console.log("back");
       onBackClick?.();
     }
   };
@@ -58,7 +57,6 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, className, valueMinWi
       const newIndex = (selectedChildIndex + 1) % childArray.length;
       onChange?.(childArray[newIndex].props.value);
     } else {
-      console.log("forward");
       onForwardClick?.();
     }
   };
