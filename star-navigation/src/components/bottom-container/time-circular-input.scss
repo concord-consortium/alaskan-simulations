@@ -1,0 +1,22 @@
+@import "../vars.scss";
+
+.timeInputHandle {
+  fill: $light-blue;
+  stroke: $dark-blue;
+  stroke-width: 2px;
+  cursor: grab;
+
+  &:hover {
+    fill: $blue-hover;
+  }
+
+  &:active {
+    cursor: grabbing;
+    fill: $blue-active;
+  }
+
+  &:focus {
+    outline: $focusOutline;
+    border-radius: 10px;
+  }
+}

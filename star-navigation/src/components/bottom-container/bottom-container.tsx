@@ -4,13 +4,14 @@ import { Checkbox, Option, ScrollingSelect, useTranslation, LargeToggle } from "
 import { IModelInputState, Month } from "../../types";
 import { daysInMonth, timeToAMPM } from "../../utils/sim-utils";
 import { config } from "../../config";
-
+import { TimeCircularInput } from "./time-circular-input";
 import CompassIcon from "../../assets/compass_icon.png";
 import CompassSelectedIcon from "../../assets/compass_icon_selected.png";
 import AngleIcon from "../../assets/angle_icon.png";
 import AngleSelectedIcon from "../../assets/angle_icon_selected.png";
 
 import css from "./bottom-container.scss";
+
 
 interface IProps {
   inputState: IModelInputState;
@@ -23,8 +24,30 @@ const getDaysInMonthArray = (month: number) => Array.from({ length: daysInMonth(
 export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, setInputState }) => {
   const { t } = useTranslation();
 
-  const handleTimeOfDayChange = (event: Event, value: number) => {
-    setInputState({ timeOfDay: value });
+  const handleTimeOfDayChange = (value: number) => {
+    const dayChangeDiff = 2.5;
+    const oldTimeOfDay = inputState.timeOfDay;
+    const newTimeOfDay = value;
+    let newDay = inputState.day;
+    let newMonth = inputState.month;
+    if (newTimeOfDay < dayChangeDiff && oldTimeOfDay > 24 - dayChangeDiff) {
+      newDay = inputState.day + 1;
+    } else if (newTimeOfDay > 24 - dayChangeDiff && oldTimeOfDay < dayChangeDiff) {
+      newDay = inputState.day - 1;
+    }
+    if (newDay < 1) {
+      newMonth = inputState.month - 1;
+      newDay = daysInMonth(newMonth);
+    } else if (newDay > daysInMonth(inputState.month)) {
+      newMonth = inputState.month + 1;
+      newDay = 1;
+    }
+    if (newMonth < 1) {
+      newMonth = 12;
+    } else if (newMonth > 12) {
+      newMonth = 1;
+    }
+    setInputState({ timeOfDay: newTimeOfDay, day: newDay, month: newMonth });
   };
 
   const handleMonthChange = (value: string | null) => {
@@ -66,7 +89,12 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
   return (
     <div className={css.bottomContainer}>
       <div className={css.timeCircularInput}>
-        TODO
+        { t("MIDNIGHT") }
+        <TimeCircularInput
+          value={inputState.timeOfDay}
+          onChange={handleTimeOfDayChange}
+        />
+        { t("NOON") }
       </div>
       <div className={css.mainRow}>
         <div className={clsx(css.widgetContainer, css.dateAndTime)}>
@@ -81,19 +109,6 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
             <div className={""}>
               <ScrollingSelect
                 className={css.scrollingSelect}
-                value={inputState.day.toString()}
-                onChange={handleDayChange}
-                disabled={disableInputs}
-                valueMinWidth={scrollingSelectWidth}
-              >
-                {
-                  getDaysInMonthArray(inputState.month).map((day) => (
-                    <Option key={day} value={day.toString()}>{day}</Option>
-                  ))
-                }
-              </ScrollingSelect>
-              <ScrollingSelect
-                className={css.scrollingSelect}
                 value={inputState.month.toString()}
                 onChange={handleMonthChange}
                 disabled={disableInputs}
@@ -102,6 +117,19 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
                 {
                   Object.keys(Month).map((monthNumber: string) => (
                     <Option key={monthNumber} value={monthNumber}>{t(Month[Number(monthNumber)] + monthKeySuffix)}</Option>
+                  ))
+                }
+              </ScrollingSelect>
+              <ScrollingSelect
+                className={css.scrollingSelect}
+                value={inputState.day.toString()}
+                onChange={handleDayChange}
+                disabled={disableInputs}
+                valueMinWidth={scrollingSelectWidth}
+              >
+                {
+                  getDaysInMonthArray(inputState.month).map((day) => (
+                    <Option key={day} value={day.toString()}>{day}</Option>
                   ))
                 }
               </ScrollingSelect>

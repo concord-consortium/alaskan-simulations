@@ -6,6 +6,7 @@ export const translations: TranslationDict = {
   "INSTRUCTIONS.HEADER": { string: "Star Navigation Experiments", mp3: new Audio(Controls) },
   // Bottom container
   "MIDNIGHT": { string: "Midnight", mp3: new Audio(Controls) },
+  "NOON": { string: "Noon", mp3: new Audio(Controls) },
   "YUPIK": { string: "Yup'ik", mp3: new Audio(Controls) },
   "WESTERN": { string: "Western", mp3: new Audio(Controls) },
   "CONSTELLATIONS": { string: "Constellations", mp3: new Audio(Controls) },
