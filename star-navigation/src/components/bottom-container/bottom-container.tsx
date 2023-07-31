@@ -1,7 +1,6 @@
 import React from "react";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { Checkbox, Option, ScrollingSelect, useTranslation, LargeToggle } from "common";
-import { TimeSlider } from "./time-slider";
 import { IModelInputState, Month } from "../../types";
 import { daysInMonth, timeToAMPM } from "../../utils/sim-utils";
 import { config } from "../../config";
@@ -62,23 +61,72 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
   };
 
   const monthKeySuffix = config.routeMap ? "_SHORT" : "";
+  const scrollingSelectWidth = config.routeMap ? 42 : 92;
 
   return (
     <div className={css.bottomContainer}>
-      <div className={css.row}>
-        <div className={css.timeSliderContainer}>
-          <div className={css.label}>{t("MIDNIGHT")}</div>
-          <TimeSlider
-            value={inputState.timeOfDay}
-            day={inputState.day}
-            month={inputState.month}
-            onChange={handleTimeOfDayChange}
-          />
-          <div className={css.label}>{t("MIDNIGHT")}</div>
-        </div>
+      <div className={css.timeCircularInput}>
+        TODO
       </div>
-      <div className={css.row}>
-        <div className={css.widgetContainer}>
+      <div className={css.mainRow}>
+        <div className={clsx(css.widgetContainer, css.dateAndTime)}>
+          <div className={css.label}>{t("DATE_AND_TIME")}</div>
+          <div className={css.content}>
+            <div className={css.content100}>
+            <div className={""}>
+              <div className={css.timeOfDay}>
+                {timeToAMPM(inputState.timeOfDay)}
+              </div>
+            </div>
+            <div className={""}>
+              <ScrollingSelect
+                className={css.scrollingSelect}
+                value={inputState.day.toString()}
+                onChange={handleDayChange}
+                disabled={disableInputs}
+                valueMinWidth={scrollingSelectWidth}
+              >
+                {
+                  getDaysInMonthArray(inputState.month).map((day) => (
+                    <Option key={day} value={day.toString()}>{day}</Option>
+                  ))
+                }
+              </ScrollingSelect>
+              <ScrollingSelect
+                className={css.scrollingSelect}
+                value={inputState.month.toString()}
+                onChange={handleMonthChange}
+                disabled={disableInputs}
+                valueMinWidth={scrollingSelectWidth}
+              >
+                {
+                  Object.keys(Month).map((monthNumber: string) => (
+                    <Option key={monthNumber} value={monthNumber}>{t(Month[Number(monthNumber)] + monthKeySuffix)}</Option>
+                  ))
+                }
+              </ScrollingSelect>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div className={clsx(css.widgetContainer, css.navigationMarks)}>
+          <div className={css.label}>{t("NAVIGATION_MARKS")}</div>
+          <div className={css.content}>
+            <div className={css.content100}>
+              <LargeToggle
+                image={CompassIcon} checkedImage={CompassSelectedIcon}
+                checked={inputState.compassInteractionActive}
+                onChange={handleCompassModeChange}
+              />
+              <LargeToggle
+                image={AngleIcon} checkedImage={AngleSelectedIcon}
+                checked={inputState.angleMarkerInteractionActive}
+                onChange={handleAngleMarkerModeChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={clsx(css.widgetContainer, css.constellations)}>
           <div className={css.label}>{t("CONSTELLATIONS")}</div>
           <div className={css.content}>
             <div className={css.content100}>
@@ -98,71 +146,6 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
                   />
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className={css.widgetContainer}>
-          <div className={css.label}>{t("MONTH")}</div>
-          <div className={css.content}>
-            <div className={css.content100}>
-              <ScrollingSelect
-                value={inputState.month.toString()}
-                onChange={handleMonthChange}
-                disabled={disableInputs}
-                valueMinWidth={config.routeMap ? 53 : 92}
-              >
-                {
-                  Object.keys(Month).map((monthNumber: string) => (
-                    <Option key={monthNumber} value={monthNumber}>{t(Month[Number(monthNumber)] + monthKeySuffix)}</Option>
-                  ))
-                }
-              </ScrollingSelect>
-            </div>
-          </div>
-        </div>
-        <div className={css.widgetContainer}>
-          <div className={css.label}>{t("DAY")}</div>
-          <div className={css.content}>
-            <div className={css.content100}>
-              <ScrollingSelect
-                value={inputState.day.toString()}
-                onChange={handleDayChange}
-                disabled={disableInputs}
-                valueMinWidth={37}
-              >
-                {
-                  getDaysInMonthArray(inputState.month).map((day) => (
-                    <Option key={day} value={day.toString()}>{day}</Option>
-                  ))
-                }
-              </ScrollingSelect>
-            </div>
-          </div>
-        </div>
-        <div className={css.widgetContainer}>
-          <div className={css.label}>{t("TIME")}</div>
-          <div className={css.content}>
-            <div className={clsx(css.content100, css.timeOfDay)}>
-              {timeToAMPM(inputState.timeOfDay)}
-            </div>
-          </div>
-        </div>
-        <div className={css.widgetContainer}>
-          <div className={css.label}>{t("NAVIGATION_MARKERS")}</div>
-          <div className={css.content}>
-            <div className={css.content50}>
-              <LargeToggle
-                image={CompassIcon} checkedImage={CompassSelectedIcon}
-                checked={inputState.compassInteractionActive}
-                onChange={handleCompassModeChange}
-              />
-            </div>
-            <div className={css.content50}>
-              <LargeToggle
-                image={AngleIcon} checkedImage={AngleSelectedIcon}
-                checked={inputState.angleMarkerInteractionActive}
-                onChange={handleAngleMarkerModeChange}
-              />
             </div>
           </div>
         </div>

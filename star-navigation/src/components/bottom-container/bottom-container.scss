@@ -1,8 +1,13 @@
 @import "../vars.scss";
 
+$timeCircularInputWidth: 145px;
+
 .bottomContainer {
+  height: 110px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-end;
+  z-index: 1;
 
   .timeSliderContainer {
     width: 100%;
@@ -19,12 +24,21 @@
     }
   }
 
-  .timeOfDay {
-    font-size: 18px;
-    font-family: Verdana;
+  .timeCircularInput {
+    box-sizing: border-box;
+    width: $timeCircularInputWidth;
+    height: $timeCircularInputWidth;
+    border: 4px solid $darkYellow;
+    background-color: $lightYellow;
+    border-radius: 8px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .row {
+  .mainRow {
+    width: calc(100% - $timeCircularInputWidth);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -32,7 +46,6 @@
     margin-top: 5px;
 
     .widgetContainer {
-      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -58,22 +71,17 @@
         align-items: center;
         justify-content: space-between;
 
-        .content100, .content50 {
+        .content100 {
           height: 100%;
           background-color: $lightYellow;
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           align-items: center;
-          justify-content: center;
+          justify-content: space-around;
         }
 
         .content100 {
           width: 100%;
-        }
-
-        .content50 {
-          $padding: 5px;
-          width: calc(50% - $padding * 0.5);
         }
 
         .checkboxGroup {
@@ -87,6 +95,34 @@
 
     .widgetContainer + .widgetContainer {
       margin-left: 5px;
+    }
+
+    .dateAndTime {
+      flex: 1.5;
+    }
+    .navigationMarks {
+      flex: 1;
+    }
+    .constellations {
+      flex: 0.8;
+    }
+
+    .timeOfDay {
+      font-size: 18px;
+      font-family: Verdana;
+      box-sizing: border-box;
+      width: 65px;
+      height: 65px;
+      border: 2px solid $dark-blue;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .scrollingSelect {
+      margin: 3px 0;
     }
   }
 }
