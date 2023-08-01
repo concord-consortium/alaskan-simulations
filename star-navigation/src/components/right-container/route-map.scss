@@ -50,13 +50,23 @@
   }
 
   .draggableIcon {
+    $draggableWidth: 70px;
+    $iconHeight: 32px;
+    width: $draggableWidth;
+    height: $draggableWidth;
+    margin-left: -0.5 * $draggableWidth;
+    margin-top: -0.5 * $draggableWidth - 0.5 * $iconHeight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     position: absolute;
     top: 0;
     left: 0;
 
     svg {
       width: 30px;
-      height: 32px;
+      height: $iconHeight;
       stroke: $midnight-blue;
       stroke-width: 30;
       fill: $lightBlue;
