@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { roundToNearest5 } from "../../utils/sim-utils";
 import LocationSymbol from "../../assets/location-symbol.svg";
 
@@ -13,7 +13,7 @@ const mapHeight = 150;
 
 // The real distance between point A and point C is 17 miles.
 const pixelToMileRatio = 17 / (pointC.x - pointA.x);
-const travelSpeed = 20; // miles per hour, snowmobile speed
+const travelSpeed = 10; // miles per hour, snowmobile speed
 
 // Don't let users drag to the very edges of the map.
 const xDraggingMargin = 10;
@@ -74,6 +74,32 @@ export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTri
     realPointC = { x: realPointB.x + realBtoCOffset.x, y: realPointB.y - realBtoCOffset.y };
   }
 
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const { x, y } = getRelativeCoords(e);
+    draggingOffset.current = { x: x - pointB.x, y: y - pointB.y };
+    setIsDragging(true);
+  }, [pointB.x, pointB.y]);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const cancelNativeScroll = useCallback((e: React.TouchEvent | TouchEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }, []);
+
+  // Prevent scrolling when user touches the map on iPad. It's likely that they want to drag the point instead.
+  // Native scrolling is distracting and makes it harder to drag the point. It's necessary to use native events
+  // because calling preventDefault() on React's synthetic events won't prevent scrolling.
+  useEffect(() => {
+    const container = draggingContainerRef.current;
+    container?.addEventListener("touchmove", cancelNativeScroll);
+    return () => {
+      container?.removeEventListener("touchmove", cancelNativeScroll);
+    };
+  }, [cancelNativeScroll]);
+
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
       let { x, y } = getRelativeCoords(e);
@@ -101,9 +127,6 @@ export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTri
       }
     };
 
-    const handlePointerUp = () => {
-      setIsDragging(false);
-    };
     if (isDragging) {
       window.addEventListener("pointerup", handlePointerUp);
       window.addEventListener("pointermove", handlePointerMove);
@@ -112,20 +135,14 @@ export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTri
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("pointermove", handlePointerMove);
     };
-  }, [isDragging, onPointBChange]);
+  }, [handlePointerUp, isDragging, onPointBChange]);
 
   const getRelativeCoords = (e: PointerEvent | React.PointerEvent) => {
-    const { x: containerX, y: containerY } = draggingContainerRef.current?.getBoundingClientRect() || { x: 0, y: 0};
+    const { x: containerX, y: containerY } = draggingContainerRef.current?.getBoundingClientRect() || { x: 0, y: 0 };
     const x = e.clientX - containerX;
     const y = e.clientY - containerY;
     return { x, y };
   };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    const { x, y } = getRelativeCoords(e);
-    draggingOffset.current = { x: x - pointB.x, y: y - pointB.y };
-    setIsDragging(true);
-   };
 
   const getBACAngle = (xb: number, yb: number) => {
     return radToDeg(Math.atan2(Math.abs(yb - pointA.y), xb - pointA.x));
@@ -211,10 +228,6 @@ export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTri
     );
   };
 
-  /* offset location icon by half its width and height so the bottom of it is aligned with point b*/
-  const locIconXOffset = pointB.x - 15;
-  const locIconYOffset = pointB.y - 32;
-
   return (
     <div className={css.mapRouteContainer} ref={draggingContainerRef}>
       <div className={css.svgContainer}>
@@ -238,7 +251,7 @@ export const RouteMap: React.FC<IProps> = ({ pointB, onPointBChange, showUserTri
         <div
           className={css.draggableIcon}
           style={{
-            transform: `translateX(${locIconXOffset}px) translateY(${locIconYOffset}px)`,
+            transform: `translateX(${pointB.x}px) translateY(${pointB.y}px)`,
             cursor: isDragging ? "grabbing" : "grab"
           }}
           onPointerDown={handlePointerDown}

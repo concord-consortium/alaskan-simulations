@@ -11,8 +11,11 @@ import { Credits } from "./credits";
 
 import css from "./simulation-frame.scss";
 
+// Credits content is not provided yet so this is set to false.
+const SHOW_CREDITS = false;
+
 interface IProps {
-  directions: string | ReactNode;
+  directions?: string | ReactNode;
   className?: string;
   titleImage?: string;
   children?: React.ReactNode;
@@ -44,7 +47,10 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, title
       <div id={simulationFrameHeaderId} className={css.header}>
         <div className={clsx(css.buttons, css.left)}>
           <img className={css.logo} src={Logo}/>
-          <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{ tStringOnly("CREDITS.HEADER") }</button>
+          {
+            SHOW_CREDITS &&
+            <button className={clsx({ [css.active]: showCredits })} onClick={toggleCredits}>{ tStringOnly("CREDITS.HEADER") }</button>
+          }
         </div>
         <div className={css.titleContainer}><img className={css.title} src={titleImage}/></div>
         <div className={clsx(css.buttons, css.right)}>
@@ -53,9 +59,12 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, title
             label={"Read Aloud in Yugtun"}
             onChange={handleSetReadAloud}
           />
-          <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
-            <DirectionsButton />
-          </button>
+          {
+            directions &&
+            <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>
+              <DirectionsButton />
+            </button>
+          }
         </div>
       </div>
       <div className={css.content}>
@@ -63,7 +72,8 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, title
         {
           showCredits && <Credits onClose={toggleCredits} />
         }
-        {showDirections &&
+        {
+          directions && showDirections &&
           <Dialog
             title={t("INSTRUCTIONS.HEADER")}
             onClose={toggleDirections} showCloseButton={true}
