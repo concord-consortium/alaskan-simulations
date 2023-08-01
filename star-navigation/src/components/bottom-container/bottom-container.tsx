@@ -92,6 +92,8 @@ export const BottomContainer: React.FC<IProps> = ({ inputState, disableInputs, s
         { t("MIDNIGHT") }
         <TimeCircularInput
           value={inputState.timeOfDay}
+          month={inputState.month}
+          day={inputState.day}
           onChange={handleTimeOfDayChange}
         />
         { t("NOON") }
