@@ -35,8 +35,8 @@ const defaultConfig: IConfig = {
   // Observer location is at Hooper Bay, Alaska.
   observerLat: 61.523997904,
   observerLong: -166.090999636,
-  horizonFov: 85,
-  cameraVerticalAngle: 36, // deg
+  horizonFov: 95,
+  cameraVerticalAngle: 41, // deg
   starSizeMult: 0.5,
   minConstellationStarSize: 9,
   maxConstellationStarSize: 10,
