@@ -24,28 +24,41 @@ interface IOptionChild {
 
 interface IProps {
   value: string | null;
-  onChange: (value: string | null) => void;
-  disabled: boolean;
+  disabled?: boolean;
   valueMinWidth?: number;
+  className?: string;
+  // Variant with Option children requires onChange
   children?: React.ReactNode;
+  onChange?: (value: string | null) => void;
+  // When there are no Option children, it can be a combination of two button - back and forward.
+  onBackClick?: () => void;
+  onForwardClick?: () => void;
 }
 
-export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChange, disabled, children }) => {
+export const ScrollingSelect: React.FC<IProps> = ({ value, className, valueMinWidth, onChange, onBackClick, onForwardClick, disabled, children }) => {
   const childArray = Children.toArray(children) as IOptionChild[];
   const selectedChildIndex = childArray.findIndex(c => c.props.value === value);
   const selectedChild = childArray[selectedChildIndex];
 
   const handleBack = () => {
-    let newIndex = selectedChildIndex - 1;
-    if (newIndex < 0) {
-      newIndex = childArray.length - 1;
+    if (childArray.length > 0) {
+      let newIndex = selectedChildIndex - 1;
+      if (newIndex < 0) {
+        newIndex = childArray.length - 1;
+      }
+      onChange?.(childArray[newIndex].props.value);
+    } else {
+      onBackClick?.();
     }
-    onChange(childArray[newIndex].props.value);
   };
 
   const handleForward = () => {
-    const newIndex = (selectedChildIndex + 1) % childArray.length;
-    onChange(childArray[newIndex].props.value);
+    if (childArray.length > 0) {
+      const newIndex = (selectedChildIndex + 1) % childArray.length;
+      onChange?.(childArray[newIndex].props.value);
+    } else {
+      onForwardClick?.();
+    }
   };
 
   const handleKeyDown = (callback: () => void) => {
@@ -58,7 +71,7 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChan
   };
 
   return (
-    <div className={clsx(css.scrollingSelect, {[css.disabled]: disabled})}>
+    <div className={clsx(css.scrollingSelect, className, {[css.disabled]: disabled})}>
       <div
         className={clsx(css.selector, css.left)}
         onClick={handleBack}
@@ -68,7 +81,7 @@ export const ScrollingSelect: React.FC<IProps> = ({ value, valueMinWidth, onChan
       >
         <BackIcon />
       </div>
-      <div className={css.value} style={{ minWidth: valueMinWidth }}>{selectedChild.props.children}</div>
+      <div className={css.value} style={{ minWidth: valueMinWidth }}>{selectedChild ? selectedChild.props.children : value}</div>
       <div
         className={clsx(css.selector, css.right)}
         onClick={handleForward}

@@ -25,7 +25,7 @@
       }
 
       .marker {
-        $color: yellow;
+        $color: $darkYellow;
         $width: 3px;
         width: $width;
         margin-left: -0.5 * $width;

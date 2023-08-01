@@ -11,7 +11,7 @@ import { config } from "../../config";
 const SPRITE_SCALE = 0.0035;
 const SPRITE_WIDTH = SPRITE_SCALE * 82; // px
 const SPRITE_HEIGHT = SPRITE_SCALE * 98; // px
-const COLOR = "yellow";
+const COLOR = "#fabc2a";
 const SPRITE_CENTER = new THREE.Vector2(0.5, 0.15);
 
 interface IMarkerProps {
