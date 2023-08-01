@@ -37,3 +37,32 @@ export const getDaylightTimes = (options: { month: number; day: number; timeOfDa
     sunrise, sunset, nightStart, nightEnd
   };
 };
+
+export const hourBetween = (timeOfDay: number, start: number, end: number) => {
+  if (start < end) {
+    return timeOfDay >= start && timeOfDay < end;
+  }
+  return timeOfDay >= start || timeOfDay < end;
+};
+
+export const hourDistance = (timeOfDay1: number, timeOfDay2: number) => {
+  const distance = Math.abs(timeOfDay1 - timeOfDay2);
+  return Math.min(distance, 24 - distance);
+};
+
+export const daytimeOpacity = (options: { month: number; day: number; timeOfDay: number; lat: number; long: number; }) => {
+  const { sunrise, sunset, nightStart, nightEnd } = getDaylightTimes(options);
+  const timeOfDay = options.timeOfDay;
+  if (hourBetween(timeOfDay, nightStart, nightEnd)) {
+    return 0;
+  }
+  if (hourBetween(timeOfDay, sunrise, sunset)) {
+    return 1;
+  }
+  if (hourBetween(timeOfDay, nightEnd, sunrise)) {
+    return hourDistance(timeOfDay, nightEnd) / hourDistance(nightEnd, sunrise);
+  }
+  if (hourBetween(timeOfDay, sunset, nightStart)) {
+    return 1 - hourDistance(timeOfDay, sunset) / hourDistance(sunset, nightStart);
+  }
+};

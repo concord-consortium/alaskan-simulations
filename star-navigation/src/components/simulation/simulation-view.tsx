@@ -1,39 +1,15 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import * as THREE from "three";
 import { clsx } from "clsx";
-import { getTimes } from "suncalc";
 import { ScrollingSelect } from "common";
 import { config } from "../../config";
 import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
-import { getDateTimeString, getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
-import { dateToFractionalHoursInRightTimezone } from "../../utils/daylight-utils";
+import { getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
 import { Landscape } from "./landscape";
 
 import css from "./simulation-view.scss";
-
-export const withinHour = (timeOfDay: number, fractionalHour: number) => {
-  return (timeOfDay >= Math.floor(fractionalHour)) && (timeOfDay < Math.ceil(fractionalHour));
-};
-
-export const daytimeOpacity = (inputState: Pick<IModelInputState, "month" | "timeOfDay" | "day">) => {
-  const date = new Date(getDateTimeString(inputState));
-  const times = getTimes(date, config.observerLat, config.observerLong);
-  const sunrise = dateToFractionalHoursInRightTimezone(times.sunrise);
-  const sunset = dateToFractionalHoursInRightTimezone(times.sunset);
-  const timeOfDay = inputState.timeOfDay;
-
-  let result: number;
-  if (withinHour(timeOfDay, sunrise) || withinHour(timeOfDay, sunset)) {
-    result = 0.5;
-  } else if ((timeOfDay < sunrise) || (timeOfDay > sunset)) {
-    result = 0;
-  } else {
-    result = 1;
-  }
-
-  return result;
-};
+import { daytimeOpacity } from "../../utils/daylight-utils";
 
 // This function compares two points taking into account floating point errors. We operate on ranges of values close
 // to 1000, so when two points are closer than 1e-3, we can surely consider them equal.
@@ -211,7 +187,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
             onSnapshotReady={handleSnapshotReady}
           />
         </div>
-        <div className={css.daylight} style={{ opacity: daytimeOpacity(inputState) }} />
+        <div className={css.daylight} style={{ opacity: daytimeOpacity({ ...inputState, lat: observerLat, long: observerLong }) }} />
         <div className={css.landscapeContainer}>
           <Landscape
             aspectRatio={starViewAspectRatio}
