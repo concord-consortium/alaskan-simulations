@@ -3,7 +3,6 @@ import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { SimulationFrame, TranslationContext } from "common";
 import { SimulationView } from "./simulation/simulation-view";
 import { IInteractiveState, IModelInputState } from "../types";
-import { skyModelerDirections } from "./sky-modeler-directions";
 import { pointA, pointC } from "./right-container/route-map";
 import { config } from "../config";
 import { getDateTimeString } from "../utils/sim-utils";
@@ -80,7 +79,8 @@ export const App: React.FC<IProps> = ({ readOnly }) => {
       <SimulationFrame
         className={css.simulationFrame}
         titleImage={HeaderTitle}
-        directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
+        // No directions were provided so for now the help button and dialog are disabled
+        // directions={skyModelerDirections()} // ReactNode is also allowed if more complex content is needed.
       >
         <div className={css.content}>
           <div className={css.leftColumn}>
