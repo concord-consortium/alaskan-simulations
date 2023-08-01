@@ -6,7 +6,8 @@ import { ScrollingSelect } from "common";
 import { config } from "../../config";
 import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
-import { dateToFractionalHoursInRightTimezone, getDateTimeString, getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
+import { getDateTimeString, getHeadingFromAssumedNorthStar, getStarHeadingFromNorth, invertCelestialSphereRotation } from "../../utils/sim-utils";
+import { dateToFractionalHoursInRightTimezone } from "../../utils/daylight-utils";
 import { Landscape } from "./landscape";
 
 import css from "./simulation-view.scss";

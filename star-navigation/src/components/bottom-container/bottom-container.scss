@@ -1,6 +1,6 @@
 @import "../vars.scss";
 
-$timeCircularInputWidth: 145px;
+$timeCircularInputWidth: 160px;
 
 .bottomContainer {
   height: 110px;
@@ -8,21 +8,6 @@ $timeCircularInputWidth: 145px;
   flex-direction: row;
   align-items: flex-end;
   z-index: 1;
-
-  .timeSliderContainer {
-    width: 100%;
-    height: 60px;
-    background-color: $lightYellow;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    .label {
-      font-size: 14px;
-      margin: 0 5px;
-    }
-  }
 
   .timeCircularInput {
     box-sizing: border-box;
@@ -33,8 +18,11 @@ $timeCircularInputWidth: 145px;
     border-radius: 8px;
     margin-right: 5px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 1px;
   }
 
   .mainRow {

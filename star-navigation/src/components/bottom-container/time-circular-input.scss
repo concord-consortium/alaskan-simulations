@@ -1,0 +1,57 @@
+@import "../vars.scss";
+
+.timeCircularInput {
+  margin-top: 3px;
+
+  &:focus {
+    border: 2px solid red;
+  }
+
+  .timeInputHandle {
+    fill: $light-blue;
+    stroke: $dark-blue;
+    stroke-width: 2px;
+    r: 12.5px;
+    cursor: grab;
+
+    &:hover {
+      fill: $blue-hover;
+    }
+
+    &:active {
+      cursor: grabbing;
+      fill: $blue-active;
+    }
+
+    &:focus {
+      outline: $focusOutline;
+      border-radius: 10px;
+    }
+  }
+
+  .nightTrack {
+    fill: $dark-blue;
+  }
+
+  .daylightTrack {
+    fill: $dark-yellow;
+  }
+
+  .twilightTrack {
+    fill: $midPurple;
+  }
+
+  .hour {
+    fill: $dark-blue;
+  }
+
+  .handOfClock {
+    fill: none;
+    stroke: $dark-blue;
+    stroke-width: 5px;
+  }
+
+  .center {
+    fill: $dark-blue;
+  }
+}
