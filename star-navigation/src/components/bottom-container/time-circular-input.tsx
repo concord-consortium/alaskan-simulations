@@ -1,8 +1,8 @@
 import React from "react";
 import { CircularInput, CircularThumb } from "react-circular-input";
-import arc from "svg-arc";
 import { config } from "../../config";
 import { getDaylightTimes, validFractionalHour } from "../../utils/daylight-utils";
+import { arc } from "../../utils/svg-arc";
 
 import css from "./time-circular-input.scss";
 

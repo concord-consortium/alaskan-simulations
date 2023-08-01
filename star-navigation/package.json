@@ -130,7 +130,6 @@
     "react-circular-input": "^0.2.4",
     "react-dom": "^18.2.0",
     "shutterbug": "^1.5.0",
-    "svg-arc": "^1.0.2",
     "suncalc": "^1.9.0",
     "three": "^0.155.0"
   }
