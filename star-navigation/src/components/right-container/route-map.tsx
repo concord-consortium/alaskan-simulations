@@ -13,7 +13,7 @@ const mapHeight = 150;
 
 // The real distance between point A and point C is 17 miles.
 const pixelToMileRatio = 17 / (pointC.x - pointA.x);
-const travelSpeed = 20; // miles per hour, snowmobile speed
+const travelSpeed = 10; // miles per hour, snowmobile speed
 
 // Don't let users drag to the very edges of the map.
 const xDraggingMargin = 10;
