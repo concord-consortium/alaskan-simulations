@@ -3,6 +3,10 @@
 .timeCircularInput {
   margin-top: 3px;
 
+  &:focus {
+    border: 2px solid red;
+  }
+
   .timeInputHandle {
     fill: $light-blue;
     stroke: $dark-blue;
