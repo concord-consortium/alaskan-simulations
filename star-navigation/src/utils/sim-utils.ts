@@ -53,13 +53,6 @@ export const getTimezone = (month: number, day: number) => {
   return PST;
 };
 
-export const dateToFractionalHoursInRightTimezone = (date: Date) => {
-  const dateInTimezone = new Date(date.toLocaleString("en-US", {
-    timeZone: "America/Anchorage"
-  }));
-  return dateInTimezone.getHours() + dateInTimezone.getMinutes() / 60;
-};
-
 export const getDateTimeString = ({ month, day, timeOfDay } : { month: number, day: number, timeOfDay: number}) =>
   `${SIMULATION_YEAR}-${formatTimeNumber(month)}-${formatTimeNumber(day)}T${fractionalHourToTimeString(timeOfDay)}${getTimezone(month, day)}`;
 
