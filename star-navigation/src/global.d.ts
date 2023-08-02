@@ -2,4 +2,3 @@
 // `import` statement below lets us declare modules just in one place and avoid issues like this one:
 // https://github.com/concord-consortium/dese-models/pull/97
 import "../../common/src/global.d";
-import "../../common/src/react-table-config.d";

@@ -1,7 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Interactive } from "./components/interactive";
+import Shutterbug from "shutterbug";
 import "./index.scss";
+
+Shutterbug.enable("#app");
 
 const container = document.getElementById("app");
 
