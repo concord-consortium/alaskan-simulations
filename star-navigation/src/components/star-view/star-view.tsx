@@ -1,16 +1,16 @@
-import React, { useEffect, useCallback, useRef, useMemo, useLayoutEffect } from "react";
+import React, { useEffect, useCallback, useRef, useMemo } from "react";
 import * as THREE from "three";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, OrbitControlsChangeEvent, PerspectiveCamera } from "@react-three/drei";
 import Shutterbug from "shutterbug";
 import { config } from "../../config";
 import { CelestialSphere } from "./celestial-sphere";
-import { getCelestialSphereRotation, getStarPositionAtTime, toNegativeHeading, toPositiveHeading } from "../../utils/sim-utils";
+import { getCelestialSphereRotation, getStarPositionAtTime } from "../../utils/sim-utils";
 import { CompassMarkers } from "./compass-markers";
 import { InteractiveCelestialSphere } from "./interactive-celestial-sphere";
 import { IAngleMarker } from "../../types";
 import { AngleMarker } from "./angle-marker";
 import { InteractiveStars } from "./interactive-stars";
+import { Camera } from "./camera";
 
 const CELESTIAL_SPHERE_RADIUS = 1000;
 
@@ -41,18 +41,6 @@ const TakeSnapshot: React.FC<{ onSnapshotReady: (snapshot: string ) => void }> =
   return null;
 };
 
-const getInitialCameraPosition = (headingFromNorth: number) => {
-  // North direction follows negative Z axis.
-  // So, position camera behind the (0, 0, 0) point, looking at it, towards negative Z axis => north.
-  const cameraZ = 0.1;
-  // This value decides about the initial camera angle.
-  const cameraY = Math.tan(THREE.MathUtils.degToRad(config.cameraVerticalAngle)) * -cameraZ;
-  // Finally rotate the camera by desired heading from north.
-  const pos = new THREE.Vector3(0, cameraY, cameraZ);
-  pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(-headingFromNorth));
-  return pos.toArray();
-};
-
 interface IProps {
   epochTime: number;
   lat: number;
@@ -81,18 +69,7 @@ export const StarView: React.FC<IProps> = (props) => {
     onRealHeadingFromNorthChange, onAssumedNorthStarClick, onAngleMarkerStartPointChange, onAngleMarkerEndPointChange,
     onAngleMarkerFinalize, onAngleMarkerCancel, snapshotRequested, onSnapshotReady
   } = props;
-
-  const orbitControlsRef = useRef<any>(null);
-  const cameraHeadingUpdate = useRef(-1);
   const angleMarkerDrawingActive = useRef<boolean>(false);
-
-  // Setting initial camera and its further updates is pretty confusing. As long as OrbitControls are not instantiated,
-  // we need to keep updating camera position manually. Once OrbitControls are instantiated, camera position is updated
-  // via useLayoutEffect below that calls OrbitControls.setAzimuthalAngle.
-  const initialCameraPos = useRef(getInitialCameraPosition(realHeadingFromNorth));
-  if (!orbitControlsRef.current) {
-    initialCameraPos.current = getInitialCameraPosition(realHeadingFromNorth);
-  }
 
   const celestialSphereRotation = useMemo(() => getCelestialSphereRotation({ epochTime, lat, long }), [epochTime, lat, long]);
 
@@ -104,19 +81,6 @@ export const StarView: React.FC<IProps> = (props) => {
       epochTime, lat, long
      });
   }
-
-  const handleCameraUpdate = useCallback((event?: OrbitControlsChangeEvent) => {
-    if (event) {
-      const newHeading = toPositiveHeading(THREE.MathUtils.radToDeg(event.target.getAzimuthalAngle()));
-      if (newHeading !== realHeadingFromNorth) {
-        // Camera damping generates lots of events, so we need to debounce them.
-        window.clearTimeout(cameraHeadingUpdate.current);
-        cameraHeadingUpdate.current = window.setTimeout(() => {
-          onRealHeadingFromNorthChange(newHeading);
-        }, 300);
-      }
-    }
-  }, [onRealHeadingFromNorthChange, realHeadingFromNorth]);
 
   const handleStarClick = useCallback((position: THREE.Vector3, starHip: number) => {
     onAssumedNorthStarClick(starHip);
@@ -145,14 +109,6 @@ export const StarView: React.FC<IProps> = (props) => {
     }
   }, [onAngleMarkerCancel]);
 
-  useLayoutEffect(() => {
-    if (orbitControlsRef.current && orbitControlsRef.current.getAzimuthalAngle() !== THREE.MathUtils.degToRad(realHeadingFromNorth)) {
-      const newHeading = toNegativeHeading(THREE.MathUtils.degToRad(realHeadingFromNorth));
-      orbitControlsRef.current.setAzimuthalAngle(newHeading);
-    }
-  }, [realHeadingFromNorth]);
-
-
   // The useEffect below ensures that if user continues dragging outside the canvas and releases the mouse button/tap,
   // the dragging will be cancelled and won't get stuck.
   useEffect(() => {
@@ -169,23 +125,11 @@ export const StarView: React.FC<IProps> = (props) => {
     // resize.debounce=0 ensures that canvas will resize immediately when container size changes (right tab animation).
     // gl.preserveDrawingBuffer=true is needed for snapshots to work.
     <Canvas camera={{ manual: true }} flat={true} resize={{ debounce: 0 }} gl={{ preserveDrawingBuffer: true }}>
-      <PerspectiveCamera
-        makeDefault={true}
-        position={initialCameraPos.current}
-        fov={config.horizonFov}
-        near={0.1}
-        far={CELESTIAL_SPHERE_RADIUS * 5}
-      />
-      <OrbitControls
-        ref={orbitControlsRef}
-        target={[0, 0, 0]}
-        enableDamping={true}
-        enableRotate={config.freeCamera && !compassInteractionActive && !angleMarkerInteractionActive}
-        enableZoom={config.freeCamera}
-        enablePan={false}
-        rotateSpeed={0.5}
-        zoomSpeed={0.8}
-        onChange={handleCameraUpdate}
+      <Camera
+        realHeadingFromNorth={realHeadingFromNorth}
+        onRealHeadingFromNorthChange={onRealHeadingFromNorthChange}
+        celestialSphereRadius={CELESTIAL_SPHERE_RADIUS}
+        anyInteractionActive={compassInteractionActive || angleMarkerInteractionActive}
       />
       <ambientLight args={[0x303030]} />
       {
