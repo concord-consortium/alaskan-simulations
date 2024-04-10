@@ -20,6 +20,7 @@ jobs:
           # Add new simulations to this list
           - SIM_FOLDER: "plant-growth"
           - SIM_FOLDER: "star-navigation"
+          - SIM_FOLDER: "clam-filtration"
     steps:
       - name: Set S3 Paths
         run: |
