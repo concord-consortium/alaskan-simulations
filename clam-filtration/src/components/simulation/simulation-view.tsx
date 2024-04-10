@@ -1,8 +1,6 @@
-import clsx from "clsx";
 import React from "react";
 import { IModelInputState, IModelOutputState } from "../../types";
 import { AnimationView } from "./animation-view";
-import { LabeledContainer } from "../containers/labeled-container";
 import { useTranslation } from "common";
 
 import css from "./simulation-view.scss";
@@ -21,14 +19,9 @@ export const SimulationView: React.FC<IProps> = ({ input, output, isRunning, isF
   const {algaeStart, numClams} = input;
 
   return (
-    <LabeledContainer className={css.simulationView} label={t("Clam Filtration")}>
-    <div className={css.terrariumBackGround}/>
-      <div className={css.terrarium}>
-        <div className={css.tempLabel}>
-          <div className={css.tempLabelText}> <span>Water Temp:</span> {47}°F</div>
-        </div>
-      </div>
+    <div className={css.simulationView}>
+      <div className={css.tempLabel}>Water Temp: {47}°F</div>
       <AnimationView algaeStart={algaeStart} numClams={numClams} time={output.time} isRunning={isRunning} isFinished={isFinished}/>
-    </LabeledContainer>
+    </div>
   );
 };

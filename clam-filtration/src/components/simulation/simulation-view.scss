@@ -18,4 +18,22 @@
     background-color: $bluePrimary;
     border-radius: 10px;
   }
+  .tempLabel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 136px;
+    height: 27px;
+    border-radius: 10px;
+    border: solid 1.5px #005f99;
+    background-color: rgba(242, 242, 242, 0.7);
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: bold;
+    color: #005f99;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

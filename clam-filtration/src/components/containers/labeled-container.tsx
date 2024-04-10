@@ -15,6 +15,7 @@ export const LabeledContainer:  React.FC<IProps> = (props) => {
   const { label, className, centerLabel, children } = props;
   return (
     <div className={clsx(css.labeledContainer, className)}>
+      <div className={clsx(css.label, {[css.centerLabel]: centerLabel})}>{ label }</div>
       { children }
     </div>
   );
