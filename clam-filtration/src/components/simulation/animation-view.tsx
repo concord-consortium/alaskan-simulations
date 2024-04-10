@@ -15,7 +15,7 @@ export const AnimationView: React.FC<IProps> = ({algaeStart, numClams, time, isR
     return (
       <div className={css.viewContainer}>
         <div className={clsx(css.animationImage)}>
-          <div className={clsx(css.heightLine, {[css.visible] : isRunning || isFinished})}/>
+          <div className={clsx({[css.visible] : isRunning || isFinished})}/>
         </div>
       </div>
     );

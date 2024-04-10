@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { useModelState } from "../hooks/use-model-state";
 import { useSimulationRunner, SimulationFrame, useTranslation, TranslationContext } from "common";
 import { useModelTable } from "../hooks/use-model-table";
@@ -20,14 +21,11 @@ import css from "./app.scss";
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
 // Simulation length in real world seconds.
-const simLength = 7; // s
+const simLength = 6; // s
 const totalFrames = simLength * targetStepsPerSecond;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
 // is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
 const snapshotsCount = 8;
-
-const maxDays = 14;
-const maxDaysScale = 2; //this helps us show 28 as max days instead of 14
 
 const columnsMeta: IColumnMeta[] = [
   { numeric: false },
@@ -39,8 +37,7 @@ const columnsMeta: IColumnMeta[] = [
 ];
 
 interface IAppProps {
-  // interactiveState: IInteractiveState | null;
-  // authoredState: IAuthoredState | null;
+  interactiveState: IInteractiveState | null;
   readOnly?: boolean;
 }
 
@@ -62,23 +59,26 @@ const defaultInteractiveState: IInteractiveState = {
 
 export const App = (props: IAppProps) => {
   const { readOnly } = props;
+  const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
   const [readAloudMode, setReadAloudMode] = useState<boolean>(defaultInitialState.readAloudMode);
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
-  const interactiveState = defaultInteractiveState;
+  const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
 
   const translationContextValues = useMemo(() => ({
     translations,
     disabled: isRunning,
-    readAloudMode,
-    setReadAloudMode,
-    isAnyAudioPlaying,
+    readAloudMode: interactiveState.readAloudMode,
+    setReadAloudMode: (hasReadAloud: boolean) => {
+      setInteractiveState(prev => ({ ...(prev || defaultInteractiveState), hasReadAloud }));
+    },    isAnyAudioPlaying,
     setIsAnyAudioPlaying
   }), [isAnyAudioPlaying, isRunning, readAloudMode]);
 
   // Pass context values as props, as App component also defines TranslationContext.Provider, so it's not possible to
   // rely on context values from there.
   const { t } = useTranslation(translationContextValues);
+  const monthLabels = [t("MONTH_1"), t("MONTH_2"), t("MONTH_3"), t("MONTH_4"), t("MONTH_5")];
 
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
@@ -123,7 +123,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
   } = modelState;
 
 
@@ -142,16 +142,6 @@ export const App = (props: IAppProps) => {
   };
 
   const graphData = getGraphData({"algaeStart": EQualitativeAmount.medium, "numClams": 5});
-
-  const getActiveX = () => {
-    if (isFinished && (activeOutputSnapshotIdx !== null)) {
-      return activeOutputSnapshotIdx * 4;
-    } else if (isFinished) {
-      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
-    } else {
-      return undefined;
-    }
-  };
 
   const uiDisabled = isRunning || isFinished;
 
@@ -206,8 +196,8 @@ export const App = (props: IAppProps) => {
   };
 
   const getTimeSliderLabel = () => {
-    const time = (maxDaysScale * maxDays * outputState.time).toFixed(0);
-    // Translations only for days that user re-visits.
+    //TODO need to fix this to show the correct month at the correct time
+    const time = (outputState.time).toFixed(0);
     return `${t("TIME_SLIDER_LABEL.MONTH")}: ${time}`;
   };
 

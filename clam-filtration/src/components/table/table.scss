@@ -40,7 +40,7 @@ $titleWidth: 90px;
   .header {
     color: $font-color;
     background-color: $dark-yellow;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     padding: $cellVerticalPadding $cellHorizontalPadding;
     box-sizing: border-box;
@@ -185,7 +185,6 @@ $titleWidth: 90px;
 
     th {
       background-color: $medium-yellow;
-      border-right: 2px solid #fff;
       border-bottom: 2px solid white;
       padding-bottom: 2px;
 
@@ -194,20 +193,9 @@ $titleWidth: 90px;
       }
 
       &.headerGroupTitleBorder{
-        height: 10px !important; //this overrides min-height for PlantLab
         border-top: 2px solid #fff;
       }
-
-      &.headerGroupTitleNoBorder{
-        height: 10px !important; //this overrides min-height for PlantLab
-      }
-
     }
-
-    td {
-      border-right: 1px solid #949494;
-    }
-
   }
 
   &:not(.disabled) tr {

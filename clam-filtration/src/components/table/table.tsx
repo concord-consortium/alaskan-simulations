@@ -24,7 +24,7 @@ export interface ITableProps<Data> {
   onActiveRowChange: (activeRowId: number) => void;
   customHeader?: JSX.Element;
   headerGroupTitle?: React.CSSProperties[];
-  centerHeader?: boolean; //used in Plant-Lab, header title and contents are centered
+  centerHeader?: boolean; // header title and contents are centered
   noWrapDeleteButton?: boolean;
   maxWidthDeleteButton?: number;
 }

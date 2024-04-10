@@ -7,9 +7,6 @@ import Day4 from "./assets/yugtun-audio/day-4.mp3";
 import Day8 from "./assets/yugtun-audio/day-8.mp3";
 import Day12 from "./assets/yugtun-audio/day-12.mp3";
 import Day16 from "./assets/yugtun-audio/day-16.mp3";
-import Day20 from "./assets/yugtun-audio/day-20.mp3";
-import Day24 from "./assets/yugtun-audio/day-24.mp3";
-import Day28 from "./assets/yugtun-audio/day-28.mp3";
 import Co2 from "./assets/yugtun-audio/carbon-dioxide.mp3";
 import Light from "./assets/yugtun-audio/light.mp3";
 import Water from "./assets/yugtun-audio/water.mp3";
@@ -19,13 +16,11 @@ import None from "./assets/yugtun-audio/none.mp3";
 import TrialsData from "./assets/yugtun-audio/trials-data.mp3";
 import Trial from "./assets/yugtun-audio/trial.mp3";
 import SugarCreated from "./assets/yugtun-audio/sugar-created.mp3";
-import SugarUsed from "./assets/yugtun-audio/sugar-used.mp3";
 import Low from "./assets/yugtun-audio/low.mp3";
 import Medium from "./assets/yugtun-audio/medium.mp3";
 import High from "./assets/yugtun-audio/high.mp3";
 import DeleteTrial from "./assets/yugtun-audio/delete-trial.mp3";
 import Graphs_XAxisLabel from "./assets/yugtun-audio/time-days.mp3";
-import Graphs_YAxisLabel from "./assets/yugtun-audio/amount.mp3";
 import Graphs_Trial1 from "./assets/yugtun-audio/trial-1-graphs.mp3";
 import Graphs_Trial2 from "./assets/yugtun-audio/trial-2-graphs.mp3";
 import Graphs_Trial3 from "./assets/yugtun-audio/trial-3-graphs.mp3";
@@ -42,6 +37,8 @@ import InstructionsPart3 from "./assets/yugtun-audio/instructions-analyzing.mp3"
 
 import PlayButton from "./assets/snapshots-directions/instructions-play-button@3x.png";
 import NewTrialButton from "./assets/snapshots-directions/instructions-new-trial-button@3x.png";
+
+// TODO update audio files when ready
 
 const instructionsPart1_text = `Experiment with a plant in a terrarium to see how much sugar it creates and uses
 with different conditions of light, water, and CO<sub>2</sub>.`;
@@ -65,11 +62,11 @@ export const translations: TranslationDict = {
 
   "SIMULATION.TITLE": { string: "Clam Filtration" },
 
-  "X_MONTH_1": { string: `May`, mp3: new Audio(Day0)},
-  "X_MONTH_2": { string: `Jun`, mp3: new Audio(Day4)},
-  "X_MONTH_3": { string: `Jul`, mp3: new Audio(Day8)},
-  "X_MONTH_4": { string: `Aug`, mp3: new Audio(Day12)},
-  "X_MONTH_5": { string: `Sep`, mp3: new Audio(Day16)},
+  "MONTH_1": { string: `May`, mp3: new Audio(Day0)},
+  "MONTH_2": { string: `Jun`, mp3: new Audio(Day4)},
+  "MONTH_3": { string: `Jul`, mp3: new Audio(Day8)},
+  "MONTH_4": { string: `Aug`, mp3: new Audio(Day12)},
+  "MONTH_5": { string: `Sep`, mp3: new Audio(Day16)},
 
   "SETUP_CLAM_SIM": { string: "Controls", mp3: new Audio(Controls)},
 
@@ -87,6 +84,7 @@ export const translations: TranslationDict = {
   "OUTPUT.HIGH": { string: "High", mp3: new Audio(High)},
 
   "CLAM": { string: "Clam"},
+  "WATER_TEMP": {string: "Water Temp: "},
 
   "TABLE.TITLE": {string: "Trials Results", mp3: new Audio(TrialsData)},
   "TABLE.HEADER_TRIAL": {string: "Trial", mp3: new Audio(Trial)},
