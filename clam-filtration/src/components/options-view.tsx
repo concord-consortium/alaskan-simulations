@@ -26,20 +26,20 @@ export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disab
   return (
     <LabeledContainer className={css.optionsView} label={t("SETUP_CLAM_SIM")}>
       <div className={css.optionsContainer}>
-          <InputSlider
-            type={"SLIDER_TITLE.ALGAE"}
-            labels={["EQUALITATIVE_AMOUNT.HIGH", "EQUALITATIVE_AMOUNT.MEDIUM", "EQUALITATIVE_AMOUNT.LOW"]}
-            value={inputState.algaeStart}
-            onChange={handleAlgaeAmountChange}
-            disabled={disabled}
-          />
-          <InputSlider
-            type={"SLIDER_TITLE.NUM_CLAMS"}
-            labels={["10", "5", "1"]}
-            value={(inputState.numClams).toString()}
-            onChange={handleNumClamsChange}
-            disabled={disabled}
-          />
+        <InputSlider
+          type={"SLIDER_TITLE.ALGAE"}
+          labels={["EQUALITATIVE_AMOUNT.HIGH", "EQUALITATIVE_AMOUNT.MEDIUM", "EQUALITATIVE_AMOUNT.LOW"]}
+          value={inputState.algaeStart}
+          onChange={handleAlgaeAmountChange}
+          disabled={disabled}
+        />
+        <InputSlider
+          type={"SLIDER_TITLE.NUM_CLAMS"}
+          labels={["10", "5", "1"]}
+          value={(inputState.numClams).toString()}
+          onChange={handleNumClamsChange}
+          disabled={disabled}
+        />
       </div>
     </LabeledContainer>
   );

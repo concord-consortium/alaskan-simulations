@@ -76,7 +76,7 @@ export const translations: TranslationDict = {
   "EQUALITATIVE_AMOUNT.HIGH": { string: "High", mp3: new Audio(None)},
   "EQUALITATIVE_AMOUNT.MEDIUM": { string: "Medium", mp3: new Audio(Some)},
   "EQUALITATIVE_AMOUNT.LOW": { string: "Low", mp3: new Audio(Full)},
-  "SLIDER_TITLE.ALGAE": { string: "Light", mp3: new Audio(Light )},
+  "SLIDER_TITLE.ALGAE": { string: "Algae", mp3: new Audio(Light )},
   "SLIDER_TITLE.NUM_CLAMS": {string: "Number of Clams (per sq. meter)", mp3: new Audio(Water)},
 
   "TIME_SLIDER_LABEL.MONTH": {string: "Month: "},

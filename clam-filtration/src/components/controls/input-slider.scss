@@ -3,7 +3,7 @@
 
 .input {
   width: calc(100% - 4px);
-  height: 160px;
+  height: 245px;
   .type {
     width: 100%;
     font-weight:700;
@@ -12,17 +12,17 @@
     align-items: center;
     justify-content: center;
     background-color: $medium-yellow;
-    height: 30px;
+    min-height: 30px;
   }
   .control {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    height: 100px;
+    height: 135px;
     margin-top: 10px;
     .left {
-      height: 100px;
+      height: 135px;
       width: 30px;
       display: flex;
       align-items: center;
@@ -30,23 +30,23 @@
       .slider {
         -webkit-appearance: none;
         appearance: none;
-        width: 105px;
+        width: 135px;
         height: 20px;
         box-sizing: border-box;
-        background: #cccccc;
+        background: #cfedff;
         transform: rotate(-90deg);
         border-radius: 10px;
         border: 1px solid $font-color;
         display: flex;
         align-items: center;
         &.full {
-          background-color: $bright-green;
+          background-color: $royal-blue;
         }
         &.some {
           background: linear-gradient(
           to right,
-          $bright-green 0%,
-          $bright-green 50%,
+          $royal-blue 0%,
+          $royal-blue 50%,
           #ccc 50%,
           #ccc 100%
           );
@@ -62,14 +62,14 @@
         height: 32px;
         border-radius: 50%;
         border: 1px solid $panel-bg;
-        background-color: $light-green;
-        outline: 1px solid $bright-green;
+        background-color: $light-blue;
+        outline: 1px solid #000;
         cursor: pointer;
         box-shadow: 0 0px 4px 3px rgba(0, 0, 0, 0.2);
       }
     }
     .right {
-      height: 105px;
+      height: 135px;
       display: flex;
       flex-direction: column;
       .labels {

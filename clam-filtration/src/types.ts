@@ -22,16 +22,16 @@ export interface IModelInputState {
 
 export interface IModelOutputState {
   time: number;
-  algaeEnd: EQualitativeAmount;
-  nitrate: EQualitativeAmount;
-  turbidity: EQualitativeAmount;
+  algaeEnd: EQualitativeAmount | null;
+  nitrate: EQualitativeAmount | null;
+  turbidity: EQualitativeAmount | null;
 }
 
 export interface IRowData {
   numClams: number;
-  algaeEnd: EQualitativeAmount;
-  nitrate: EQualitativeAmount;
-  turbidity: EQualitativeAmount;
+  algaeEnd: EQualitativeAmount | null;
+  nitrate: EQualitativeAmount | null;
+  turbidity: EQualitativeAmount | null;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
@@ -44,9 +44,9 @@ export const defaultInitialState: IInteractiveState = {
     inputState: defaultAuthoredState,
     outputState: {
       time: 0,
-      algaeEnd: EQualitativeAmount.low,
-      nitrate: EQualitativeAmount.low,
-      turbidity: EQualitativeAmount.low
+      algaeEnd: null,
+      nitrate: null,
+      turbidity: null
     },
     modelRuns: [],
     readAloudMode: false
