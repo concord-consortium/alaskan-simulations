@@ -1,0 +1,192 @@
+@import "../vars.scss";
+
+$tableGraphContainerWidth: 400px;
+
+$barGraphContainerWidth: calc(($tableGraphContainerWidth / 2) - 4px);
+$barGraphWidth: 158px;
+$barGraphHeight: 177px;
+$barWidth: 16px;
+$containerPadding: 4px;
+$graphAreaHeight: 103px;
+
+.barGraph {
+  width: 238px;
+  box-sizing: border-box;
+
+  .title {
+    font-weight: bold;
+    font-size: 16px;
+    color: $font-color;
+    background-color: $medium-yellow;
+    width: $barGraphContainerWidth;
+    height: 30px;
+    text-align: center;
+    font-family: $fontFamilyNunito;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mainRow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-right: 8px;
+    padding: 5px;
+  }
+
+  .xAxisLabel, .yAxisLabel {
+    font-weight: 500; // medium
+    font-size: 14px;
+  }
+
+  .yAxisLabel {
+    height: $graphAreaHeight;
+    text-align: center;
+    display: inline-block;
+    writing-mode: tb;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  .xAxisLabel {
+    text-align: center;
+    margin-top: 3px;
+  }
+
+  .yTicks {
+    $fontSize: 14px;
+    font-size: $fontSize;
+    height: $graphAreaHeight;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 4px;
+    position: relative;
+
+    .hidden {
+      visibility: hidden;
+    }
+    .yTick {
+      position: absolute;
+      transform: translate(0, 60%);
+    }
+  }
+
+  .graphAreaContainer {
+    width: $barGraphWidth;
+    position: relative;
+
+    .activeXTickContainer {
+      position: absolute;
+      top: 0;
+      left: 2px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      width: calc(100% - 2px);
+      height: $graphAreaHeight;
+
+      .xTickHighlight {
+        opacity: 0;
+        box-sizing: border-box;
+        height: 100%;
+        border: 1.5px solid $dark-yellow;
+        border-bottom: none;
+
+        &.active {
+          opacity: 1;
+          background-color: rgba($dark-yellow, 0.2);
+        }
+      }
+    }
+
+    .graphArea {
+      position: relative;
+      height: $graphAreaHeight;
+      border-left: 2px solid black;
+      border-bottom: 1.5px solid #949494;
+      pointer-events: none; // so pointer events can be captured by activeXTickContainer and xTickHighlight
+
+      .yLines {
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+
+        .yLine {
+          box-sizing: border-box;
+          border-top: 1.5px solid #949494;
+          &.zero {
+            border-color: black;
+            position: relative;
+            z-index: 100;
+          }
+          &.yLineMinor {
+            border-width: 0.8px;
+          }
+        }
+      }
+
+      .data {
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        margin-top: -$graphAreaHeight;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        &.centeredZero {
+          margin-top: -$graphAreaHeight * 1.5;
+        }
+
+        .barGroup {
+          height: 100%;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+
+          .sugarUsed {
+              box-sizing: border-box;
+              background-color: $bright-red;
+          }
+
+          .sugarCreated {
+              box-sizing: border-box;
+              background-color: $bright-blue;
+          }
+
+          div {
+            // 1px shift to line up border with Y lines.
+            transform: translate(0, 1px);
+            width: $barWidth;
+          }
+          div.negative {
+            // Shift the whole bar down.
+            transform: translate(0, calc(100% + 1px));
+          }
+        }
+      }
+    }
+
+    .xTicks {
+      position: relative;
+      font-size: 14px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 2px;
+
+      .xTick {
+        text-align: center;
+        &.active {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

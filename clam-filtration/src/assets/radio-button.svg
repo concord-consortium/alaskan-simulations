@@ -1,0 +1,7 @@
+<svg width="33" height="33" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="nonzero" fill="none">
+        <path d="M0 0h33v33H0z"/>
+        <circle class="outer" stroke="#005F99" stroke-width="2" fill="#FFF" cx="16.5" cy="16.5" r="10.5"/>
+        <circle class="inner" fill="#005F99" cx="16.5" cy="16.5" r="7.5"/>
+    </g>
+</svg>

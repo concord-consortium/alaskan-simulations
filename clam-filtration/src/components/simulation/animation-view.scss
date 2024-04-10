@@ -1,0 +1,40 @@
+@import "../vars.scss";
+
+$plantZIndex: 5;
+$heightLineZIndex: 6;
+
+@function cmToPx($cm) {
+  // the 0 cm line is 330px from the top of the container.
+  $cm0: 330px;
+  // there are 12.2px between each cm line.
+  @return calc($cm0 - calc(12.2px * $cm));
+}
+
+.viewContainer{
+  position: absolute;
+  top:0px;
+  width: $simViewWidth;
+  height: $simViewHeight;
+}
+
+.animationImage {
+  position: absolute;
+  width: $simViewWidth;
+  height: $simViewHeight;
+  z-index: $plantZIndex;
+}
+
+.heightLine {
+  position: absolute;
+  left: 45px;
+  width: 212px;
+  height: 0px;
+  border-top: 3px dashed $bright-blue;
+  background-color: lightgray;
+  opacity: 0%;
+  transition: opacity 0s;
+  &.visible {
+    opacity: 100%;
+    transition: opacity .5s;
+  }
+}

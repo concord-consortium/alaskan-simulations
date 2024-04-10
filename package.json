@@ -9,7 +9,8 @@
   "workspaces": [
     "common",
     "plant-growth",
-    "star-navigation"
+    "star-navigation",
+    "clam-filtration"
   ],
   "scripts": {
     "clean": "rimraf dist",
