@@ -1,0 +1,211 @@
+@import "../vars.scss";
+
+$headerHeight: 45px;
+$rowMinHeight: 40px;
+$containerPadding: 1px;
+$activeRowLeftBorderWidth: 2px;
+$tableBorderWidth: 2px;
+$titleWidth: 90px;
+
+@mixin activeRow($opacity) {
+  td {
+    $borderWidth: 2px;
+    $borderColor: rgba($bright-blue, $opacity);
+    z-index: 1000;
+    border-top: $borderWidth solid $borderColor;
+    border-bottom: $borderWidth solid $borderColor;
+    padding-top: $cellVerticalPadding - $borderWidth;
+    padding-bottom: $cellVerticalPadding - $borderWidth;
+    &:first-child {
+      $insideBorder: 2px;
+      border-left: $insideBorder solid $borderColor;
+      padding-left: 2px;
+    }
+    &:last-child {
+      border-right: 2px solid $borderColor;
+    }
+  }
+}
+
+.tableContainer {
+  width: 397px;
+  height: 349px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 20px;
+  table-layout: fixed;
+  overflow: hidden;
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.5);
+
+  .header {
+    color: $font-color;
+    background-color: $dark-yellow;
+    font-size: 14px;
+    font-weight: bold;
+    padding: $cellVerticalPadding $cellHorizontalPadding;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    height: $headerHeight;
+    justify-content: space-between;
+
+    .title {
+       margin-left: calc((100% - $titleWidth) / 2);
+    }
+
+    button.noWrap {
+      white-space: nowrap;
+    }
+
+    .divider {
+      width: 1px;
+      height: 28px;
+      background-color: #949494;
+      margin: 0 20px;
+    }
+
+    .deleteButtonContainer {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      font-size: 14px;
+      .label {
+        display: flex;
+      }
+    }
+
+    button {
+      color: $bluePrimary;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-family: $fontFamilyNunito;
+      font-weight: 500; // medium
+      border: 3px solid $bluePrimary;
+      border-radius: 10px;
+      height: 34px;
+      width: 34px;
+      background-color: $lightBlueTint25;
+      cursor: pointer;
+
+      svg {
+        margin-left: -9px;
+        margin-top: -3px;
+        overflow: visible;
+
+      }
+
+      &:disabled:not(.readAloudMode) {
+        pointer-events: none;
+        opacity: 0.35;
+      }
+
+      &:hover:not(.readAloudMode) {
+        background-color: $lightBlueTint10;
+      }
+      &:active:not(.readAloudMode) {
+        color: #fff;
+        background-color: $bluePrimary;
+        svg path {
+          fill: #fff;
+        }
+      }
+    }
+  }
+
+  input {
+    &:disabled {
+      pointer-events: none;
+    }
+  }
+
+  table.table {
+    table-layout: fixed;
+    width: calc(100% + $activeRowLeftBorderWidth);
+    height: calc(100% - $headerHeight);
+    border-spacing: 0;
+    font-size: 14px;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    // When div becomes scrollable in Y axis, it clips its X axis overflow. Padding + negative margin seem to fix that.
+    padding-left: $activeRowLeftBorderWidth;
+    margin-left: -$activeRowLeftBorderWidth;
+    margin-top: 2px;
+    padding-bottom: 14px;
+
+    tr {
+      &:nth-child(even) {
+        background: $gray5;
+      }
+      &:nth-child(odd) {
+        background: #fff;
+      }
+
+      &.activeRow {
+        background-color: rgba(43, 114, 227, 0.1);
+        @include activeRow(1);
+      }
+    }
+
+    .headerRow {
+      th {
+      &:nth-child(1) {
+        border-left: 2px solid white;
+      }
+      &:nth-child(6) {
+        border-right: 2px solid white;
+      }
+      }
+    }
+
+    th, td {
+      box-sizing: border-box;
+      height: $rowMinHeight;
+      padding: $cellVerticalPadding $cellHorizontalPadding;
+      &:last-child {
+        border-right: 0;
+      }
+      &.graphSelection {
+        padding: 0;
+      }
+      &.noPadding {
+        padding: 0 !important;
+      }
+    }
+
+    thead {
+      // Make headers sticky.
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    th {
+      background-color: $medium-yellow;
+      border-bottom: 2px solid white;
+      padding-bottom: 2px;
+
+      &.numeric {
+        text-align: right;
+      }
+
+      &.headerGroupTitleBorder{
+        border-top: 2px solid #fff;
+      }
+    }
+  }
+
+  &:not(.disabled) tr {
+    cursor: pointer;
+
+    &:hover {
+      &:not(.activeRow){
+        background-color: rgba(43, 114, 227, 0.05)!important;
+      }
+      @include activeRow(.5);
+    }
+  }
+}

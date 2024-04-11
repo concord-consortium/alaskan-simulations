@@ -1,0 +1,43 @@
+@import "./vars.scss";
+
+.optionsView {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: $fontFamilyNunito;
+  font-size: 16px;
+  font-weight: bold;
+
+  .optionsContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+
+      :global(.MuiFormControl-root) {
+        display: flex;
+        justify-content: center;
+        margin-top: -3px;
+      }
+      :global(.MuiRadio-root) {
+        margin-top: 3px;
+        &:hover {
+          :global(.MuiFormControlLabel-label) {
+            text-shadow: -2px 2px 0 white
+            2px 2px 0 white
+            2px -2px 0 white
+            -2px -2px 0 white
+
+          }
+        }
+      }
+      :global(.MuiFormGroup-root) {
+        gap: 33px;
+      }
+    }
+
+  }

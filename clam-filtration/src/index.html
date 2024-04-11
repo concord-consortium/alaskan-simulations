@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Clam Simulation</title>
+    <meta name="description" content="Clam Simulation">
+    <!--
+      PJ 04/18/2022: Note that meta viewport settings are important for handling touch events, including drag and drop
+      events. Without this tag, dragged elements tend to be lost randomly when user keeps dragging them for a longer
+      time. I cannot explain why this happens, but my bet is that it's related to native resize or scroll handlers.
+      When the viewport settings are updated, it might be worth to carefully retest the drag and drop behavior.
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script>
+      document.documentElement.lang = "<%= language %>";
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
