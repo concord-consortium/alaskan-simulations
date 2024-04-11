@@ -1,7 +1,7 @@
 {
   "name": "clam-filtration",
   "version": "0.0.1",
-  "description": "Clam Filtration",
+  "description": "Clam Filtration Simulation",
   "main": "index.js",
   "jest": {
     "testURL": "https://alaskan-simulations.unexisting.url.com",
