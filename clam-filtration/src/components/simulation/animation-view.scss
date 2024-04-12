@@ -5,10 +5,76 @@
   top: 0px;
   width: $simViewWidth;
   height: $simViewHeight;
-}
+  border-radius: 20px;
 
-.animationImage {
-  position: absolute;
-  width: $simViewWidth;
-  height: $simViewHeight;
+  .animationContainer{
+    .top {
+      position: relative;
+      width: calc($simViewWidth - 2px);
+      height: calc($simViewHeight - 140px);
+      top: 0;
+      overflow: hidden;
+      .fishWrapper {
+        .fish {
+          width: 160px;
+        }
+      }
+    }
+
+    .bottom {
+      position: absolute;
+      width: $simViewWidth - 2px;
+      height: 90px;
+      bottom: 2px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      .seagrassOutline {
+        position: absolute;
+        bottom: 80px;
+        left: -30px;
+      }
+      .seagrassStrokes {
+        position: absolute;
+        bottom: 70px;
+        left: 0px;
+      }
+      .sand {
+        position: absolute;
+        bottom: 0px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+    }
+    .clams  {
+      position: relative;
+      bottom: 70px;
+      height: 220px;
+      width: calc($simViewWidth - 2px);
+
+      .clam0 {
+        height: 160px;
+      }
+      .clam1 {
+        height: 155px;
+      }
+      .clam2 {
+        position: relative;
+        height: 152px;
+        bottom: 12px;
+      }
+      .clam3 {
+        height: 220px;
+        position: relative;
+        bottom: -50px;
+      }
+      .clam4 {
+        height: 156px;
+      }
+      .clam5 {
+        height: 153px;
+        position: relative;
+        bottom: 12px;
+      }
+    }
+  }
 }

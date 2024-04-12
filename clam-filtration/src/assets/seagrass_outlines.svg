@@ -3,7 +3,7 @@
   <g id="Layer_1-2" data-name="Layer 1">
     <g>
       <g>
-        <path d="m597.13,37.99C651.6,53.38,694.02-1.99,747.48.06c15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
+        <path  id="wavePath" d="m597.13,37.99C651.6,53.38,694.02-1.99,747.48.06c15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
         <path d="m1058.9,45.15c54.47,15.39,96.89-39.98,150.35-37.93,15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
         <path d="m789.47,53.76c54.47,15.39,96.89-39.98,150.35-37.93,15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
         <path d="m686.28,44.78c22.91-14.9,51.12-22.49,78.7-21.84,16.59.33,33.14,3.66,49.07,7.74,31.61,8.12,62.26,19.05,95,17.49,10.77-.49,21.48-2.6,31.6-6.36-19.37,11-42.59,12.81-64.4,10.56-27.33-2.68-53.25-11.92-79.91-17.7-36.91-8.95-75.2-5.84-110.07,10.12h0Z" fill="#b0be34" stroke-width="0"/>
@@ -22,4 +22,35 @@
       </g>
     </g>
   </g>
+  <script type="text/ecmascript">
+    <![CDATA[
+        // We use CDATA to include JavaScript directly within SVG
+        window.onload = function() {
+            const path = document.getElementById('wavePath');
+            let offset = 0;
+
+            function animateWave() {
+                const height = 20; // Height of the wave
+                const frequency = 0.1; // Frequency of the wave
+
+                // Update the offset
+                offset += 0.1;
+
+                // Adjust the control points of the path based on a sine wave
+                const newPath = `m597.13,37.99
+                    C651.6,${53.38 + Math.sin(offset) * height},${694.02},${-1.99 + Math.sin(offset + 1) * height},${747.48},${0.06 + Math.sin(offset + 2) * height}
+                    c15.69,0.59,32.29,6.28,41.99,${19.17 + Math.sin(offset + 3) * height}
+                    -19.29,-${16.94 + Math.sin(offset + 4) * height},-47.7,-15.66,-70.54,-${7.38 + Math.sin(offset + 5) * height}
+                    -23.91,8.45,-46,23.16,-70.78,${29.43 + Math.sin(offset + 6) * height}
+                    -16.7,4.22,-35.43,4.95,-51.02,-${3.28 + Math.sin(offset + 7) * height}h0`;
+
+                path.setAttribute('d', newPath);
+
+                requestAnimationFrame(animateWave); // Continuously animate
+            }
+
+            animateWave(); // Start the animation
+        }
+    ]]>
+    </script>
 </svg>
