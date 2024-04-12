@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { useModelState } from "../hooks/use-model-state";
 import { useSimulationRunner, SimulationFrame, useTranslation, TranslationContext } from "common";
@@ -18,17 +18,12 @@ import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
 
-const targetStepsPerSecond = 60;
+const targetStepsPerSecond = 120;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
-// Simulation length in real world seconds.
-const simLength = 6; // s
-const totalFrames = simLength * targetStepsPerSecond;
-// Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
-// is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
-const snapshotsCount = 8;
+let lastStepTime:  number;
+
 
 const columnsMeta: IColumnMeta[] = [
-  { numeric: false },
   { numeric: false },
   { numeric: false },
   { numeric: false },
@@ -146,41 +141,74 @@ export const App = (props: IAppProps) => {
   const uiDisabled = isRunning || isFinished;
 
   const handleStartSimulation = () => {
+    lastStepTime = window.performance.now();
+    // if (!isPaused) {
     const model = new Model(inputState);
+    // }
 
-    let frames = 0;
-    // snapshotCounts - 1, as the initial snapshot is already saved.
-    const snapshotInterval = totalFrames / (snapshotsCount - 1);
 
-    const getOutputState = (): IModelOutputState => ({
-      time: model.time,
-      algaeEnd: EQualitativeAmount.high,
-      nitrate: EQualitativeAmount.high,
-      turbidity: EQualitativeAmount.high
-    });
+    const simulationStep = () => {
+      // simple calculation to work out desired times we should step the model.
+      // this could be made more complex by calculating the total number of steps we
+      // expect to have reached so far.
+      const now = window.performance.now();
+      const dt = now - lastStepTime;
+      lastStepTime = now;
+      const steps = Math.max(1, Math.min(60, Math.round(dt / targetFramePeriod)));
 
-    const simulationStep = (realTimeDiff: number) => {
-      const stepFrames = Math.max(1, Math.min(10, Math.round(realTimeDiff / targetFramePeriod)));
-
-      for (let i = 0; i < stepFrames; i++) {
-        model.step(1 / totalFrames);
-        frames += 1;
-
-        if (frames % snapshotInterval === 0) {
-          snapshotOutputState(getOutputState());
-        }
+      for (let i = 0; i < steps; i++) {
+        model.step();
       }
+      // const modelSimulationState = model.getSimulationState();
+      // setTransientState({
+      //   time: modelSimulationState.percentComplete,
+      // });
+      // setOutputState({
+      //   organisms: modelSimulationState.currentOrganismPositions
+      // });
 
-      setOutputState(getOutputState());
-
-      if (frames >= totalFrames) {
-        endSimulation();
-        markRunFinished();
-      }
+      // if (modelSimulationState.isFinished) {
+      //   endSimulation();
+      // }
     };
-
     startSimulation(simulationStep);
   };
+
+  // const handleStartSimulation = () => {
+  //   const model = new Model(inputState);
+
+  //   let frames = 0;
+  //   // snapshotCounts - 1, as the initial snapshot is already saved.
+  //   const snapshotInterval = totalFrames / (snapshotsCount - 1);
+
+  //   const getOutputState = (): IModelOutputState => ({
+  //     time: model.time,
+  //     sugarUsed: model.sugarUsed,
+  //     sugarCreated: model.sugarCreated
+  //   });
+
+  //   const simulationStep = (realTimeDiff: number) => {
+  //     const stepFrames = Math.max(1, Math.min(10, Math.round(realTimeDiff / targetFramePeriod)));
+
+  //     for (let i = 0; i < stepFrames; i++) {
+  //       model.step(1 / totalFrames);
+  //       frames += 1;
+
+  //       if (frames % snapshotInterval === 0) {
+  //         snapshotOutputState(getOutputState());
+  //       }
+  //     }
+
+  //     setOutputState(getOutputState());
+
+  //     if (frames >= totalFrames) {
+  //       endSimulation();
+  //       markRunFinished();
+  //     }
+  //   };
+
+  //   startSimulation(simulationStep);
+  // };
 
   // When a new row is added to the table, it also receives a focus. This is not desired, as users will have to
   // navigate through multiple elements before they get back to input widgets. To avoid this, we focus on the Play
@@ -235,7 +263,6 @@ export const App = (props: IAppProps) => {
                 <TimeSlider
                   label={getTimeSliderLabel()}
                   time={outputState.time}
-                  snapshotsCount={snapshotsCount}
                   onChange={setActiveOutputSnapshotIdx}
                   disabled={!isFinished || readOnly}
                 />

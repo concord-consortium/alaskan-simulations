@@ -7,14 +7,54 @@
   height: $simViewHeight;
   border-radius: 20px;
 
-  .animationContainer{
+  .animationContainer {
     .top {
       position: relative;
       width: calc($simViewWidth - 2px);
-      height: calc($simViewHeight - 140px);
-      top: 0;
+      height: $simViewHeight;
+      // height: calc($simViewHeight - 45px);
+      top: 0px;
+      left: 0px;
       overflow: hidden;
+
+      .water {
+        position: absolute;
+        top: 0;
+        width: calc($simViewWidth - 2px);
+        height: 210px;
+        // height: $simViewHeight;
+        // height: calc($simViewHeight - 45px);
+
+        .waterEffects {
+          height: 210px;
+          width: 100%;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          background: linear-gradient(180deg, #FFFF 0%, #CCB46E 100%);
+
+          .waterEffect {
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+          }
+          .waterEffectsOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            width: 100%;
+            height: 210px;
+            opacity: 75%;
+            background: linear-gradient(180deg, #FFFF 0%, #CCB46E 100%);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+          }
+        }
+      }
       .fishWrapper {
+        position: relative;
+        top: 5px;
+        z-index: 10;
         .fish {
           width: 160px;
         }
@@ -24,7 +64,7 @@
     .bottom {
       position: absolute;
       width: $simViewWidth - 2px;
-      height: 90px;
+      height: 110px;
       bottom: 2px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
@@ -46,35 +86,43 @@
       }
     }
     .clams  {
-      position: relative;
-      bottom: 70px;
-      height: 220px;
+      position: absolute;
+      bottom: -5px;
+      // height: 220px;
       width: calc($simViewWidth - 2px);
 
       .clam0 {
+        // width: 86px;
         height: 160px;
       }
       .clam1 {
-        height: 155px;
+        // width: 86px;
+        height: 160px;
       }
       .clam2 {
-        position: relative;
-        height: 152px;
-        bottom: 12px;
+        width: 86px;
+        // height: 160px;
+        // position: relative;
+        // height: 152px;
+        // bottom: 12px;
       }
       .clam3 {
-        height: 220px;
-        position: relative;
-        bottom: -50px;
+        width: 86px;
+        // height: 160px;
+        // position: relative;
+        // bottom: -50px;
       }
       .clam4 {
-        height: 156px;
+        // width: 86px;
+        height: 160px;
       }
       .clam5 {
-        height: 153px;
-        position: relative;
-        bottom: 12px;
+        // width: 86px;
+        height: 160px;
+        // position: relative;
+        // bottom: 12px;
       }
     }
   }
 }
+
