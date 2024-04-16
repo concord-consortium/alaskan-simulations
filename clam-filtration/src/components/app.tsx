@@ -198,7 +198,7 @@ export const App = (props: IAppProps) => {
   const getTimeSliderLabel = () => {
     //TODO need to fix this to show the correct month at the correct time
     const time = outputState.time;
-    const timeLabel = monthLabels[time]
+    const timeLabel = monthLabels[time];
 
     return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
