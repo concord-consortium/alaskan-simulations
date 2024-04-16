@@ -86,7 +86,7 @@ export const translations: TranslationDict = {
   "CLAM": { string: "Clam"},
   "WATER_TEMP": {string: "Water Temp: "},
 
-  "TABLE.TITLE": {string: "Trials Results", mp3: new Audio(TrialsData)},
+  "TABLE.TITLE": {string: "Trial Results", mp3: new Audio(TrialsData)},
   "TABLE.HEADER_TRIAL": {string: "Trial", mp3: new Audio(Trial)},
   "TABLE.HEADER_CLAMS": {string: "# of Clams", mp3: new Audio(Light)},
   "TABLE.HEADER_ALGAE": {string: "Algae", mp3: new Audio(Water)},

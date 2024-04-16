@@ -197,8 +197,10 @@ export const App = (props: IAppProps) => {
 
   const getTimeSliderLabel = () => {
     //TODO need to fix this to show the correct month at the correct time
-    const time = (outputState.time).toFixed(0);
-    return `${t("TIME_SLIDER_LABEL.MONTH")}: ${time}`;
+    const time = outputState.time;
+    const timeLabel = monthLabels[time]
+
+    return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
 
   const getGraphTitle = () => {
@@ -230,7 +232,10 @@ export const App = (props: IAppProps) => {
               readOnly={readOnly}
             />
             <div className={css.controls}>
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+              <div className={css.group}>
+                <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
+                <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+              </div>
               <div className={css.timeSliderContainer}>
                 <TimeSlider
                   label={getTimeSliderLabel()}
@@ -240,7 +245,6 @@ export const App = (props: IAppProps) => {
                   disabled={!isFinished || readOnly}
                 />
               </div>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
             </div>
           </div>
           <div className={css.tableContainer}>

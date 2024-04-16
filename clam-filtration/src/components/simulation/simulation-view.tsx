@@ -20,7 +20,7 @@ export const SimulationView: React.FC<IProps> = ({ input, output, isRunning, isF
 
   return (
     <div className={css.simulationView}>
-      <div className={css.tempLabel}>{t("WATER_TEMP")}: {47}°F</div>
+      <div className={css.tempLabel}>{t("WATER_TEMP")} {47}°F</div>
       <AnimationView algaeStart={algaeStart} numClams={numClams} time={output.time} isRunning={isRunning} isFinished={isFinished}/>
     </div>
   );
