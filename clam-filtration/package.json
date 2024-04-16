@@ -1,0 +1,142 @@
+{
+  "name": "clam-filtration",
+  "version": "0.0.1",
+  "description": "Clam Filtration Simulation",
+  "main": "index.js",
+  "jest": {
+    "testURL": "https://alaskan-simulations.unexisting.url.com",
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.ts"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "testEnvironment": "jsdom",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/cypress/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  },
+  "config": {
+    "title": "Clams Filtration"
+  },
+  "scripts": {
+    "start": "webpack serve",
+    "build": "npm-run-all lint:build build:webpack",
+    "build:webpack": "webpack --mode production",
+    "watch": "webpack --watch",
+    "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:build": "eslint -c \"../.eslintrc.build.js\" \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "test": "jest",
+    "test:all": "npm-run-all build test start",
+    "test:coverage": "jest --coverage",
+    "test:debug": "node --nolazy --inspect-brk ./node_modules/.bin/jest --runInBand --no-cache",
+    "test:watch": "jest --watch",
+    "test:coverage:watch": "jest --coverage --watchAll",
+    "test:cypress": "cypress run",
+    "test:cypress:open": "cypress open",
+    "test:full": "npm-run-all test test:cypress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/concord-consortium/alaskan-simulations.git"
+  },
+  "author": "Concord Consortium",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/concord-consortium/alaskan-simulations/issues"
+  },
+  "homepage": "https://github.com/concord-consortium/alaskan-simulations#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@cypress/webpack-preprocessor": "^5.11.1",
+    "@principalstudio/html-webpack-inject-preload": "^1.2.7",
+    "@svgr/webpack": "^6.2.1",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^14.14.31",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@types/react-table": "^7.7.14",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "autoprefixer": "^10.4.4",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.4",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.7.1",
+    "cypress": "^9.5.3",
+    "eslint": "^8.11.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-chai-friendly": "^0.7.2",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.2",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.5.1",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.12",
+    "postcss-loader": "^6.2.1",
+    "regenerator-runtime": "^0.13.9",
+    "sass": "^1.49.9",
+    "sass-loader": "^12.6.0",
+    "script-loader": "^0.7.2",
+    "style-loader": "^3.3.3",
+    "ts-jest": "^27.1.3",
+    "ts-loader": "^9.2.8",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2",
+    "wait-on": "^6.0.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4",
+    "webpack-merge": "^5.9.0",
+    "zip-webpack-plugin": "^4.0.1"
+  },
+  "dependencies": {
+    "@concord-consortium/lara-interactive-api": "^1.9.4",
+    "@dnd-kit/core": "^5.0.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.0",
+    "@types/deep-equal": "^1.0.1",
+    "clsx": "^1.2.1",
+    "common": "*",
+    "deep-equal": "^2.1.0",
+    "focus-trap": "^6.9.4",
+    "query-string": "^7.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^8.0.2",
+    "react-table": "^7.8.0",
+    "rehype-raw": "^6.1.1",
+    "shutterbug": "^1.5.0"
+  }
+}

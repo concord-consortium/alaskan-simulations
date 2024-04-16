@@ -1,0 +1,14 @@
+@import "../vars.scss";
+
+.viewContainer{
+  position: absolute;
+  top: 0px;
+  width: $simViewWidth;
+  height: $simViewHeight;
+}
+
+.animationImage {
+  position: absolute;
+  width: $simViewWidth;
+  height: $simViewHeight;
+}
