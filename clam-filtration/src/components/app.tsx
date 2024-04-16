@@ -25,7 +25,7 @@ const simLength = 6; // s
 const totalFrames = simLength * targetStepsPerSecond;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
 // is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
-const snapshotsCount = 8;
+const snapshotsCount = 5;
 
 const columnsMeta: IColumnMeta[] = [
   { numeric: false },
