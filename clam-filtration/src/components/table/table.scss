@@ -28,14 +28,13 @@ $titleWidth: 90px;
 }
 
 .tableContainer {
-  width: 397px;
-  height: 349px;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 20px;
   table-layout: fixed;
   overflow: hidden;
-  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.5);
 
   .header {
     color: $font-color;
@@ -52,7 +51,6 @@ $titleWidth: 90px;
     justify-content: space-between;
 
     .title {
-       margin-left: calc((100% - $titleWidth) / 2);
     }
 
     button.noWrap {
@@ -152,10 +150,12 @@ $titleWidth: 90px;
 
     .headerRow {
       th {
+        width: 100%;
+        border-right: 2px solid white;
       &:nth-child(1) {
         border-left: 2px solid white;
       }
-      &:nth-child(6) {
+      &:nth-child(5) {
         border-right: 2px solid white;
       }
       }
