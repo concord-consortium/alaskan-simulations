@@ -8,11 +8,12 @@
   border-radius: 20px;
 
   .animationContainer {
+    overflow: hidden;
+    position: absolute;
     .top {
       position: relative;
       width: calc($simViewWidth - 2px);
       height: $simViewHeight;
-      // height: calc($simViewHeight - 45px);
       top: 0px;
       left: 0px;
       overflow: hidden;
@@ -22,15 +23,13 @@
         top: 0;
         width: calc($simViewWidth - 2px);
         height: 210px;
-        // height: $simViewHeight;
-        // height: calc($simViewHeight - 45px);
 
         .waterEffects {
           height: 210px;
           width: 100%;
           border-top-left-radius: 20px;
           border-top-right-radius: 20px;
-          background: linear-gradient(180deg, #FFFF 0%, #CCB46E 100%);
+          background: linear-gradient(180deg, rgba(208, 167, 105, 0) 0%, #d0a769 100%);
 
           .waterEffect {
             border-top-left-radius: 20px;
@@ -44,10 +43,27 @@
             bottom: 80px;
             width: 100%;
             height: 210px;
-            opacity: 75%;
+            opacity: 85%;
             background: linear-gradient(180deg, #FFFF 0%, #CCB46E 100%);
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
+            .fish {
+              opacity: 100%;
+            }
+
+            &.highAlgae {
+              background: linear-gradient(180deg, #808640 0%, #CCB46E 100%);
+              .fish {
+                opacity: 50%;
+              }
+            }
+            &.mediumAlgae {
+              background: linear-gradient(180deg, #b7d94c 0%, #CCB46E 100%);
+              .fish {
+                opacity: 75%;
+
+              }
+            }
           }
         }
       }
@@ -68,15 +84,12 @@
       bottom: 2px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      .seagrassOutline {
-        position: absolute;
-        bottom: 80px;
-        left: -30px;
-      }
+      overflow: hidden;
+
       .seagrassStrokes {
         position: absolute;
-        bottom: 70px;
-        left: 0px;
+        bottom: 88px;
+        left: -30px;
       }
       .sand {
         position: absolute;
@@ -84,43 +97,56 @@
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
       }
-    }
-    .clams  {
-      position: absolute;
-      bottom: -5px;
-      // height: 220px;
-      width: calc($simViewWidth - 2px);
+      .clams  {
+        position: absolute;
+        bottom: 0px;
+        width: calc($simViewWidth - 2px);
 
-      .clam0 {
-        // width: 86px;
-        height: 160px;
-      }
-      .clam1 {
-        // width: 86px;
-        height: 160px;
-      }
-      .clam2 {
-        width: 86px;
-        // height: 160px;
-        // position: relative;
-        // height: 152px;
-        // bottom: 12px;
-      }
-      .clam3 {
-        width: 86px;
-        // height: 160px;
-        // position: relative;
-        // bottom: -50px;
-      }
-      .clam4 {
-        // width: 86px;
-        height: 160px;
-      }
-      .clam5 {
-        // width: 86px;
-        height: 160px;
-        // position: relative;
-        // bottom: 12px;
+        @keyframes wiggle {
+          0% { transform: rotate(0deg); }
+          50% { transform: rotate(1deg); }
+          100% { transform: rotate(-1deg); }
+        }
+
+        .clam {
+          position: absolute;
+          bottom: 0;
+          height: 115px;
+          width: 86px;
+          animation: wiggle 0.2s ease-in-out infinite alternate;
+        }
+        .clam0 {
+          left: 150px;
+          animation-delay: 0s;
+        }
+        .clam1 {
+          left: 80px;
+          animation-delay: 0.1s;
+        }
+        .clam2 {
+          left: 290px;
+          animation-delay: 0.2s;
+        }
+        .clam3 {
+          left: 350px;
+          animation-delay: 0.3s;
+        }
+        .clam4 {
+          left: -25px;
+          animation-delay: 0.4s;
+        }
+        .clam5 {
+          left: 200px;
+          animation-delay: 0.5s;
+        }
+        .clam6 {
+          left: 30px;
+          animation-delay: 0.6s;
+        }
+        .clam7 {
+          left: 410px;
+          animation-delay: 0.7s;
+        }
       }
     }
   }

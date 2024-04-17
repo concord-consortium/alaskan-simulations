@@ -2,12 +2,6 @@ import Fish0 from "../assets/fish/fish0.svg";
 import Fish1 from "../assets/fish/fish1.svg";
 import Fish2 from "../assets/fish/fish2.svg";
 import Fish3 from "../assets/fish/fish3.svg";
-// import Clam1 from "../assets/clams/clam1.svg";
-// import Clam2 from "../assets/clams/clam2.svg";
-// import Clam3 from "../assets/clams/clam3.svg";
-// import Clam4 from "../assets/clams/clam4.svg";
-// import Clam5 from "../assets/clams/clam5.svg";
-// import Clam6 from "../assets/clams/clam6.svg";
 import Clam1 from "../assets/clams/outlines/clam1.svg";
 import Clam2 from "../assets/clams/outlines/clam2.svg";
 import Clam3 from "../assets/clams/outlines/clam3.svg";
@@ -37,3 +31,10 @@ export const Clams = [Clam1, Clam2, Clam3, Clam4, Clam5, Clam6];
 export const FishStates = [Fish0, Fish1, Fish2, Fish3];
 export const WaterEffects = [WaterEffects0,WaterEffects1,WaterEffects2,WaterEffects3,WaterEffects4,WaterEffects5,
                               WaterEffects6,WaterEffects7,WaterEffects8,WaterEffects9,WaterEffects10,WaterEffects11];
+export function initialFish() {
+  return [
+    {name: "A", left: 15, top: 0, direction: "right", affected: false},
+    {name: "B", left: 120, top: -10, direction: "left", affected: false},
+    {name: "C", left: 130, top: 45, direction: "right", affected: false},
+  ];
+}
