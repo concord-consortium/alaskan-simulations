@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { useModelState } from "../hooks/use-model-state";
-import { useSimulationRunner, SimulationFrame, useTranslation, TranslationContext } from "common";
+import { useSimulationRunner, useTranslation, TranslationContext } from "common";
 import { useModelTable } from "../hooks/use-model-table";
 import { translations } from "../translations";
 import { Column } from "react-table";
@@ -9,6 +9,7 @@ import { IColumnMeta, Table } from "./table/table";
 import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
+import { SimulationFrame } from "./simulation/simulation-frame";
 import { SimulationView } from "./simulation/simulation-view";
 import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, EQualitativeAmount } from "../types";
 import { Model } from "./model";
@@ -25,7 +26,7 @@ const simLength = 6; // s
 const totalFrames = simLength * targetStepsPerSecond;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
 // is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
-const snapshotsCount = 8;
+const snapshotsCount = 5;
 
 const columnsMeta: IColumnMeta[] = [
   { numeric: false },
@@ -197,8 +198,10 @@ export const App = (props: IAppProps) => {
 
   const getTimeSliderLabel = () => {
     //TODO need to fix this to show the correct month at the correct time
-    const time = (outputState.time).toFixed(0);
-    return `${t("TIME_SLIDER_LABEL.MONTH")}: ${time}`;
+    const time = outputState.time;
+    const timeLabel = monthLabels[time];
+
+    return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
 
   const getGraphTitle = () => {
@@ -221,44 +224,52 @@ export const App = (props: IAppProps) => {
               disabled={uiDisabled || !!readOnly}
             />
           </div>
-          <div className={css.simulationContainer}>
-            <SimulationView
-              input={inputState}
-              output={outputState}
-              isRunning={isRunning}
-              isFinished={isFinished}
-              readOnly={readOnly}
-            />
-            <div className={css.controls}>
-              <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
-              <div className={css.timeSliderContainer}>
-                <TimeSlider
-                  label={getTimeSliderLabel()}
-                  time={outputState.time}
-                  snapshotsCount={snapshotsCount}
-                  onChange={setActiveOutputSnapshotIdx}
-                  disabled={!isFinished || readOnly}
+          <div className={css.rightSide}>
+            <div className={css.top}>
+              <div className={css.simulationContainer}>
+                <SimulationView
+                  input={inputState}
+                  output={outputState}
+                  isRunning={isRunning}
+                  isFinished={isFinished}
+                  readOnly={readOnly}
+                />
+                <div className={css.controls}>
+                  <div className={css.group}>
+                    <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
+                    <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
+                  </div>
+                  <div className={css.timeSliderContainer}>
+                    <TimeSlider
+                      label={getTimeSliderLabel()}
+                      time={outputState.time}
+                      snapshotsCount={snapshotsCount}
+                      onChange={setActiveOutputSnapshotIdx}
+                      disabled={!isFinished || readOnly}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={css.tableContainer}>
+                <Table<IRowData>
+                  {...tableProps}
+                  columns={columns}
+                  columnsMeta={columnsMeta}
+                  disabled={isRunning || !!readOnly}
+                  centerHeader={true}
+                  noWrapDeleteButton={true}
                 />
               </div>
-              <NewRunButton onClick={handleAddModelRun} disabled={!isLastRunFinished || readOnly} />
             </div>
-          </div>
-          <div className={css.tableContainer}>
-            <Table<IRowData>
-              {...tableProps}
-              columns={columns}
-              columnsMeta={columnsMeta}
-              disabled={isRunning || !!readOnly}
-              centerHeader={true}
-              noWrapDeleteButton={true}
-            />
-          </div>
-          <div className={css.lineGraphs}>
-            <div className={css.header}>{getGraphTitle()}</div>
-            <div className={css.body}>
-              <div className={css.graphsContainer}>
-                <div className={css.graphs}>
-                  Line graphs go here
+            <div className={css.bottom}>
+              <div className={css.lineGraphs}>
+                <div className={css.header}>{getGraphTitle()}</div>
+                <div className={css.body}>
+                  <div className={css.graphsContainer}>
+                    <div className={css.graphs}>
+                      Line graphs go here
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,20 +1,41 @@
 @import "./vars.scss";
 
-$tableGraphContainerWidth: 801px;
+$contentHeight: 560px;
+$optionsContainerWidth: 92px;
+$controlsHeight: 71px;
+$paddingLR: 4px;
+$paddingTB: 8px;
+$gapBetweenContainers: 6px;
+$optionsContainerHeight: $contentHeight - ($paddingTB * 2);
+$tableContainerWidth: $maxAppWidth - $optionsContainerWidth - $simViewWidth - ($paddingLR * 2) - ($gapBetweenContainers * 2);
+$tableContainerHeight: $simViewHeight;
+$graphContainerWidth: $maxAppWidth - $optionsContainerWidth - $gapBetweenContainers - ($paddingLR * 2);
+
 
 .simulationFrame {
   background-color: #E7EDF6;
-  width: 1040px;
+  width: $maxAppWidth;
 }
 
 .content {
-  // width: $maxAppWidth;
-  width: 1040px;
-  height: 575px;
+  width: $maxAppWidth;
+  height: $contentHeight;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  padding: 15px 10px;
+  padding: $paddingTB $paddingLR;
+  gap: $gapBetweenContainers;
+
+  .rightSide {
+    display: flex;
+    flex-direction: column;
+    gap: $gapBetweenContainers;
+    .top {
+      display: flex;
+      flex-direction: row;
+      gap: $gapBetweenContainers;
+    }
+  }
 
   .readAloud {
     text-decoration: underline;
@@ -40,8 +61,8 @@ $tableGraphContainerWidth: 801px;
 
   .optionsContainer {
     box-sizing: border-box;
-    height: 512px;
-    width: 105px;
+    height: $optionsContainerHeight;
+    width: $optionsContainerWidth;
   }
 
   .simulationContainer {
@@ -49,13 +70,13 @@ $tableGraphContainerWidth: 801px;
     width: $simViewWidth;
     height: $simViewHeight;
     border-radius: 20px;
-    margin: 0 10px;
 
     .controls {
       display: flex;
       align-items: flex-start;
       justify-content: space-around;
-      margin-top: 10px;
+      margin-top: 8px;
+      height: $controlsHeight;
       gap: 5px;
 
       .group {
@@ -63,19 +84,20 @@ $tableGraphContainerWidth: 801px;
         white-space: nowrap;
         font-family: $fontFamilyNunito;
         display: flex;
-        gap: 5px;
+        gap: 10px;
       }
 
       .timeSliderContainer {
-        width: 250px;
+        width: 350px;
       }
     }
   }
 
     .tableContainer {
       box-sizing: border-box;
-      width: 397px;
-      height: 349px;
+      width: $tableContainerWidth;
+      // 8 comes from margin-top of .controls
+      height: $simViewHeight + $controlsHeight + 8px;
       border: 1px solid $font-color;
       border-radius: 20px;
       .table-header{
@@ -86,11 +108,9 @@ $tableGraphContainerWidth: 801px;
   .lineGraphs{
     display: flex;
     flex-direction: column;
-    height: 175px;
-    width: $tableGraphContainerWidth;
-    position: absolute;
-    bottom: 16px;
-    left: 179px;
+    // 8 comes from margin-top of .controls
+    height: $contentHeight - $simViewHeight - $controlsHeight - 8 - ($paddingTB * 2) - $gapBetweenContainers;
+    width: $graphContainerWidth;
     border: 1px solid $font-color;
     border-radius: 20px;
     color: black;
