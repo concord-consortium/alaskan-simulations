@@ -1,4 +1,4 @@
-import { EQualitativeAmount, IModelInputState } from "../types";
+import { Amount, IModelInputState } from "../types";
 
 interface ICaseData {
   inputs: IModelInputState,
@@ -8,7 +8,7 @@ interface ICaseData {
 
 const case1: ICaseData = {
   inputs: {
-    algaeStart: EQualitativeAmount.low,
+    algaeStart: Amount.Low,
     numClams: 1,
   }
 };
@@ -33,8 +33,8 @@ export class Model {
   private getOutputAmount(inputs: IModelInputState, index: number) {
     // TODO need to return the correct output amounts here
     const {algaeStart, numClams} = inputs;
-    const algaeEnd = EQualitativeAmount.high;
-    const nitrate = EQualitativeAmount.high;
-    const turbidity = EQualitativeAmount.high;
+    const algaeEnd = Amount.High;
+    const nitrate = Amount.High;
+    const turbidity = Amount.High;
   }
 }

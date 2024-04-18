@@ -1,6 +1,6 @@
 import { useTranslation } from "common";
 import React, { useCallback } from "react";
-import { EQualitativeAmount, IModelInputState } from "../types";
+import { Amount, IModelInputState, amountLabels, clamLabels } from "../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
 
@@ -15,12 +15,12 @@ interface IProps {
 export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disabled }) => {
   const { t } = useTranslation();
 
-  const handleAlgaeAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setInputState({algaeStart: value as EQualitativeAmount});
+  const handleAlgaAmountChange = useCallback((value: number) => {
+    setInputState({algaeStart: value});
   }, [setInputState]);
 
-  const handleNumClamsChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setInputState({numClams: parseInt(value,10)});
+  const handleNumClamsChange = useCallback((value: number) => {
+    setInputState({numClams: value});
   }, [setInputState]);
 
   return (
@@ -28,15 +28,16 @@ export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disab
       <div className={css.optionsContainer}>
         <InputSlider
           type={"SLIDER_TITLE.ALGAE"}
-          labels={["EQUALITATIVE_AMOUNT.HIGH", "EQUALITATIVE_AMOUNT.MEDIUM", "EQUALITATIVE_AMOUNT.LOW"]}
+          labels={amountLabels}
           value={inputState.algaeStart}
-          onChange={handleAlgaeAmountChange}
+          onChange={handleAlgaAmountChange}
           disabled={disabled}
         />
         <InputSlider
           type={"SLIDER_TITLE.NUM_CLAMS"}
-          labels={["10", "5", "1"]}
-          value={(inputState.numClams).toString()}
+          subLabel={"per \n sq. meter"}
+          labels={clamLabels}
+          value={inputState.numClams}
           onChange={handleNumClamsChange}
           disabled={disabled}
         />

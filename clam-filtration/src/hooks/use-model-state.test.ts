@@ -1,14 +1,14 @@
 import { act, renderHook } from "@testing-library/react-hooks";
-import { EQualitativeAmount, defaultAuthoredState } from "../types";
+import { Amount, defaultAuthoredState } from "../types";
 import { useModelState } from "./use-model-state";
 
 const testState = {
   inputState: defaultAuthoredState,
   outputState: {
     time: 0,
-    algaeEndLevel: EQualitativeAmount.medium,
-    nitrate: EQualitativeAmount.low,
-    turbidity: EQualitativeAmount.low
+    algaeEndLevel: Amount.Medium,
+    nitrate: Amount.Low,
+    turbidity: Amount.Low
   },
   modelRuns: [],
 };

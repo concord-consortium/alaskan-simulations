@@ -10,7 +10,6 @@ $topMargin: 13px;
 
   .label {
     box-sizing: border-box;
-    padding: 5px;
     color: $font-color;
     width: 100%;
     font-weight: 800;
@@ -20,6 +19,6 @@ $topMargin: 13px;
     justify-content: center;
     align-items: center;
     background-color: $dark-yellow;
-    height: 50px;
+    height: 40px;
   }
 }
