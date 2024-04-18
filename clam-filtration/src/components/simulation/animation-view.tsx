@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cslx from "clsx";
-import { EQualitativeAmount } from "../../types";
+import { Amount } from "../../types";
 import { Clams, FishStates, WaterEffects, initialFish } from "../../utils/sim-utils";
 import Sand from "../../assets/sand_cropped.svg";
 import SeagrassStrokes from "../../assets/seagrass_strokes.svg";
@@ -10,8 +10,8 @@ import css from "./animation-view.scss";
 const kSimWidth = 481;
 
 interface IProps {
-  algaeLevel: EQualitativeAmount;
-  numClams: number;
+  algaeLevel: Amount;
+  numClams: Amount;
   time: number;
   turbidity: number;
   isRunning: boolean;
@@ -27,7 +27,7 @@ const numFish = 3; //REMOVE when sliders are implemented
       <div className={css.animationContainer}>
         <div className={css.top}>
           <div className={css.water}>
-            <WaterLoop algaeLevel={EQualitativeAmount.low} numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
+            <WaterLoop algaeLevel={Amount.Low} numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
           </div>
         </div>
         <div className={css.bottom}>
@@ -47,7 +47,7 @@ const numFish = 3; //REMOVE when sliders are implemented
 };
 
 interface IWaterLoopProps {
-  algaeLevel: EQualitativeAmount;
+  algaeLevel: Amount;
   numFish: number;
   isRunning: boolean;
   isFinished: boolean;
@@ -55,9 +55,9 @@ interface IWaterLoopProps {
 
 const WaterLoop = ({algaeLevel, numFish, isRunning, isFinished}: IWaterLoopProps) => {
   const [currentEffect, setCurrentEffect] = useState(0);
-  const algaeLevelClass = algaeLevel === EQualitativeAmount.high
+  const algaeLevelClass = algaeLevel === Amount.High
                             ? css.highAlgae
-                            : algaeLevel === EQualitativeAmount.medium
+                            : algaeLevel === Amount.Medium
                                 ? css.mediumAlgae : "";
 
   useEffect(() => {

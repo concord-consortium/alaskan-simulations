@@ -1,10 +1,11 @@
 
-@import "..//vars.scss";
+@import "../vars.scss";
 
 .input {
   width: calc(100% - 4px);
-  height: 245px;
+  height: calc((100% - 40px) / 2);
   .type {
+    box-sizing: border-box;
     width: 100%;
     font-weight:700;
     display: flex;
@@ -13,14 +14,29 @@
     justify-content: center;
     background-color: $medium-yellow;
     min-height: 30px;
+    padding: 5px;
+    text-align: center;
+  }
+  .subLabel {
+    box-sizing: border-box;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    background-color: $medium-yellow;
+    min-height: 30px;
+    padding-bottom: 5px;
+    text-align: center;
   }
   .control {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    height: 135px;
-    margin-top: 10px;
+    margin: 10px 0px;
     .left {
       height: 135px;
       width: 30px;
@@ -39,16 +55,16 @@
         border: 1px solid $font-color;
         display: flex;
         align-items: center;
-        &.full {
+        &.high {
           background-color: $royal-blue;
         }
-        &.some {
+        &.medium {
           background: linear-gradient(
           to right,
           $royal-blue 0%,
           $royal-blue 50%,
-          #ccc 50%,
-          #ccc 100%
+          #cfedff 50%,
+          #cfedff 100%
           );
         }
       }

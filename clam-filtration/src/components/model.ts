@@ -1,4 +1,4 @@
-import { IAnimalData, IModelInputState, TOrganisms } from "../types";
+import { Amount, IAnimalData, IModelInputState, TOrganisms } from "../types";
 import { outputData } from "../utils/data";
 
 export const kMaxSteps = 650;

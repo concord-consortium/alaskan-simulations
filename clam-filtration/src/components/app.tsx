@@ -10,11 +10,10 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationFrame } from "./simulation/simulation-frame";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, defaultInitialState, EQualitativeAmount, IAuthoredState, IAnimalData } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
-import { initialFish } from "../utils/sim-utils";
 import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
@@ -42,6 +41,22 @@ interface IAppProps {
   authoredState?: IAuthoredState | null;
   readOnly?: boolean;
 }
+
+const defaultInteractiveState: IInteractiveState = {
+  answerType: "interactive_state",
+  inputState: {
+    algaeStart: Amount.Medium,
+    numClams: Amount.Medium
+  },
+  outputState: {
+    time: 0,
+    algae: Amount.High,
+    nitrate: Amount.High,
+    turbidity: Amount.High
+  },
+  modelRuns: [],
+  readAloudMode: false
+};
 
 export const App = (props: IAppProps) => {
   const { interactiveState, readOnly } = props;
@@ -115,9 +130,9 @@ export const App = (props: IAppProps) => {
     switch (type) {
       case "algae":
       case "turbidity":
-        return num <= 30 ? t(EQualitativeAmount.low) : num >= 61 ? t(EQualitativeAmount.high) : t(EQualitativeAmount.medium);
+        return num <= 30 ? Amount.Low : num >= 61 ? Amount.High : Amount.Medium;
       case "nitrate":
-        return num <= 20 ? t(EQualitativeAmount.low) : num >= 36 ? t(EQualitativeAmount.high) : t(EQualitativeAmount.medium);
+        return num <= 20 ? Amount.Low : num >= 36 ? Amount.High : Amount.Medium;
       default:
         return null;
     }
@@ -147,6 +162,8 @@ export const App = (props: IAppProps) => {
     }
   };
 
+  // const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
+
   const uiDisabled = isRunning || isFinished;
 
   const handleStartSimulation = () => {
@@ -155,8 +172,12 @@ export const App = (props: IAppProps) => {
     // snapshotCounts - 1, as the initial snapshot is already saved.
     const snapshotInterval = totalFrames / (snapshotsCount - 1);
 
-    lastStepTime = window.performance.now();
-
+    // const getOutputState = (): IModelOutputState => ({
+    //   time: model.time,
+    //   algae: Amount.High,
+    //   nitrate: Amount.High,
+    //   turbidity: Amount.High
+    // });
 
     const simulationStep = () => {
       // simple calculation to work out desired times we should step the model.
@@ -252,12 +273,12 @@ export const App = (props: IAppProps) => {
                   </div>
                   <div className={css.timeSliderContainer}>
                     <TimeSlider
-	                  label={timeSliderLabel}
-	                  snapshotsCount={snapshotsCount}
-	                  time={outputState.time}
-	                  onChange={setActiveOutputSnapshotIdx}
-	                  disabled={!isFinished || readOnly}
-	                />
+                      label={timeSliderLabel}
+                      snapshotsCount={snapshotsCount}
+                      time={outputState.time}
+                      onChange={setActiveOutputSnapshotIdx}
+                      disabled={!isFinished || readOnly}
+                    />
                   </div>
                 </div>
               </div>

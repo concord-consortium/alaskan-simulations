@@ -3,44 +3,39 @@ import clsx from "clsx";
 import { useTranslation } from "common";
 
 import css from "./input-slider.scss";
-import { EQualitativeAmount } from "../../types";
+import { Amount, amountLabels } from "../../types";
 
 interface IProps {
   type: string;
-  value: string;
-  labels: string[];
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  value: number;
+  labels: Record<Amount, string>;
+  onChange: (value: number) => void;
   disabled: boolean;
+  subLabel?: string;
 }
 
-export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type, labels }) => {
+export const InputSlider: React.FC<IProps> = ({ value, onChange, subLabel, disabled, type, labels }) => {
   const { t } = useTranslation();
 
   const getClass = () => {
-    if (value === EQualitativeAmount.high) {
-      return css.full;
-    } else if (value === EQualitativeAmount.medium) {
-      return css.some;
-    }
+    return value === Amount.High ? css.high : value === Amount.Medium ? css.medium : css.low;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleChange", e);
-    // onChange(e, numToVal(Number(e.currentTarget.value)));
-  };
+  const labelArray = Object.keys(labels).map((key) => labels[Number(key) as Amount]).reverse();
 
   return (
     <div className={css.input}>
       <div className={css.type}>{t(type)}</div>
+      {subLabel && <div className={css.subLabel}>{subLabel}</div>}
       <div className={css.control}>
         <div className={css.left}>
           <input
             type="range"
             id={type}
-            min="0"
-            max="2"
+            min={0}
+            max={2}
             value={value}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => onChange(Number(e.currentTarget.value))}
             disabled={disabled}
             className={clsx(css.slider, getClass(), {[css.disabled]: disabled})}
             step="1"
@@ -49,9 +44,9 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
         </div>
         <div className={css.right}>
           <datalist className={css.labels} id={`${type}-values`}>
-            {labels.map((label, i) => {
+            {labelArray.map((label, i) => {
               return (
-                <div key={label + i} className={clsx({[css.active]: t(value) === t(label)})}>
+                <div key={label + i} className={clsx({[css.active]: labels[value as Amount] === label})}>
                   {t(label)}
                 </div>
               );

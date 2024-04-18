@@ -9,15 +9,27 @@ export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   readAloudMode: boolean
 }
 
-export enum EQualitativeAmount {
-  low = "AMOUNT.LOW",
-  medium = "AMOUNT.MEDIUM",
-  high = "AMOUNT.HIGH"
+export enum Amount {
+  High = 2,
+  Medium = 1,
+  Low = 0
 }
 
+export const amountLabels: Record<Amount, string> = {
+  [Amount.High]: "AMOUNT.HIGH",
+  [Amount.Medium]: "AMOUNT.MEDIUM",
+  [Amount.Low]: "AMOUNT.LOW"
+};
+
+export const clamLabels: Record<number, string> = {
+  [Amount.High]: "AMOUNT.10",
+  [Amount.Medium]: "AMOUNT.5",
+  [Amount.Low]: "AMOUNT.1"
+};
+
 export interface IModelInputState {
-  algaeStart: EQualitativeAmount;
-  numClams: number;
+  algaeStart: Amount;
+  numClams: Amount;
 }
 
 export interface IModelOutputState {
@@ -29,14 +41,14 @@ export interface IModelOutputState {
 
 export interface IRowData {
   numClams: number;
-  algae: JSX.Element | null;
-  nitrate: JSX.Element | null;
-  turbidity: JSX.Element | null;
+  algae: Amount | null;
+  nitrate: Amount | null;
+  turbidity: Amount | null;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
-  algaeStart: EQualitativeAmount.medium,
-  numClams: 5
+  algaeStart: Amount.Medium,
+  numClams: Amount.Medium
 };
 
 export const defaultInitialState: IInteractiveState = {
