@@ -36,7 +36,7 @@ const numFish = 3; //REMOVE when sliders are implemented
           <div className={css.clams}>
             {Array.from({ length: tempnumclams }).map((_, index) => {
               const Clam = Clams[index % Clams.length];
-              return <Clam key={index} className={cslx(css.clam, css[`clam${index}`])} />;
+              return <Clam key={index} className={cslx(css.clam, css[`clam${index}`], {[css.animate]: isRunning})} />;
             })}
           </div>
         </div>

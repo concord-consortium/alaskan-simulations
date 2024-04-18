@@ -147,10 +147,9 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (dataType: "algae" | "nitrate" | "turbidity") => {
+  const getGraphData = (inputs: IModelInputState) => {
     //This should return the data for the case type depending on inputs
     console.log("getGraphData");
-    return modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((snapshot) => snapshot[dataType]);
   };
   const getActiveX = () => {
     if (isFinished && (activeOutputSnapshotIdx !== null)) {
@@ -162,7 +161,7 @@ export const App = (props: IAppProps) => {
     }
   };
 
-  // const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
+  const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
 
   const uiDisabled = isRunning || isFinished;
 
@@ -245,7 +244,7 @@ export const App = (props: IAppProps) => {
       <SimulationFrame
         className={css.simulationFrame}
         titleImage={HeaderTitle}
-        directions={<ClamFiltrationDirections />} // ReactNode is also allowed if more complex content is needed.
+        directions={<ClamFiltrationDirections />}
       >
         <div className={css.content}>
           <div className={css.optionsContainer}>
