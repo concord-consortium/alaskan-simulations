@@ -279,7 +279,6 @@ export const App = (props: IAppProps) => {
                 columnsMeta={columnsMeta}
                 disabled={isRunning || !!readOnly}
                 centerHeader={true}
-                noWrapDeleteButton={true}
               />
             </div>
             <div className={css.barGraphs}>
