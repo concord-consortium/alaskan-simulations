@@ -70,17 +70,20 @@ export const translations: TranslationDict = {
 
   "SETUP_CLAM_SIM": { string: "Controls", mp3: new Audio(Controls)},
 
-  "EQUALITATIVE_AMOUNT.HIGH": { string: "High", mp3: new Audio(None)},
-  "EQUALITATIVE_AMOUNT.MEDIUM": { string: "Medium", mp3: new Audio(Some)},
-  "EQUALITATIVE_AMOUNT.LOW": { string: "Low", mp3: new Audio(Full)},
+  "AMOUNT.HIGH": { string: "High", mp3: new Audio(Full)},
+  "AMOUNT.MEDIUM": { string: "Med.", mp3: new Audio(Some)},
+  "AMOUNT.LOW": { string: "Low", mp3: new Audio(None)},
+  "AMOUNT.10": { string: "10", mp3: new Audio(Full)},
+  "AMOUNT.5": { string: "5", mp3: new Audio(Some)},
+  "AMOUNT.1": { string: "1", mp3: new Audio(None)},
   "SLIDER_TITLE.ALGAE": { string: "Algae", mp3: new Audio(Light )},
-  "SLIDER_TITLE.NUM_CLAMS": {string: "Number of Clams (per sq. meter)", mp3: new Audio(Water)},
+  "SLIDER_TITLE.NUM_CLAMS": {string: "Number \n of Clams", mp3: new Audio(Water)},
 
   "TIME_SLIDER_LABEL.MONTH": {string: "Month: "},
 
   "OUTPUT.NONE": { string: "None", mp3: new Audio(None)},
   "OUTPUT.LOW": { string: "Low", mp3: new Audio(Low)},
-  "OUTPUT.MEDIUM": { string: "Medium", mp3: new Audio(Medium)},
+  "OUTPUT.MEDIUM": { string: "Med.", mp3: new Audio(Medium)},
   "OUTPUT.HIGH": { string: "High", mp3: new Audio(High)},
 
   "CLAM": { string: "Clam"},

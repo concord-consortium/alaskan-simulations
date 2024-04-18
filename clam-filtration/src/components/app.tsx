@@ -11,7 +11,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationFrame } from "./simulation/simulation-frame";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, EQualitativeAmount } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
@@ -45,14 +45,14 @@ interface IAppProps {
 const defaultInteractiveState: IInteractiveState = {
   answerType: "interactive_state",
   inputState: {
-    algaeStart: EQualitativeAmount.medium,
-    numClams: 5
+    algaeStart: Amount.Medium,
+    numClams: Amount.Medium
   },
   outputState: {
     time: 0,
-    algaeEnd: EQualitativeAmount.high,
-    nitrate: EQualitativeAmount.high,
-    turbidity: EQualitativeAmount.high
+    algaeEnd: Amount.High,
+    nitrate: Amount.High,
+    turbidity: Amount.High
   },
   modelRuns: [],
   readAloudMode: false
@@ -142,7 +142,7 @@ export const App = (props: IAppProps) => {
     console.log("getGraphData");
   };
 
-  const graphData = getGraphData({"algaeStart": EQualitativeAmount.medium, "numClams": 5});
+  const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
 
   const uiDisabled = isRunning || isFinished;
 
@@ -155,9 +155,9 @@ export const App = (props: IAppProps) => {
 
     const getOutputState = (): IModelOutputState => ({
       time: model.time,
-      algaeEnd: EQualitativeAmount.high,
-      nitrate: EQualitativeAmount.high,
-      turbidity: EQualitativeAmount.high
+      algaeEnd: Amount.High,
+      nitrate: Amount.High,
+      turbidity: Amount.High
     });
 
     const simulationStep = (realTimeDiff: number) => {

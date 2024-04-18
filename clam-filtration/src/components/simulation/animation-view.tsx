@@ -1,11 +1,11 @@
 import React from "react";
 import clsx from "clsx";
-import { EQualitativeAmount } from "../../types";
+import { Amount } from "../../types";
 import css from "./animation-view.scss";
 
 interface IProps {
-  algaeStart: EQualitativeAmount;
-  numClams: number;
+  algaeStart: Amount;
+  numClams: Amount;
   time: number;
   isRunning: boolean;
   isFinished: boolean;
