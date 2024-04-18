@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import cslx from "clsx";
 import { EQualitativeAmount } from "../../types";
-import { Clams, WaterEffects } from "../../utils/sim-utils";
+import { Clams, FishStates, WaterEffects, initialFish } from "../../utils/sim-utils";
 import Sand from "../../assets/sand_cropped.svg";
 import SeagrassStrokes from "../../assets/seagrass_strokes.svg";
-import Fish from "../../assets/fish/fish0.svg";
 
 import css from "./animation-view.scss";
+
+const kSimWidth = 481;
 
 interface IProps {
   algaeLevel: EQualitativeAmount;
@@ -19,14 +20,14 @@ interface IProps {
 
 export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, time, turbidity, isRunning, isFinished}) => {
   const tempnumclams = 8; //REMOVE when sliders are implemented
-  const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
-
+  // const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
+const numFish = 3; //REMOVE when sliders are implemented
   return (
     <div className={css.viewContainer}>
       <div className={css.animationContainer}>
         <div className={css.top}>
           <div className={css.water}>
-            <WaterLoop algaeLevel={EQualitativeAmount.low} numFish={numFish}/>
+            <WaterLoop algaeLevel={EQualitativeAmount.low} numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
           </div>
         </div>
         <div className={css.bottom}>
@@ -48,9 +49,11 @@ export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, time, tur
 interface IWaterLoopProps {
   algaeLevel: EQualitativeAmount;
   numFish: number;
+  isRunning: boolean;
+  isFinished: boolean;
 }
 
-const WaterLoop = ({algaeLevel, numFish}: IWaterLoopProps) => {
+const WaterLoop = ({algaeLevel, numFish, isRunning, isFinished}: IWaterLoopProps) => {
   const [currentEffect, setCurrentEffect] = useState(0);
   const algaeLevelClass = algaeLevel === EQualitativeAmount.high
                             ? css.highAlgae
@@ -68,12 +71,65 @@ const WaterLoop = ({algaeLevel, numFish}: IWaterLoopProps) => {
     <div className={css.waterEffects}>
       <img src={WaterEffects[currentEffect]} alt="Water effect" className={css.waterEffect} />
       <div className={cslx(css.waterEffectsOverlay, algaeLevelClass)}>
-        <div className={css.fishWrapper}>
-          {Array.from({ length: numFish }).map((_, index) => (
-            <Fish key={index} className={cslx(css.fish, css[`fish${index}`])} />
-          ))}
-        </div>
+        <FishContainer numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
       </div>
     </div>
   );
+};
+
+interface IFishContainerProps {
+  numFish: number;
+  isRunning: boolean;
+  isFinished: boolean;
+}
+
+const FishContainer = ({numFish, isRunning, isFinished}: IFishContainerProps) => {
+    const initFish = initialFish();
+    const [fishes, setFishes] = useState(() => Array.from({ length: numFish }, (_, index) => ({
+        name: `fish-${index}`,
+        top: initFish[index].top,
+        left: initFish[index].left,
+        frameIdx: index % 4,
+        direction: initFish[index].direction
+    })));
+
+    // Function to update fish state
+    const updateFishState = () => {
+      const newFishes = fishes.map(fish => {
+        let { left, direction, frameIdx } = fish;
+        const deltaX = direction === "right" ? 5 : -5;
+        if (left <= -145) {
+          direction = "right";
+        } else if (left >= kSimWidth) {
+          direction = "left";
+          left = kSimWidth - 1; // Move the fish slightly inside the boundary
+        }
+        left += deltaX;
+        frameIdx = (frameIdx + 1) % 4;
+
+        return { ...fish, left, direction, frameIdx };
+      });
+      setFishes(newFishes);
+    };
+
+    useEffect(() => {
+      if (isRunning && !isFinished) {
+        const interval = setInterval(updateFishState, 125); // update every 200ms
+        return () => clearInterval(interval); // cleanup on unmount
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fishes, isRunning, isFinished]);
+
+    return (
+        <div className={css.fishWrapper}>
+          {fishes.map(fish => {
+            const FishFrame = FishStates[fish.frameIdx || 0];
+            return <FishFrame key={fish.name} className={css.fish}
+                      style={{ top: fish.top,
+                               left: fish.left,
+                               transform: fish.direction === "left" ? "scaleX(-1)" : "scaleX(1)"
+                              }} />;
+          })}
+        </div>
+    );
 };

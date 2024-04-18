@@ -9,7 +9,7 @@ interface IProps {
   disabled?: boolean;
 }
 
-export const TimeSlider: React.FC<IProps> = ({ time, onChange, disabled, label }) => {
+export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, disabled, label }) => {
   const handleChange = (e: Event, value: number) => {
     onChange(value);
   };
@@ -18,7 +18,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, onChange, disabled, label }
     <Slider
       value={time}
       min={0}
-      max={4}
+      max={snapshotsCount - 1}
       step={1}
       label={label}
       onChange={handleChange}

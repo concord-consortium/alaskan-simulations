@@ -9,10 +9,11 @@ import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, defaultInitialState, EQualitativeAmount, IAuthoredState } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, defaultInitialState, EQualitativeAmount, IAuthoredState, IAnimalData } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
+import { initialFish } from "../utils/sim-utils";
 import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
@@ -25,7 +26,7 @@ const totalFrames = simLength * targetStepsPerSecond;
 let lastStepTime:  number;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
 // is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
-const snapshotsCount = 6;
+const snapshotsCount = 5;
 
 const columnsMeta: IColumnMeta[] = [
   { numeric: false },
@@ -155,13 +156,7 @@ export const App = (props: IAppProps) => {
 
     lastStepTime = window.performance.now();
 
-    const getOutputState = (): IModelOutputState => ({
-      time: model.time,
-      algae: model.algae ,
-      nitrate: model.nitrate,
-      turbidity: model.turbidity,
-    });
-    // modelRef.current = new Model(inputState);
+
     const simulationStep = () => {
       // simple calculation to work out desired times we should step the model.
       // this could be made more complex by calculating the total number of steps we
@@ -170,8 +165,13 @@ export const App = (props: IAppProps) => {
       const dt = now - lastStepTime;
       lastStepTime = now;
       const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
-      console.log("in simulation steps", steps);
-console.log("in simulation isFinished", isFinished);
+      const modelSimulationState = model.getSimulationState();
+      const getOutputState = (): IModelOutputState => ({
+        time: model.time,
+        algae: model.algae ,
+        nitrate: model.nitrate,
+        turbidity: model.turbidity,
+      });
       for (let i = 0; i < steps; i++) {
         model.step();
         frames += 1;
@@ -180,10 +180,7 @@ console.log("in simulation isFinished", isFinished);
           snapshotOutputState(getOutputState());
         }
       }
-      const modelSimulationState = model.getSimulationState();
-console.log("modelSimulationState", modelSimulationState);
       setOutputState(getOutputState());
-      // if (modelSimulationState.isFinished || modelSimulationState.percentComplete >= 1) {
       if (frames >= totalFrames) {
         console.log("in simulation end");
         endSimulation();
@@ -210,11 +207,9 @@ console.log("modelSimulationState", modelSimulationState);
   const getTimeSliderLabel = () => {
     const timeIdx = Math.max(Math.min(0, time), time);
     const monthLabel = monthLabels[timeIdx];
-    console.log("monthLabel", monthLabel);
     // Translations only for months that user re-visits.
-    return `Month : ${monthLabel}`;
-    // return isRunning ? `Month : ${monthLabel}`
-    //                   : <>{t("TIME_SLIDER_LABEL.MONTH")} {monthLabel}</>;
+    return isRunning ? `Month : ${monthLabel}`
+                      : <>{t("TIME_SLIDER_LABEL.MONTH")} {monthLabel}</>;
   };
 
   const getGraphTitle = () => {

@@ -33,8 +33,8 @@ export const WaterEffects = [WaterEffects0,WaterEffects1,WaterEffects2,WaterEffe
                               WaterEffects6,WaterEffects7,WaterEffects8,WaterEffects9,WaterEffects10,WaterEffects11];
 export function initialFish() {
   return [
-    {name: "A", left: 15, top: 0, direction: "right", affected: false},
-    {name: "B", left: 120, top: -10, direction: "left", affected: false},
-    {name: "C", left: 130, top: 45, direction: "right", affected: false},
+    {name: "A", left: 15, top: 0, direction: "right"},
+    {name: "B", left: 170, top: 45, direction: "left"},
+    {name: "C", left: 235, top: 85, direction: "right"},
   ];
 }

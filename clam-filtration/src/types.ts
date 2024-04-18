@@ -22,16 +22,16 @@ export interface IModelInputState {
 
 export interface IModelOutputState {
   time: number;
-  algaeEnd: EQualitativeAmount | null;
-  nitrate: EQualitativeAmount | null;
-  turbidity: EQualitativeAmount | null;
+  algae: number | null;
+  nitrate: number | null;
+  turbidity: number | null;
 }
 
 export interface IRowData {
   numClams: number;
-  algaeEnd: EQualitativeAmount | null;
-  nitrate: EQualitativeAmount | null;
-  turbidity: EQualitativeAmount | null;
+  algae: JSX.Element | null;
+  nitrate: JSX.Element | null;
+  turbidity: JSX.Element | null;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
@@ -40,14 +40,25 @@ export const defaultAuthoredState: IAuthoredState = {
 };
 
 export const defaultInitialState: IInteractiveState = {
-    answerType: "interactive_state",
-    inputState: defaultAuthoredState,
-    outputState: {
-      time: 0,
-      algaeEnd: null,
-      nitrate: null,
-      turbidity: null
-    },
-    modelRuns: [],
-    readAloudMode: false
-  };
+  answerType: "interactive_state",
+  inputState: defaultAuthoredState,
+  outputState: {
+    time: 0,
+    algae: null,
+    nitrate: null,
+    turbidity: null,
+  },
+  modelRuns: [],
+  readAloudMode: false
+};
+
+  export interface IAnimalData {
+    name: string,
+    left: number,
+    top: number,
+    direction: string,
+    frameIdx?: number,
+  }
+
+  export type TOrganisms = "fish";
+
