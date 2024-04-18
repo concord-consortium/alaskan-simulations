@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useModelState } from "../hooks/use-model-state";
 import { useSimulationRunner, SimulationFrame, useTranslation, TranslationContext } from "common";
 import { useModelTable } from "../hooks/use-model-table";
@@ -10,7 +9,7 @@ import { NewRunButton } from "./controls/new-run-button";
 import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, EQualitativeAmount } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, defaultInitialState, EQualitativeAmount, IAuthoredState } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
@@ -18,10 +17,15 @@ import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
 
-const targetStepsPerSecond = 120;
+const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
+// Simulation length in real world seconds.
+const simLength = 4; // s
+const totalFrames = simLength * targetStepsPerSecond;
 let lastStepTime:  number;
-
+// Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
+// is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
+const snapshotsCount = 6;
 
 const columnsMeta: IColumnMeta[] = [
   { numeric: false },
@@ -33,48 +37,31 @@ const columnsMeta: IColumnMeta[] = [
 
 interface IAppProps {
   interactiveState: IInteractiveState | null;
+  authoredState?: IAuthoredState | null;
   readOnly?: boolean;
 }
 
-const defaultInteractiveState: IInteractiveState = {
-  answerType: "interactive_state",
-  inputState: {
-    algaeStart: EQualitativeAmount.medium,
-    numClams: 5
-  },
-  outputState: {
-    time: 0,
-    algaeEnd: EQualitativeAmount.high,
-    nitrate: EQualitativeAmount.high,
-    turbidity: EQualitativeAmount.high
-  },
-  modelRuns: [],
-  readAloudMode: false
-};
-
 export const App = (props: IAppProps) => {
-  const { readOnly } = props;
-  const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
+  const { interactiveState, readOnly } = props;
+  // const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(defaultInitialState.readAloudMode);
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode);
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
-  const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
+  // const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
 
   const translationContextValues = useMemo(() => ({
     translations,
     disabled: isRunning,
-    readAloudMode: interactiveState.readAloudMode,
-    setReadAloudMode: (hasReadAloud: boolean) => {
-      setInteractiveState(prev => ({ ...(prev || defaultInteractiveState), hasReadAloud }));
-    },    isAnyAudioPlaying,
+    readAloudMode,
+    setReadAloudMode,
+    isAnyAudioPlaying,
     setIsAnyAudioPlaying
   }), [isAnyAudioPlaying, isRunning, readAloudMode]);
 
   // Pass context values as props, as App component also defines TranslationContext.Provider, so it's not possible to
   // rely on context values from there.
   const { t } = useTranslation(translationContextValues);
-  const monthLabels = [t("MONTH_1"), t("MONTH_2"), t("MONTH_3"), t("MONTH_4"), t("MONTH_5")];
-
+  const monthLabelsTranslated = [t("MONTH_1"), t("MONTH_2"), t("MONTH_3"), t("MONTH_4"), t("MONTH_5")];
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
@@ -118,35 +105,63 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
   } = modelState;
 
+  const getNumToText = (num: number | null, type: string) => {
+    if (num === null) return null;
+    switch (type) {
+      case "algae":
+      case "turbidity":
+        return num <= 30 ? t(EQualitativeAmount.low) : num >= 61 ? t(EQualitativeAmount.high) : t(EQualitativeAmount.medium);
+      case "nitrate":
+        return num <= 20 ? t(EQualitativeAmount.low) : num >= 36 ? t(EQualitativeAmount.high) : t(EQualitativeAmount.medium);
+      default:
+        return null;
+    }
+  };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
     numClams: runInputState.numClams,
-    algaeEnd: runOutputState.algaeEnd,
-    nitrate: runOutputState.nitrate,
-    turbidity: runOutputState.turbidity,
+    algae: !isRunning && !runIsFinished ? null : getNumToText(runOutputState.algae, "algae"),
+    nitrate: !isRunning && !runIsFinished ? null : getNumToText(runOutputState.nitrate, "nitrate"),
+    turbidity: !isRunning && !runIsFinished ? null : getNumToText(runOutputState.turbidity, "turbidity"),
   }), [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (inputs: IModelInputState) => {
+  const getGraphData = (dataType: "algae" | "nitrate" | "turbidity") => {
     //This should return the data for the case type depending on inputs
     console.log("getGraphData");
+    return modelState.modelRuns[modelState.activeRunIdx].outputStateSnapshots.map((snapshot) => snapshot[dataType]);
   };
-
-  const graphData = getGraphData({"algaeStart": EQualitativeAmount.medium, "numClams": 5});
+  const getActiveX = () => {
+    if (isFinished && (activeOutputSnapshotIdx !== null)) {
+      return activeOutputSnapshotIdx * 4;
+    } else if (isFinished) {
+      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
+    } else {
+      return undefined;
+    }
+  };
 
   const uiDisabled = isRunning || isFinished;
 
   const handleStartSimulation = () => {
-    lastStepTime = window.performance.now();
-    // if (!isPaused) {
     const model = new Model(inputState);
-    // }
+    let frames = 0;
+    // snapshotCounts - 1, as the initial snapshot is already saved.
+    const snapshotInterval = totalFrames / (snapshotsCount - 1);
 
+    lastStepTime = window.performance.now();
 
+    const getOutputState = (): IModelOutputState => ({
+      time: model.time,
+      algae: model.algae ,
+      nitrate: model.nitrate,
+      turbidity: model.turbidity,
+    });
+    // modelRef.current = new Model(inputState);
     const simulationStep = () => {
       // simple calculation to work out desired times we should step the model.
       // this could be made more complex by calculating the total number of steps we
@@ -154,61 +169,29 @@ export const App = (props: IAppProps) => {
       const now = window.performance.now();
       const dt = now - lastStepTime;
       lastStepTime = now;
-      const steps = Math.max(1, Math.min(60, Math.round(dt / targetFramePeriod)));
-
+      const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
+      console.log("in simulation steps", steps);
+console.log("in simulation isFinished", isFinished);
       for (let i = 0; i < steps; i++) {
         model.step();
+        frames += 1;
+        console.log("in simulation step", i);
+        if (frames % snapshotInterval === 0) {
+          snapshotOutputState(getOutputState());
+        }
       }
-      // const modelSimulationState = model.getSimulationState();
-      // setTransientState({
-      //   time: modelSimulationState.percentComplete,
-      // });
-      // setOutputState({
-      //   organisms: modelSimulationState.currentOrganismPositions
-      // });
-
-      // if (modelSimulationState.isFinished) {
-      //   endSimulation();
-      // }
+      const modelSimulationState = model.getSimulationState();
+console.log("modelSimulationState", modelSimulationState);
+      setOutputState(getOutputState());
+      // if (modelSimulationState.isFinished || modelSimulationState.percentComplete >= 1) {
+      if (frames >= totalFrames) {
+        console.log("in simulation end");
+        endSimulation();
+        markRunFinished();
+      }
     };
     startSimulation(simulationStep);
   };
-
-  // const handleStartSimulation = () => {
-  //   const model = new Model(inputState);
-
-  //   let frames = 0;
-  //   // snapshotCounts - 1, as the initial snapshot is already saved.
-  //   const snapshotInterval = totalFrames / (snapshotsCount - 1);
-
-  //   const getOutputState = (): IModelOutputState => ({
-  //     time: model.time,
-  //     sugarUsed: model.sugarUsed,
-  //     sugarCreated: model.sugarCreated
-  //   });
-
-  //   const simulationStep = (realTimeDiff: number) => {
-  //     const stepFrames = Math.max(1, Math.min(10, Math.round(realTimeDiff / targetFramePeriod)));
-
-  //     for (let i = 0; i < stepFrames; i++) {
-  //       model.step(1 / totalFrames);
-  //       frames += 1;
-
-  //       if (frames % snapshotInterval === 0) {
-  //         snapshotOutputState(getOutputState());
-  //       }
-  //     }
-
-  //     setOutputState(getOutputState());
-
-  //     if (frames >= totalFrames) {
-  //       endSimulation();
-  //       markRunFinished();
-  //     }
-  //   };
-
-  //   startSimulation(simulationStep);
-  // };
 
   // When a new row is added to the table, it also receives a focus. This is not desired, as users will have to
   // navigate through multiple elements before they get back to input widgets. To avoid this, we focus on the Play
@@ -222,17 +205,23 @@ export const App = (props: IAppProps) => {
       focusTargetAfterNewRun.current?.focus();
     }, 150);
   };
-
+  const monthLabels = ["May", "June", "July", "August", "September"];
+  const time: number = parseInt((outputState.time).toFixed(0), 10) || 0;
   const getTimeSliderLabel = () => {
-    //TODO need to fix this to show the correct month at the correct time
-    const time = (outputState.time).toFixed(0);
-    return `${t("TIME_SLIDER_LABEL.MONTH")}: ${time}`;
+    const timeIdx = Math.max(Math.min(0, time), time);
+    const monthLabel = monthLabels[timeIdx];
+    console.log("monthLabel", monthLabel);
+    // Translations only for months that user re-visits.
+    return `Month : ${monthLabel}`;
+    // return isRunning ? `Month : ${monthLabel}`
+    //                   : <>{t("TIME_SLIDER_LABEL.MONTH")} {monthLabel}</>;
   };
 
   const getGraphTitle = () => {
     // We do not have translations for graph run when higher than 9th run.
     return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs` : t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
   };
+  const timeSliderLabel = getTimeSliderLabel();
 
   return (
     <TranslationContext.Provider value={translationContextValues}>
@@ -253,6 +242,7 @@ export const App = (props: IAppProps) => {
             <SimulationView
               input={inputState}
               output={outputState}
+              month={monthLabels[time]}
               isRunning={isRunning}
               isFinished={isFinished}
               readOnly={readOnly}
@@ -261,7 +251,8 @@ export const App = (props: IAppProps) => {
               <PlayButton ref={focusTargetAfterNewRun} onClick={handleStartSimulation} disabled={isRunning || isFinished || readOnly} />
               <div className={css.timeSliderContainer}>
                 <TimeSlider
-                  label={getTimeSliderLabel()}
+                  label={timeSliderLabel}
+                  snapshotsCount={snapshotsCount}
                   time={outputState.time}
                   onChange={setActiveOutputSnapshotIdx}
                   disabled={!isFinished || readOnly}
