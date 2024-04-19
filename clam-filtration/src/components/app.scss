@@ -135,12 +135,6 @@ $graphContainerWidth: $maxAppWidth - $optionsContainerWidth - $gapBetweenContain
       border: 2px solid $panel-bg;
       border-radius: 0px 0px 20px 20px;
     }
-
-    .graphsContainer {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-    }
   }
 }
 

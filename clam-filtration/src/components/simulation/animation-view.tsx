@@ -12,13 +12,12 @@ const kSimWidth = 481;
 interface IProps {
   algaeLevel: Amount;
   numClams: Amount;
-  time: number;
   turbidity: number;
   isRunning: boolean;
   isFinished: boolean;
 }
 
-export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, time, turbidity, isRunning, isFinished}) => {
+export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity, isRunning, isFinished}) => {
   const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
   return (
     <div className={css.viewContainer}>

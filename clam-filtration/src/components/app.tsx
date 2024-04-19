@@ -14,9 +14,12 @@ import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuth
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
+import { GraphsContainer } from "./line-graph/graphs-container";
+import { algaeLevelText, clamDensities, outputData } from "../utils/data";
 import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
+
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -230,6 +233,7 @@ export const App = (props: IAppProps) => {
   };
 
   const timeSliderLabel = getTimeSliderLabel();
+  const dataOutput = outputData[`${algaeLevelText[inputState.algaeStart]}${clamDensities[inputState.numClams]}`];
 
   return (
     <TranslationContext.Provider value={translationContextValues}>
@@ -252,8 +256,8 @@ export const App = (props: IAppProps) => {
               <div className={css.simulationContainer}>
                 <SimulationView
                   input={inputState}
-                  output={outputState}
                   month={monthLabels[timeIdx]}
+                  dataOutput={dataOutput}
                   isRunning={isRunning}
                   isFinished={isFinished}
                   readOnly={readOnly}
@@ -288,11 +292,7 @@ export const App = (props: IAppProps) => {
               <div className={css.lineGraphs}>
                 <div className={css.header}>{getGraphTitle()}</div>
                 <div className={css.body}>
-                  <div className={css.graphsContainer}>
-                    <div className={css.graphs}>
-                      Line graphs go here
-                    </div>
-                  </div>
+                  <GraphsContainer dataOutput={dataOutput}/>
                 </div>
               </div>
             </div>
