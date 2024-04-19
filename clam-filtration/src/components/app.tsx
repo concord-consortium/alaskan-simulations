@@ -11,7 +11,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationFrame } from "./simulation/simulation-frame";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount, amountLabels, clamLabels } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
@@ -50,9 +50,9 @@ const defaultInteractiveState: IInteractiveState = {
   },
   outputState: {
     time: 0,
-    algaeEnd: Amount.High,
-    nitrate: Amount.High,
-    turbidity: Amount.High
+    algaeEnd: Amount.Low,
+    nitrate: Amount.Low,
+    turbidity: Amount.Low
   },
   modelRuns: [],
   readAloudMode: false
@@ -89,13 +89,13 @@ export const App = (props: IAppProps) => {
     },
     {
       Header: t("TABLE.HEADER_CLAMS"),
-      accessor: "clams" as const,
+      accessor: "numClams" as const,
       width: 75,
       disableSortBy: true
     },
     {
       Header: t("TABLE.HEADER_ALGAE"),
-      accessor: "algae" as const,
+      accessor: "algaeEnd" as const,
       width: 150,
       disableSortBy: true
     },
@@ -126,17 +126,16 @@ export const App = (props: IAppProps) => {
 
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
-    numClams: runInputState.numClams,
-    algaeEnd: runOutputState.algaeEnd,
-    nitrate: runOutputState.nitrate,
-    turbidity: runOutputState.turbidity,
+    numClams: !isRunning && !runIsFinished ? "" : t(clamLabels[runInputState.numClams]),
+    algaeEnd: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.algaeEnd]),
+    nitrate: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.nitrate]),
+    turbidity: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.turbidity]),
   }), [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
   const getGraphData = (inputs: IModelInputState) => {
     //This should return the data for the case type depending on inputs
-    console.log("getGraphData");
   };
 
   const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});

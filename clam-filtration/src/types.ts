@@ -34,16 +34,16 @@ export interface IModelInputState {
 
 export interface IModelOutputState {
   time: number;
-  algaeEnd: Amount | null;
-  nitrate: Amount | null;
-  turbidity: Amount | null;
+  algaeEnd: Amount;
+  nitrate: Amount;
+  turbidity: Amount;
 }
 
 export interface IRowData {
-  numClams: number;
-  algaeEnd: Amount | null;
-  nitrate: Amount | null;
-  turbidity: Amount | null;
+  numClams: string | JSX.Element;
+  algaeEnd: string | JSX.Element;
+  nitrate: string | JSX.Element;
+  turbidity: string | JSX.Element;
 }
 
 export const defaultAuthoredState: IAuthoredState = {
@@ -56,9 +56,9 @@ export const defaultInitialState: IInteractiveState = {
     inputState: defaultAuthoredState,
     outputState: {
       time: 0,
-      algaeEnd: null,
-      nitrate: null,
-      turbidity: null
+      algaeEnd: 0,
+      nitrate: 0,
+      turbidity: 0
     },
     modelRuns: [],
     readAloudMode: false
