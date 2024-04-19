@@ -186,7 +186,7 @@ export const App = (props: IAppProps) => {
       const modelSimulationState = model.getSimulationState();
       const getOutputState = (): IModelOutputState => ({
         time: model.time,
-        algae: model.algae ,
+        algaeEnd: model.algae ,
         nitrate: model.nitrate,
         turbidity: model.turbidity,
       });
@@ -223,12 +223,12 @@ export const App = (props: IAppProps) => {
   const timeIdx = Math.min(Math.floor(time / 2), monthLabels.length - 1);
 
   const getTimeSliderLabel = () => {
-    const time = outputState.time;
+    const _time = outputState.time;
     const segments = monthLabels.length - 1; // number of dots, which is one less than number of months
 
     // we add a very small number before applying Math.floor to handle edge cases
     // this ensures the last label is only used at the end (1.0)
-    const monthIndex = Math.floor((time * segments) + 0.0001);
+    const monthIndex = Math.floor((_time * segments) + 0.0001);
 
     const timeLabel = monthLabels[monthIndex];
     return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;

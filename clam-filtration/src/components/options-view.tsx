@@ -18,7 +18,7 @@ export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, setOu
 
   const handleAlgaAmountChange = useCallback((value: number) => {
     setInputState({algaeStart: value});
-    setOutputState({algae: null, nitrate: null, turbidity: null});
+    setOutputState({algaeEnd: 0, nitrate: 0, turbidity: 0});
   }, [setInputState]);
 
   const handleNumClamsChange = useCallback((value: number) => {
