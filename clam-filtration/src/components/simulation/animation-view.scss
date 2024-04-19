@@ -116,23 +116,28 @@
     .bottom {
       position: absolute;
       width: $simViewWidth - 2px;
-      height: 110px;
+      height: 120px;
       bottom: 2px;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       overflow: hidden;
 
-      .seagrass_outlines {
+      .seagrass {
         position: absolute;
-        bottom: 88px;
-        left: -30px;
-        width: $simViewWidth;
-      }
-      .seagrass_strokes {
-        position: absolute;
-        bottom: 95px;
-        left: 10px;
-        width: $simViewWidth;
+        width: $simViewWidth * 2;
+        height: 32px;
+        .seagrass_outlines {
+          position: relative;
+          bottom: 0;
+          left: -180px;
+          height: 32px;
+        }
+        .seagrass_strokes {
+          position: absolute;
+          bottom: 95px;
+          left: 10px;
+          width: $simViewWidth;
+        }
       }
       .sand {
         position: absolute;

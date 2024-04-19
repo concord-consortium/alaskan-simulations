@@ -3,7 +3,6 @@ import cslx from "clsx";
 import { Amount, IAnimalData } from "../../types";
 import { Clams, FishStates, WaterEffects, initialFish } from "../../utils/sim-utils";
 import Sand from "../../assets/sand_cropped.svg";
-import SeagrassStrokes from "../../assets/seagrass_strokes.svg";
 import SeagrassOutlines from "../../assets/seagrass_outlines.svg";
 
 import css from "./animation-view.scss";
@@ -192,7 +191,6 @@ const SeagrassAnimation = ({isRunning}: {isRunning: boolean}) => {
   }, [isRunning]);
   return (
     <div className={css.seagrass} ref={seagrassRef}>
-      <SeagrassStrokes className={css.seagrass_strokes}/>
       <SeagrassOutlines className={css.seagrass_outlines}/>
     </div>
   );

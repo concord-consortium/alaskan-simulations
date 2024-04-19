@@ -168,13 +168,6 @@ export const App = (props: IAppProps) => {
     // snapshotCounts - 1, as the initial snapshot is already saved.
     const snapshotInterval = totalFrames / (snapshotsCount - 1);
 
-    // const getOutputState = (): IModelOutputState => ({
-    //   time: model.time,
-    //   algae: Amount.High,
-    //   nitrate: Amount.High,
-    //   turbidity: Amount.High
-    // });
-
     const simulationStep = () => {
       // simple calculation to work out desired times we should step the model.
       // this could be made more complex by calculating the total number of steps we
