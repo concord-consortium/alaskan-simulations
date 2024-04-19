@@ -54,9 +54,9 @@ interface IWaterLoopProps {
 
 const WaterLoop = ({algaeLevel, numFish, turbidity, isRunning, isFinished}: IWaterLoopProps) => {
   const [currentEffect, setCurrentEffect] = useState(0);
-  const algaeLevelClass = turbidity > 75 || (!isRunning && !isFinished && algaeLevel === Amount.High)
+  const algaeLevelClass = turbidity > 61 || (!isRunning && !isFinished && algaeLevel === Amount.High)
                             ? css.highAlgae
-                            : turbidity > 50 || (!isRunning && !isFinished && algaeLevel === Amount.Medium)
+                            : turbidity > 31 || (!isRunning && !isFinished && algaeLevel === Amount.Medium)
                                 ? css.mediumAlgae : "";
   useEffect(() => {
     const interval = setInterval(() => {

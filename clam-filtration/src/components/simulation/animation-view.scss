@@ -47,21 +47,56 @@
             background: linear-gradient(180deg, #FFFF 0%, #CCB46E 100%);
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
+            transition: opacity 0.75s ease;
             .fish {
               opacity: 100%;
+            }
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(180deg, #808640 0%, #CCB46E 100%);
+              opacity: 0;
+              transition: opacity 0.75s ease;
+              border-top-left-radius: 20px;
+              border-top-right-radius: 20px;
+            }
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(180deg, #b7d94c 0%, #CCB46E 100%);
+              opacity: 0;
+              transition: opacity 0.75s ease;
+              border-top-left-radius: 20px;
+              border-top-right-radius: 20px;
             }
 
             &.highAlgae {
               background: linear-gradient(180deg, #808640 0%, #CCB46E 100%);
+              &::before {
+                opacity: 1;
+              }
               .fish {
                 opacity: 50%;
               }
             }
             &.mediumAlgae {
               background: linear-gradient(180deg, #b7d94c 0%, #CCB46E 100%);
+              &::before{
+                background: linear-gradient(180deg, #808640 0%, #CCB46E 100%);
+              }
+              &::after {
+                opacity: 1;
+              }
               .fish {
                 opacity: 75%;
-
               }
             }
           }
