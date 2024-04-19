@@ -59,12 +59,14 @@ const WaterLoop = ({algaeLevel, numFish, turbidity, isRunning, isFinished}: IWat
                             : turbidity > 31 || (!isRunning && !isFinished && algaeLevel === Amount.Medium)
                                 ? css.mediumAlgae : "";
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentEffect((currentEffect + 1) % WaterEffects.length);
-    }, 150);
+    if (isRunning) {
+      const interval = setInterval(() => {
+        setCurrentEffect((currentEffect + 1) % WaterEffects.length);
+      }, 150);
 
-    return () => clearInterval(interval); // Clean up on component unmount
-  }, [currentEffect]);
+      return () => clearInterval(interval);
+    }
+  }, [currentEffect, isRunning]);
   return (
     <div className={css.waterEffects}>
       <img src={WaterEffects[currentEffect]} alt="Water effect" className={css.waterEffect} />
