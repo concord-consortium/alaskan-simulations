@@ -21,7 +21,7 @@ import css from "./app.scss";
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
 // Simulation length in real world seconds.
-const simLength = 4; // s
+const simLength = 8; // s
 const totalFrames = simLength * targetStepsPerSecond;
 let lastStepTime:  number;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
@@ -222,8 +222,9 @@ export const App = (props: IAppProps) => {
   };
   const monthLabels = ["May", "June", "July", "August", "September"];
   const time: number = parseInt((outputState.time).toFixed(0), 10) || 0;
+  const timeIdx = Math.min(Math.floor(time / 2), monthLabels.length - 1);
+
   const getTimeSliderLabel = () => {
-    const timeIdx = Math.max(Math.min(0, time), time);
     const monthLabel = monthLabels[timeIdx];
     // Translations only for months that user re-visits.
     return isRunning ? `Month : ${monthLabel}`
@@ -248,6 +249,7 @@ export const App = (props: IAppProps) => {
             <OptionsView
               inputState={inputState}
               setInputState={setInputState}
+              setOutputState={setOutputState}
               disabled={uiDisabled || !!readOnly}
             />
           </div>
@@ -257,7 +259,7 @@ export const App = (props: IAppProps) => {
                 <SimulationView
                   input={inputState}
                   output={outputState}
-                  month={monthLabels[time]}
+                  month={monthLabels[timeIdx]}
                   isRunning={isRunning}
                   isFinished={isFinished}
                   readOnly={readOnly}
