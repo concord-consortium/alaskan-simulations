@@ -193,10 +193,14 @@ export const App = (props: IAppProps) => {
   };
 
   const getTimeSliderLabel = () => {
-    //TODO need to fix this to show the correct month at the correct time
     const time = outputState.time;
-    const timeLabel = monthLabels[time];
+    const segments = monthLabels.length - 1; // number of dots, which is one less than number of months
 
+    // we add a very small number before applying Math.floor to handle edge cases
+    // this ensures the last label is only used at the end (1.0)
+    const monthIndex = Math.floor((time * segments) + 0.0001);
+
+    const timeLabel = monthLabels[monthIndex];
     return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
 
