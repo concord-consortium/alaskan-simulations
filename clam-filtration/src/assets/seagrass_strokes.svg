@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1313.11 63.28">
-  <g id="seagrass" transform="translate(0, 15)" data-name="Layer 1">
+  <g id="seagrass_strokes" transform="translate(0, 15)" data-name="Layer 1">
     <g>
       <path d="m597.13,37.99C651.6,53.38,694.02-1.99,747.48.06c15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
       <path d="m1058.9,45.15c54.47,15.39,96.89-39.98,150.35-37.93,15.69.59,32.29,6.28,41.99,19.17-19.29-16.94-47.7-15.66-70.54-7.38-23.91,8.45-46,23.16-70.78,29.43-16.7,4.22-35.43,4.95-51.02-3.28h0Z" fill="#b0be34" stroke-width="0"/>
@@ -21,13 +21,13 @@
     </g>
   </g>
   <animateTransform
-    href="#seagrass"
+    href="#seagrass_strokes"
     attributeName="transform"
     attributeType="XML"
     type="translate"
     from="0"
-    to="83.75"
-    dur="2s"
+    to="80"
+    dur="8s"
     begin="indefinite"
     fill="freeze"
     repeatCount="indefinite"

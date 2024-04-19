@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cslx from "clsx";
 import { Amount } from "../../types";
 import { Clams, FishStates, WaterEffects, initialFish } from "../../utils/sim-utils";
 import Sand from "../../assets/sand_cropped.svg";
 import SeagrassStrokes from "../../assets/seagrass_strokes.svg";
+import SeagrassOutlines from "../../assets/seagrass_outlines.svg";
 
 import css from "./animation-view.scss";
 
@@ -31,7 +32,7 @@ const numFish = 3; //REMOVE when sliders are implemented
           </div>
         </div>
         <div className={css.bottom}>
-          <SeagrassStrokes className={css.seagrassStrokes}/>
+          <SeagrassAnimation isRunning={isRunning}/>
           <Sand className={css.sand}/>
           <div className={css.clams}>
             {Array.from({ length: tempnumclams }).map((_, index) => {
@@ -132,4 +133,44 @@ const FishContainer = ({numFish, isRunning, isFinished}: IFishContainerProps) =>
           })}
         </div>
     );
+};
+
+const SeagrassAnimation = ({isRunning}: {isRunning: boolean}) => {
+  const seagrassRef = useRef<HTMLDivElement>(null);
+  const isAnimatingRef = useRef(false);
+console.log("isRunning", isRunning);
+  useEffect(() => {
+    const controlAnimation = (svgElement: Element) => {
+      const animations = svgElement?.getElementsByTagName("animateTransform");
+      if (animations && animations.length > 0) {
+        if (isRunning && !isAnimatingRef.current) {
+          animations[0].beginElement();
+        } else if (!isRunning && isAnimatingRef.current) {
+          animations[0].endElement();
+        }
+      }
+    };
+
+    if (seagrassRef.current) {
+      const svgOutlines = seagrassRef.current.querySelector(".animation-view-seagrass_outlines");
+      const svgStrokes = seagrassRef.current.querySelector(".animation-view-seagrass_strokes");
+      console.log("SVG Outlines:", svgOutlines);
+      console.log("SVG Strokes:", svgStrokes);
+      if (isRunning && !isAnimatingRef.current) {
+        svgOutlines && controlAnimation(svgOutlines);
+        svgStrokes && controlAnimation(svgStrokes);
+        isAnimatingRef.current = true;
+      } else if (!isRunning && isAnimatingRef.current) {
+        svgOutlines && controlAnimation(svgOutlines);
+        svgStrokes && controlAnimation(svgStrokes);
+        isAnimatingRef.current = false;
+      }
+    }
+  }, [isRunning]);
+  return (
+    <div className={css.seagrass} ref={seagrassRef}>
+      <SeagrassStrokes className={css.seagrass_strokes}/>
+      <SeagrassOutlines className={css.seagrass_outlines}/>
+    </div>
+  );
 };

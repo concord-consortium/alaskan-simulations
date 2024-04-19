@@ -87,10 +87,17 @@
       border-bottom-right-radius: 20px;
       overflow: hidden;
 
-      .seagrassStrokes {
+      .seagrass_outlines {
         position: absolute;
         bottom: 88px;
         left: -30px;
+        width: $simViewWidth;
+      }
+      .seagrass_strokes {
+        position: absolute;
+        bottom: 95px;
+        left: 10px;
+        width: $simViewWidth;
       }
       .sand {
         position: absolute;

@@ -65,7 +65,6 @@ export const App = (props: IAppProps) => {
   const [readAloudMode, setReadAloudMode] = useState<boolean>(interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode);
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
   // const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
-
   const translationContextValues = useMemo(() => ({
     translations,
     disabled: isRunning,
@@ -196,14 +195,12 @@ export const App = (props: IAppProps) => {
       for (let i = 0; i < steps; i++) {
         model.step();
         frames += 1;
-        console.log("in simulation step", i);
         if (frames % snapshotInterval === 0) {
           snapshotOutputState(getOutputState());
         }
       }
       setOutputState(getOutputState());
       if (frames >= totalFrames) {
-        console.log("in simulation end");
         endSimulation();
         markRunFinished();
       }
