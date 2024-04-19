@@ -218,19 +218,16 @@ export const App = (props: IAppProps) => {
       focusTargetAfterNewRun.current?.focus();
     }, 150);
   };
+
   const monthLabels = ["May", "June", "July", "August", "September"];
   const time: number = parseInt((outputState.time).toFixed(0), 10) || 0;
   const timeIdx = Math.min(Math.floor(time / 2), monthLabels.length - 1);
 
   const getTimeSliderLabel = () => {
-    const _time = outputState.time;
-    const segments = monthLabels.length - 1; // number of dots, which is one less than number of months
-
-    // we add a very small number before applying Math.floor to handle edge cases
-    // this ensures the last label is only used at the end (1.0)
-    const monthIndex = Math.floor((_time * segments) + 0.0001);
-
-    const timeLabel = monthLabels[monthIndex];
+    const segments = monthLabelsTranslated.length - 1; // number of dots, which is one less than number of month
+    const durationPerSegment = simLength / segments;
+    const monthIndex = Math.floor(outputState.time / durationPerSegment + .0001);
+    const timeLabel = monthLabelsTranslated[monthIndex];
     return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
 
@@ -238,6 +235,7 @@ export const App = (props: IAppProps) => {
     // We do not have translations for graph run when higher than 9th run.
     return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs` : t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
   };
+
   const timeSliderLabel = getTimeSliderLabel();
 
   return (
