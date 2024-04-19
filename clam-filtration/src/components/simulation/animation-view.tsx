@@ -18,7 +18,7 @@ interface IProps {
   isFinished: boolean;
 }
 
-export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, time, turbidity, isRunning, isFinished}) => {  console.log("turbitity", turbidity);
+export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, time, turbidity, isRunning, isFinished}) => {
   const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
   return (
     <div className={css.viewContainer}>
