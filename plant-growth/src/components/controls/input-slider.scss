@@ -63,9 +63,8 @@
         border-radius: 50%;
         border: 1px solid $panel-bg;
         background-color: $light-green;
-        outline: 1px solid $bright-green;
+        box-shadow: 0px 0px 0px 1px $bright-green;
         cursor: pointer;
-        box-shadow: 0 0px 4px 3px rgba(0, 0, 0, 0.2);
       }
     }
     .right {

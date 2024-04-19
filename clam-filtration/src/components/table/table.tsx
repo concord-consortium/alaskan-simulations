@@ -25,8 +25,6 @@ export interface ITableProps<Data> {
   customHeader?: JSX.Element;
   headerGroupTitle?: React.CSSProperties[];
   centerHeader?: boolean; // header title and contents are centered
-  noWrapDeleteButton?: boolean;
-  maxWidthDeleteButton?: number;
 }
 
 const TableComponent = <Data extends object>(props: ITableProps<Data>) => {
