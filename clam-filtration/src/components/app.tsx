@@ -60,11 +60,10 @@ const defaultInteractiveState: IInteractiveState = {
 
 export const App = (props: IAppProps) => {
   const { interactiveState, readOnly } = props;
-  // const { interactiveState: rawInteractiveState, setInteractiveState } = useInteractiveState<IInteractiveState>();
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
-  const [readAloudMode, setReadAloudMode] = useState<boolean>(interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode);
   const [isAnyAudioPlaying, setIsAnyAudioPlaying] = useState<boolean>(false);
-  // const interactiveState = useMemo(() => rawInteractiveState || defaultInteractiveState, [rawInteractiveState]);
+  const [readAloudMode, setReadAloudMode] = useState<boolean>(interactiveState ? interactiveState.readAloudMode : defaultInitialState.readAloudMode);
+
   const translationContextValues = useMemo(() => ({
     translations,
     disabled: isRunning,
@@ -287,7 +286,6 @@ export const App = (props: IAppProps) => {
                   columnsMeta={columnsMeta}
                   disabled={isRunning || !!readOnly}
                   centerHeader={true}
-                  noWrapDeleteButton={true}
                 />
               </div>
             </div>
