@@ -5,7 +5,7 @@ import { App } from "./app";
 describe("App component", () => {
   it("renders simulation frame and title", () => {
     render(
-      <App interactiveState={null}/>
+      <App interactiveState={null} authoredState={null} />
     );
     expect(screen.getByTestId("simulation-frame")).toBeInTheDocument();
   });

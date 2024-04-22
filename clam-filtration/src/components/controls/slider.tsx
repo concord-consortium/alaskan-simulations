@@ -21,9 +21,12 @@ export const Slider: React.FC<IProps> = ({ value, min, max, step, onChange, disa
   const handleChange = (e: Event, val: number | number[]) => {
     onChange(e, typeof val === "number" ? val : val[0]);
   };
+
   return (
     <div className={`${css.slider} ${disabled ? css.disabled : ""}`}>
-      <div className={css.label}>{ label }</div>
+      <div className={css.label}>
+        {label}
+      </div>
       <MUISlider
         aria-label={ariaLabel}
         min={min}

@@ -63,3 +63,14 @@ export const defaultInitialState: IInteractiveState = {
     modelRuns: [],
     readAloudMode: false
   };
+
+  export interface IAnimalData {
+    name: string,
+    left: number,
+    top: number,
+    direction: string,
+    frameIdx?: number,
+  }
+
+  export type TOrganisms = "fish";
+

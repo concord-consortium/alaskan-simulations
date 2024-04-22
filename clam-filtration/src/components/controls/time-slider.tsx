@@ -16,7 +16,7 @@ export const TimeSlider: React.FC<IProps> = ({ time, snapshotsCount, onChange, d
 
   return (
     <Slider
-      value={time * (snapshotsCount - 1)}
+      value={time/2}
       min={0}
       max={snapshotsCount - 1}
       step={1}

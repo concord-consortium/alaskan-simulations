@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { useInteractiveState } from "@concord-consortium/lara-interactive-api";
 import { useModelState } from "../hooks/use-model-state";
 import { useSimulationRunner, useTranslation, TranslationContext } from "common";
 import { useModelTable } from "../hooks/use-model-table";
@@ -22,8 +21,9 @@ import css from "./app.scss";
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
 // Simulation length in real world seconds.
-const simLength = 6; // s
+const simLength = 8; // s
 const totalFrames = simLength * targetStepsPerSecond;
+let lastStepTime:  number;
 // Number of simulation state snapshots. totalFrames % (snapshotsCount - 1) should be equal to 0, so the last snapshot
 // is taken exactly at the end of the simulation. -1, as the first snapshot is taken at the start of the simulation.
 const snapshotsCount = 5;
@@ -34,11 +34,11 @@ const columnsMeta: IColumnMeta[] = [
   { numeric: false },
   { numeric: false },
   { numeric: false },
-  { numeric: false },
 ];
 
 interface IAppProps {
   interactiveState: IInteractiveState | null;
+  authoredState?: IAuthoredState | null;
   readOnly?: boolean;
 }
 
@@ -76,8 +76,7 @@ export const App = (props: IAppProps) => {
   // Pass context values as props, as App component also defines TranslationContext.Provider, so it's not possible to
   // rely on context values from there.
   const { t } = useTranslation(translationContextValues);
-  const monthLabels = [t("MONTH_1"), t("MONTH_2"), t("MONTH_3"), t("MONTH_4"), t("MONTH_5")];
-
+  const monthLabelsTranslated = [t("MONTH_1"), t("MONTH_2"), t("MONTH_3"), t("MONTH_4"), t("MONTH_5")];
   // Columns need to be initialized in Component function body, as otherwise the translation language files might
   // not be loaded yet.
   const columns: Column[] = useMemo(() => [
@@ -121,9 +120,21 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
   } = modelState;
 
+  const getNumToText = (num: number | null, type: string) => {
+    if (num === null) return null;
+    switch (type) {
+      case "algae":
+      case "turbidity":
+        return num <= 30 ? Amount.Low : num >= 61 ? Amount.High : Amount.Medium;
+      case "nitrate":
+        return num <= 20 ? Amount.Low : num >= 36 ? Amount.High : Amount.Medium;
+      default:
+        return null;
+    }
+  };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
     numClams: !isRunning && !runIsFinished ? "" : t(clamLabels[runInputState.numClams]),
@@ -137,6 +148,15 @@ export const App = (props: IAppProps) => {
   const getGraphData = (inputs: IModelInputState) => {
     //This should return the data for the case type depending on inputs
   };
+  const getActiveX = () => {
+    if (isFinished && (activeOutputSnapshotIdx !== null)) {
+      return activeOutputSnapshotIdx * 4;
+    } else if (isFinished) {
+      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
+    } else {
+      return undefined;
+    }
+  };
 
   const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
 
@@ -144,38 +164,38 @@ export const App = (props: IAppProps) => {
 
   const handleStartSimulation = () => {
     const model = new Model(inputState);
-
     let frames = 0;
     // snapshotCounts - 1, as the initial snapshot is already saved.
     const snapshotInterval = totalFrames / (snapshotsCount - 1);
 
-    const getOutputState = (): IModelOutputState => ({
-      time: model.time,
-      algaeEnd: Amount.High,
-      nitrate: Amount.High,
-      turbidity: Amount.High
-    });
-
-    const simulationStep = (realTimeDiff: number) => {
-      const stepFrames = Math.max(1, Math.min(10, Math.round(realTimeDiff / targetFramePeriod)));
-
-      for (let i = 0; i < stepFrames; i++) {
-        model.step(1 / totalFrames);
+    const simulationStep = () => {
+      // simple calculation to work out desired times we should step the model.
+      // this could be made more complex by calculating the total number of steps we
+      // expect to have reached so far.
+      const now = window.performance.now();
+      const dt = now - lastStepTime;
+      lastStepTime = now;
+      const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
+      const modelSimulationState = model.getSimulationState();
+      const getOutputState = (): IModelOutputState => ({
+        time: model.time,
+        algaeEnd: model.algae ,
+        nitrate: model.nitrate,
+        turbidity: model.turbidity,
+      });
+      for (let i = 0; i < steps; i++) {
+        model.step();
         frames += 1;
-
         if (frames % snapshotInterval === 0) {
           snapshotOutputState(getOutputState());
         }
       }
-
       setOutputState(getOutputState());
-
       if (frames >= totalFrames) {
         endSimulation();
         markRunFinished();
       }
     };
-
     startSimulation(simulationStep);
   };
 
@@ -192,15 +212,15 @@ export const App = (props: IAppProps) => {
     }, 150);
   };
 
+  const monthLabels = ["May", "June", "July", "August", "September"];
+  const time: number = parseInt((outputState.time).toFixed(0), 10) || 0;
+  const timeIdx = Math.min(Math.floor(time / 2), monthLabels.length - 1);
+
   const getTimeSliderLabel = () => {
-    const time = outputState.time;
-    const segments = monthLabels.length - 1; // number of dots, which is one less than number of months
-
-    // we add a very small number before applying Math.floor to handle edge cases
-    // this ensures the last label is only used at the end (1.0)
-    const monthIndex = Math.floor((time * segments) + 0.0001);
-
-    const timeLabel = monthLabels[monthIndex];
+    const segments = monthLabelsTranslated.length - 1; // number of dots, which is one less than number of month
+    const durationPerSegment = simLength / segments;
+    const monthIndex = Math.floor(outputState.time / durationPerSegment + .0001);
+    const timeLabel = monthLabelsTranslated[monthIndex];
     return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
   };
 
@@ -209,18 +229,21 @@ export const App = (props: IAppProps) => {
     return activeRunIdx >= 9 ? `Trial ${activeRunIdx + 1} Graphs` : t(`GRAPHS.TRIAL_${activeRunIdx + 1}`);
   };
 
+  const timeSliderLabel = getTimeSliderLabel();
+
   return (
     <TranslationContext.Provider value={translationContextValues}>
       <SimulationFrame
         className={css.simulationFrame}
         titleImage={HeaderTitle}
-        directions={<ClamFiltrationDirections />} // ReactNode is also allowed if more complex content is needed.
+        directions={<ClamFiltrationDirections />}
       >
         <div className={css.content}>
           <div className={css.optionsContainer}>
             <OptionsView
               inputState={inputState}
               setInputState={setInputState}
+              setOutputState={setOutputState}
               disabled={uiDisabled || !!readOnly}
             />
           </div>
@@ -230,6 +253,7 @@ export const App = (props: IAppProps) => {
                 <SimulationView
                   input={inputState}
                   output={outputState}
+                  month={monthLabels[timeIdx]}
                   isRunning={isRunning}
                   isFinished={isFinished}
                   readOnly={readOnly}
@@ -241,9 +265,9 @@ export const App = (props: IAppProps) => {
                   </div>
                   <div className={css.timeSliderContainer}>
                     <TimeSlider
-                      label={getTimeSliderLabel()}
-                      time={outputState.time}
+                      label={timeSliderLabel}
                       snapshotsCount={snapshotsCount}
+                      time={outputState.time}
                       onChange={setActiveOutputSnapshotIdx}
                       disabled={!isFinished || readOnly}
                     />

@@ -1,6 +1,6 @@
 import { useTranslation } from "common";
 import React, { useCallback } from "react";
-import { Amount, IModelInputState, amountLabels, clamLabels } from "../types";
+import { IModelInputState, IModelOutputState, amountLabels, clamLabels } from "../types";
 import { LabeledContainer } from "./containers/labeled-container";
 import { InputSlider } from "./controls/input-slider";
 
@@ -9,14 +9,16 @@ import css from "./options-view.scss";
 interface IProps {
   inputState: IModelInputState;
   setInputState: (update: Partial<IModelInputState>) => void;
+  setOutputState: (update: Partial<IModelOutputState>) => void;
   disabled: boolean;
 }
 
-export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, disabled }) => {
+export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, setOutputState, disabled }) => {
   const { t } = useTranslation();
 
   const handleAlgaAmountChange = useCallback((value: number) => {
     setInputState({algaeStart: value});
+    setOutputState({algaeEnd: 0, nitrate: 0, turbidity: 0});
   }, [setInputState]);
 
   const handleNumClamsChange = useCallback((value: number) => {
