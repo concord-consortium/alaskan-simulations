@@ -1,6 +1,5 @@
-type TOutputData = Record<string,
-                          Array<{ month: string,
-                                  output: Record<"algae" | "nitrate" | "turbidity", number> }>>;
+export type TCaseOutputData = Array<{ month: string, output: Record<"algae" | "nitrate" | "turbidity", number> }>
+export type TOutputData = Record<string, TCaseOutputData>;
 type TTextLevelRange = {
   [key: string]: {
     low: number,
@@ -8,6 +7,7 @@ type TTextLevelRange = {
     high: number
   }
 };
+
 export const outputData: TOutputData = {
   Low1: [ {month: "May",
             output:{algae: 15, nitrate: 27, turbidity: 15}},
@@ -124,3 +124,6 @@ export const getTextRange = (caseName: string, element: "algae" | "nitrate" | "t
   if (finalOutput < range.medium) return "Medium";
   else return "High";
 };
+
+export const algaeLevelText = ["Low", "Medium", "High"];
+export const clamDensities = [1, 5, 8];
