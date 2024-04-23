@@ -37,7 +37,7 @@ export const amountToClamKey: Record<Amount, number> = {
   [Amount.High]: 10,
   [Amount.Medium]: 5,
   [Amount.Low]: 1
-}
+};
 
 export const clamLabels: Record<number, string> = {
   [Amount.High]: "AMOUNT.10",
