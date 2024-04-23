@@ -10,7 +10,7 @@ import { PlayButton } from "./controls/play-button";
 import { TimeSlider } from "./controls/time-slider";
 import { SimulationFrame } from "./simulation/simulation-frame";
 import { SimulationView } from "./simulation/simulation-view";
-import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount, amountLabels, clamLabels } from "../types";
+import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuthoredState, defaultInitialState, Amount, clamLabels, algaeStr, nitrateStr, turbidityStr, amountLabels } from "../types";
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
@@ -100,13 +100,13 @@ export const App = (props: IAppProps) => {
     },
     {
       Header: t("TABLE.HEADER_OUTPUT.NITRATE"),
-      accessor: "nitrate" as const,
+      accessor: nitrateStr,
       width: 150,
       disableSortBy: true
     },
     {
       Header: t("TABLE.HEADER_OUTPUT.TURBIDITY"),
-      accessor: "turbidity" as const,
+      accessor: turbidityStr,
       width: 150,
       disableSortBy: true
     },
@@ -123,24 +123,21 @@ export const App = (props: IAppProps) => {
     setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
   } = modelState;
 
-  const getNumToText = (num: number | null, type: string) => {
-    if (num === null) return null;
-    switch (type) {
-      case "algae":
-      case "turbidity":
-        return num <= 30 ? Amount.Low : num >= 61 ? Amount.High : Amount.Medium;
-      case "nitrate":
-        return num <= 20 ? Amount.Low : num >= 36 ? Amount.High : Amount.Medium;
-      default:
-        return null;
+  const getNumToText = (num: number, type: string) => {
+    let amount = Amount.Low;
+    if (type === algaeStr || type === turbidityStr) {
+      amount = num <= 30 ? Amount.Low : num >= 61 ? Amount.High : Amount.Medium;
+    } else {
+      amount = num <= 20 ? Amount.Low : num >= 36 ? Amount.High : Amount.Medium;
     }
+    return amountLabels[amount];
   };
 
   const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
     numClams: !isRunning && !runIsFinished ? "" : t(clamLabels[runInputState.numClams]),
-    algaeEnd: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.algaeEnd]),
-    nitrate: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.nitrate]),
-    turbidity: !isRunning && !runIsFinished ? "" : t(amountLabels[runOutputState.turbidity]),
+    algaeEnd: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.algaeEnd, algaeStr)),
+    nitrate: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.nitrate, nitrateStr)),
+    turbidity: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.turbidity, turbidityStr)),
   }), [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
@@ -148,6 +145,7 @@ export const App = (props: IAppProps) => {
   const getGraphData = (inputs: IModelInputState) => {
     //This should return the data for the case type depending on inputs
   };
+
   const getActiveX = () => {
     if (isFinished && (activeOutputSnapshotIdx !== null)) {
       return activeOutputSnapshotIdx * 4;

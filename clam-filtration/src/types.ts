@@ -9,17 +9,35 @@ export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   readAloudMode: boolean
 }
 
+export const algaeStr = "algae";
+export const nitrateStr = "nitrate";
+export const turbidityStr = "turbidity";
+
+export type TOutput = "algae" | "nitrate" | "turbidity";
+
 export enum Amount {
   High = 2,
   Medium = 1,
   Low = 0
 }
 
+export const amountToAlgaeKey: Record<Amount, string> = {
+  [Amount.High]: "High",
+  [Amount.Medium]: "Medium",
+  [Amount.Low]: "Low"
+};
+
 export const amountLabels: Record<Amount, string> = {
   [Amount.High]: "AMOUNT.HIGH",
   [Amount.Medium]: "AMOUNT.MEDIUM",
   [Amount.Low]: "AMOUNT.LOW"
 };
+
+export const amountToClamKey: Record<Amount, number> = {
+  [Amount.High]: 10,
+  [Amount.Medium]: 5,
+  [Amount.Low]: 1
+}
 
 export const clamLabels: Record<number, string> = {
   [Amount.High]: "AMOUNT.10",
@@ -34,9 +52,9 @@ export interface IModelInputState {
 
 export interface IModelOutputState {
   time: number;
-  algaeEnd: Amount;
-  nitrate: Amount;
-  turbidity: Amount;
+  algaeEnd: number;
+  nitrate: number;
+  turbidity: number;
 }
 
 export interface IRowData {
