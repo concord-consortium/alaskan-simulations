@@ -1,6 +1,8 @@
+import { TOutput } from "../types";
+
 type TOutputData = Record<string,
                           Array<{ month: string,
-                                  output: Record<"algae" | "nitrate" | "turbidity", number> }>>;
+                                  output: Record<TOutput, number> }>>;
 type TTextLevelRange = {
   [key: string]: {
     low: number,
@@ -116,7 +118,7 @@ const textLevelRangeDict: TTextLevelRange
               turbidity: {low: 30, medium: 60, high: 100}
             };
 
-export const getTextRange = (caseName: string, element: "algae" | "nitrate" | "turbidity") => {
+export const getTextRange = (caseName: string, element: TOutput) => {
   // returns Low, Medium, High based on September outputData and textLevelRangeDict
   const finalOutput = outputData[caseName][4].output[element];
   const range = textLevelRangeDict[element];
