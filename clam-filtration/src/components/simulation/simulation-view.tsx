@@ -2,7 +2,7 @@ import React from "react";
 import { Amount, IModelInputState } from "../../types";
 import { AnimationView } from "./animation-view";
 import { useTranslation } from "common";
-import { TCaseOutputData, clamDensities } from "../../utils/data";
+import { TCaseOutputData, clamDensitiesToShow } from "../../utils/data";
 
 import css from "./simulation-view.scss";
 
@@ -30,7 +30,7 @@ export const SimulationView: React.FC<IProps> = ({ input, month, dataOutput, isR
         {t("WATER_TEMP")} {` ${monthlyWaterTemps[month]}°F`}
       </div>
       {/* Pass in algaeLevel at algaeStart so we know what background class to before animation starts*/}
-      <AnimationView algaeLevel={algaeLevels[algaeStart]} numClams={clamDensities[numClams]}
+      <AnimationView algaeLevel={algaeLevels[algaeStart]} numClams={clamDensitiesToShow[numClams]}
                       turbidity={turbidity} isRunning={isRunning} isFinished={isFinished}/>
     </div>
   );

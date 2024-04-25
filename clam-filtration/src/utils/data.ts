@@ -129,3 +129,4 @@ export const getTextRange = (caseName: string, element: TOutput) => {
 
 export const algaeLevelText = ["Low", "Medium", "High"];
 export const clamDensities = [1, 5, 10];
+export const clamDensitiesToShow = [1, 5, 8];
