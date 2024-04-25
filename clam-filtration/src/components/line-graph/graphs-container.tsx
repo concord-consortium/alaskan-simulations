@@ -78,7 +78,6 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   };
 
   const plotCoordinates = currentPoints.map(valueToCoordinate).join(" ");
-  console.log("currentPoints", currentPoints);
   return (
     <div className={css.graph}>
       <div className={css.graphTitle}>{t(`GRAPHS.LABEL.${title}`)}</div>
