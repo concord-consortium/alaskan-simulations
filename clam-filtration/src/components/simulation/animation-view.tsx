@@ -31,7 +31,7 @@ export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity
           <SeagrassAnimation isRunning={isRunning}/>
           <Sand className={css.sand}/>
           <div className={css.clams}>
-            {Array.from({ length: numClams }).map((_, index) => {
+            {Array.from({ length: numClams - 2 }).map((_, index) => { //we're only showing 8 clams
               const Clam = Clams[index % Clams.length];
               return <Clam key={index} className={cslx(css.clam, css[`clam${index}`], {[css.animate]: isRunning})} />;
             })}

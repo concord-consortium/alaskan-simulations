@@ -32,17 +32,16 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        top: 7px;
-
+        top: 3px;
         .yAxisTicks {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           position: absolute;
-          top: 5px;
+          top: 7px;
           left: -240px;
           .yAxisTickLabel {
-            margin: 0 0 8px;
+            margin: 0 0 10px;
             font-family: Roboto;
             font-size: 12px;
             font-weight: normal;
@@ -55,7 +54,7 @@
           flex-direction: row;
           justify-content: space-between;
           position: absolute;
-          bottom: 35px;
+          bottom: 25px;
           left: 60px;
           width: 165px;
           .xAxisTickLabel {
@@ -64,14 +63,16 @@
         }
         .xAxisLabel {
           position: absolute;
-          bottom: 15px;
+          bottom: 8px;
           width: 100%;
-          height: 20px;
+          height: 17px;
           display: flex;
           flex-direction: row;
           justify-content: center;
           align-items: center;
           color: #333;
+          font-size: 14px;
+          font-weight: bold;
         }
         .axisLine {
           stroke: black;
@@ -87,21 +88,19 @@
           position: absolute;
           top: 0;
         }
-        // .graphData {
-        //   width: 100%;
-        //   height: 100%;
-        //   display: flex;
-        //   flex-direction: row;
-        //   justify-content: center;
-        //   align-items: center;
-        //   .graphDataPoint {
-        //     width: 10px;
-        //     height: 10px;
-        //     border-radius: 50%;
-        //     background-color: #333;
-        //     margin: 5px;
-        //   }
-        // }
+        .valueLine {
+          stroke-width: 2;
+          fill: none;
+          &.algae {
+            stroke: #fe0101;
+          }
+          &.nitrate {
+            stroke: #00bdfa;
+          }
+          &.turbidity {
+            stroke: #1cca02;
+          }
+        }
       }
     }
   }

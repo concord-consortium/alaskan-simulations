@@ -20,7 +20,6 @@ export const SimulationView: React.FC<IProps> = ({ input, month, dataOutput, isR
   const { t } = useTranslation();
   const {algaeStart, numClams} = input;
   const algaeLevels = [Amount.Low, Amount.Medium, Amount.High];
-  // const clamDensities = [1, 5, 8];
   const monthlyWaterTemps: Record<string, number> = {"May": 35, "June": 40, "July": 45, "August": 40, "September": 37};
   const dataForMonth = !isRunning && !isFinished ? dataOutput?.find(data => data.month === "May")
                                   : dataOutput?.find(data => data.month === month);

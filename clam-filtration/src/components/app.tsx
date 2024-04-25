@@ -145,10 +145,6 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (inputs: IModelInputState) => {
-    //This should return the data for the case type depending on inputs
-  };
-
   const getActiveX = () => {
     if (isFinished && (activeOutputSnapshotIdx !== null)) {
       return activeOutputSnapshotIdx * 4;
@@ -159,7 +155,6 @@ export const App = (props: IAppProps) => {
     }
   };
 
-  const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
 
   const uiDisabled = isRunning || isFinished;
 
@@ -290,7 +285,7 @@ export const App = (props: IAppProps) => {
               <div className={css.lineGraphs}>
                 <div className={css.header}>{getGraphTitle()}</div>
                 <div className={css.body}>
-                  <GraphsContainer dataOutput={dataOutput}/>
+                  <GraphsContainer dataOutput={dataOutput} time={outputState.time} isRunning={isRunning} isFinished={isFinished}/>
                 </div>
               </div>
             </div>
