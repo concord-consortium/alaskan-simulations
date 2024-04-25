@@ -34,16 +34,13 @@ interface IGraphProps {
 
 const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   const { t } = useTranslation();
-  const [currentPoints, setCurrentPoints] = useState<number[]>([]);
+  const [currentPoints, setCurrentPoints] = useState<number[]>([values[0]]);
   useEffect(() => {
     if (time === 0) {
-      setCurrentPoints([]);
+      setCurrentPoints([values[0]]);
     }
-    if (isFinished) {
-      setCurrentPoints(values);
-    }
-    if (isRunning && !isFinished) {
-      const timeIndex = Math.floor(time/2 );
+    if ((isRunning && !isFinished) || (isFinished)) {
+      const timeIndex = Math.round(time/2);
       const maxIndex = Math.min(timeIndex, values.length);
       const newPoints = values.slice(0, maxIndex + 1);
       setCurrentPoints(newPoints);
@@ -81,6 +78,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   };
 
   const plotCoordinates = currentPoints.map(valueToCoordinate).join(" ");
+  console.log("currentPoints", currentPoints);
   return (
     <div className={css.graph}>
       <div className={css.graphTitle}>{t(`GRAPHS.LABEL.${title}`)}</div>
@@ -97,6 +95,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
             {horizontalGridLines}
           </g>
           <g className={css.plotLine}>
+            <circle cx={plotCoordinates.split(",")[0]} cy={plotCoordinates.split(",")[1]} r="1" className={clsx(css.valueStartingPoint, css[`${title.toLowerCase()}`])} />
             <polyline className={clsx(css.valueLine, css[`${title.toLowerCase()}`])}
                         points={plotCoordinates} />
           </g>

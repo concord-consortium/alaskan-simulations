@@ -101,6 +101,17 @@
             stroke: #1cca02;
           }
         }
+        .valueStartingPoint {
+          &.algae {
+            fill: #fe0101;
+          }
+          &.nitrate {
+            fill: #00bdfa;
+          }
+          &.turbidity {
+            fill: #1cca02;
+          }
+        }
       }
     }
   }
