@@ -13,11 +13,12 @@ interface IProps {
   algaeLevel: Amount;
   numClams: Amount;
   turbidity: number;
+  nitrate: number;
   isRunning: boolean;
   isFinished: boolean;
 }
 
-export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity, isRunning, isFinished}) => {
+export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity, nitrate, isRunning, isFinished}) => {
   const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
   const algaeLevelClass = turbidity > 61 || (!isRunning && !isFinished && algaeLevel === Amount.High)
                             ? css.highAlgae
@@ -31,8 +32,8 @@ export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity
         </div>
         <div className={css.background} />
         <div className={css.bottom}>
-          <SeagrassAnimation isRunning={isRunning}/>
           <Sand className={css.sand}/>
+          <SeagrassAnimation isFinished={isFinished} isRunning={isRunning} nitrate={nitrate}/>
           <div className={css.clams}>
             {Array.from({ length: numClams }).map((_, index) => {
               const Clam = Clams[index % Clams.length];
@@ -55,7 +56,7 @@ interface IWaterLoopProps {
   isFinished: boolean;
 }
 
-const WaterLoop = ({algaeLevel, numFish, turbidity, isRunning, isFinished}: IWaterLoopProps) => {
+const WaterLoop = ({numFish, isRunning, isFinished}: IWaterLoopProps) => {
   const [currentEffect, setCurrentEffect] = useState(0);
   useEffect(() => {
     if (isRunning) {
@@ -157,9 +158,21 @@ const FishContainer = ({ numFish, isRunning, isFinished }: IFishContainerProps) 
     );
 };
 
-const SeagrassAnimation = ({isRunning}: {isRunning: boolean}) => {
+interface ISeagrassAnimationProps {
+  isFinished: boolean;
+  isRunning: boolean;
+  nitrate: number;
+}
+
+const SeagrassAnimation = ({isFinished, isRunning, nitrate}: ISeagrassAnimationProps) => {
   const seagrassRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
+  const nitrateLevelClass = nitrate > 42 || (!isRunning && !isFinished && nitrate === Amount.High)
+                            ? css.highNitrate
+                            : nitrate > 31 || (!isRunning && !isFinished && nitrate === Amount.Medium)
+                                ? css.mediumHighNitrate
+                                : nitrate > 17 || (!isRunning && !isFinished && nitrate === Amount.Medium)
+                                    ? css.mediumNitrate : "";
   useEffect(() => {
     const controlAnimation = (svgElement: Element) => {
       const animations = svgElement?.getElementsByTagName("animateTransform");
@@ -188,7 +201,7 @@ const SeagrassAnimation = ({isRunning}: {isRunning: boolean}) => {
   }, [isRunning]);
   return (
     <div className={css.seagrass} ref={seagrassRef}>
-      <SeagrassOutlines className={css.seagrass_outlines}/>
+      <SeagrassOutlines className={cslx(css.seagrass_outlines, nitrateLevelClass)}/>
     </div>
   );
 };

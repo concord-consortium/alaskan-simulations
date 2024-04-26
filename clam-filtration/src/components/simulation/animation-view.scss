@@ -116,15 +116,20 @@
         height: 32px;
         .seagrass_outlines {
           position: relative;
-          bottom: 0;
+          bottom: -15px;
           left: -180px;
           height: 32px;
-        }
-        .seagrass_strokes {
-          position: absolute;
-          bottom: 95px;
-          left: 10px;
-          width: $simViewWidth;
+          transition: fill 2s ease;
+          fill: #D6F823;
+          &.highNitrate {
+            fill: #A78A4E;
+          }
+          &.mediumHighNitrate {
+            fill: #e8df65;
+          }
+          &.mediumNitrate {
+            fill: #BCC642;
+          }
         }
       }
       .sand {
