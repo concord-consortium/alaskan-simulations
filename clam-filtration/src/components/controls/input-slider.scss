@@ -37,6 +37,9 @@
     flex-direction: row;
     justify-content: space-around;
     margin: 10px 0px;
+    &.disabled {
+      opacity: 0.5;
+    }
     .left {
       height: 135px;
       width: 30px;
