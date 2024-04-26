@@ -8,7 +8,6 @@
   height: 100%;
   border-radius: 20px;
   border: 1px solid #000;
-  background-color: #8e9089;
 
   .tempLabel {
     position: absolute;
@@ -26,6 +25,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5;
+    z-index: 20;
   }
 }

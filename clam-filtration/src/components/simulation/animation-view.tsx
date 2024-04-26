@@ -19,14 +19,17 @@ interface IProps {
 
 export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity, isRunning, isFinished}) => {
   const numFish = turbidity <= 25 ? 3 : turbidity <= 50 ? 2 : turbidity <= 75 ? 1 : 0;
+  const algaeLevelClass = turbidity > 61 || (!isRunning && !isFinished && algaeLevel === Amount.High)
+                            ? css.highAlgae
+                            : turbidity > 31 || (!isRunning && !isFinished && algaeLevel === Amount.Medium)
+                                ? css.mediumAlgae : "";
   return (
     <div className={css.viewContainer}>
-      <div className={css.animationContainer}>
-        <div className={css.top}>
-          <div className={css.water}>
+      <div className={cslx(css.animationContainer, algaeLevelClass)}>
+        <div className={css.water}>
             <WaterLoop algaeLevel={algaeLevel} numFish={numFish} turbidity={turbidity} isRunning={isRunning} isFinished={isFinished}/>
-          </div>
         </div>
+        <div className={css.background} />
         <div className={css.bottom}>
           <SeagrassAnimation isRunning={isRunning}/>
           <Sand className={css.sand}/>
@@ -37,6 +40,8 @@ export const AnimationView: React.FC<IProps> = ({algaeLevel, numClams, turbidity
             })}
           </div>
         </div>
+        <div className={cslx(css.algaeBackground, algaeLevelClass)}/>
+        <div className={cslx(css.containerOverlay, algaeLevelClass)}/>
       </div>
     </div>
   );
@@ -52,10 +57,6 @@ interface IWaterLoopProps {
 
 const WaterLoop = ({algaeLevel, numFish, turbidity, isRunning, isFinished}: IWaterLoopProps) => {
   const [currentEffect, setCurrentEffect] = useState(0);
-  const algaeLevelClass = turbidity > 61 || (!isRunning && !isFinished && algaeLevel === Amount.High)
-                            ? css.highAlgae
-                            : turbidity > 31 || (!isRunning && !isFinished && algaeLevel === Amount.Medium)
-                                ? css.mediumAlgae : "";
   useEffect(() => {
     if (isRunning) {
       const interval = setInterval(() => {
@@ -68,9 +69,7 @@ const WaterLoop = ({algaeLevel, numFish, turbidity, isRunning, isFinished}: IWat
   return (
     <div className={css.waterEffects}>
       <img src={WaterEffects[currentEffect]} alt="Water effect" className={css.waterEffect} />
-      <div className={cslx(css.waterEffectsOverlay, algaeLevelClass)}>
-        <FishContainer numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
-      </div>
+      <FishContainer numFish={numFish} isRunning={isRunning} isFinished={isFinished}/>
     </div>
   );
 };
@@ -112,7 +111,6 @@ const FishContainer = ({ numFish, isRunning, isFinished }: IFishContainerProps) 
             });
             setFishes(newFishes);
         } else if (numFish < fishes.length) {
-            // Removing fish if numFish decreases
             setFishes(fishes.slice(0, numFish));
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps

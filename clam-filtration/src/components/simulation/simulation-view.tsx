@@ -1,8 +1,8 @@
 import React from "react";
 import { Amount, IModelInputState } from "../../types";
-import { AnimationView } from "./animation-view";
 import { useTranslation } from "common";
 import { TCaseOutputData, clamDensitiesToShow } from "../../utils/data";
+import { AnimationView } from "./animation-view";
 
 import css from "./simulation-view.scss";
 

@@ -45,22 +45,6 @@ interface IAppProps {
   readOnly?: boolean;
 }
 
-const defaultInteractiveState: IInteractiveState = {
-  answerType: "interactive_state",
-  inputState: {
-    algaeStart: Amount.Medium,
-    numClams: Amount.Medium
-  },
-  outputState: {
-    time: 0,
-    algaeEnd: Amount.Low,
-    nitrate: Amount.Low,
-    turbidity: Amount.Low
-  },
-  modelRuns: [],
-  readAloudMode: false
-};
-
 export const App = (props: IAppProps) => {
   const { interactiveState, readOnly } = props;
   const { startSimulation, endSimulation, isRunning } = useSimulationRunner();
@@ -123,7 +107,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
   } = modelState;
 
   const getNumToText = (num: number, type: string) => {
@@ -145,17 +129,6 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getActiveX = () => {
-    if (isFinished && (activeOutputSnapshotIdx !== null)) {
-      return activeOutputSnapshotIdx * 4;
-    } else if (isFinished) {
-      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
-    } else {
-      return undefined;
-    }
-  };
-
-
   const uiDisabled = isRunning || isFinished;
 
   const handleStartSimulation = () => {
@@ -172,7 +145,6 @@ export const App = (props: IAppProps) => {
       const dt = now - lastStepTime;
       lastStepTime = now;
       const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
-      const modelSimulationState = model.getSimulationState();
       const getOutputState = (): IModelOutputState => ({
         time: model.time,
         algaeEnd: model.algae ,
