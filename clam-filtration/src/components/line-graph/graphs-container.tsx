@@ -78,7 +78,6 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   };
 
   const plotCoordinates = currentPoints.map(valueToCoordinate).join(" ");
-  console.log("plotCoordinates", plotCoordinates);
   const circleCoordinate = plotCoordinates.split(" ")[0];
   return (
     <div className={css.graph}>
