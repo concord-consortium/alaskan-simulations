@@ -56,6 +56,10 @@ $titleWidth: 90px;
 
     button.noWrap {
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
 
     .divider {
@@ -90,10 +94,9 @@ $titleWidth: 90px;
       cursor: pointer;
 
       svg {
-        margin-left: -9px;
-        margin-top: -3px;
+        // margin-left: -9px;
+        // margin-top: -3px;
         overflow: visible;
-
       }
 
       &:disabled:not(.readAloudMode) {
