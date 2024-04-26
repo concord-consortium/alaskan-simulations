@@ -24,7 +24,7 @@
     attributeName="transform"
     attributeType="XML"
     type="translate"
-    values="0;180;0"
+    values="0;180"
     dur="8s"
     begin="indefinite"
     fill="freeze"
