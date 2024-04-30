@@ -1,8 +1,8 @@
 import React from "react";
 import { Amount, IModelInputState } from "../../types";
-import { AnimationView } from "./animation-view";
 import { useTranslation } from "common";
 import { TCaseOutputData, clamDensitiesToShow } from "../../utils/data";
+import { AnimationView } from "./animation-view";
 
 import css from "./simulation-view.scss";
 
@@ -24,6 +24,7 @@ export const SimulationView: React.FC<IProps> = ({ input, month, dataOutput, isR
   const dataForMonth = !isRunning && !isFinished ? dataOutput?.find(data => data.month === "May")
                                   : dataOutput?.find(data => data.month === month);
   const turbidity = dataForMonth?.output?.turbidity || 0;
+  const nitrate = dataForMonth?.output?.nitrate || 0;
   return (
     <div className={css.simulationView}>
       <div className={css.tempLabel}>
@@ -31,7 +32,7 @@ export const SimulationView: React.FC<IProps> = ({ input, month, dataOutput, isR
       </div>
       {/* Pass in algaeLevel at algaeStart so we know what background class to before animation starts*/}
       <AnimationView algaeLevel={algaeLevels[algaeStart]} numClams={clamDensitiesToShow[numClams]}
-                      turbidity={turbidity} isRunning={isRunning} isFinished={isFinished}/>
+                      turbidity={turbidity} nitrate={nitrate} isRunning={isRunning} isFinished={isFinished}/>
     </div>
   );
 };
