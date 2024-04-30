@@ -1,7 +1,7 @@
 import { IModelInputState, TOutput, algaeStr, amountToAlgaeKey, amountToClamKey, nitrateStr, turbidityStr } from "../types";
 import { outputData } from "../utils/data";
 
-export const kMaxSteps = 650;
+export const kMaxSteps = 8;
 
 export class Model {
   public time = 0;
@@ -43,9 +43,13 @@ export class Model {
   public getSimulationState() {
     const percentComplete =  this.time / kMaxSteps;
     const isFinished = this.time >= kMaxSteps;
+    const {algae, nitrate, turbidity} = this;
     return {
       percentComplete,
       isFinished,
+      algae,
+      nitrate,
+      turbidity
     };
   }
 }

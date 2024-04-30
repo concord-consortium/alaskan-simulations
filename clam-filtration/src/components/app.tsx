@@ -14,6 +14,7 @@ import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuth
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
+import { getOutputData } from "../utils/sim-utils";
 import { GraphsContainer } from "./line-graph/graphs-container";
 import { algaeLevelText, clamDensities, outputData } from "../utils/data";
 import HeaderTitle from "../assets/HeaderTitle.png";
@@ -44,22 +45,6 @@ interface IAppProps {
   authoredState?: IAuthoredState | null;
   readOnly?: boolean;
 }
-
-const defaultInteractiveState: IInteractiveState = {
-  answerType: "interactive_state",
-  inputState: {
-    algaeStart: Amount.Medium,
-    numClams: Amount.Medium
-  },
-  outputState: {
-    time: 0,
-    algaeEnd: Amount.Low,
-    nitrate: Amount.Low,
-    turbidity: Amount.Low
-  },
-  modelRuns: [],
-  readAloudMode: false
-};
 
 export const App = (props: IAppProps) => {
   const { interactiveState, readOnly } = props;
@@ -123,7 +108,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
   } = modelState;
 
   const getNumToText = (num: number, type: string) => {
@@ -136,25 +121,25 @@ export const App = (props: IAppProps) => {
     return amountLabels[amount];
   };
 
-  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
-    numClams: !isRunning && !runIsFinished ? "" : t(clamLabels[runInputState.numClams]),
-    algaeEnd: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.algaeEnd, algaeStr)),
-    nitrate: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.nitrate, nitrateStr)),
-    turbidity: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.turbidity, turbidityStr)),
-  }), [isRunning, t]);
+  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => {
+    const hideOutputValues = !isRunning && !runIsFinished;
+    const showInitialValues = runOutputState.time < 1;
+    const initialOutputState =  getOutputData(runInputState)[0];
+    return ({
+      numClams: hideOutputValues ? "" : t(clamLabels[runInputState.numClams]),
+      algaeEnd: hideOutputValues ? "" : showInitialValues
+                                          ? t(getNumToText(initialOutputState.output.algae, algaeStr))
+                                          : t(getNumToText(runOutputState.algaeEnd, algaeStr)),
+      nitrate: hideOutputValues ? "" : showInitialValues
+                                        ? t(getNumToText(initialOutputState.output.nitrate, nitrateStr))
+                                        : t(getNumToText(runOutputState.nitrate, nitrateStr)),
+      turbidity: hideOutputValues ? "" : showInitialValues
+                                          ? t(getNumToText(initialOutputState.output.turbidity, turbidityStr))
+                                          : t(getNumToText(runOutputState.turbidity, turbidityStr)),
+    });
+}, [isFinished, isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
-
-  const getActiveX = () => {
-    if (isFinished && (activeOutputSnapshotIdx !== null)) {
-      return activeOutputSnapshotIdx * 4;
-    } else if (isFinished) {
-      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
-    } else {
-      return undefined;
-    }
-  };
-
 
   const uiDisabled = isRunning || isFinished;
 
@@ -172,7 +157,6 @@ export const App = (props: IAppProps) => {
       const dt = now - lastStepTime;
       lastStepTime = now;
       const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
-      const modelSimulationState = model.getSimulationState();
       const getOutputState = (): IModelOutputState => ({
         time: model.time,
         algaeEnd: model.algae ,
