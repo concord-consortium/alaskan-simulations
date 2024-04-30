@@ -40,17 +40,17 @@ import NewTrialButton from "./assets/snapshots-directions/instructions-new-trial
 
 // TODO update audio files when ready
 
-const instructionsPart1_text = `Experiment with a plant in a terrarium to see how much sugar it creates and uses
-with different conditions of light, water, and CO<sub>2</sub>.`;
+const instructionsPart1_text = `This model can help you discover how the number of clams in the coastal environment affects the
+clarity and health of the water. Conduct some experiment trials and analyze the recorded data to find a pattern for how
+filtration by the population of clams changes plant and animal life and the quality of the water over the summer season.`;
 
-const instructionsPart2_text = `Choose the amount of light, water, and CO<sub>2</sub> for each growth trial using the “Controls”.
-Press “Play” ![play button](${PlayButton}) to see how these conditions affect the amount of sugar
-the plant creates and uses. After a trial, you can use the “Time” slider to move back and forth
-in time for that trial. Press “New” ![new trial button](${NewTrialButton}) to start a new trial.`;
+const instructionsPart2_text = `Choose a starting level of Algae and Number of Clams per square meter using the “Controls”.
+ Press “Play” ![play button](${PlayButton}) and watch the view of the coastal sea bottom change over five months from May to September.
+ Press “New” ![new trial button](${NewTrialButton}) to start a new trial. The graphs and table records the data for each trial.`;
 
-const instructionsPart3_text = `When you run a trial, settings and results will appear in the data table. Compare the results
-of trials by tapping on different rows in the table to see the graphs that go with that trial.
-How do the settings of light, water, and  CO<sub>2</sub> affect the plant's growth?`;
+const instructionsPart3_text = `To help you find a pattern in the data, you can review each trail by clicking on different rows in
+the data table and using the “Month” slider to move back and forth in the summer season. Click on the different rows in the table
+to look back at different trials.`;
 
 export const translations: TranslationDict = {
   "CREDITS.HEADER": { string: "Credits"},
