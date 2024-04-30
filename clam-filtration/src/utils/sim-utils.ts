@@ -20,6 +20,8 @@ import WaterEffects8 from "../assets/water_effects/waterEffects8.png";
 import WaterEffects9 from "../assets/water_effects/waterEffects9.png";
 import WaterEffects10 from "../assets/water_effects/waterEffects10.png";
 import WaterEffects11 from "../assets/water_effects/waterEffects11.png";
+import { IModelInputState } from "../types";
+import { outputData } from "./data";
 
 export function linearMap(a:number, b:number, c:number, d:number, t:number){
   const scale = (d-c)/(b-a);
@@ -38,3 +40,10 @@ export function initialFish() {
     {name: "C", left: -145, top: 85, direction: "right"},
   ];
 }
+
+export const getOutputData = (inputs: IModelInputState) => {
+  const {algaeStart, numClams} = inputs;
+  const algaeLevelText = ["Low", "Medium", "High"];
+  const clamDensities = [1, 5, 10];
+  return outputData[`${algaeLevelText[algaeStart]}${clamDensities[numClams]}`];
+};

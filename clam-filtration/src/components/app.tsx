@@ -14,6 +14,7 @@ import { IRowData, IModelInputState, IModelOutputState, IInteractiveState, IAuth
 import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
+import { getOutputData } from "../utils/sim-utils";
 import { GraphsContainer } from "./line-graph/graphs-container";
 import { algaeLevelText, clamDensities, outputData } from "../utils/data";
 import HeaderTitle from "../assets/HeaderTitle.png";
@@ -136,12 +137,23 @@ export const App = (props: IAppProps) => {
     return amountLabels[amount];
   };
 
-  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => ({
-    numClams: !isRunning && !runIsFinished ? "" : t(clamLabels[runInputState.numClams]),
-    algaeEnd: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.algaeEnd, algaeStr)),
-    nitrate: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.nitrate, nitrateStr)),
-    turbidity: !isRunning && !runIsFinished ? "" : t(getNumToText(runOutputState.turbidity, turbidityStr)),
-  }), [isRunning, t]);
+  const modelRunToRow = useCallback((runInputState: IModelInputState, runOutputState: IModelOutputState, runIsFinished: boolean): IRowData => {
+    const hideOutputValues = !isRunning && !runIsFinished;
+    const showInitialValues = runOutputState.time < 1;
+    const initialOutputState =  getOutputData(runInputState)[0];
+    return ({
+      numClams: hideOutputValues ? "" : t(clamLabels[runInputState.numClams]),
+      algaeEnd: hideOutputValues ? "" : showInitialValues
+                                          ? t(getNumToText(initialOutputState.output.algae, algaeStr))
+                                          : t(getNumToText(runOutputState.algaeEnd, algaeStr)),
+      nitrate: hideOutputValues ? "" : showInitialValues
+                                        ? t(getNumToText(initialOutputState.output.nitrate, nitrateStr))
+                                        : t(getNumToText(runOutputState.nitrate, nitrateStr)),
+      turbidity: hideOutputValues ? "" : showInitialValues
+                                          ? t(getNumToText(initialOutputState.output.turbidity, turbidityStr))
+                                          : t(getNumToText(runOutputState.turbidity, turbidityStr)),
+    });
+}, [isFinished, isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
