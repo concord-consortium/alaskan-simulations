@@ -15,9 +15,12 @@ import { Model } from "./model";
 import { OptionsView } from "./options-view";
 import { ClamFiltrationDirections } from "./clam-sim-directions";
 import { getOutputData } from "../utils/sim-utils";
+import { GraphsContainer } from "./line-graph/graphs-container";
+import { algaeLevelText, clamDensities, outputData } from "../utils/data";
 import HeaderTitle from "../assets/HeaderTitle.png";
 
 import css from "./app.scss";
+
 
 const targetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / targetStepsPerSecond;
@@ -42,22 +45,6 @@ interface IAppProps {
   authoredState?: IAuthoredState | null;
   readOnly?: boolean;
 }
-
-const defaultInteractiveState: IInteractiveState = {
-  answerType: "interactive_state",
-  inputState: {
-    algaeStart: Amount.Medium,
-    numClams: Amount.Medium
-  },
-  outputState: {
-    time: 0,
-    algaeEnd: Amount.Low,
-    nitrate: Amount.Low,
-    turbidity: Amount.Low
-  },
-  modelRuns: [],
-  readAloudMode: false
-};
 
 export const App = (props: IAppProps) => {
   const { interactiveState, readOnly } = props;
@@ -121,7 +108,7 @@ export const App = (props: IAppProps) => {
 
   const {
     inputState, setInputState, outputState, setOutputState, snapshotOutputState, isFinished, markRunFinished,
-    setActiveOutputSnapshotIdx, addModelRun, activeOutputSnapshotIdx, activeRunIdx, isLastRunFinished
+    setActiveOutputSnapshotIdx, addModelRun, activeRunIdx, isLastRunFinished
   } = modelState;
 
   const getNumToText = (num: number, type: string) => {
@@ -154,22 +141,6 @@ export const App = (props: IAppProps) => {
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
-  const getGraphData = (inputs: IModelInputState) => {
-    //This should return the data for the case type depending on inputs
-  };
-
-  const getActiveX = () => {
-    if (isFinished && (activeOutputSnapshotIdx !== null)) {
-      return activeOutputSnapshotIdx * 4;
-    } else if (isFinished) {
-      return (modelState.modelRuns[activeRunIdx].outputStateSnapshots.length - 1) * 4;
-    } else {
-      return undefined;
-    }
-  };
-
-  const graphData = getGraphData({"algaeStart": Amount.Medium, "numClams": Amount.Medium});
-
   const uiDisabled = isRunning || isFinished;
 
   const handleStartSimulation = () => {
@@ -186,7 +157,6 @@ export const App = (props: IAppProps) => {
       const dt = now - lastStepTime;
       lastStepTime = now;
       const steps = Math.max(1, Math.min(10, Math.round(dt / targetFramePeriod)));
-      const modelSimulationState = model.getSimulationState();
       const getOutputState = (): IModelOutputState => ({
         time: model.time,
         algaeEnd: model.algae ,
@@ -240,6 +210,7 @@ export const App = (props: IAppProps) => {
   };
 
   const timeSliderLabel = getTimeSliderLabel();
+  const dataOutput = outputData[`${algaeLevelText[inputState.algaeStart]}${clamDensities[inputState.numClams]}`];
 
   return (
     <TranslationContext.Provider value={translationContextValues}>
@@ -262,8 +233,8 @@ export const App = (props: IAppProps) => {
               <div className={css.simulationContainer}>
                 <SimulationView
                   input={inputState}
-                  output={outputState}
                   month={monthLabels[timeIdx]}
+                  dataOutput={dataOutput}
                   isRunning={isRunning}
                   isFinished={isFinished}
                   readOnly={readOnly}
@@ -298,11 +269,7 @@ export const App = (props: IAppProps) => {
               <div className={css.lineGraphs}>
                 <div className={css.header}>{getGraphTitle()}</div>
                 <div className={css.body}>
-                  <div className={css.graphsContainer}>
-                    <div className={css.graphs}>
-                      Line graphs go here
-                    </div>
-                  </div>
+                  <GraphsContainer dataOutput={dataOutput} time={outputState.time} isRunning={isRunning} isFinished={isFinished}/>
                 </div>
               </div>
             </div>

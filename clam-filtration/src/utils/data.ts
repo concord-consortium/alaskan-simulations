@@ -1,8 +1,7 @@
 import { TOutput } from "../types";
 
-type TOutputData = Record<string,
-                          Array<{ month: string,
-                                  output: Record<TOutput, number> }>>;
+export type TCaseOutputData = Array<{ month: string, output: Record<TOutput, number> }>;
+type TOutputData = Record<string, TCaseOutputData>;
 type TTextLevelRange = {
   [key: string]: {
     low: number,
@@ -10,15 +9,16 @@ type TTextLevelRange = {
     high: number
   }
 };
+
 export const outputData: TOutputData = {
   Low1: [ {month: "May",
             output:{algae: 15, nitrate: 27, turbidity: 15}},
           {month: "June",
             output:{algae: 35, nitrate: 32, turbidity: 35}},
           {month: "July",
-            output:{algae: 50, nitrate: 35, turbidity: 40}},
+            output:{algae: 50, nitrate: 35, turbidity: 50}},
           {month: "August",
-            output:{algae: 60, nitrate: 40, turbidity: 40}},
+            output:{algae: 60, nitrate: 40, turbidity: 60}},
           {month: "September",
             output:{algae: 80, nitrate: 45, turbidity: 80}},
         ],
@@ -91,11 +91,11 @@ export const outputData: TOutputData = {
   High5: [ {month: "May",
               output:{algae: 80, nitrate: 27, turbidity: 80}},
             {month: "June",
-              output:{algae: 75, nitrate: 25, turbidity: 85}},
+              output:{algae: 75, nitrate: 25, turbidity: 75}},
             {month: "July",
-              output:{algae: 70, nitrate: 23, turbidity: 70}},
+              output:{algae: 75, nitrate: 23, turbidity: 75}},
             {month: "August",
-              output:{algae: 65, nitrate: 20, turbidity: 65}},
+              output:{algae: 75, nitrate: 20, turbidity: 75}},
             {month: "September",
               output:{algae: 60, nitrate: 18, turbidity: 60}},
           ],
@@ -126,3 +126,7 @@ export const getTextRange = (caseName: string, element: TOutput) => {
   if (finalOutput < range.medium) return "Medium";
   else return "High";
 };
+
+export const algaeLevelText = ["Low", "Medium", "High"];
+export const clamDensities = [1, 5, 10];
+export const clamDensitiesToShow = [1, 5, 8];

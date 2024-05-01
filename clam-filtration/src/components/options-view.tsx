@@ -19,6 +19,7 @@ export const OptionsView: React.FC<IProps> = ({ inputState, setInputState, setOu
   const handleAlgaAmountChange = useCallback((value: number) => {
     setInputState({algaeStart: value});
     setOutputState({algaeEnd: 0, nitrate: 0, turbidity: 0});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setInputState]);
 
   const handleNumClamsChange = useCallback((value: number) => {
