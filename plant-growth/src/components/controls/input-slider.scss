@@ -21,6 +21,9 @@
     justify-content: space-around;
     height: 100px;
     margin-top: 10px;
+    &.disabled {
+      opacity: 0.5;
+    }
     .left {
       height: 100px;
       width: 30px;
