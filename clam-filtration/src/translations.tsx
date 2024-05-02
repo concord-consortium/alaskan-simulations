@@ -54,7 +54,7 @@ to look back at different trials.`;
 
 export const translations: TranslationDict = {
   "CREDITS.HEADER": { string: "Credits"},
-  "INSTRUCTIONS.HEADER": { string: "Clam Filtration" },
+  "INSTRUCTIONS.HEADER": { string: "Clam Filtration Experiments" },
 
   "BUTTON.NEW": {string: "New"},
   "BUTTON.TRIAL": { string: "Trial", mp3: new Audio(NewTrial)},
