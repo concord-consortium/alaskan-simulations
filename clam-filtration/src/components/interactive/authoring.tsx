@@ -10,7 +10,6 @@ interface Props {
 export const AuthoringComponent: React.FC<Props> = ({ initMessage }) => {
 
   return (
-    <div className="padded">
-    </div>
+    <>This interactive does not provide authoring interface</>
   );
 };
