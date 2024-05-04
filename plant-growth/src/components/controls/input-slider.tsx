@@ -39,7 +39,7 @@ export const InputSlider: React.FC<IProps> = ({ value, onChange, disabled, type,
   return (
     <div className={css.input}>
       <div className={css.type}>{t(type)}</div>
-      <div className={css.control}>
+      <div className={clsx(css.control, {[css.disabled]: disabled})}>
         <div className={css.left}>
           <input
             type="range"
