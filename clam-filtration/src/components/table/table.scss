@@ -7,9 +7,9 @@ $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 $titleWidth: 90px;
 
-@media (pointer: coarse) {
+@media only screen and (pointer: coarse){
   table.table {
-      width: 100%; /* Adjust as needed */
+      width: 100%;
   }
 }
 
