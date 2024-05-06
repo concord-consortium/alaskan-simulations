@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
 import { useTranslation } from "common";
+import { Amount } from "../../types";
 
 import css from "./input-slider.scss";
-import { Amount, amountLabels } from "../../types";
 
 interface IProps {
   type: string;
