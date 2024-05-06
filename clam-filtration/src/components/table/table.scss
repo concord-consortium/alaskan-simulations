@@ -7,12 +7,6 @@ $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 $titleWidth: 90px;
 
-@media only screen and (pointer: coarse){
-  table.table {
-      width: 100%;
-  }
-}
-
 @mixin activeRow($opacity) {
   td {
     $borderWidth: 2px;
@@ -22,6 +16,7 @@ $titleWidth: 90px;
     border-bottom: $borderWidth solid $borderColor;
     padding-top: $cellVerticalPadding + 5px - $borderWidth;
     padding-bottom: $cellVerticalPadding + 5px - $borderWidth;
+    box-sizing: border-box;
     &:first-child {
       $insideBorder: 2px;
       border-left: $insideBorder solid $borderColor;
@@ -132,7 +127,7 @@ $titleWidth: 90px;
 
   table.table {
     table-layout: fixed;
-    width: calc(100% + $activeRowLeftBorderWidth);
+    width: calc(100% + $activeRowLeftBorderWidth / 2);
     height: calc(100% - $headerHeight - 14px);
     border-spacing: 0;
     font-size: 14px;
