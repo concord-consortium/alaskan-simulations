@@ -7,13 +7,6 @@ $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 $titleWidth: 90px;
 
-@media only screen and (max-device-width: 812px) {
-  .element {
-      padding-bottom: 20px; // adjust for specific iOS devices
-      padding-right: 20px; // adjust for specific iOS devices
-  }
-}
-
 @mixin activeRow($opacity) {
   td {
     $borderWidth: 2px;
@@ -21,8 +14,8 @@ $titleWidth: 90px;
     z-index: 1000;
     border-top: $borderWidth solid $borderColor;
     border-bottom: $borderWidth solid $borderColor;
-    padding-top: $cellVerticalPadding - $borderWidth;
-    padding-bottom: $cellVerticalPadding - $borderWidth;
+    padding-top: $cellVerticalPadding + 5px - $borderWidth;
+    padding-bottom: $cellVerticalPadding + 5px - $borderWidth;
     &:first-child {
       $insideBorder: 2px;
       border-left: $insideBorder solid $borderColor;
@@ -133,8 +126,8 @@ $titleWidth: 90px;
 
   table.table {
     table-layout: fixed;
-    width: calc(100% + $activeRowLeftBorderWidth);
-    height: calc(100% - $headerHeight);
+    width: calc(100% + ($activeRowLeftBorderWidth * 2));
+    height: calc(100% - $headerHeight - 14px);
     border-spacing: 0;
     font-size: 14px;
     display: block;
@@ -144,7 +137,7 @@ $titleWidth: 90px;
     padding-left: $activeRowLeftBorderWidth;
     margin-left: -$activeRowLeftBorderWidth;
     margin-top: 2px;
-    padding-bottom: 14px;
+    // padding-bottom: 14px;
 
     tr {
       &:nth-child(even) {
