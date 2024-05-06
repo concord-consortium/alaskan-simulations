@@ -35,6 +35,9 @@ $titleWidth: 90px;
   border-radius: 20px;
   table-layout: fixed;
   overflow: hidden;
+  // in safari, the overflow is not clipped properly by the border-radius, so we need to add the isolation property
+  // see: https://stackoverflow.com/questions/49066011/overflow-hidden-with-border-radius-not-working-on-safari
+  isolation: isolate;
 
   .header {
     color: $font-color;
