@@ -16,7 +16,6 @@ $titleWidth: 90px;
     border-bottom: $borderWidth solid $borderColor;
     padding-top: $cellVerticalPadding - $borderWidth;
     padding-bottom: $cellVerticalPadding - $borderWidth;
-    box-sizing: border-box;
     &:first-child {
       $insideBorder: 2px;
       border-left: $insideBorder solid $borderColor;
