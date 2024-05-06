@@ -7,6 +7,13 @@ $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 $titleWidth: 90px;
 
+@media only screen and (max-device-width: 812px) {
+  .element {
+      padding-bottom: 20px; // adjust for specific iOS devices
+      padding-right: 20px; // adjust for specific iOS devices
+  }
+}
+
 @mixin activeRow($opacity) {
   td {
     $borderWidth: 2px;
