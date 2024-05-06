@@ -127,8 +127,8 @@ $titleWidth: 90px;
 
   table.table {
     table-layout: fixed;
-    width: calc(100% + $activeRowLeftBorderWidth);
-    height: calc(100% - $headerHeight);
+    width: calc(100% + $activeRowLeftBorderWidth / 2);
+    height: calc(100% - $headerHeight - 14px);
     border-spacing: 0;
     font-size: 14px;
     display: block;
@@ -138,7 +138,6 @@ $titleWidth: 90px;
     padding-left: $activeRowLeftBorderWidth;
     margin-left: -$activeRowLeftBorderWidth;
     margin-top: 2px;
-    padding-bottom: 14px;
 
     tr {
       &:nth-child(even) {

@@ -14,8 +14,8 @@ $titleWidth: 90px;
     z-index: 1000;
     border-top: $borderWidth solid $borderColor;
     border-bottom: $borderWidth solid $borderColor;
-    padding-top: $cellVerticalPadding + 5px - $borderWidth;
-    padding-bottom: $cellVerticalPadding + 5px - $borderWidth;
+    padding-top: $cellVerticalPadding - $borderWidth;
+    padding-bottom: $cellVerticalPadding - $borderWidth;
     box-sizing: border-box;
     &:first-child {
       $insideBorder: 2px;
