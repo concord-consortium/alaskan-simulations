@@ -7,6 +7,12 @@ $activeRowLeftBorderWidth: 2px;
 $tableBorderWidth: 2px;
 $titleWidth: 90px;
 
+@media (pointer: coarse) {
+  table.table {
+      width: 100%; /* Adjust as needed */
+  }
+}
+
 @mixin activeRow($opacity) {
   td {
     $borderWidth: 2px;
@@ -126,8 +132,7 @@ $titleWidth: 90px;
 
   table.table {
     table-layout: fixed;
-    width: 100%;
-    // width: calc(100% - $activeRowLeftBorderWidth);
+    width: calc(100% + $activeRowLeftBorderWidth);
     height: calc(100% - $headerHeight - 14px);
     border-spacing: 0;
     font-size: 14px;
@@ -138,7 +143,6 @@ $titleWidth: 90px;
     padding-left: $activeRowLeftBorderWidth;
     margin-left: -$activeRowLeftBorderWidth;
     margin-top: 2px;
-    // padding-bottom: 14px;
 
     tr {
       &:nth-child(even) {
