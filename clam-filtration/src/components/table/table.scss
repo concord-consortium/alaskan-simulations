@@ -126,7 +126,7 @@ $titleWidth: 90px;
 
   table.table {
     table-layout: fixed;
-    width: calc(100% - $activeRowLeftBorderWidth);
+    width: calc(100% - $activeRowLeftBorderWidth / 2);
     height: calc(100% - $headerHeight - 14px);
     border-spacing: 0;
     font-size: 14px;
