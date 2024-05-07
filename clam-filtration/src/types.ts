@@ -5,6 +5,7 @@ export interface IAuthoredState extends IModelInputState {}
 export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   inputState: IModelInputState,
   outputState: IModelOutputState,
+  activeRunIdx: number,
   modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
   readAloudMode: boolean
 }
@@ -78,6 +79,7 @@ export const defaultInitialState: IInteractiveState = {
       nitrate: 0,
       turbidity: 0
     },
+    activeRunIdx: 0,
     modelRuns: [],
     readAloudMode: false
   };

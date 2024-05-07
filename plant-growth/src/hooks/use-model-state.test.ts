@@ -9,6 +9,7 @@ const testState = {
     sugarUsed: OutputAmountValue.None,
     sugarCreated: OutputAmountValue.None
   },
+  activeRunIdx: 0,
   modelRuns: [],
 };
 
@@ -41,6 +42,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
       initialOutputState: testState.outputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialModelRuns: testState.modelRuns
     });
     const { result } = renderHook(HookWrapper);
@@ -60,6 +62,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
       initialOutputState: testState.outputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialModelRuns: testState.modelRuns
     });
     const { result } = renderHook(HookWrapper);
@@ -78,6 +81,7 @@ describe("useModelState", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
       initialOutputState: testState.outputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialModelRuns: testState.modelRuns
     });
     const { result } = renderHook(HookWrapper);
@@ -96,6 +100,7 @@ describe("useModelState", () => {
   it("lets client mark run as finished", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -113,6 +118,7 @@ describe("useModelState", () => {
   it("doesn't let client update input state of the  finished run", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -138,9 +144,9 @@ describe("useModelState", () => {
     ]);
   });
 
-  it("lets client add new model run", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -170,6 +176,7 @@ describe("useModelState", () => {
   it("lets client remove model runs", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -249,6 +256,7 @@ describe("useModelState", () => {
   it("lets client remove all model runs", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -288,6 +296,7 @@ describe("useModelState", () => {
   it("lets client snapshot output state", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -322,6 +331,7 @@ describe("useModelState", () => {
   it("lets client navigate between model runs", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: testState.activeRunIdx,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -361,6 +371,7 @@ describe("useModelState", () => {
   it("lets client navigate between output state snapshots", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
+      initialActiveRunIdx: 0,
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
@@ -392,4 +403,3 @@ describe("useModelState", () => {
     expect(result.current.activeOutputSnapshotIdx).toBe(2);
     expect(result.current.outputState).toEqual(newOutput2);
   });
-});

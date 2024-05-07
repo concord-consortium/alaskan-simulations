@@ -21,6 +21,7 @@ export interface IModelRun<IModelInputState, IModelOutputState> {
 
 export interface IUseModelStateOptions<IModelInputState, IModelOutputState> {
   initialInputState: IModelInputState;
+  initialActiveRunIdx: number;
   initialOutputState: OutputInitializer<IModelInputState, IModelOutputState>;
   initialModelRuns: IModelRun<IModelInputState, IModelOutputState>[];
 }
@@ -66,7 +67,7 @@ export interface IUseModelStateResult<IModelInputState, IModelOutputState> {
 export const useModelState = (
   options: IUseModelStateOptions<IModelInputState, IModelOutputState>
 ): IUseModelStateResult<IModelInputState, IModelOutputState> => {
-  const { initialInputState, initialOutputState, initialModelRuns } = options;
+  const { initialInputState, initialActiveRunIdx, initialOutputState, initialModelRuns } = options;
   const { saveInteractiveState } = useSaveInteractiveState();
 
   const initialOutputStateObject = useMemo(() =>
@@ -79,13 +80,15 @@ export const useModelState = (
     isFinished: false
   }), []);
 
+  console.log("initialActiveRunIdx", initialActiveRunIdx);
+
   const [modelRuns, setModelRuns] = useState<IModelRun<IModelInputState, IModelOutputState>[]>(initialModelRuns.length > 0 ? initialModelRuns : [getNewModelRun()]);
   // currentOutputState is an optimization. It'd be possible to update outputState directly in the modelRuns
   // array, but this would mean that this whole array is updated 60 times per second when simulation is running.
   // This might not work great with table and graph rendering and it might generally slow down simulations.
   const [currentOutputState, setCurrentOutputState] = useState<IModelOutputState>(initialOutputStateObject);
   // activeRunIdx is a pointer to the currently active model run from the modelRuns array.
-  const [activeRunIdx, setActiveRunIdx] = useState<number>(0);
+  const [activeRunIdx, setActiveRunIdx] = useState<number>(initialActiveRunIdx);
   // activeOutputSnapshotIdx is a pointer to the currently active output snapshot run from the active model run.
   // It's used only when the model run is finished and user wants to go back and forth between various time steps.
   // When activeOutputSnapshotIdx is null, it means that currentOutputState is being used instead of snapshot
@@ -148,6 +151,7 @@ export const useModelState = (
       saveInteractiveState({
         inputState: initialInputState,
         outputState: initialOutputStateObject,
+        activeRunIdx: newState.length - 1,
         modelRuns: newState
       });
       return newState;
@@ -168,7 +172,7 @@ export const useModelState = (
     setActiveOutputSnapshotIdx(null);
 
     setModelRuns(() => {
-      saveInteractiveState({modelRuns: [getNewModelRun()]});
+      saveInteractiveState({modelRuns: [getNewModelRun()], activeRunIdx: 0});
       return [getNewModelRun()];
     });
   }, [getNewModelRun, initialOutputStateObject, saveInteractiveState]);
@@ -193,7 +197,7 @@ export const useModelState = (
       setModelRuns(oldState => {
         const newState = [...oldState];
         newState.splice(activeRunIdx, 1);
-        saveInteractiveState({modelRuns: newState});
+        saveInteractiveState({modelRuns: newState, activeRunIdx: newState.length - 1});
         return newState;
       });
     } else {
@@ -203,16 +207,18 @@ export const useModelState = (
   }, [activeRunIdx, modelRuns, removeAllModelRuns, saveInteractiveState]);
 
   const handleSetActiveRunIdx = useCallback((idx: number) => {
+
     if (!modelRuns[idx]) {
       console.warn(`Trying to set active run index to ${idx}, but it's out of range.`);
       return;
     }
+
     setActiveRunIdx(idx);
     const run = modelRuns[idx];
     const snapshots = run.outputStateSnapshots;
 
     setCurrentOutputState(() => {
-      saveInteractiveState({outputState: snapshots[snapshots.length - 1]});
+      saveInteractiveState({outputState: snapshots[snapshots.length - 1], activeRunIdx: idx});
       return snapshots[snapshots.length - 1];
     });
 
