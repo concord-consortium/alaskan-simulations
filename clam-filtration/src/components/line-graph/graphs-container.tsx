@@ -46,6 +46,7 @@ const kXRangeOffset = 10;
 const kXMin = 20;
 const kYMin = 0;
 const kMaxTime = 8;
+const kScaleBuffer = 10;  //Adds buffer to scale so graph line doesn't hit the top edge of the graph
 
 const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   const { t } = useTranslation();
@@ -61,7 +62,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   // when the inputs change recompute the graph items
   const {pointsToUse} = useMemo(() => {
     // Normalize the value based on the nitrate scale
-    const nitrateScale = { min: 5, max: 55 };
+    const nitrateScale = { min: 0, max: 60 };
     const nitrateValueToYCoordinate = (value: number) => {
       const normalizedValue = (value - nitrateScale.min) / (nitrateScale.max - nitrateScale.min);
       const svgHeight = yAxisRange.max - yAxisRange.min;
@@ -73,7 +74,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
       const coordinateX = (index * (kPlotWidth / values.length)) + xAxisRange.min + kXRangeOffset;
       const coordinateY = title === "NITRATE"
                             ? nitrateValueToYCoordinate(value)
-                            : yAxisRange.max - (value * ((yAxisRange.max - yAxisRange.min) / 100));
+                            : yAxisRange.max - (value * ((yAxisRange.max - yAxisRange.min) / (100 + kScaleBuffer)));
       return {coordinateX, coordinateY};
     };
 
