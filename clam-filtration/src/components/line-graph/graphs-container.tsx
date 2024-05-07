@@ -46,6 +46,7 @@ const kXRangeOffset = 10;
 const kXMin = 20;
 const kYMin = 0;
 const kMaxTime = 8;
+const kScaleBuffer = 10;  //Adds buffer to scale so graph line doesn't hit the top edge of the graph
 
 const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   const { t } = useTranslation();
@@ -61,7 +62,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   // when the inputs change recompute the graph items
   const {pointsToUse} = useMemo(() => {
     // Normalize the value based on the nitrate scale
-    const nitrateScale = { min: 5, max: 55 };
+    const nitrateScale = { min: 0, max: 60 };
     const nitrateValueToYCoordinate = (value: number) => {
       const normalizedValue = (value - nitrateScale.min) / (nitrateScale.max - nitrateScale.min);
       const svgHeight = yAxisRange.max - yAxisRange.min;
@@ -73,7 +74,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
       const coordinateX = (index * (kPlotWidth / values.length)) + xAxisRange.min + kXRangeOffset;
       const coordinateY = title === "NITRATE"
                             ? nitrateValueToYCoordinate(value)
-                            : yAxisRange.max - (value * ((yAxisRange.max - yAxisRange.min) / 100));
+                            : yAxisRange.max - (value * ((yAxisRange.max - yAxisRange.min) / (100 + kScaleBuffer)));
       return {coordinateX, coordinateY};
     };
 
@@ -121,7 +122,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   });
 
   const plotCoordinates = currentPoints.map(p => p.polylinePoint).join(" ");
-  const circleCoordinate = plotCoordinates.split(" ")[0];
+  const circleCoordinate = pointsToUse[0];
   return (
     <div className={css.graph}>
       <div className={css.graphTitle}>{t(`GRAPHS.LABEL.${title}`)}</div>
@@ -138,7 +139,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
             {horizontalGridLines}
           </g>
           <g className={css.plotLine}>
-            { time < 1 && <circle cx={circleCoordinate.split(",")[0]} cy={circleCoordinate.split(",")[1]} r="1" className={clsx(css.valueStartingPoint, css[`${title.toLowerCase()}`])} />}
+            { time < 1 && <circle cx={circleCoordinate.x} cy={circleCoordinate.y} r="1" className={clsx(css.valueStartingPoint, css[`${title.toLowerCase()}`])} />}
             <polyline className={clsx(css.valueLine, css[`${title.toLowerCase()}`])}
                         points={plotCoordinates} />
           </g>
