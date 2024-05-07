@@ -80,8 +80,6 @@ export const useModelState = (
     isFinished: false
   }), []);
 
-  console.log("initialActiveRunIdx", initialActiveRunIdx);
-
   const [modelRuns, setModelRuns] = useState<IModelRun<IModelInputState, IModelOutputState>[]>(initialModelRuns.length > 0 ? initialModelRuns : [getNewModelRun()]);
   // currentOutputState is an optimization. It'd be possible to update outputState directly in the modelRuns
   // array, but this would mean that this whole array is updated 60 times per second when simulation is running.
