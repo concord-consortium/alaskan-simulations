@@ -110,6 +110,7 @@ export const App = (props: IAppProps) => {
 
   const modelState = useModelState(useMemo(() => ({
     initialInputState: interactiveState?.inputState || defaultInitialState.inputState,
+    initialActiveRunIdx: interactiveState?.activeRunIdx || defaultInitialState.activeRunIdx,
     initialOutputState: interactiveState?.outputState || defaultInitialState.outputState,
     initialModelRuns: interactiveState?.modelRuns || defaultInitialState.modelRuns,
   }), [interactiveState]));

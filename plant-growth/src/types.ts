@@ -6,6 +6,7 @@ export interface IInteractiveState extends IRuntimeInteractiveMetadata {
   inputState: IModelInputState,
   outputState: IModelOutputState,
   modelRuns: IModelRun<IModelInputState, IModelOutputState>[],
+  activeRunIdx: number,
   readAloudMode: boolean
 }
 
@@ -74,5 +75,6 @@ export const defaultInitialState: IInteractiveState = {
       sugarCreated: 0
     },
     modelRuns: [],
+    activeRunIdx: 0,
     readAloudMode: false
   };
