@@ -121,7 +121,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   });
 
   const plotCoordinates = currentPoints.map(p => p.polylinePoint).join(" ");
-  const circleCoordinate = plotCoordinates.split(" ")[0];
+  const circleCoordinate = pointsToUse[0];
   return (
     <div className={css.graph}>
       <div className={css.graphTitle}>{t(`GRAPHS.LABEL.${title}`)}</div>
@@ -138,7 +138,7 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
             {horizontalGridLines}
           </g>
           <g className={css.plotLine}>
-            { time < 1 && <circle cx={circleCoordinate.split(",")[0]} cy={circleCoordinate.split(",")[1]} r="1" className={clsx(css.valueStartingPoint, css[`${title.toLowerCase()}`])} />}
+            { time < 1 && <circle cx={circleCoordinate.x} cy={circleCoordinate.y} r="1" className={clsx(css.valueStartingPoint, css[`${title.toLowerCase()}`])} />}
             <polyline className={clsx(css.valueLine, css[`${title.toLowerCase()}`])}
                         points={plotCoordinates} />
           </g>
