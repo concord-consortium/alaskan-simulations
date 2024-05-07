@@ -144,6 +144,7 @@ describe("useModelState", () => {
     ]);
   });
 
+  it("lets client add model runs", () => {
     const HookWrapper = () => useModelState({
       initialInputState: testState.inputState,
       initialActiveRunIdx: testState.activeRunIdx,
@@ -375,6 +376,7 @@ describe("useModelState", () => {
       initialOutputState: testState.outputState,
       initialModelRuns: []
     });
+
     const { result } = renderHook(HookWrapper);
 
     act(() => {
@@ -403,3 +405,4 @@ describe("useModelState", () => {
     expect(result.current.activeOutputSnapshotIdx).toBe(2);
     expect(result.current.outputState).toEqual(newOutput2);
   });
+});
