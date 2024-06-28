@@ -138,7 +138,7 @@ export const App = (props: IAppProps) => {
                                           ? t(getNumToText(initialOutputState.output.turbidity, turbidityStr))
                                           : t(getNumToText(runOutputState.turbidity, turbidityStr)),
     });
-}, [isFinished, isRunning, t]);
+}, [isRunning, t]);
 
   const { tableProps } = useModelTable<IModelInputState, IModelOutputState, IRowData>({ modelState, modelRunToRow });
 
@@ -202,7 +202,7 @@ export const App = (props: IAppProps) => {
     const durationPerSegment = simLength / segments;
     const monthIndex = Math.floor(outputState.time / durationPerSegment + .0001);
     const timeLabel = monthLabelsTranslated[monthIndex];
-    return <>{timeLabel}</>;
+    return timeLabel;
   };
 
   const getGraphTitle = () => {

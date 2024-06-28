@@ -13,7 +13,7 @@ import MonthJuly from "./assets/yugtun-audio/MonthJuly.mp3";
 import MonthJune from "./assets/yugtun-audio/MonthJune.mp3";
 import MonthMay from "./assets/yugtun-audio/MonthMay.mp3";
 import MonthSeptember from "./assets/yugtun-audio/MonthSeptember.mp3";
-import NewTrial from "./assets/yugtun-audio/new-trial.mp3"
+import NewTrial from "./assets/yugtun-audio/new-trial.mp3";
 import Nitrate from "./assets/yugtun-audio/Nitrate.mp3";
 import None from "./assets/yugtun-audio/none.mp3";
 import NoOfClams from "./assets/yugtun-audio/NoOfClams.mp3";
