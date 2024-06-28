@@ -54,8 +54,8 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
   const plotSize = {width: kPlotWidth, height: kPlotHeight};
   const xAxisLabel = t("GRAPHS.X_AXIS_LABEL");
   const yAxis = [25, 45, 65];
-  const yAxisTickLabels = ["High", "Med", "Low"];
-  const xAxisTickLabels = ["May", "Jun", "Jul", "Aug", "Sep"];
+  const yAxisTickLabels = [t("AMOUNT.HIGH"), t("AMOUNT.MEDIUM"), t("AMOUNT.LOW")];
+  const xAxisTickLabels = [t("GRAPHS_MONTH_1"), t("GRAPHS_MONTH_2"), t("GRAPHS_MONTH_3"), t("GRAPHS_MONTH_4"), t("GRAPHS_MONTH_5")];
   const xAxisRange = {min: kXMin, max: kXMin + kPlotWidth};
   const yAxisRange = {min: kYMin, max: kPlotHeight};
 
@@ -128,8 +128,8 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
       <div className={css.graphTitle}>{t(`GRAPHS.LABEL.${title}`)}</div>
       <div className={css.graphContent}>
         <div className={css.yAxisTicks}>
-          {yAxisTickLabels.map((tick:string) => {
-            return <span key={tick} className={css.yAxisTickLabel}>{tick}</span>;
+          {yAxisTickLabels.map((tick: React.JSX.Element, index) => {
+            return <span key={`yAxisLabel-${index}`} className={css.yAxisTickLabel}>{tick}</span>;
           })}
         </div>
         <svg className={css.plotSvg} viewBox={`0 0 ${plotSize.width} ${plotSize.height}`}>
@@ -145,8 +145,8 @@ const Graph = ({title, values, time, isRunning, isFinished}: IGraphProps) => {
           </g>
         </svg>
         <div className={css.xAxisTicks}>
-          {xAxisTickLabels.map((tick:string) => {
-            return <span key={tick} className={css.xAxisTickLabel}>{tick}</span>;
+          {xAxisTickLabels.map((tick: React.JSX.Element, index) => {
+            return <span key={`xAxisLabel-${index}`} className={css.xAxisTickLabel}>{tick}</span>;
           })}
         </div>
         <div className={css.xAxisLabel}>

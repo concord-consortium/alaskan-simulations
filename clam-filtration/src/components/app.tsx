@@ -202,7 +202,7 @@ export const App = (props: IAppProps) => {
     const durationPerSegment = simLength / segments;
     const monthIndex = Math.floor(outputState.time / durationPerSegment + .0001);
     const timeLabel = monthLabelsTranslated[monthIndex];
-    return <>{t("TIME_SLIDER_LABEL.MONTH")} {timeLabel}</>;
+    return <>{timeLabel}</>;
   };
 
   const getGraphTitle = () => {
