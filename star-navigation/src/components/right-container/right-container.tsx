@@ -20,7 +20,7 @@ interface IProps {
 }
 
 export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, setInputState }) => {
-  const { t, tStringOnly } = useTranslation();
+  const { t } = useTranslation();
 
   const { journeyLeg } = inputState;
   const AtoB = journeyLeg === "AtoB";
