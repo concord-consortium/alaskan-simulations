@@ -9,7 +9,7 @@ import CloseButtonSvg from "../../assets/close-button.svg";
 import css from "./snapshot.scss";
 
 interface IProps {
-  buttonLabel: string;
+  buttonLabel: string|JSX.Element;
   snapshot: ISnapshot | null;
   onTakeSnapshot: () => void;
   onSnapshotDelete: () => void;

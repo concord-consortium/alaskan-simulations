@@ -20,7 +20,7 @@ interface IProps {
 }
 
 export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, setInputState }) => {
-  const { t, tStringOnly } = useTranslation();
+  const { t } = useTranslation();
 
   const { journeyLeg } = inputState;
   const AtoB = journeyLeg === "AtoB";
@@ -101,7 +101,7 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
       <div className={clsx(css.label, css.light)}>{t(`DEPARTURE_FROM_POINT_${departurePoint}`)}</div>
       <div className={css.container}>
         <Snapshot
-          buttonLabel={tStringOnly(`RECORD_STAR_CHART_FOR_POINT_${departurePoint}_DEPARTURE`)}
+          buttonLabel={t(`RECORD_STAR_CHART_FOR_POINT_${departurePoint}_DEPARTURE`)}
           snapshot={departureSnapshot}
           onTakeSnapshot={handleTakeDepartureSnapshot}
           onSnapshotDelete={handleDeleteDepartureSnapshot}
@@ -111,21 +111,21 @@ export const RightContainer: React.FC<IProps> = ({ inputState, disableInputs, se
       <div className={clsx(css.label, css.light)}>{t(`ARRIVAL_AT_POINT_${arrivalPoint}`)}</div>
       <div className={css.container}>
         <Snapshot
-          buttonLabel={tStringOnly(`RECORD_STAR_CHART_FOR_POINT_${arrivalPoint}_ARRIVAL`)}
+          buttonLabel={t(`RECORD_STAR_CHART_FOR_POINT_${arrivalPoint}_ARRIVAL`)}
           snapshot={arrivalSnapshot}
           onTakeSnapshot={handleTakeArrivalSnapshot}
           onSnapshotDelete={handleDeleteArrivalSnapshot}
           disabled={snapshotDisabled}
         />
         <div className={css.buttonsRow}>
-          <Button selected={AtoB} onClick={handleJourneyChangeAtoB}>{ tStringOnly("A_TO_B") }</Button>
-          <Button selected={!AtoB} onClick={handleJourneyChangeBtoC}>{ tStringOnly("B_TO_C") }</Button>
+          <Button selected={AtoB} onClick={handleJourneyChangeAtoB}>{ t("A_TO_B") }</Button>
+          <Button selected={!AtoB} onClick={handleJourneyChangeBtoC}>{ t("B_TO_C") }</Button>
           <Button
             className={css.takeYourTripBtn}
             onClick={!inputState.showUserTrip ? handleTakeYourRouteClick : handleResetRouteClick}
             disabled={takeYourTripDisabled}
           >
-            { !inputState.showUserTrip ? tStringOnly("TAKE_YOUR_TRIP") : tStringOnly("RESET_ROUTE") }
+            { !inputState.showUserTrip ? t("TAKE_YOUR_TRIP") : t("RESET_ROUTE") }
           </Button>
         </div>
       </div>
