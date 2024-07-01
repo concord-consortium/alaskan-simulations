@@ -7,7 +7,7 @@ import August from "./assets/yugtun-audio/August.mp3";
 import BtoC from "./assets/yugtun-audio/BtoC.mp3";
 import ChartHeadingsTime from "./assets/yugtun-audio/ChartHeadingsTime.mp3";
 import Constellations from "./assets/yugtun-audio/Constellations.mp3";
-import DateAndTime from "./assets/yugtun-audio/DateAndTime.mp3";
+import DateAndTime from "./assets/yugtun-audio/DateandTime.mp3";
 import December from "./assets/yugtun-audio/December.mp3";
 import DepartureFromPointA from "./assets/yugtun-audio/DeparturefromPointA.mp3";
 import DepartureFromPointB from "./assets/yugtun-audio/DeparturefromPointB.mp3";
