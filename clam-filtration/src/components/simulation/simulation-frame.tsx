@@ -54,11 +54,11 @@ export const SimulationFrame: React.FC<IProps> = ({ directions, className, title
         </div>
         <div className={css.titleContainer}><img className={css.title} src={titleImage}/></div>
         <div className={clsx(css.buttons, css.right)}>
-          {/* <Switch
+          <Switch
             checked={readAloudMode}
             label={"Read Aloud in Yugtun"}
             onChange={handleSetReadAloud}
-          /> */}
+          />
           {
             directions &&
             <button className={clsx({ [css.active]: showDirections })} onClick={toggleDirections}>

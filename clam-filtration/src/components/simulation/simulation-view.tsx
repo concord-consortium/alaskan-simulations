@@ -28,7 +28,7 @@ export const SimulationView: React.FC<IProps> = ({ input, month, dataOutput, isR
   return (
     <div className={css.simulationView}>
       <div className={css.tempLabel}>
-        {t("WATER_TEMP")} {` ${monthlyWaterTemps[month]}°F`}
+        {t("WATER_TEMP")}{`${monthlyWaterTemps[month]}°F`}
       </div>
       {/* Pass in algaeLevel at algaeStart so we know what background class to before animation starts*/}
       <AnimationView algaeLevel={algaeLevels[algaeStart]} numClams={clamDensitiesToShow[numClams]}
