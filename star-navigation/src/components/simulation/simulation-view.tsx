@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import * as THREE from "three";
 import { clsx } from "clsx";
-import { ScrollingSelect } from "common";
+import { ScrollingSelect, useTranslation } from "common";
 import { config } from "../../config";
 import { IModelInputState, SNAPSHOT_REQUESTED } from "../../types";
 import { StarView } from "../star-view/star-view";
@@ -41,6 +41,7 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
   const starViewRef = useRef<HTMLDivElement>(null);
   const [starViewAspectRatio, setStarViewAspectRatio] = useState<number>(0);
   const { observerLat, observerLong } = config;
+  const { t } = useTranslation();
 
   const handleAssumedNorthStarClick = (starHip: number) => {
     setInputState({
@@ -198,7 +199,12 @@ export const SimulationView: React.FC<IProps> = ({ inputState, setInputState, ep
         <div className={css.headingMarker} />
         <div className={css.buttons}>
           <ScrollingSelect
-            value={`Heading ${displayHeading !== undefined ? `${displayHeading}°` : ""}`}
+            value={
+              <div>
+                {t("HEADING")}
+                {displayHeading !== undefined ? `: ${displayHeading}°` : ""}
+              </div>
+            }
             onBackClick={handleRotateLeft}
             onForwardClick={handleRotateRight}
             valueMinWidth={110}
