@@ -23,7 +23,7 @@ interface IOptionChild {
 }
 
 interface IProps {
-  value: string | null;
+  value: string | React.ReactNode | null;
   disabled?: boolean;
   valueMinWidth?: number;
   className?: string;
