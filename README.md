@@ -107,15 +107,10 @@ Tags are deployed to http://alaskan-simulations.concord.org/version/<name>.
 To deploy a production release:
 
 1. Checkout master and pull
-2. Increment version number in package.json
-3. Create an annotated tag for the version, of the form `v[x].[y].[z]`, include at least the version in the tag message. On the command line this can be done with a command like `git tag -a v1.2.3 -m "1.2.3 some info about this version"`
-4. Push the tag to github with a command like: `git push origin v1.2.3`.
-5. Use https://github.com/concord-consortium/alaskan-simulations/releases to make this tag into a GitHub release.
-6. Run the release workflow to update https://models-resources.concord.org/alaskan-simulations/index.html.
-    1. Navigate to the actions page in GitHub and the click the "Release" workflow. This should take you to this page: https://github.com/concord-consortium/alaskan-simulations/actions/workflows/release.yml.
-    2. Click the "Run workflow" menu button.
-    3. Type in the tag name you want to release for example `v1.2.3`.
-    4. Click the `Run Workflow` button.
+2. Create an annotated tag for the version, of the form `v[x].[y].[z]`, include at least the version in the tag message. On the command line this can be done with a command like `git tag -a v1.2.3 -m "1.2.3 some info about this version"`
+3. Push the tag to github with a command like: `git push origin v1.2.3`.
+4. Use https://github.com/concord-consortium/alaskan-simulations/releases to make this tag into a GitHub release.
+5. Update the Library Interactives in LARA to point to the latest versioned URLs.
 
 ### Top Branch Testing
 
