@@ -1,6 +1,6 @@
 {
   "name": "plant-lab",
-  "version": "0.0.1",
+  "version": "2.1.0",
   "description": "Plant Lab Simulation",
   "main": "index.js",
   "jest": {
@@ -128,7 +128,7 @@
     "@mui/material": "^5.14.0",
     "@types/deep-equal": "^1.0.1",
     "clsx": "^1.2.1",
-    "common": "*",
+    "common": "^2.1.0",
     "deep-equal": "^2.1.0",
     "focus-trap": "^6.9.4",
     "query-string": "^7.1.1",

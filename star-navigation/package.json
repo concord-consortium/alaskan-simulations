@@ -1,6 +1,6 @@
 {
   "name": "star-navigation",
-  "version": "0.0.1",
+  "version": "2.1.0",
   "description": "Star Navigation Simulation",
   "main": "index.js",
   "jest": {
@@ -123,7 +123,7 @@
     "@react-three/drei": "^9.80.0",
     "@react-three/fiber": "^8.13.6",
     "clsx": "^2.0.0",
-    "common": "*",
+    "common": "^2.1.0",
     "jquery": "3.7.0",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
