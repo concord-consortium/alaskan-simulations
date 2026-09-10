@@ -96,6 +96,8 @@ Use the following steps to add a new simulation:
 
 ## Deployment
 
+S3 deployment is handled by GitHub Actions using OIDC for AWS authentication. See [deploy-setup.md in starter-projects](https://github.com/concord-consortium/starter-projects/blob/main/doc/deploy-setup.md) for how the AWS side is set up, and [doc/deploy.md](doc/deploy.md) for how deploys work in this repo.
+
 Production releases to S3 are based on the contents of the /dist folder and are built automatically by GitHub Actions
 for each branch and tag pushed to GitHub.
 
@@ -106,11 +108,12 @@ Tags are deployed to http://alaskan-simulations.concord.org/version/<name>.
 
 To deploy a production release:
 
-1. Checkout master and pull
+1. Checkout main and pull
 2. Create an annotated tag for the version, of the form `v[x].[y].[z]`, include at least the version in the tag message. On the command line this can be done with a command like `git tag -a v1.2.3 -m "1.2.3 some info about this version"`
 3. Push the tag to github with a command like: `git push origin v1.2.3`.
 4. Use https://github.com/concord-consortium/alaskan-simulations/releases to make this tag into a GitHub release.
-5. Update the Library Interactives in LARA to point to the latest versioned URLs.
+5. Run the [Release workflow](https://github.com/concord-consortium/alaskan-simulations/actions/workflows/release.yml). Choose **Run workflow** and enter the tag from step 2, for example `v1.2.3`, as the version. This copies `version/v1.2.3/index.html` to the top-level `index.html`, and each `version/v1.2.3/[sim]/index-top.html` to `[sim]/index.html`.
+6. Update the Library Interactives in LARA to point to the latest versioned URLs.
 
 ### Top Branch Testing
 

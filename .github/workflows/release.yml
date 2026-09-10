@@ -21,7 +21,13 @@ jobs:
           - SIM_FOLDER: "plant-growth"
           - SIM_FOLDER: "star-navigation"
           - SIM_FOLDER: "clam-filtration"
+    permissions:
+      id-token: write
     steps:
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::612297603577:role/alaskan-simulations
+          aws-region: us-east-1
       - name: Set S3 Paths
         run: |
           echo "S3_VERSIONED_SIM_PATH=s3://${{ env.BUCKET }}/${{ env.PREFIX }}/version/${{ github.event.inputs.version }}/${{ matrix.SIM_FOLDER }}" >> $GITHUB_ENV
@@ -31,14 +37,16 @@ jobs:
       # to:
       # models-resources/alaskan-simulations/starter/index.html
       - run: aws s3 cp ${{ env.S3_VERSIONED_SIM_PATH }}/${{ env.SRC_FILE }} ${{ env.S3_TOP_SIM_PATH }}/${{ env.DEST_FILE }}
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
   copy-main-index:
     name: Copy main index.html
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::612297603577:role/alaskan-simulations
+          aws-region: us-east-1
       # Copy from:
       # models-resources/alaskan-simulations/version/v1.0.0/index.html
       # to:
@@ -47,7 +55,3 @@ jobs:
           aws s3 cp
           s3://${{ env.BUCKET }}/${{ env.PREFIX }}/version/${{ github.event.inputs.version }}/index.html
           s3://${{ env.BUCKET }}/${{ env.PREFIX }}/index.html
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1

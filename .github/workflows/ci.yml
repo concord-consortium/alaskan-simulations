@@ -20,6 +20,10 @@ jobs:
     needs:
       - build_test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      deployments: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -29,13 +33,15 @@ jobs:
           # skip installing cypress since it isn't needed for just building
           # This decreases the deploy time quite a bit
           CYPRESS_INSTALL_BINARY: 0
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::612297603577:role/alaskan-simulations
+          aws-region: us-east-1
       - uses: concord-consortium/s3-deploy-action@v1
         with:
           build: yarn build # instead of `npm run build`
           bucket: models-resources
           prefix: alaskan-simulations
-          awsAccessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          awsSecretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # TODO: the root level index file will not work with topBranches in this
           # monorepo until additional changes are made.
           # See the Top Branch Testing section of README.md
